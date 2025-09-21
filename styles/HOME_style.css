@@ -1,0 +1,1328 @@
+@charset "utf-8";
+
+/* =================================================================
+   배경 이미지 스타일링 
+   ================================================================= */
+.background-image {
+      position: absolute;         /* 절대 위치 지정으로 다른 요소와 독립적으로 배치 */
+      top: 50%;                   /* 상위 요소 기준 상단에서 50% 위치 */
+      left: 50%;                  /* 상위 요소 기준 좌측에서 50% 위치 */
+      transform: translate(-50%, -50%); /* 자신의 크기 기준으로 정중앙으로 이동 */
+      z-index: 0;                 /* 다른 요소들보다 뒤에 배치 (배경 역할) */
+      opacity: 0.5;               /* 50% 투명도로 배경처럼 보이게 설정 */
+      width: 750px;               /* 고정 너비 */
+      height: auto;               /* 비율에 맞춰 높이 자동 조절 */
+}
+
+/* 텍스트 요소 - 배경 이미지 위에 표시되는 텍스트 */
+.text {
+      position: relative;         /* 상대 위치 지정 */
+      z-index: 1;                 /* 배경 이미지보다 앞에 표시 */
+      font-size: 48px;            /* 큰 폰트 크기로 강조 */
+      font-weight: bold;          /* 굵은 글씨체 */
+      color: #222;                /* 어두운 회색 텍스트 */
+}
+
+/* 로고 이미지 크기 설정 */
+.logo img { 
+    height: 100px; 
+    width: 100px; 
+}
+
+/* =================================================================
+   CSS 리셋 - 브라우저 기본 스타일 초기화
+   ================================================================= */
+html, body, div, header, span, h1,h2,h3,ul,li, nav,p, img, footer, section, article,hr{
+    margin:0;                   /* 모든 외부 여백 제거 */
+    padding: 0;                 /* 모든 내부 여백 제거 */
+    box-sizing: border-box;     /* 패딩과 보더를 요소 크기에 포함 */
+}
+.hidden{display: none;}         /* 숨김 클래스 */
+ul,li{list-style: none;}        /* 리스트 기본 스타일(점, 숫자) 제거 */
+a{text-decoration: none; color:inherit;} /* 링크 밑줄 제거, 부모 색상 상속 */
+hr{border: none;}               /* 수평선 기본 테두리 제거 */
+img{max-width: 100%; vertical-align: top; border: 0;} /* 반응형 이미지, 상단 정렬, 테두리 제거 */
+.wrap{width:100%}               /* 전체 너비 래퍼 */
+
+/* =================================================================
+   기본 바디 스타일 및 폰트 설정
+   ================================================================= */
+body{
+    color:#1b1b1b;              /* 기본 텍스트 색상 (진한 회색) */
+    background-color: #ffffff;   /* 흰색 배경 */
+    /* 폰트 폴백 체인 - 한글과 영문을 모두 지원하는 시스템 폰트들 */
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/* 특정 타이틀 요소들에 영문 폰트 적용 */
+.main_title, .title>span{ 
+    font-family: "Montserrat", sans-serif; /* 영문 전용 폰트 */
+    font-optical-sizing: auto;   /* 글꼴 크기에 따른 자동 최적화 */
+    font-weight: weight;         /* 폰트 굵기 (이 부분은 오타로 보임, 숫자값이 필요) */
+    font-style: normal;          /* 기본 폰트 스타일 */
+}
+
+/* 메인 컨테이너 - 전체 너비의 83.33% (12컬럼 그리드의 10컬럼) */
+.inner{
+    width:83.33%; 
+    margin: 0 auto;             /* 중앙 정렬 */
+}
+
+/* =================================================================
+   헤더(Header) 스타일링 - 고정형 네비게이션
+   ================================================================= */
+header{
+    position: fixed;            /* 스크롤해도 상단에 고정 */
+    background-color:rgba(255, 255, 255, 0.4); /* 반투명 흰색 배경 */
+    height: 80px;               /* 고정 높이 */
+    width:100%;                 /* 전체 너비 */
+    -webkit-backdrop-filter: blur(8px); /* 웹킷 브라우저용 배경 블러 효과 */
+    backdrop-filter: blur(8px); /* 표준 배경 블러 효과 */
+    box-shadow: 0px 0px 10px rgb(134, 134, 134,0.5); /* 그림자 효과 */
+    z-index: 999;               /* 다른 요소들보다 위에 표시 */
+}
+
+/* 헤더 내 네비게이션 */
+header nav{
+    height:80px;                /* 헤더와 같은 높이 */
+}
+
+/* 메인 네비게이션 메뉴 */
+header nav > ul{
+    display: flex;              /* 플렉스박스로 가로 배치 */
+    justify-content: center;    /* 중앙 정렬 */
+    align-items: center;        /* 세로 중앙 정렬 */
+    align-content: center;      /* 다중행일 때 중앙 정렬 */
+    font-size: 1.125rem;        /* 18px (16px * 1.125) */
+    gap:50px;                   /* 메뉴 간격 */
+    height: 100%;               /* 부모 높이와 동일 */
+}
+
+/* 네비게이션 메뉴 항목 */
+header nav > ul > li{
+    padding:0 38px;             /* 좌우 여백으로 클릭 영역 확대 */
+    font-weight: 600;           /* 세미볼드 */
+    position: relative;         /* 드롭다운 메뉴를 위한 상대 위치 */
+}
+
+/* 네비게이션 링크 */
+header nav ul li a{
+    display: block;             /* 블록 요소로 변경하여 패딩 영역까지 클릭 가능 */
+    height: 100%;               /* 부모 높이와 동일 */
+}
+
+/* 네비게이션 호버 효과 */
+header nav ul li:hover a{
+    color:#FF8335              /* 오렌지 색상으로 변경 */
+}
+
+/* 마지막 메뉴 항목의 오른쪽 여백 제거 */
+header nav ul li:last-child{
+    margin-right: 0;
+}
+
+/* =================================================================
+   모바일 햄버거 메뉴 
+   ================================================================= */
+.mbmenu{
+    width: 38px;                /* 햄버거 메뉴 너비 */
+    height: 30px;               /* 햄버거 메뉴 높이 */
+    position: relative;         /* 내부 선들의 절대 위치 기준점 */
+    cursor: pointer;            /* 클릭 가능한 커서 */
+    display: none;              /* 기본적으로 숨김 (모바일에서만 표시) */
+    top:30px;                   /* 상단에서 30px */
+    left:30px;                  /* 좌측에서 30px */
+}
+
+/* 햄버거 메뉴의 선들 */
+.mbmenu >span{ 
+    border-radius: 5px;         /* 둥근 모서리 */
+    background-color: #1b1b1b;  /* 진한 회색 */
+    position: absolute;         /* 절대 위치 */
+    transition: 0.3s;           /* 0.3초 애니메이션 */
+    width: 100%;                /* 부모 너비와 동일 */
+    height: 2px;                /* 선의 두께 */
+    left:-12px;                 /* 좌측으로 12px 이동 */
+}
+
+/* 햄버거 메뉴 각 선의 위치 */
+.mbmenu >span:nth-child(1){top:0}      /* 첫 번째 선: 최상단 */
+.mbmenu >span:nth-child(2){top:10px}   /* 두 번째 선: 중간 */
+.mbmenu >span:nth-child(3){top:20px}   /* 세 번째 선: 하단 */
+
+/* 햄버거 메뉴 활성화 시 X자 모양으로 변경 */
+.mbmenu.active span:nth-child(1){
+    transform: rotate(45deg);   /* 45도 회전 */
+    top:9px                     /* 중앙으로 이동 */
+}
+.mbmenu.active span:nth-child(2){
+    opacity: 0;                 /* 중간선 숨김 */
+}
+.mbmenu.active span:nth-child(3){
+    transform: rotate(-45deg);  /* -45도 회전 */
+    top:9px                     /* 중앙으로 이동 */
+}
+
+/* =================================================================
+   메인 타이틀 섹션
+   ================================================================= */
+.mainpg{
+    width:83.33%;               /* 컨테이너와 동일한 너비 */
+    height:100vh;               /* 뷰포트 전체 높이 */
+    margin: 0 auto;             /* 중앙 정렬 */
+}
+
+/* 메인 텍스트 영역 - 화면 정중앙 배치 */
+.main_text_area{ 
+    position: absolute;         /* 절대 위치 */
+    top:50%;                    /* 상단에서 50% */
+    left:50%;                   /* 좌측에서 50% */
+    transform: translate(-50%,-50%); /* 정중앙 정렬 */
+    width: 100%;                /* 전체 너비 */
+}
+
+/* 메인 타이틀 스타일 */
+.main_title{
+    font-size: 5.625rem;        /* 90px (16px * 5.625) - 매우 큰 타이틀 */
+    font-weight: bold;          /* 굵은 글씨 */
+    text-align: center;         /* 중앙 정렬 */
+}
+
+/* 메인 타이틀 내 강조 텍스트 */
+.main_title > p span{
+    color: #b0e0e6;            /* 연한 파란색 (powder blue) */
+}
+
+/* 타이틀 하단 설명 텍스트 */
+.title_txt{
+    font-size: 1.375rem;        /* 22px */
+    text-align: center;         /* 중앙 정렬 */
+    padding-top: 50px;          /* 타이틀과의 간격 */
+    line-height: 40px;          /* 줄 간격 */
+}
+
+/* 메인 아이콘 애니메이션 효과 */
+@keyframes ani{
+    0%{transform: translateY(200px);}   /* 시작: 아래쪽 200px */
+    100%{transform: translateY(0px);}   /* 끝: 원래 위치 */
+}
+
+.main_icon_area img{
+    width: 300px;               /* 아이콘 크기 */
+    animation: ani 1s 1 ease-in-out; /* 애니메이션 적용: 1초간, 1회, 부드러운 전환 */
+}
+
+/* =================================================================
+   About Me 섹션
+   ================================================================= */
+.aboutme{
+    width:100%;                 /* 전체 너비 */
+    background-color: #FAF7F5;  /* 연한 베이지색 배경 */
+}
+/* 주석 처리된 스타일들은 스크롤 애니메이션 관련 설정들로 보임 */
+
+/* 스크롤 시 나타나는 효과 */
+.aboutme.on{
+    opacity: 1;                 /* 완전 불투명 */
+    transform: translateY(0);   /* 원래 위치로 이동 */
+}
+
+/* About Me 섹션 컨테이너 */
+.container{
+    width:100%; 
+    height:100%; 
+    margin: 0 auto;             /* 중앙 정렬 */
+}
+
+/* 섹션 타이틀 */
+.title{
+    padding-top: 40px;          /* 상단 여백 */
+}
+
+.title > span{
+    font-size: 32px;            /* 타이틀 크기 */
+    font-weight: 700;           /* 볼드 */
+    display: block;             /* 블록 요소로 표시 */
+    color:#1b1b1b;              /* 진한 회색 */
+}
+
+.container > .title > span{
+    color:#333;                 /* 좀 더 연한 회색 */
+}
+
+.container > .title > p{
+    font-size: 1.125rem;        /* 18px */
+    padding-top: -10px;         /* 음수 패딩 (이상함, 0 또는 양수여야 함) */
+}
+
+/* 프로필 컨테이너 - 이미지와 텍스트를 나란히 배치 */
+.profile_container{
+    display: flex;              /* 플렉스박스 레이아웃 */
+    align-items: center;        /* 세로 중앙 정렬 */
+    justify-content: center;    /* 가로 중앙 정렬 */
+    padding: 60px 0;            /* 상하 여백 */
+}
+
+/* 프로필 이미지 컨테이너 */
+.profile_img{
+    width:440px;                /* 고정 너비 */
+    height: 500px;              /* 고정 높이 */
+    box-shadow: 0px 2px 4px #999999; /* 그림자 효과 */
+    border-radius: 20px;        /* 둥근 모서리 */
+}
+
+.profile_img > img{
+    border-radius: 20px;        /* 이미지도 둥근 모서리 */
+    object-fit: cover;          /* 비율 유지하며 컨테이너 채움 */
+    width: 100%;                /* 컨테이너 너비에 맞춤 */
+    height: 100%;               /* 컨테이너 높이에 맞춤 */
+}
+
+/* 프로필 텍스트 영역 */
+.profile > strong{
+    font-size: 1.5rem;          /* 24px */
+    color: #b9b9b9;             /* 연한 회색 */
+}
+
+.profile{  
+    margin-left: 100px;         /* 이미지와의 간격 */
+    width: 50%;                 /* 전체의 절반 너비 */
+    font-size: 1.25rem;         /* 20px */
+    color:#333                  /* 진한 회색 */
+}
+
+.profile >p{
+    line-height: 30px;          /* 줄 간격 */
+    padding-top: 20px;          /* 상단 여백 */
+}
+
+/* 프로필 리스트 스타일 */
+.profile ul li .sub li span{
+    padding-left: 10px;         /* 좌측 여백 */
+}
+
+.profile ul li .sub li sup{
+    font-size: 0.875rem;        /* 14px - 작은 텍스트 */
+    font-weight: 200;           /* 얇은 글씨 */
+    color: #6d6d6d;             /* 회색 */
+}
+
+/* 텍스트 아이콘 (장식용) */
+.text_icon {
+    position: absolute;         /* 절대 위치 */
+    right:120px;                /* 우측에서 120px */
+    top:300px;                  /* 상단에서 300px */
+    width: 230px;               /* 너비 */
+    transform: rotate(5deg);    /* 5도 회전 효과 */
+}
+
+/* 버튼 스타일 */
+.button > a{
+    color:#1d1d1d;              /* 텍스트 색상 */
+    text-align: center;         /* 중앙 정렬 */
+    font-size: 1rem;            /* 16px */
+    display: block;             /* 블록 요소 */
+    line-height: 35px;          /* 버튼 높이와 동일한 라인 높이 */
+    width:90px;                 /* 버튼 너비 */
+    height: 35px;               /* 버튼 높이 */
+    border: 1px solid #FF8335;  /* 오렌지 테두리 */
+    border-radius: 18px;        /* 둥근 모서리 */
+    background-color:#ffdcc6;   /* 연한 오렌지 배경 */
+    color:#ff741e;              /* 진한 오렌지 텍스트 */
+    margin-top: 30px;           /* 상단 여백 */
+}
+
+.button> a:hover {
+    background-color: #FF8335;  /* 호버 시 진한 오렌지 배경 */
+    color:#fff                  /* 호버 시 흰색 텍스트 */
+}
+
+/* =================================================================
+   스킬(Skill) 섹션
+   ================================================================= */
+.skill{
+    width:100%;                 /* 전체 너비 */
+    padding: 100px 0;           /* 상하 여백 */
+    overflow: hidden;           /* 넘치는 내용 숨김 */
+}
+
+/* 스킬 박스 - 사이드바와 콘텐츠 영역 */
+.skill_box{
+    width: 100%;                /* 전체 너비 */
+    padding-top: 30px;          /* 상단 여백 */
+    display: flex;              /* 플렉스박스 */
+    flex-flow: row;             /* 가로 방향 배치 */
+    height: 100%;               /* 전체 높이 */
+    gap:80px                    /* 요소간 간격 */
+}
+
+/* 스킬 카테고리 목록 (사이드바) */
+.skill_list{
+    width: 16%;                 /* 전체의 16% 너비 */
+    background-color: #ffffff;  /* 흰색 배경 */
+}
+
+/* 스킬 카테고리 링크 */
+.skill_list>ul>li>a{
+    display: inline-block;      /* 인라인 블록 요소 */
+    padding: 22px 10px;         /* 내부 여백 */
+    border-radius: 30px 0 0 0;  /* 좌상단만 둥근 모서리 */
+    background-color: #FAF7F5;  /* 연한 베이지 배경 */
+    width: 100%;                /* 전체 너비 */
+    font-size: 1.25rem;         /* 20px */
+    text-align: center;         /* 중앙 정렬 */
+    font-weight: 500;           /* 미디엄 굵기 */
+}
+
+/* 각 카테고리별 다른 모서리 둥글기 설정 */
+.skill_list>ul>li:nth-child(2)>a{border-radius: 0px;}
+.skill_list>ul>li:nth-child(3)>a{border-radius: 0px 0px 00px 0px;}
+.skill_list>ul>li:nth-child(4)>a{border-radius: 0px 0px 00px 0px;}
+.skill_list>ul>li:nth-child(5)>a{border-radius: 0px 0px 30px 0px;}
+
+/* 활성화된 카테고리 스타일 */
+.skill_list>ul>li a.active{
+    transition: all 0.5s;       /* 0.5초 전환 효과 */
+    background-color: #FF8335;  /* 오렌지 배경 */
+    color:#fff;                 /* 흰색 텍스트 */
+}
+
+/* 스킬 콘텐츠 영역 */
+.skill_txtcon{
+    width: 80%;                 /* 전체의 80% 너비 */
+}
+
+/* 스킬 탭 컨테이너 */
+.skill_tab{
+    display: flex;              /* 플렉스박스 */
+    gap:40px;                   /* 요소간 간격 */
+    align-items: center;        /* 세로 중앙 정렬 */
+    height: 100%;               /* 전체 높이 */
+    width: 100%;                /* 전체 너비 */
+}
+
+/* 개별 스킬 카드 */
+.skill_tab li{
+    width:26%;                  /* 각각 26% 너비 */
+    box-shadow: 0px 0px 2px #8b8b8b; /* 회색 그림자 */
+    height: 345px;              /* 고정 높이 */
+    border-radius: 10px;        /* 둥근 모서리 */
+    position: relative;         /* 내부 절대 위치 요소의 기준점 */
+    background-color:#fff;      /* 흰색 배경 */
+}
+
+/* 스킬 카드 내부 텍스트 - 중앙 정렬 */
+.skill_txt{
+    position:absolute;          /* 절대 위치 */
+    top:50%;                    /* 상단에서 50% */
+    left:50%;                   /* 좌측에서 50% */
+    transform: translate(-50%,-50%); /* 정중앙 정렬 */
+    text-align: center;         /* 텍스트 중앙 정렬 */
+    width: 100%;                /* 전체 너비 */
+}
+
+.skill_txt strong{
+    font-size: 1.5rem;          /* 24px - 스킬명 */
+    display: block;             /* 블록 요소 */
+}
+
+.skill_txt .skill_img{
+    width: 80px;                /* 스킬 아이콘 크기 */
+    margin: 20px auto;          /* 중앙 정렬과 상하 여백 */
+    height: 80px;               /* 스킬 아이콘 높이 */
+}
+
+.skill_txt .skill_img img{
+    width: 100%;                /* 컨테이너에 맞춤 */
+    height: 100%;               /* 컨테이너에 맞춤 */
+    object-fit: cover;          /* 비율 유지하며 채움 */
+}
+
+.skill_txt span{
+    display: block;             /* 블록 요소 */
+    line-height: 25px;          /* 줄 간격 */
+    color:#303030;              /* 진한 회색 */
+    font-size: 1.125rem;        /* 18px */
+} 
+
+/* =================================================================
+   코딩 프로젝트 섹션
+   ================================================================= */
+
+/* 버튼 영역 */
+.button_area{
+    display: flex;              /* 플렉스박스 */
+    gap:10px                    /* 버튼간 간격 */
+}
+
+/* Go 버튼 2 스타일 */
+.go_btn2 {
+  display: inline-block;        /* 인라인 블록 - 내용에 맞춰 크기 조절 */
+  border-radius: 15px;          /* 둥근 모서리 */
+  background-color: #ffdcc6;    /* 연한 오렌지 배경 */
+  font-size: 1rem;              /* 16px */
+  padding: 5px 15px;            /* 상하 5px, 좌우 15px 패딩 */
+  color: #ff741e;               /* 진한 오렌지 텍스트 */
+  margin-top: 15px;             /* 상단 여백 */
+  text-align: center;           /* 중앙 정렬 */
+  white-space: nowrap;          /* 줄바꿈 방지 */
+}
+
+/* 주석 처리된 기존 스타일 */
+/* .go_btn2{border-radius: 15px; background-color:#ffdcc6; width:90px; height: 30px; display: block;  font-size: 1rem; line-height: 30px; margin-top: 15px; position: relative; padding-left: 10px; color:#ff741e}  */
+
+/* 화살표 아이콘 스프라이트 */
+.go_btn2 span{
+    background:url(../images/arrow_sprites.png); /* 스프라이트 이미지 */
+    width:25px; 
+    height: 25px; 
+    background-position: 25px,0; /* 스프라이트 위치 */
+    background-size: 200% 100%;  /* 스프라이트 크기 조절 */
+    text-indent: -99999px;       /* 텍스트 숨김 */
+    position: absolute;          /* 절대 위치 */
+    right:2px;                   /* 우측에서 2px */
+    top:3px                      /* 상단에서 3px */
+}
+
+/* 호버 효과 */
+.go_btn2:hover{
+    background-color:#ff741e;    /* 진한 오렌지 배경 */
+    color:#ffffff               /* 흰색 텍스트 */
+}
+.go_btn2:hover span{
+    background-position: 0,0;    /* 스프라이트 위치 변경 */
+}
+
+/* 코딩 섹션 */
+.coding{ 
+    background-color: #ffffff;   /* 흰색 배경 */
+}
+
+/* 코딩 섹션 타이틀 영역 */
+.coding >.title{
+    display: flex;               /* 플렉스박스 */
+    justify-content: space-between; /* 양쪽 끝 정렬 */
+}
+
+.coding >.title > a{
+    font-size: 1rem;             /* 16px */
+    align-self:flex-end;         /* 하단 정렬 */
+}
+
+/* 프로젝트 목록 */
+.coding ul{
+    margin-top: 30px;            /* 상단 여백 */
+}
+
+.coding ul li:first-child{
+    border-top: 1px solid #eb1717; /* 첫 번째 항목 상단 빨간 테두리 */
+}
+
+.coding ul li{ 
+    width:100%;                  /* 전체 너비 */
+    border-bottom:1px solid #1f6922; /* 하단 초록 테두리 */
+    padding: 30px 0;             /* 상하 여백 */
+}  
+
+.coding ul li{
+    display: flex;               /* 플렉스박스 */
+    align-items: center;         /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 양쪽 끝 정렬 */
+}
+
+/* 주석 처리된 프로젝트 이미지 스타일 */
+/* .coding ul li .coding_img{ width: 45%; background-color: #f5faf7; border-radius: 20px;  overflow: hidden;  }  */
+
+/* 프로젝트 이미지 호버 효과 */
+.coding ul li .coding_img > img{
+    transition: all 0.5s;        /* 0.5초 전환 효과 */
+    display: block;              /* 블록 요소 */
+    object-fit: cover;           /* 비율 유지하며 채움 */
+}
+
+.coding ul li:hover .coding_img > img{
+    transform: scale(1.1);       /* 호버 시 1.1배 확대 */
+}
+
+/* 프로젝트 텍스트 정보 영역 */
+.coding ul li .coding_text{
+    width:460px;                 /* 고정 너비 */
+    height: 160px;               /* 고정 높이 */
+    margin-left: 20px;           /* 이미지와의 간격 */
+    color:#333                   /* 진한 회색 텍스트 */
+}
+
+.coding ul li .coding_text strong{
+    font-size: 2rem;             /* 32px - 프로젝트 제목 */
+    display: block;              /* 블록 요소 */
+    font-weight: 700;            /* 볼드 */
+}
+
+.coding ul li .coding_text > span {
+    font-size: 1.25rem;          /* 20px - 프로젝트 부제목 */
+    padding-top: 12px;           /* 상단 여백 */
+    font-weight: 400;            /* 일반 굵기 */
+    display: block;              /* 블록 요소 */
+}
+
+.coding ul li .coding_text p{
+    padding-top: 10px;           /* 상단 여백 */
+    color:#303030               /* 진한 회색 */
+}
+
+.coding ul li .coding_text p span{
+    font-size: 16px;             /* 설명 텍스트 크기 */
+    color:#5f5f5f               /* 회색 텍스트 */
+}
+
+.coding ul li .coding_text p span:nth-child(2){
+    padding-left: 5px;           /* 두 번째 span 좌측 여백 */
+}
+
+.coding ul li .coding_text p span:nth-child(3){
+    display: block;              /* 세 번째 span을 블록 요소로 */
+    padding-top: 10px;           /* 상단 여백 */
+}
+
+/* Go 버튼 1 스타일 */
+.go_btn {
+  display: inline-block;         /* 인라인 블록 */
+  border-radius: 15px;           /* 둥근 모서리 */
+  background-color: #ffdcc6;     /* 연한 오렌지 배경 */
+  font-size: 1rem;               /* 16px */
+  padding: 5px 15px;             /* 상하 5px, 좌우 15px 패딩 */
+  color: #ff741e;                /* 진한 오렌지 텍스트 */
+  margin-top: 15px;              /* 상단 여백 */
+  text-align: center;            /* 중앙 정렬 */
+  white-space: nowrap;           /* 줄바꿈 방지 */
+}
+
+/* 주석 처리된 기존 Go 버튼 스타일 */
+/* .go_btn{border-radius: 15px; background-color:#ffdcc6; width:80px; height: 30px; display: block;  font-size: 1rem; line-height: 30px; margin-top: 15px;  padding-left: 10px; color:#ff741e}  */
+
+.go_btn span{
+    background:url(../images/arrow_sprites.png); /* 화살표 스프라이트 */
+    width:25px; 
+    height: 25px; 
+    background-position: 25px,0;  /* 스프라이트 초기 위치 */
+    background-size: 200% 100%;   /* 스프라이트 크기 */
+    text-indent: -99999px;        /* 텍스트 숨김 */
+    position: absolute;           /* 절대 위치 */
+    right:5px;                    /* 우측에서 5px */
+    top:3px                       /* 상단에서 3px */
+}
+
+.go_btn:hover{
+    background-color:#ff741e;     /* 호버 시 진한 오렌지 배경 */
+    color:#ffffff                 /* 호버 시 흰색 텍스트 */
+}
+
+.go_btn:hover span{
+    background-position: 0,0;     /* 호버 시 스프라이트 위치 변경 */
+}
+ 
+/* =================================================================
+   디자인(Design) 섹션
+   ================================================================= */
+.design{
+    padding-bottom: 100px;       /* 하단 여백 */
+}
+
+.design ul{
+    display: flex;               /* 플렉스박스 레이아웃 */
+    justify-content: space-between; /* 균등 분배 */
+    margin-top: 50px;            /* 상단 여백 */
+}
+
+/* 디자인 프로젝트 카드 */
+.design ul li{
+    width:32%;                   /* 각각 32% 너비 (3개 카드) */
+    height: 530px;               /* 고정 높이 */
+    background-color: #FAF7F5;   /* 연한 베이지 배경 */
+    border-radius: 20px;         /* 둥근 모서리 */
+    position: relative;          /* 내부 절대 위치 요소의 기준점 */
+    overflow: hidden;            /* 넘치는 내용 숨김 */
+}
+
+/* 디자인 프로젝트 제목 */
+.design ul li > strong{
+    font-size: 30px;             /* 큰 제목 */
+    font-weight: 700;            /* 볼드 */
+    margin:40px 0 0px 40px;      /* 여백 설정 */
+    display: block;              /* 블록 요소 */
+    color: #333;                 /* 진한 회색 */
+}
+
+/* 디자인 카드 우상단 버튼 */
+.design ul li > .button_go2{
+    width:50px;                  /* 버튼 크기 */
+    height: 50px; 
+    display: block;              /* 블록 요소 */
+    border-radius: 100%;         /* 원형 버튼 */
+    text-indent: -99999px;       /* 텍스트 숨김 */
+    position: absolute;          /* 절대 위치 */
+    top:26px;                    /* 상단에서 26px */
+    right:20px;                  /* 우측에서 20px */
+    background: url(../images/arrow3.png); /* 화살표 이미지 */
+}
+
+/* 디자인 이미지 컨테이너 */
+.design_img{ 
+    width:280px;                 /* 이미지 너비 */
+    margin: 0 auto;              /* 중앙 정렬 */
+}
+
+.design_img img{
+    width:100%;                  /* 컨테이너에 맞춤 */
+    margin-top: 10px;            /* 상단 여백 */
+}
+
+/* 디자인 카드 호버 효과 */
+.design ul li:hover{
+    background-color:#ff9554;    /* 호버 시 오렌지 배경 */
+    transition: all 0.5s;        /* 0.5초 전환 효과 */
+    width:35%                    /* 호버 시 너비 확장 */
+}
+
+.design ul li:hover .button_go2{
+    background: url(../images/arrow4.png); /* 호버 시 다른 화살표 이미지 */
+}
+
+.design ul li:hover > strong{
+    color:#fff                   /* 호버 시 흰색 텍스트 */
+}
+
+/* =================================================================
+   푸터(Footer) 섹션
+   ================================================================= */
+footer {
+    background: #222;            /* 어두운 회색 배경 */
+    color: white;                /* 흰색 텍스트 */
+    padding: 3rem 0 1rem;        /* 상단 3rem, 하단 1rem 여백 */
+    margin-top: 4rem;            /* 상단 여백 */
+}
+
+footer .ftinner{ 
+    margin: 0 auto;              /* 중앙 정렬 */
+    width: 83.33%;               /* 메인 컨테이너와 동일한 너비 */
+}
+
+footer .ftinner strong{
+    font-size: 32px;             /* 큰 제목 */
+    padding-top: 50px;           /* 상단 여백 */
+    display: block;              /* 블록 요소 */
+    font-family: "Montserrat", sans-serif; /* 영문 폰트 */
+}
+
+footer .ftinner hr{
+    padding: 5px;                /* 여백 */
+    border-bottom: 1px solid rgba(94, 94, 94, 0.4); /* 반투명 회색 하단 테두리 */
+} 
+
+footer .ftinner > p{
+    font-size: 1.5rem;           /* 24px */
+    padding-top: 20px;           /* 상단 여백 */
+    color: #575757;              /* 회색 텍스트 */
+}
+
+footer .ftinner .contact_list{
+    padding-top: 26px;           /* 상단 여백 */
+}
+
+footer .ftinner .contact_list ul{
+    display: flex;               /* 플렉스박스 */
+    gap:30px                     /* 연락처 항목간 간격 */
+}
+
+footer .ftinner .contact_list ul li a{ 
+    padding: 10px;               /* 내부 여백 */
+    font-size: 24px;             /* 폰트 크기 */
+}
+
+footer .ftinner .contact_list ul li a span{
+    display: block;              /* 블록 요소 */
+    font-size: 28px;             /* 더 큰 폰트 */
+    padding-top: 8px;            /* 상단 여백 */
+    font-weight: 500;            /* 미디엄 굵기 */
+}
+
+/* =================================================================
+   상단 이동 버튼 (Top Button)
+   ================================================================= */
+.top_btn > a{
+    width: 50px;                 /* 버튼 크기 */
+    height: 50px; 
+    right: 50px;                 /* 우측에서 50px */
+	bottom: 70px;                /* 하단에서 70px */
+    z-index: 999;                /* 최상위 레이어 */
+    border-radius: 100%;         /* 원형 버튼 */
+	position: fixed;             /* 화면에 고정 */
+    opacity: 0.8;                /* 80% 불투명도 */
+    box-shadow: 0px 0px 4px #6d6d6d; /* 그림자 효과 */
+    display: none;               /* 기본적으로 숨김 */
+}
+
+/* =================================================================
+   모바일 서브 네비게이션 (Hamburger Menu)
+   ================================================================= */
+.open_nav{
+    background-color: #fff;      /* 흰색 배경 */
+    position: fixed;             /* 화면에 고정 */
+    top:0;                       /* 상단에 붙임 */
+    left:-100%;                  /* 초기에는 화면 밖 좌측에 숨김 */
+    width: 100%;                 /* 전체 너비 */
+    height: 100%;                /* 전체 높이 */
+    z-index: 9;                  /* 높은 z-index로 다른 요소 위에 표시 */
+    transition: left 0.5s ease-in-out; /* 좌측 위치 변경 애니메이션 */
+    visibility: hidden;          /* 초기에는 보이지 않음 */
+}
+
+.open_nav.active{
+    left:0%                      /* 활성화 시 화면에 표시 */
+}
+
+/* 서브 네비게이션 메뉴 */
+.subnav_menu{
+    font-size: 2rem;             /* 32px - 큰 메뉴 텍스트 */
+    font-weight: 700;            /* 볼드 */
+    display: flex;               /* 플렉스박스 */
+    flex-flow:column;            /* 세로 방향 배치 */
+    flex-grow: 1;                /* 남은 공간 차지 */
+    top:30%;                     /* 상단에서 30% 위치 */
+    left:50%;                    /* 좌측에서 50% 위치 */
+    transform: translate(-50%,-50%); /* 중앙 정렬 */
+    position: absolute;          /* 절대 위치 */
+    text-align: center;          /* 텍스트 중앙 정렬 */
+    padding-top: 120px;          /* 상단 여백 */
+}
+
+.subnav_menu li{
+    line-height: 80px;           /* 줄 높이로 메뉴 간격 조절 */
+}
+
+.subnav_menu li:hover{
+    color: #ff3535;              /* 호버 시 빨간색 */
+}
+
+/* =================================================================
+   반응형 미디어 쿼리 - 1300px 이하 화면
+   ================================================================= */
+@media screen and (max-width:1300px){
+    /* 메인 타이틀 영역 조정 */
+    .main_text_area {
+        top:50%;                 /* 위치 재조정 */
+    }
+    .main_icon_area img{
+        width: 230px;            /* 아이콘 크기 축소 */
+    }
+    .main_title{
+        font-size: 3rem;         /* 48px로 축소 */
+    }
+    .profile p{
+        font-size: 1rem;         /* 16px로 축소 */
+    }
+    .title_txt{
+        font-size: 1rem;         /* 16px로 축소 */
+    }
+
+    /* 스킬 섹션 조정 */
+    .skill_tab{
+        gap:30px                 /* 간격 축소 */
+    }
+    .skill_tab li {
+        width:30%                /* 너비 확장 */
+    }
+    .skill_txt span{
+        font-size: 1rem;         /* 16px로 축소 */
+    }
+
+    /* 코딩 섹션 조정 */
+    .coding ul li .coding_text{
+        width:60%                /* 너비를 퍼센트로 변경 */
+    }
+    .coding ul li .coding_text >strong{
+        font-size: 2rem;         /* 32px 유지 */
+    }
+    .coding ul li .coding_text >p{
+        font-size: 1.2rem;       /* 19.2px */
+    }
+    .coding ul li .coding_text > span {
+        font-size: 1rem;         /* 16px로 축소 */
+        padding-top: 5px;        /* 여백 축소 */
+    }
+
+    /* 디자인 섹션 조정 */
+    .design{
+        padding-bottom: 50px;    /* 하단 여백 축소 */
+    }
+    .design ul li{
+        height: 350px;           /* 높이 축소 */
+        width: 31%;              /* 너비 축소 */
+    }
+    .design_img{ 
+        width:160px              /* 이미지 크기 축소 */
+    }
+    .design ul li > strong{
+        font-size: 1.5rem;       /* 24px로 축소 */
+    }
+    footer .ftinner > p{
+        font-size: 1rem;         /* 16px로 축소 */
+    }
+    
+    /* 디자인 카드 버튼 조정 */
+    .design ul li > .button_go2{
+        width:30px;              /* 버튼 크기 축소 */
+        height: 30px; 
+        display: block; 
+        border-radius: 100%; 
+        text-indent: -99999px; 
+        position: absolute; 
+        top:26px; 
+        right:20px; 
+        background: url(../images/arrow3.png); 
+        background-size: cover;  /* 배경 이미지 크기 맞춤 */
+    }
+    .design ul li:hover .button_go2{
+        background: url(../images/arrow4.png); 
+        background-size: cover;  /* 호버 시에도 크기 맞춤 */
+    }
+}
+
+/* =================================================================
+   반응형 미디어 쿼리 - 768px 이하 화면 (모바일)
+   ================================================================= */
+@media screen and (max-width:768px) {
+    /* 컨테이너 너비 조정 */
+    .container{
+        width: 90%;              /* 모바일에서 더 넓은 사용 */
+    }
+    .inner{
+        width: 90%;              /* 모바일에서 더 넓은 사용 */
+    }
+
+    /* 헤더 및 네비게이션 숨김, 햄버거 메뉴 표시 */
+    header{
+        display: none;           /* 데스크톱 헤더 숨김 */
+    }
+    nav{
+        display: none;           /* 데스크톱 네비게이션 숨김 */
+    }
+    .mbmenu{
+        display: block;          /* 햄버거 메뉴 표시 */
+        z-index:9999;            /* 최상위 레이어 */
+    }
+
+    /* 메인 타이틀 애니메이션 비활성화 */
+    @keyframes ani{
+        0%{transform: translateY(0px);} /* 애니메이션 없음 */
+        100%{transform: translateY(0px);}
+    }
+    
+    .main_text_area{
+        padding: 80px 0;         /* 상하 여백 추가 */
+        top:50%                  /* 중앙 위치 */
+    }
+    .main_icon_area img{
+        width: 230px;            /* 아이콘 크기 */
+    }
+    .main_title{
+        font-size: 2rem;         /* 32px로 대폭 축소 */
+    }
+    .title_txt{
+        font-size: 1rem;         /* 16px */
+        text-align: center;      /* 중앙 정렬 */
+        width: 90%;              /* 너비 제한 */
+        margin: 0 auto;          /* 중앙 정렬 */
+        line-height: 30px;       /* 줄 간격 조정 */
+    }
+
+    /* About Me 섹션 모바일 조정 */
+    .aboutme{
+        border-radius: 10px;     /* 둥근 모서리 축소 */
+        padding: 30px 0;         /* 여백 축소 */
+    }
+    .text_icon {
+        display: none;           /* 장식 아이콘 숨김 */
+    }
+    .profile_container{
+        flex-direction: column;  /* 세로 배치로 변경 */
+        padding-bottom: 20px;    /* 하단 여백 축소 */
+    }
+    .profile > ul{
+        flex-direction: column;  /* 리스트도 세로 배치 */
+        flex-wrap: wrap;         /* 줄바꿈 허용 */
+        gap:15px;                /* 항목간 간격 */
+        padding-top: 30px;       /* 상단 여백 */
+        font-size: 1.2em;        /* 폰트 크기 */
+    }
+    .profile{
+        margin-left: 0;          /* 좌측 여백 제거 */
+    }
+    .sub>li{
+        font-size:0.9rem;        /* 서브 항목 폰트 축소 */
+    }
+    .profile_img{
+        width: 400px;            /* 프로필 이미지 크기 조정 */
+    }
+    .profile{
+        width: 90%;              /* 프로필 텍스트 영역 확장 */
+        padding-top: 30px;       /* 상단 여백 */
+    }
+    .profile >p{
+        font-size: 1rem;         /* 16px */
+        line-height: 30px;       /* 줄 간격 */
+        padding-top: 10px;       /* 상단 여백 축소 */
+    }
+    
+    /* 스킬 섹션 모바일 레이아웃 */
+    .skill{
+        padding: 30px 0;         /* 여백 축소 */
+    }
+    .skill_list{
+        width: 100%;             /* 전체 너비 사용 */
+        background-color: #ffffff;
+    }
+    .skill_box{
+        width: 100%;             /* 전체 너비 */
+        padding-top: 30px; 
+        display: flex; 
+        flex-flow: column;       /* 세로 배치로 변경 */
+        height: 100%; 
+        gap:0px                  /* 간격 제거 */
+    }
+    .skill_list>ul{
+        display: flex;           /* 가로 배치 */
+        width: 100%; 
+        gap:0px                  /* 간격 제거 */
+    }
+    .skill_list>ul>li{
+        width: 33%;              /* 3등분 */
+    }
+    .skill_list>ul>li>a{
+        display: block; 
+        padding: 20px 5px;       /* 여백 조정 */
+        border-radius: 20px 0 0 0; 
+        background-color: #FAF7F5; 
+        font-size: 1rem;         /* 16px */
+        text-align: center; 
+        font-weight: 500;
+    }
+    .skill_list>ul>li:nth-child(3)>a{
+        border-radius: 0px 20px 0px 0; /* 마지막 항목 우상단 둥글게 */
+    }
+
+    .skill_txtcon{
+        width: 100%;             /* 전체 너비 */
+        background-color: #FAF7F5; 
+        position: relative; 
+        overflow: hidden;
+    }
+    .skill_tab{
+        display: flex; 
+        width: 100%; 
+        height: 100%; 
+        flex-wrap: wrap;         /* 줄바꿈 허용 */
+        padding-left: 0px; 
+        gap: 20px 20px;          /* 상하좌우 간격 */
+        margin: 30px auto; 
+        padding-left: 18px;      /* 좌측 여백 */
+    }
+    .skill_tab li{
+        width: 45%;              /* 2열 배치 */
+        box-shadow: 0px 0px 2px #8b8b8b; 
+        height: 200px;           /* 높이 축소 */
+        border-radius: 10px; 
+        background-color:#fff;
+    }
+    .skill_txt{
+        position:absolute; 
+        top:50%; 
+        left:50%; 
+        transform: translate(-50%,-50%); 
+        text-align: center; 
+        width: 100%;
+    }
+    .skill_txt strong{
+        font-size: 1.125rem;     /* 18px */
+        display: block;
+    }
+    .skill_txt span{ 
+        font-size: 0.875rem;     /* 14px */
+        line-height: 20px;       /* 줄 간격 조정 */
+    }
+    .skill_txt .skill_img{
+        width: 80px; 
+        margin:8px auto;         /* 여백 축소 */
+        height: 80px;
+    }
+
+    /* 강점(Strength) 섹션 - 스와이퍼 관련 */
+    .strength{
+        padding: 0;              /* 여백 제거 */
+    }
+    .swiper-slide {
+        width: 60%;              /* 슬라이드 너비 */
+        height: 300px;           /* 슬라이드 높이 */
+        border-radius: 20px; 
+        position: relative;
+        box-shadow: 0px 0px 4px #a1a1a1;
+    }
+    .icon_area{
+        padding-top: 70px;       /* 상단 여백 */
+    }
+    .icon_area img{
+        width:90px;              /* 아이콘 크기 */
+        margin-left: 30px;       /* 좌측 여백 */
+    }
+    .icon_area span{
+        font-size: 1.4rem;       /* 22.4px */
+        font-weight: 600;        /* 세미볼드 */
+        padding-top: 30px;       /* 상단 여백 */
+    }
+    .extra_content{
+        position: absolute;      /* 절대 위치 */
+        top: 0; 
+        left: 0;
+        width:100%; 
+        height:100%; 
+        display: none;           /* 기본적으로 숨김 */
+    }
+    .extra_content .extra_text strong{
+        font-size: 1.5rem;       /* 24px */
+    }
+    .extra_content .extra_text span{
+        font-size:1rem;          /* 16px */
+        display: block; 
+        margin-top: 20px; 
+        line-height: 26px        /* 줄 간격 */
+    }
+
+    /* 코딩 섹션 모바일 레이아웃 */
+    .coding ul li{
+        display: flex; 
+        align-items: center; 
+        flex-direction: column-reverse; /* 역순 배치 (텍스트가 위, 이미지가 아래) */
+        justify-content: center; 
+        gap:10px;                /* 요소간 간격 */
+        margin: 15px 0;          /* 상하 여백 */
+    }
+    /* 주석 처리된 코딩 이미지 스타일 */
+    /* .coding ul li .coding_img{ background-color: #F2F2F2; border-radius: 20px; margin-left: 15px; margin-top: 0px; margin-right: 15px; overflow: hidden; width: 100%; } */
+    
+    .coding ul li .coding_text{
+        width:100%;              /* 전체 너비 사용 */
+        margin-left: 30px;       /* 좌측 여백 */
+        padding: 10px 0;         /* 상하 여백 */
+    }
+    .coding ul li .coding_text strong{
+        font-size: 1.5rem;       /* 24px */
+    }
+    .coding ul li .coding_text > span {
+        font-size: 1rem;         /* 16px */
+        padding-top: 5px;        /* 상단 여백 축소 */
+    }
+    .coding ul li .coding_text p{
+        padding-top: 3px;        /* 상단 여백 축소 */
+    }
+    .coding ul li .coding_text p span{
+        color:#303030; 
+        font-size:0.875rem;      /* 14px */
+    }
+    .coding ul li .coding_text p span:nth-child(3){
+        display: block; 
+        padding-top: 5px;        /* 상단 여백 축소 */
+    }
+    
+    /* 모바일 버튼 스타일 조정 */
+    .go_btn{
+        width:75px;              /* 버튼 너비 축소 */
+        height: 30px; 
+        display: block; 
+        font-size: 1rem; 
+        line-height: 30px; 
+        margin-top: 10px;        /* 상단 여백 축소 */
+        position: relative; 
+        padding-left: 10px;
+    } 
+    .go_btn2{
+        width:90px;              /* 버튼 너비 */
+        height: 30px; 
+        display: block; 
+        font-size: 1rem; 
+        line-height: 30px; 
+        margin-top: 10px;        /* 상단 여백 축소 */
+        position: relative; 
+        padding-left: 10px;
+    } 
+    .go_btn span{
+        background:url(../images/arrow_sprites.png); 
+        width:25px; 
+        height: 25px; 
+        background-position: 25px,0; 
+        background-size: 200% 100%; 
+        text-indent: -99999px; 
+        position: absolute; 
+        right:2px; 
+        top:4px                  /* 위치 조정 */
+    }
+    .go_btn:hover{
+        background-color:#ff741e; 
+        color:#ffffff
+    }
+    
+    /* 디자인 섹션 모바일 레이아웃 */
+    .design{
+        padding-bottom: 30px;    /* 하단 여백 축소 */
+    }
+    .design ul{
+        display: flex; 
+        justify-content: space-between; 
+        margin-top: 0px;         /* 상단 여백 제거 */
+        flex-wrap: wrap;         /* 줄바꿈 허용 */
+        padding-top: 30px;       /* 상단 여백 */
+    }
+    .design ul li{
+        width:100%;              /* 전체 너비 (1개씩 세로 배치) */
+        height: 255px;           /* 높이 대폭 축소 */
+        background-color: #FAF7F5; 
+        border-radius: 20px; 
+        position: relative; 
+        overflow: hidden; 
+        margin: 5px;             /* 상하 간격 */
+    }
+    .design ul li > strong{
+        font-size: 1.5rem;       /* 24px */
+        font-weight: 700; 
+        margin:0;                /* 여백 초기화 */
+        display: block; 
+        color: #333; 
+        text-align: center;      /* 중앙 정렬 */
+        margin-top: 20px;        /* 상단 여백만 추가 */
+    }
+
+    .design_img{ 
+        width:150px;             /* 이미지 크기 축소 */
+        margin: 0 auto;          /* 중앙 정렬 */
+    }
+    .design ul li:hover{
+        background-color:#FF8335; /* 호버 시 오렌지 배경 */
+        transition: all 1s;      /* 전환 시간 증가 */
+        width: 100%;             /* 모바일에서는 너비 변화 없음 */
+    } 
+
+   /* 푸터 모바일 조정 */
+   footer .ftinner{
+       padding: 50px 0;         /* 상하 여백 */
+   }
+   footer .ftinner > p{
+       font-size: 0.875rem;     /* 14px로 축소 */
+   }
+    footer .ftinner strong{ 
+        padding-top: 20px;       /* 상단 여백 축소 */
+        display: block;
+    }
+    footer .ftinner .contact_list ul {
+        flex-direction: column;  /* 세로 배치 */
+        gap:0                    /* 간격 제거 */
+    }
+    footer .ftinner .contact_list ul li a{ 
+        padding: 10px; 
+        font-size: 1.25rem;      /* 20px */
+    }
+    footer .ftinner .contact_list ul li a span{
+        display: block; 
+        font-size: 1.5rem;       /* 24px */
+        padding-top: 8px; 
+        font-weight: 500;
+    }
+
+    /* 모바일 서브 네비게이션 조정 */
+    .open_nav{
+        width: 100%;             /* 전체 너비 */
+        visibility: visible;     /* 모바일에서는 항상 보이도록 설정 */
+    }
+}
+
+/* =================================================================
+   드롭다운 네비게이션 스타일
+   ================================================================= */
+
+/* 네비게이션 항목 (드롭다운을 포함하는 부모 요소) */
+.nav-item {
+    position: relative;          /* 드롭다운 메뉴의 절대 위치 기준점 */
+}
+
+/* 드롭다운 메뉴 컨테이너 */
+.dropdown {
+    position: absolute;          /* 절대 위치로 부모 요소 기준 배치 */
+    top: 100%;                   /* 부모 요소 바로 아래 */
+    left: 0;                     /* 부모 요소 좌측 정렬 */
+    background: white;           /* 흰색 배경 */
+    min-width: 200px;            /* 최소 너비 설정 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* 그림자 효과 */
+    border-radius: 8px;          /* 둥근 모서리 */
+    opacity: 0;                  /* 초기에는 투명 (숨김) */
+    visibility: hidden;          /* 초기에는 보이지 않음 */
+    transform: translateY(-10px); /* 초기 위치 (위쪽으로 10px) */
+    transition: all 0.3s ease;   /* 0.3초 부드러운 전환 효과 */
+    z-index: 1000;               /* 다른 요소들보다 위에 표시 */
+    padding: 20px 0;             /* 상하 내부 여백 */
+    margin-top: 10px;            /* 부모 요소와의 간격 */
+}
+
+/* 네비게이션 항목 호버 시 드롭다운 표시 */
+.nav-item:hover .dropdown {
+    opacity: 1;                  /* 완전 불투명 */
+    visibility: visible;         /* 보이도록 설정 */
+    transform: translateY(0);    /* 원래 위치로 이동 */
+}
+
+/* 드롭다운 메뉴 항목 */
+.dropdown-item {
+    display: block;              /* 블록 요소로 전체 너비 사용 */
+    padding: 12px 20px;          /* 내부 여백 */
+    color: #333;                 /* 진한 회색 텍스트 */
+    text-decoration: none;       /* 밑줄 제거 */
+    font-size: 14px;             /* 폰트 크기 */
+    transition: all 0.2s ease;   /* 0.2초 전환 효과 */
+    border-left: 3px solid transparent; /* 좌측 투명 테두리 (호버 효과용) */
+}
+
+/* 드롭다운 항목 호버 효과 */
+.dropdown-item:hover {
+    background: #f8f8f8;         /* 연한 회색 배경 */
+    color: #8b4f8c;              /* 보라색 텍스트 */
+    border-left-color: #8b4f8c;  /* 좌측 보라색 테두리 */
+}
+
+/* 강조된 드롭다운 항목 */
+.dropdown-item.highlighted {
+    color: #8b4f8c;              /* 보라색 텍스트 */
+    font-weight: 600;            /* 세미볼드 */
+}
+
+/* 드롭다운 말풍선 화살표 */
+.dropdown::before {
+    content: '';                 /* 빈 내용 */
+    position: absolute;          /* 절대 위치 */
+    top: -8px;                   /* 드롭다운 위쪽으로 8px */
+    left: 20px;                  /* 좌측에서 20px */
+    width: 0;                    /* 너비 0 */
+    height: 0;                   /* 높이 0 */
+    border-left: 8px solid transparent;    /* 좌측 투명 테두리 */
+    border-right: 8px solid transparent;   /* 우측 투명 테두리 */
+    border-bottom: 8px solid white;        /* 하단 흰색 테두리 (화살표 모양) */
+}
+
+/* 검색 박스 스타일 */
+.search-box {
+    background: #666;            /* 회색 배경 */
+    padding: 8px 12px;           /* 내부 여백 */
+    border-radius: 4px;          /* 둥근 모서리 */
+}
+
+/* 검색 아이콘 */
+.search-icon {
+    color: white;                /* 흰색 아이콘 */
+    font-size: 18px;             /* 아이콘 크기 */
+}

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>헤더 추출 - 일본어 학습 사이트</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 헤더 관련 스타일만 추출 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* 헤더 스타일 - 네비게이션 메뉴 */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            flex: 0 0 auto;
+            z-index: 1001;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* 햄버거 메뉴 버튼 */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        /* 네비게이션 메뉴 컨테이너 */
+        .nav-menu {
+            display: flex;
+            gap: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .nav-item > li > a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 드롭다운 메뉴 스타일 */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 5px;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item.highlighted {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .dropdown-item.highlighted:hover {
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+            transform: translateX(5px);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 5px 15px;
+        }
+
+        /* 데모용 콘텐츠 */
+        .demo-content {
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        /* 반응형 디자인 - 태블릿 */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 0 15px;
+            }
+
+            .nav-item > li > a {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .dropdown {
+                min-width: 180px;
+            }
+        }
+
+        /* 모바일 크기 (768px 이하) */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                justify-content: space-between;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(102, 126, 234, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 20px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .nav-item {
+                width: 90%;
+                max-width: 300px;
+                margin-bottom: 10px;
+            }
+
+            .nav-item > li > a {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                justify-content: space-between;
+            }
+
+            .nav-item > li > a:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: none;
+            }
+
+            /* 모바일에서 드롭다운을 아코디언 스타일로 변경 */
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+                border: none;
+                border-radius: 10px;
+                margin-top: 10px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-item.active .dropdown {
+                max-height: 500px;
+            }
+
+            .nav-item.active .dropdown-icon {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-item {
+                background: rgba(255, 255, 255, 0.1);
+                margin: 5px 10px;
+                color: white;
+                border-radius: 8px;
+                padding: 12px 15px;
+            }
+
+            .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: none;
+                color: white;
+            }
+
+            .dropdown-item.highlighted {
+                background: rgba(255, 255, 255, 0.3);
+                color: white;
+            }
+
+            .dropdown-item.highlighted:hover {
+                background: rgba(255, 255, 255, 0.4);
+            }
+
+            .dropdown-divider {
+                background: rgba(255, 255, 255, 0.3);
+                margin: 8px 20px;
+            }
+        }
+
+        /* 작은 모바일 크기 (480px 이하) */
+        @media (max-width: 480px) {
+            nav ul {
+                height: 60px;
+            }
+
+            .nav-menu {
+                top: 60px;
+                height: calc(100vh - 60px);
+            }
+
+            .logo a {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 메인 헤더 영역 -->
+    <header>
+        <nav>
+            <ul>
+                <!-- 로고 영역 -->
+                <div class="logo">
+                    <a href="#main">🗾 일본어 학습</a>
+                </div>
+
+                <!-- 모바일 햄버거 메뉴 버튼 -->
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </button>
+
+                <!-- 네비게이션 메뉴 -->
+                <div class="nav-menu" id="navMenu">
+                    <!-- HOME 메뉴 항목 -->
+                    <div class="nav-item">
+                        <li><a href="#main">HOME</a></li>
+                    </div>
+
+                    <!-- 학습 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#learning" onclick="toggleDropdown(this)">학습 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="#hiragana" class="dropdown-item highlighted" onclick="showChart('hiragana')">
+                                <i class="fas fa-language"></i>히라가나
+                            </a>
+                            <a href="#katakana" class="dropdown-item" onclick="showChart('katakana')">
+                                <i class="fas fa-font"></i>가타가나
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  문법 .html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-font"></i>문법
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  읽기.html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-font"></i>읽기
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  듣기.html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-font"></i>듣기
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  한자.html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-font"></i>한자
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#practice" class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i>연습하기
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 도구 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#tools" onclick="toggleDropdown(this)">도구 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="/JLPT 5급 시험/문자 변환기.html" class="dropdown-item">
+                                <i class="fas fa-exchange-alt"></i>문자 변환기
+                            </a>
+                            <a href="#quiz" class="dropdown-item">
+                                <i class="fas fa-question-circle"></i>퀴즈
+                            </a>
+                            <a href="#flashcard" class="dropdown-item">
+                                <i class="fas fa-clone"></i>플래시카드
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 정보 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#info" onclick="toggleDropdown(this)">정보 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="#about" class="dropdown-item">
+                                <i class="fas fa-info-circle"></i>사이트 소개
+                            </a>
+                            <a href="#guide" class="dropdown-item">
+                                <i class="fas fa-book"></i>학습 가이드
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#contact" class="dropdown-item">
+                                <i class="fas fa-envelope"></i>문의하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 데모용 콘텐츠 -->
+    <div class="demo-content">
+        <h1>헤더 추출 완료</h1>
+        <p>위에 표시된 헤더는 원본 HTML에서 추출한 네비게이션 바입니다.</p>
+        <p>반응형 디자인으로 모바일에서는 햄버거 메뉴가 표시됩니다.</p>
+    </div>
+
+    <script>
+        // 모바일 메뉴 토글 기능
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                menuIcon.className = 'fas fa-times';
+            } else {
+                menuIcon.className = 'fas fa-bars';
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+            }
+        }
+
+        // 모바일에서 드롭다운 토글
+        function toggleDropdown(element) {
+            if (window.innerWidth <= 768) {
+                const navItem = element.closest('.nav-item');
+                const wasActive = navItem.classList.contains('active');
+                
+                const allNavItems = document.querySelectorAll('.nav-item');
+                allNavItems.forEach(item => item.classList.remove('active'));
+                
+                if (!wasActive) {
+                    navItem.classList.add('active');
+                }
+            }
+        }
+
+        // 차트 전환 함수 (데모용)
+        function showChart(type) {
+            console.log('Chart type:', type);
+            if (window.innerWidth <= 768) {
+                toggleMobileMenu();
+            }
+        }
+
+        // 화면 크기 변경 시 모바일 메뉴 상태 리셋
+        window.addEventListener('resize', function() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                menuIcon.className = 'fas fa-bars';
+                
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+            }
+        });
+
+        // 모바일 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (window.innerWidth <= 768 && 
+                navMenu.classList.contains('active') && 
+                !nav.contains(e.target)) {
+                toggleMobileMenu();
+            }
+        });
+
+        // ESC 키로 모바일 메뉴 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const navMenu = document.getElementById('navMenu');
+                if (navMenu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

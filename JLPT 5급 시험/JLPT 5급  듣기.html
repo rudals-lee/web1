@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JLPT N5 듣기 문제집</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #E91E63, #FF5722);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .quiz-container {
+            padding: 30px;
+        }
+        
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #E91E63;
+            transition: transform 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .question-number {
+            background: #E91E63;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .audio-section {
+            background: linear-gradient(135deg, #FF6B9D, #FFA07A);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .play-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            font-size: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .dialogue-section {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            display: none;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .dialogue-section.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .speaker {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .speaker.male {
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .speaker.female {
+            color: #E91E63;
+            font-weight: bold;
+        }
+        
+        .japanese-text {
+            font-size: 1.4rem;
+            color: #1976D2;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+        
+        .question-prompt {
+            font-size: 1.2rem;
+            color: #444;
+            margin: 15px 0;
+            font-weight: bold;
+            background: #fff3e0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #FF9800;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        
+        .option:hover {
+            border-color: #E91E63;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .option.selected {
+            border-color: #E91E63;
+            background: #fce4ec;
+            color: #C2185B;
+        }
+        
+        .option.correct {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .explanation {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 300px; }
+        }
+        
+        .show-dialogue-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            transition: background 0.3s ease;
+        }
+        
+        .show-dialogue-btn:hover {
+            background: #1976D2;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .check-button {
+            background: #E91E63;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .check-button:hover {
+            background: #C2185B;
+        }
+        
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .reset-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .reset-button:hover {
+            background: #d32f2f;
+        }
+        
+        .score {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            display: none;
+        }
+        
+        .score.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FF9800;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .play-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎧 JLPT N5 듣기 문제집</h1>
+            <p>일본어 듣기 실력을 키워보세요! (총 20문제)</p>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="instructions">
+                <h3>📋 듣기 시험 안내</h3>
+                <p>• ▶️ 버튼을 눌러 음성을 들으세요 (실제 시험에서는 2회 재생)</p>
+                <p>• 대화 내용이 궁금하면 "대화 내용 보기" 버튼을 클릭하세요</p>
+                <p>• 모든 문제를 풀고 "정답 확인" 버튼을 누르세요</p>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">1</div>
+                <div class="question-text">길 찾기</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(1)">▶️</button>
+                    <button class="play-button" onclick="playAudio(1)">▶️</button>
+                    <div style="font-size: 0.9rem; margin-top: 10px; opacity: 0.8;">
+                        * 실제 시험에서는 음성이 자동으로 2회 재생됩니다
+                    </div>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(1)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-1">
+                    <div class="speaker male">남자: すみません、えきは どこですか。</div>
+                    <div class="speaker female">여자: この道を まっすぐ 行って、二つ目の かどを 右に まがってください。</div>
+                </div>
+                <div class="question-prompt">질문: 역에 가려면 어떻게 해야 합니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 첫 번째 모퉁이를 오른쪽으로 돈다</div>
+                    <div class="option" data-answer="2">2. 두 번째 모퉁이를 오른쪽으로 돈다</div>
+                    <div class="option" data-answer="3">3. 첫 번째 모퉁이를 왼쪽으로 돈다</div>
+                    <div class="option" data-answer="4">4. 두 번째 모퉁이를 왼쪽으로 돈다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 두 번째 모퉁이를 오른쪽으로 돈다</strong><br>
+                    "二つ目のかどを右にまがって" = 두 번째 모퉁이를 오른쪽으로 돌아서
+                </div>
+            </div>
+                    <!-- ✅ <strong>2) 밖에 나가있다</strong><br>
+                    "出かけています" = 외출하고 있습니다
+                </div>
+            </div> -->
+
+            
+
+            <div class="question-card">
+                <div class="question-number">2</div>
+                <div class="question-text">시간 약속</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(2)">▶️</button>
+                    <button class="play-button" onclick="playAudio(2)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(2)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-2">
+                    <div class="speaker female">여자: 山田さん、明日の 会議は 何時からですか。</div>
+                    <div class="speaker male">남자: 10時からです。でも 30分前に 来てください。</div>
+                </div>
+                <div class="question-prompt">질문: 회의는 몇 시에 시작합니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 9시</div>
+                    <div class="option" data-answer="2">2. 9시 30분</div>
+                    <div class="option" data-answer="3">3. 10시</div>
+                    <div class="option" data-answer="4">4. 10시 30분</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) 10시</strong><br>
+                    "10時からです" = 10시부터입니다. 30분 전에 와달라는 것은 별개의 요청
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">3</div>
+                <div class="question-text">음식 주문</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(3)">▶️</button>
+                    <button class="play-button" onclick="playAudio(3)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(3)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-3">
+                    <div class="speaker male">남자: 今日は 何を 食べたいですか。</div>
+                    <div class="speaker female">여자: そうですね。ラーメンが 食べたいです。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 오늘 무엇을 먹고 싶어합니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 초밥</div>
+                    <div class="option" data-answer="2">2. 라면</div>
+                    <div class="option" data-answer="3">3. 빵</div>
+                    <div class="option" data-answer="4">4. 카레</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 라면</strong><br>
+                    "ラーメンが食べたいです" = 라면을 먹고 싶습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">4</div>
+                <div class="question-text">교통편 문의</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(4)">▶️</button>
+                    <button class="play-button" onclick="playAudio(4)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(4)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-4">
+                    <div class="speaker female">여자: このバスは どこへ 行きますか。</div>
+                    <div class="speaker male">남자: 駅まで 行きます。</div>
+                </div>
+                <div class="question-prompt">질문: 이 버스는 어디로 갑니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 은행</div>
+                    <div class="option" data-answer="2">2. 학교</div>
+                    <div class="option" data-answer="3">3. 역</div>
+                    <div class="option" data-answer="4">4. 병원</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) 역</strong><br>
+                    "駅まで行きます" = 역까지 갑니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">5</div>
+                <div class="question-text">파티 후기</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(5)">▶️</button>
+                    <button class="play-button" onclick="playAudio(5)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(5)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-5">
+                    <div class="speaker male">남자: きのうの パーティーは どうでしたか。</div>
+                    <div class="speaker female">여자: とても たのしかったです。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 파티에 대해 어떻게 말했습니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 재미없었다</div>
+                    <div class="option" data-answer="2">2. 즐거웠다</div>
+                    <div class="option" data-answer="3">3. 피곤했다</div>
+                    <div class="option" data-answer="4">4. 길었다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 즐거웠다</strong><br>
+                    "とてもたのしかったです" = 매우 즐거웠습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">6</div>
+                <div class="question-text">숙제 확인</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(6)">▶️</button>
+                    <button class="play-button" onclick="playAudio(6)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(6)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-6">
+                    <div class="speaker female">여자: しゅくだいは もう しましたか。</div>
+                    <div class="speaker male">남자: はい、もう しました。</div>
+                </div>
+                <div class="question-prompt">질문: 남자는 숙제를 했습니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 했다</div>
+                    <div class="option" data-answer="2">2. 하지 않았다</div>
+                    <div class="option" data-answer="3">3. 할 예정이다</div>
+                    <div class="option" data-answer="4">4. 모른다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) 했다</strong><br>
+                    "はい、もうしました" = 네, 이미 했습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">7</div>
+                <div class="question-text">음료 권유</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(7)">▶️</button>
+                    <button class="play-button" onclick="playAudio(7)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(7)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-7">
+                    <div class="speaker male">남자: コーヒーを 飲みますか。</div>
+                    <div class="speaker female">여자: いいえ、けっこうです。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 커피를 마실까요?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 마신다</div>
+                    <div class="option" data-answer="2">2. 안 마신다</div>
+                    <div class="option" data-answer="3">3. 조금만 마신다</div>
+                    <div class="option" data-answer="4">4. 이미 마셨다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 안 마신다</strong><br>
+                    "いいえ、けっこうです" = 아니요, 괜찮습니다 (거절의 표현)
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">8</div>
+                <div class="question-text">가격 문의</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(8)">▶️</button>
+                    <button class="play-button" onclick="playAudio(8)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(8)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-8">
+                    <div class="speaker female">여자: すみません、この かばんは いくらですか。</div>
+                    <div class="speaker male">남자: 3,000円です。</div>
+                </div>
+                <div class="question-prompt">질문: 가방 가격은 얼마입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 1,000엔</div>
+                    <div class="option" data-answer="2">2. 2,000엔</div>
+                    <div class="option" data-answer="3">3. 3,000엔</div>
+                    <div class="option" data-answer="4">4. 5,000엔</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) 3,000엔</strong><br>
+                    "3,000円です" = 3,000엔입니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">9</div>
+                <div class="question-text">시간 확인</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(9)">▶️</button>
+                    <button class="play-button" onclick="playAudio(9)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(9)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-9">
+                    <div class="speaker male">남자: 今 何時ですか。</div>
+                    <div class="speaker female">여자: 4時半です。</div>
+                </div>
+                <div class="question-prompt">질문: 지금 몇 시입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 4시</div>
+                    <div class="option" data-answer="2">2. 4시 30분</div>
+                    <div class="option" data-answer="3">3. 5시</div>
+                    <div class="option" data-answer="4">4. 5시 30분</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 4시 30분</strong><br>
+                    "4時半です" = 4시 반입니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">10</div>
+                <div class="question-text">날씨와 계획</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(10)">▶️</button>
+                    <button class="play-button" onclick="playAudio(10)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(10)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-10">
+                    <div class="speaker female">여자: あしたは てんきが いいそうです。</div>
+                    <div class="speaker male">남자: じゃ、ピクニックに 行きましょう。</div>
+                </div>
+                <div class="question-prompt">질문: 내일 두 사람은 무엇을 할까요?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 쇼핑</div>
+                    <div class="option" data-answer="2">2. 영화 보기</div>
+                    <div class="option" data-answer="3">3. 피크닉</div>
+                    <div class="option" data-answer="4">4. 등산</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) 피크닉</strong><br>
+                    "ピクニックに行きましょう" = 피크닉을 가자
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">11</div>
+                <div class="question-text">전화 통화</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(11)">▶️</button>
+                    <button class="play-button" onclick="playAudio(11)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(11)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-11">
+                    <div class="speaker male">남자: もしもし、田中さんは いらっしゃいますか。</div>
+                    <div class="speaker female">여자: すみません、田中は 今 出かけています。</div>
+                </div>
+                <div class="question-prompt">질문: 다나카씨는 지금 어디에 있습니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 집에 있다</div>
+                    <div class="option" data-answer="2">2. 밖에 나가있다</div>
+                    <div class="option" data-answer="3">3. 회의 중이다</div>
+                    <div class="option" data-answer="4">4. 잠을 자고 있다</div>
+                </div>
+                <div class="explanation
+
+            <div class="question-card">
+                <div class="question-number">12</div>
+                <div class="question-text">취미 활동</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(12)">▶️</button>
+                    <button class="play-button" onclick="playAudio(12)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(12)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-12">
+                    <div class="speaker female">여자: 休みの日は 何を しますか。</div>
+                    <div class="speaker male">남자: よく 本を 読みます。あなたは？</div>
+                    <div class="speaker female">여자: 私は 音楽を 聞きます。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 쉬는 날에 무엇을 합니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 책을 읽는다</div>
+                    <div class="option" data-answer="2">2. 음악을 듣는다</div>
+                    <div class="option" data-answer="3">3. 영화를 본다</div>
+                    <div class="option" data-answer="4">4. 운동을 한다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 음악을 듣는다</strong><br>
+                    "私は音楽を聞きます" = 저는 음악을 듣습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">13</div>
+                <div class="question-text">쇼핑</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(13)">▶️</button>
+                    <button class="play-button" onclick="playAudio(13)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(13)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-13">
+                    <div class="speaker male">남자: この シャツは いかがですか。</div>
+                    <div class="speaker female">여자: 少し 大きいです。もっと 小さいのは ありませんか。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 셔츠에 대해 어떻게 생각합니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 너무 작다</div>
+                    <div class="option" data-answer="2">2. 너무 크다</div>
+                    <div class="option" data-answer="3">3. 색깔이 안 좋다</div>
+                    <div class="option" data-answer="4">4. 가격이 비싸다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 너무 크다</strong><br>
+                    "少し大きいです" = 조금 큽니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">14</div>
+                <div class="question-text">약속 시간</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(14)">▶️</button>
+                    <button class="play-button" onclick="playAudio(14)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(14)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-14">
+                    <div class="speaker female">여자: 明日 一緒に 映画を 見ませんか。</div>
+                    <div class="speaker male">남자: いいですね。何時に しましょうか。</div>
+                    <div class="speaker female">여자: 3時は どうですか。</div>
+                    <div class="speaker male">남자: はい、いいです。</div>
+                </div>
+                <div class="question-prompt">질문: 두 사람은 몇 시에 만날 예정입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 2시</div>
+                    <div class="option" data-answer="2">2. 3시</div>
+                    <div class="option" data-answer="3">3. 4시</div>
+                    <div class="option" data-answer="4">4. 5시</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 3시</strong><br>
+                    "3時はどうですか" → "はい、いいです" = 3시는 어떤가요? → 네, 좋습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">15</div>
+                <div class="question-text">날씨</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(15)">▶️</button>
+                    <button class="play-button" onclick="playAudio(15)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(15)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-15">
+                    <div class="speaker male">남자: 今日は 暑いですね。</div>
+                    <div class="speaker female">여자: そうですね。でも 明日は 涼しく なるそうです。</div>
+                </div>
+                <div class="question-prompt">질문: 내일 날씨는 어떨 예정입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 덥다</div>
+                    <div class="option" data-answer="2">2. 시원하다</div>
+                    <div class="option" data-answer="3">3. 춥다</div>
+                    <div class="option" data-answer="4">4. 비가 온다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 시원하다</strong><br>
+                    "明日は涼しくなるそうです" = 내일은 시원해질 것 같습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">16</div>
+                <div class="question-text">교통편</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(16)">▶️</button>
+                    <button class="play-button" onclick="playAudio(16)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(16)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-16">
+                    <div class="speaker female">여자: 学校まで どうやって 行きますか。</div>
+                    <div class="speaker male">남자: バスで 行きます。電車より 安いです。</div>
+                </div>
+                <div class="question-prompt">질문: 남자는 왜 버스로 가려고 합니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 빠르기 때문에</div>
+                    <div class="option" data-answer="2">2. 싸기 때문에</div>
+                    <div class="option" data-answer="3">3. 편하기 때문에</div>
+                    <div class="option" data-answer="4">4. 가깝기 때문에</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 싸기 때문에</strong><br>
+                    "電車より安いです" = 전차보다 싸습니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">17</div>
+                <div class="question-text">건강 상태</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(17)">▶️</button>
+                    <button class="play-button" onclick="playAudio(17)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(17)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-17">
+                    <div class="speaker male">남자: 大丈夫ですか。</div>
+                    <div class="speaker female">여자: はい、大丈夫です。少し 疲れただけです。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 어떤 상태입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 아프다</div>
+                    <div class="option" data-answer="2">2. 피곤하다</div>
+                    <div class="option" data-answer="3">3. 기쁘다</div>
+                    <div class="option" data-answer="4">4. 배고프다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 피곤하다</strong><br>
+                    "少し疲れただけです" = 조금 피곤할 뿐입니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">18</div>
+                <div class="question-text">주말 계획</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(18)">▶️</button>
+                    <button class="play-button" onclick="playAudio(18)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(18)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-18">
+                    <div class="speaker female">여자: 今度の 土曜日は 何を しますか。</div>
+                    <div class="speaker male">남자: 友達と テニスを します。日曜日は うちで 休みます。</div>
+                </div>
+                <div class="question-prompt">질문: 남자는 일요일에 무엇을 할 예정입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 테니스를 한다</div>
+                    <div class="option" data-answer="2">2. 친구를 만난다</div>
+                    <div class="option" data-answer="3">3. 집에서 쉰다</div>
+                    <div class="option" data-answer="4">4. 영화를 본다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) 집에서 쉰다</strong><br>
+                    "日曜日はうちで休みます" = 일요일에는 집에서 쉽니다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">19</div>
+                <div class="question-text">레스토랑에서</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(19)">▶️</button>
+                    <button class="play-button" onclick="playAudio(19)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(19)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-19">
+                    <div class="speaker male">남자: いらっしゃいませ。何に いたしますか。</div>
+                    <div class="speaker female">여자: カレーライスを お願いします。</div>
+                    <div class="speaker male">남자: 飲み物は いかがですか。</div>
+                    <div class="speaker female">여자: 水で お願いします。</div>
+                </div>
+                <div class="question-prompt">질문: 여자는 무엇을 주문했습니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 카레라이스와 커피</div>
+                    <div class="option" data-answer="2">2. 카레라이스와 물</div>
+                    <div class="option" data-answer="3">3. 라면과 물</div>
+                    <div class="option" data-answer="4">4. 초밥과 차</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) 카레라이스와 물</strong><br>
+                    "カレーライスをお願いします" + "水でお願いします" = 카레라이스 + 물
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">20</div>
+                <div class="question-text">선물</div>
+                <div class="audio-section">
+                    <div>🎯 대화를 듣고 질문에 답하세요</div>
+                    <button class="play-button" onclick="playAudio(20)">▶️</button>
+                    <button class="play-button" onclick="playAudio(20)">▶️</button>
+                </div>
+                <button class="show-dialogue-btn" onclick="toggleDialogue(20)">대화 내용 보기</button>
+                <div class="dialogue-section" id="dialogue-20">
+                    <div class="speaker female">여자: これ、つまらない ものですが...。</div>
+                    <div class="speaker male">남자: ありがとう ございます。何ですか。</div>
+                    <div class="speaker female">여자: 日本の お菓子です。</div>
+                    <div class="speaker male">남자: わあ、おいしそうですね。</div>
+                </div>
+                <div class="question-prompt">질문: 여자가 준 선물은 무엇입니까?</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 꽃</div>
+                    <div class="option" data-answer="2">2. 책</div>
+                    <div class="option" data-answer="3">3. 일본 과자</div>
+                    <div class="option" data-answer="4">4. 차</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) 일본 과자</strong><br>
+                    "日本のお菓子です" = 일본 과자입니다
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="check-button" onclick="checkAllAnswers()">정답 확인</button>
+                <button class="reset-button" onclick="resetQuiz()">다시 풀기</button>
+            </div>
+
+            <div class="score" id="scoreDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        // 정답 배열 (각 문제의 정답 번호)
+        const correctAnswers = [2, 3, 2, 3, 2, 1, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 3];
+        let userAnswers = {};
+
+        // 옵션 클릭 이벤트
+        document.querySelectorAll('.option').forEach((option, index) => {
+            option.addEventListener('click', function() {
+                const questionCard = this.closest('.question-card');
+                const questionNumber = parseInt(questionCard.querySelector('.question-number').textContent);
+                const answerNumber = parseInt(this.dataset.answer);
+                
+                // 같은 문제의 다른 옵션들의 선택 해제
+                questionCard.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // 현재 옵션 선택
+                this.classList.add('selected');
+                userAnswers[questionNumber] = answerNumber;
+            });
+        });
+
+        // 음성 재생 함수 (실제 환경에서는 실제 음성 파일을 사용)
+        function playAudio(questionNumber) {
+            // 실제 음성 재생 대신 시각적 피드백 제공
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🔊';
+            button.style.background = 'rgba(255, 255, 255, 0.5)';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'rgba(255, 255, 255, 0.2)';
+            }, 1000);
+            
+            // 실제로는 다음과 같이 구현:
+            // const audio = new Audio(`audio/question${questionNumber}.mp3`);
+            // audio.play();
+        }
+
+        // 대화 내용 토글 함수
+        function toggleDialogue(questionNumber) {
+            const dialogue = document.getElementById(`dialogue-${questionNumber}`);
+            const button = event.target;
+            
+            if (dialogue.classList.contains('show')) {
+                dialogue.classList.remove('show');
+                button.textContent = '대화 내용 보기';
+            } else {
+                dialogue.classList.add('show');
+                button.textContent = '대화 내용 숨기기';
+            }
+        }
+
+        function checkAllAnswers() {
+            let correctCount = 0;
+            const totalQuestions = correctAnswers.length;
+
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                const questionNumber = index + 1;
+                const correctAnswer = correctAnswers[index];
+                const userAnswer = userAnswers[questionNumber];
+                const explanation = card.querySelector('.explanation');
+                
+                // 정답 표시
+                card.querySelectorAll('.option').forEach(option => {
+                    const optionNumber = parseInt(option.dataset.answer);
+                    
+                    if (optionNumber === correctAnswer) {
+                        option.classList.add('correct');
+                    } else if (optionNumber === userAnswer && userAnswer !== correctAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                // 해설 표시
+                explanation.classList.add('show');
+                
+                // 정답 개수 카운트
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            // 점수 표시
+            const scorePercentage = Math.round((correctCount / totalQuestions) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.innerHTML = `
+                <h3>🎉 채점 결과</h3>
+                <p>${correctCount}/${totalQuestions}문제 정답 (${scorePercentage}점)</p>
+                <p>${getGradeMessage(scorePercentage)}</p>
+            `;
+            scoreDisplay.classList.add('show');
+
+            // 버튼 비활성화
+            document.querySelector('.check-button').disabled = true;
+        }
+
+        function getGradeMessage(score) {
+            if (score >= 90) return "🏆 훌륭해요! JLPT N5 듣기 실력이 뛰어나시네요!";
+            if (score >= 80) return "👍 잘했어요! 조금만 더 연습하면 완벽해질 거예요!";
+            if (score >= 70) return "📚 괜찮아요! 틀린 문제들을 다시 들어보세요!";
+            if (score >= 60) return "💪 아직 부족해요. 기초 듣기를 더 연습해보세요!";
+            return "📖 많은 연습이 필요해요. 포기하지 마세요!";
+        }
+
+        function resetQuiz() {
+            // 모든 선택 및 결과 초기화
+            userAnswers = {};
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.explanation').forEach(explanation => {
+                explanation.classList.remove('show');
+            });
+            
+            document.querySelectorAll('.dialogue-section').forEach(dialogue => {
+                dialogue.classList.remove('show');
+            });
+            
+            document.querySelectorAll('.show-dialogue-btn').forEach(btn => {
+                btn.textContent = '대화 내용 보기';
+            });
+            
+            document.getElementById('scoreDisplay').classList.remove('show');
+            document.querySelector('.check-button').disabled = false;
+            
+            // 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

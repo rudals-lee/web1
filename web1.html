@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>해커스 세무사 재정학 | 서호성 강사</title>
+    <meta name="description" content="해커스 세무사 재정학 과정 - 서호성 강사의 체계적인 커리큘럼으로 최단기간 합격을 목표로 합니다.">
+    
+    <!-- jQuery CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #667eea;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="3" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+        
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 60px 0;
+            margin-top: -40px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 2rem 1rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #f8f9ff;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        /* Study Method Section */
+        .study-method {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .method-item {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .method-step {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+        
+        .method-item h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        /* Instructor Section */
+        .instructor {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+        }
+        
+        .instructor-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .instructor-image {
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin: 0 auto;
+        }
+        
+        .instructor-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .instructor-info p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+        
+        .footer-section a:hover {
+            color: #667eea;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 2rem;
+            color: #999;
+        }
+        
+        /* Responsive Design - Mobile First */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .instructor-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .features-grid,
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card,
+            .method-item {
+                padding: 1.5rem 1rem;
+            }
+        }
+        
+        /* Cross-browser compatibility */
+        .feature-card,
+        .stat-item,
+        .method-step {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">해커스 세무사</a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">홈</a></li>
+                <li><a href="#features" class="nav-link">특징</a></li>
+                <li><a href="#method" class="nav-link">학습법</a></li>
+                <li><a href="#instructor" class="nav-link">강사소개</a></li>
+                <li><a href="#contact" class="nav-link">문의</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>2025년 제62회 세무사 재정학</h1>
+                <p class="hero-subtitle">서호성 강사와 함께하는 체계적인 재정학 완성</p>
+                <a href="#features" class="cta-button">수강신청 하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">중하</div>
+                    <div class="stat-label">2025년 시험 난이도</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15분</div>
+                    <div class="stat-label">목표 풀이 시간</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">80점</div>
+                    <div class="stat-label">목표 득점</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4개</div>
+                    <div class="stat-label">계산문제 출제</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">강의 특징</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>체계적인 커리큘럼</h3>
+                    <p>기본강의부터 객관식, 1일 특강까지 단계별 학습으로 완벽한 실력 완성</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>핵심 위주 학습</h3>
+                    <p>시험에 자주 출제되는 핵심 내용 위주로 효율적인 학습 진행</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3>시간 관리 전략</h3>
+                    <p>15분 내 80점 득점을 위한 실전 문제 풀이 전략 제공</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>통계적 기출 분석</h3>
+                    <p>기출문제 통계 분석을 통한 출제 경향 파악 및 대비</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧮</div>
+                    <h3>계산문제 완벽 대비</h3>
+                    <p>평이한 난이도의 계산문제 4개 완벽 대비 및 해결 전략</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>최신 출제 경향</h3>
+                    <p>2025년 최신 출제 경향 반영 및 신유형 문제 대비</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Study Method Section -->
+    <section id="method" class="study-method">
+        <div class="container">
+            <h2 class="section-title">학습 방법</h2>
+            <div class="method-grid">
+                <div class="method-item">
+                    <div class="method-step">1</div>
+                    <h3>기본강의 수강</h3>
+                    <p>재정학의 기본 개념과 이론을 체계적으로 학습</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-step">2</div>
+                    <h3>객관식 문제 풀이</h3>
+                    <p>다양한 객관식 문제를 통한 실전 감각 향상</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-step">3</div>
+                    <h3>기출문제 반복</h3>
+                    <p>기출문제와 모의고사를 통한 반복 학습</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-step">4</div>
+                    <h3>1일 특강 완성</h3>
+                    <p>최종 마무리 특강으로 시험 직전 완벽 대비</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructor Section -->
+    <section id="instructor" class="instructor">
+        <div class="container">
+            <div class="instructor-content">
+                <div class="instructor-image">👨‍🏫</div>
+                <div class="instructor-info">
+                    <h2>서호성 강사</h2>
+                    <p>해커스 세무사 재정학 전문 강사로, 수험생들이 최소의 노력으로 최대의 점수를 얻을 수 있도록 돕는 것을 목표로 합니다.</p>
+                    <p>재정학은 학문적 깊이보다 시험에 나오는 핵심 내용 위주 학습을 강조하며, 실전에서 바로 활용할 수 있는 문제 해결 능력 향상에 중점을 둡니다.</p>
+                    <p><strong>강의 철학:</strong> 이론에 깊이 빠지지 않고, 주제에 맞는 정답을 찾는 연습이 가장 중요합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>해커스 세무사</h3>
+                    <p>2025년 제62회 세무사 시험<br>재정학 완벽 대비</p>
+                </div>
+                <div class="footer-section">
+                    <h3>수강 문의</h3>
+                    <p>전화: 1588-0000<br>
+                    이메일: info@hackers.co.kr<br>
+                    운영시간: 09:00 - 18:00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>학습 자료</h3>
+                    <p><a href="#">기출문제 다운로드</a><br>
+                    <a href="#">모의고사 응시</a><br>
+                    <a href="#">학습 계획표</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 해커스 세무사. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Mobile menu toggle
+            $('.mobile-menu-btn').on('click', function() {
+                $('.nav-menu').toggleClass('active');
+            });
+            
+            // Smooth scrolling for navigation links
+            $('.nav-link').on('click', function(e) {
+                e.preventDefault();
+                const target = $(this).attr('href');
+                const targetPosition = $(target).offset().top - 80;
+                
+                $('html, body').animate({
+                    scrollTop: targetPosition
+                }, 800);
+                
+                // Close mobile menu if open
+                $('.nav-menu').removeClass('active');
+            });
+            
+            // Header scroll effect
+            $(window).on('scroll', function() {
+                const scrollTop = $(window).scrollTop();
+                if (scrollTop > 100) {
+                    $('.header').addClass('scrolled');
+                } else {
+                    $('.header').removeClass('scrolled');
+                }
+            });
+            
+            // Counter animation for stats
+            function animateCounters() {
+                $('.stat-number').each(function() {
+                    const $this = $(this);
+                    const countTo = $this.text();
+                    
+                    // Check if it's a number
+                    if (!isNaN(countTo)) {
+                        $({ countNum: 0 }).animate(
+                            { countNum: countTo },
+                            {
+                                duration: 2000,
+                                easing: 'swing',
+                                step: function() {
+                                    $this.text(Math.floor(this.countNum));
+                                },
+                                complete: function() {
+                                    $this.text(countTo);
+                                }
+                            }
+                        );
+                    }
+                });
+            }
+            
+            // Trigger counter animation when stats section is visible
+            $(window).on('scroll', function() {
+                const statsOffset = $('.stats').offset().top;
+                const windowTop = $(window).scrollTop() + $(window).height();
+                
+                if (windowTop > statsOffset && !$('.stats').hasClass('animated')) {
+                    $('.stats').addClass('animated');
+                    animateCounters();
+                }
+            });
+            
+            // Feature cards hover effect enhancement
+            $('.feature-card').on('mouseenter', function() {
+                $(this).find('.feature-icon').css('transform', 'scale(1.1) rotate(5deg)');
+            }).on('mouseleave', function() {
+                $(this).find('.feature-icon').css('transform', 'scale(1) rotate(0deg)');
+            });
+            
+            // Parallax effect for hero section
+            $(window).on('scroll', function() {
+                const scrolled = $(window).scrollTop();
+                $('.hero::before').css('transform', `translateY(${scrolled * 0.5}px)`);
+            });
+            
+            // Intersection Observer for animation (fallback for older browsers)
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+                
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, observerOptions);
+                
+                // Observe elements for animation
+                $('.feature-card, .method-item').each(function() {
+                    this.style.opacity = '0';
+                    this.style.transform = 'translateY(30px)';
+                    this.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(this);
+                });
+            }
+            
+            // CTA button click tracking
+            $('.cta-button').on('click', function(e) {
+                e.preventDefault();
+                
+                // Add some visual feedback
+                $(this).addClass('clicked');
+                setTimeout(() => {
+                    $(this).removeClass('clicked');
+                }, 200);
+                
+                // Scroll to features section
+                const targetPosition = $('#features').offset().top - 80;
+                $('html, body').animate({
+                    scrollTop: targetPosition
+                }, 800);
+            });
+            
+            // Add loading animation
+            $(window).on('load', function() {
+                $('body').addClass('loaded');
+            });
+        });
+        
+        // Cross-browser compatibility functions
+        function addCSSRule(sheet, selector, rules, index) {
+            if (sheet.insertRule) {
+                sheet.insertRule(selector + "{" + rules + "}", index);
+            } else {
+                sheet.addRule(selector, rules, index);
+            }
+        }
+        
+        // Polyfill for IE11
+        if (!Array.prototype.forEach) {
+            Array.prototype.forEach = function(callback, thisArg) {
+                for (var i = 0; i < this.length; i++) {
+                    callback.call(thisArg, this[i], i, this);
+                }
+            };
+        }
+    </script>
+</body>
+</html>

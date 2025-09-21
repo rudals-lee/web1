@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학습 가이드 - 일본어 히라가나 & 가타가나 학습</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           전역 스타일 설정 - 모든 요소에 적용되는 기본 스타일
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           헤더 스타일 - 네비게이션 메뉴
+           ========================================================================== */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            flex: 0 0 auto;
+            z-index: 1001;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* 햄버거 메뉴 버튼 */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        /* 네비게이션 메뉴 컨테이너 */
+        .nav-menu {
+            display: flex;
+            gap: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .nav-item > li > a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 드롭다운 메뉴 스타일 */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 5px;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item.highlighted {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .dropdown-item.highlighted:hover {
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+            transform: translateX(5px);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 5px 15px;
+        }
+
+        /* ==========================================================================
+           메인 콘텐츠 영역 스타일
+           ========================================================================== */
+        .main-content {
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ==========================================================================
+           제목 및 텍스트 스타일
+           ========================================================================== */
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            word-break: keep-all;
+        }
+
+        h2 {
+            color: #4a5568;
+            margin: 40px 0 20px 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #667eea;
+            margin: 25px 0 15px 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h4 {
+            color: #2d3748;
+            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #4a5568;
+            font-size: 1rem;
+        }
+
+        /* ==========================================================================
+           학습 단계 카드 스타일
+           ========================================================================== */
+        .learning-phase {
+            background: linear-gradient(45deg, #f8f9ff, #ffffff);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .learning-phase:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .phase-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .phase-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .phase-duration {
+            background: #ffeaa7;
+            color: #e17055;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-left: auto;
+        }
+
+        /* ==========================================================================
+           팁과 주의사항 박스
+           ========================================================================== */
+        .tip-box {
+            background: linear-gradient(45deg, #d4edda, #c3e6cb);
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .warning-box {
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-box {
+            background: linear-gradient(45deg, #f8d7da, #f5c6cb);
+            border-left: 5px solid #dc3545;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ==========================================================================
+           문자 비교 테이블
+           ========================================================================== */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        .japanese-example {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        /* ==========================================================================
+           프로그레스 바 스타일
+           ========================================================================== */
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 25px;
+            height: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border-radius: 25px;
+            transition: width 0.3s ease;
+        }
+
+        /* ==========================================================================
+           체크리스트 스타일
+           ========================================================================== */
+        .checklist {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1rem;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li i {
+            color: #4ecdc4;
+            font-size: 1.2rem;
+            width: 20px;
+        }
+
+        /* ==========================================================================
+           학습 스케줄 테이블
+           ========================================================================== */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table th {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .schedule-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        /* ==========================================================================
+           연습 방법 카드
+           ========================================================================== */
+        .practice-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .method-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .method-icon {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .method-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .method-description {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           반응형 디자인
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                justify-content: space-between;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(102, 126, 234, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 20px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .nav-item {
+                width: 90%;
+                max-width: 300px;
+                margin-bottom: 10px;
+            }
+
+            .nav-item > li > a {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                justify-content: space-between;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+                border: none;
+                border-radius: 10px;
+                margin-top: 10px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-item.active .dropdown {
+                max-height: 500px;
+            }
+
+            .nav-item.active .dropdown-icon {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-item {
+                background: rgba(255, 255, 255, 0.1);
+                margin: 5px 10px;
+                color: white;
+                border-radius: 8px;
+                padding: 12px 15px;
+            }
+
+            .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: none;
+                color: white;
+            }
+
+            .dropdown-item.highlighted {
+                background: rgba(255, 255, 255, 0.3);
+                color: white;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .practice-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .phase-duration {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .learning-phase {
+                padding: 20px;
+            }
+        }
+
+        /* ==========================================================================
+           애니메이션 효과
+           ========================================================================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .learning-phase:nth-child(1) { animation-delay: 0.1s; }
+        .learning-phase:nth-child(2) { animation-delay: 0.2s; }
+        .learning-phase:nth-child(3) { animation-delay: 0.3s; }
+        .learning-phase:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- 메인 헤더 영역 -->
+    <header>
+        <nav>
+            <ul>
+                <!-- 로고 영역 -->
+                <div class="logo">
+                    <a href="/JLPT 5급 시험/히라가나.가타가나.html">🗾 일본어 학습</a>
+                </div>
+
+                <!-- 모바일 햄버거 메뉴 버튼 -->
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </button>
+
+                <!-- 네비게이션 메뉴 -->
+                <div class="nav-menu" id="navMenu">
+                    <!-- HOME 메뉴 항목 -->
+                    <div class="nav-item">
+                        <li><a href="/JLPT 5급 시험/히라가나.가타가나.html">HOME</a></li>
+                    </div>
+
+                    <!-- 학습 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#learning" onclick="toggleDropdown(this)">학습 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="index.html#hiragana" class="dropdown-item">
+                                <i class="fas fa-language"></i>히라가나
+                            </a>
+                            <a href="index.html#katakana" class="dropdown-item">
+                                <i class="fas fa-font"></i>가타가나
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  문법 .html" class="dropdown-item">
+                                <i class="fas fa-book"></i>문법
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  읽기.html" class="dropdown-item">
+                                <i class="fas fa-book-reader"></i>읽기
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  듣기.html" class="dropdown-item">
+                                <i class="fas fa-headphones"></i>듣기
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  한자.html" class="dropdown-item">
+                                <i class="fas fa-language"></i>한자
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i>연습하기
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 도구 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#tools" onclick="toggleDropdown(this)">도구 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="/JLPT 5급 시험/문자 변환기.html" class="dropdown-item">
+                                <i class="fas fa-exchange-alt"></i>문자 변환기
+                            </a>
+                            <a href="/JLPT 5급 시험/퀴즈.html" class="dropdown-item">
+                                <i class="fas fa-question-circle"></i>퀴즈
+                            </a>
+                            <a href="/JLPT 5급 시험/플래시 카드.html" class="dropdown-item">
+                                <i class="fas fa-clone"></i>플래시카드
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 정보 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#info" onclick="toggleDropdown(this)">정보 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="/JLPT 5급 시험/사이트 소개.html" class="dropdown-item">
+                                <i class="fas fa-info-circle"></i>사이트 소개
+                            </a>
+                            <a href="/JLPT 5급 시험/학습 가이드.html" class="dropdown-item highlighted">
+                                <i class="fas fa-book"></i>학습 가이드
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/JLPT 5급 시험/문의하기.html" class="dropdown-item">
+                                <i class="fas fa-envelope"></i>문의하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <div class="container">
+            <!-- 페이지 제목 -->
+            <h1 class="fade-in">📚 일본어 히라가나 & 가타가나 학습 가이드</h1>
+
+            <!-- 시작하기 전에 -->
+            <h2><i class="fas fa-flag-checkered"></i>시작하기 전에</h2>
+            
+            <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> 학습 전 준비사항</h4>
+                <p><strong>목표 설정</strong>: 명확한 학습 목표를 설정하세요 (예: 1개월 내 히라가나 완성)</p>
+                <p><strong>학습 환경</strong>: 집중할 수 있는 조용한 공간과 필기 도구를 준비하세요</p>
+                <p><strong>시간 계획</strong>: 하루 15-30분의 규칙적인 학습 시간을 정하세요</p>
+            </div>
+
+            <!-- 히라가나 vs 가타가나 비교 -->
+            <h2><i class="fas fa-balance-scale"></i>히라가나 vs 가타가나</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>히라가나 (ひらがな)</th>
+                        <th>가타가나 (カタカナ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>주요 용도</strong></td>
+                        <td>일본어 고유어, 조사, 어미</td>
+                        <td>외래어, 외국 지명·인명</td>
+                    </tr>
+                    <tr>
+                        <td><strong>문자 특징</strong></td>
+                        <td>둥글고 부드러운 형태</td>
+                        <td>각지고 직선적인 형태</td>
+                    </tr>
+                    <tr>
+                        <td><strong>예시</strong></td>
+                        <td><span class="japanese-example">こんにちは (안녕하세요)</span></td>
+                        <td><span class="japanese-example">コーヒー (커피)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>학습 우선순위</strong></td>
+                        <td>1순위 (먼저 학습)</td>
+                        <td>2순위 (히라가나 후 학습)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 단계별 학습 방법 -->
+            <h2><i class="fas fa-stairs"></i>단계별 학습 방법</h2>
+
+            <!-- 1단계: 히라가나 기초 -->
+            <div class="learning-phase fade-in">
+                <div class="phase-header">
+                    <div class="phase-number">1</div>
+                    <div class="phase-title">히라가나 기초 마스터</div>
+                    <div class="phase-duration">1-2주</div>
+                </div>
+                
+                <h4>🎯 학습 목표</h4>
+                <p>기본 히라가나 46자를 완벽하게 읽고 쓸 수 있게 되기</p>
+                
+                <h4>📖 학습 순서</h4>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>あいうえお (아이우에오) 모음 5자부터 시작</li>
+                    <li><i class="fas fa-check-circle"></i>か행 (ka, ki, ku, ke, ko) 학습</li>
+                    <li><i class="fas fa-check-circle"></i>さ행 → た행 → な행 순서로 진행</li>
+                    <li><i class="fas fa-check-circle"></i>は행 → ま행 → や행 → ら행 → わ행 완성</li>
+                </ul>
+
+                <div class="tip-box">
+                    <h4><i class="fas fa-star"></i> 효과적인 암기법</h4>
+                    <p><strong>시각적 연상</strong>: 각 문자의 모양을 그림이나 패턴으로 연상해보세요</p>
+                    <p><strong>반복 쓰기</strong>: 하루에 각 문자를 최소 10번씩 써보세요</p>
+                    <p><strong>음성 학습</strong>: 발음을 소리 내어 읽으며 청각적 기억도 활용하세요</p>
+                </div>
+            </div>
+
+            <!-- 2단계: 탁음·반탁음 -->
+            <div class="learning-phase fade-in">
+                <div class="phase-header">
+                    <div class="phase-number">2</div>
+                    <div class="phase-title">탁음·반탁음 정복</div>
+                    <div class="phase-duration">3-5일</div>
+                </div>
+                
+                <h4>🎯 학습 목표</h4>
+                <p>탁음(゛)과 반탁음(゜)이 붙은 문자들의 발음 변화 규칙 이해</p>
+                
+                <h4>📖 핵심 포인트</h4>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>탁음: が, ざ, だ, ば (점 2개 ゛)</li>
+                    <li><i class="fas fa-check-circle"></i>반탁음: ぱ, ぴ, ぷ, ぺ, ぽ (작은 원 ゜)</li>
+                    <li><i class="fas fa-check-circle"></i>발음 규칙: 기본음 + 탁음/반탁음 변화 패턴 이해</li>
+                    <li><i class="fas fa-check-circle"></i>특수 문자: ん (n) 학습</li>
+                </ul>
+
+                <div class="warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> 주의사항</h4>
+                    <p><strong>혼동 주의</strong>: ず와 づ, じ와 ぢ는 발음이 같지만 사용법이 다릅니다</p>
+                    <p><strong>쓰기 순서</strong>: 기본 문자를 먼저 쓴 후 탁점이나 반탁점을 추가하세요</p>
+                </div>
+            </div>
+
+            <!-- 3단계: 가타가나 -->
+            <div class="learning-phase fade-in">
+                <div class="phase-header">
+                    <div class="phase-number">3</div>
+                    <div class="phase-title">가타가나 마스터</div>
+                    <div class="phase-duration">1-2주</div>
+                </div>
+                
+                <h4>🎯 학습 목표</h4>
+                <p>가타가나 46자 + 탁음·반탁음을 완벽하게 습득하여 외래어 읽기 가능</p>
+                
+                <h4>📖 학습 전략</h4>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>히라가나와 같은 순서로 학습 (ア → カ → サ...)</li>
+                    <li><i class="fas fa-check-circle"></i>히라가나와 발음이 같다는 점 활용</li>
+                    <li><i class="fas fa-check-circle"></i>외래어 단어 예시와 함께 학습</li>
+                    <li><i class="fas fa-check-circle"></i>히라가나와 구별하여 쓰기 연습</li>
+                </ul>
+
+                <div class="tip-box">
+                    <h4><i class="fas fa-rocket"></i> 빠른 습득 팁</h4>
+                    <p><strong>대응 관계</strong>: あ↔ア, か↔カ처럼 히라가나-가타가나 쌍으로 기억</p>
+                    <p><strong>실제 단어</strong>: コーヒー(커피), テレビ(TV) 등 친숙한 외래어로 연습</p>
+                    <p><strong>차이점 강조</strong>: 비슷한 모양의 문자들(シとツ, ソとン) 집중 학습</p>
+                </div>
+            </div>
+
+            <!-- 4단계: 종합 연습 -->
+            <div class="learning-phase fade-in">
+                <div class="phase-header">
+                    <div class="phase-number">4</div>
+                    <div class="phase-title">종합 연습 & 응용</div>
+                    <div class="phase-duration">지속적</div>
+                </div>
+                
+                <h4>🎯 학습 목표</h4>
+                <p>히라가나와 가타가나를 혼합하여 실제 일본어 문장 읽기</p>
+                
+                <h4>📖 연습 방법</h4>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>간단한 일본어 문장 읽기 연습</li>
+                    <li><i class="fas fa-check-circle"></i>히라가나↔가타가나 변환 연습</li>
+                    <li><i class="fas fa-check-circle"></i>속도 향상을 위한 반복 훈련</li>
+                    <li><i class="fas fa-check-circle"></i>실제 일본어 콘텐츠 활용 (만화, 간판 등)</li>
+                </ul>
+            </div>
+
+            <!-- 효과적인 연습 방법 -->
+            <h2><i class="fas fa-dumbbell"></i>효과적인 연습 방법</h2>
+            
+            <div class="practice-methods">
+                <div class="method-card">
+                    <i class="fas fa-eye method-icon"></i>
+                    <div class="method-title">시각적 학습</div>
+                    <div class="method-description">
+                        문자의 모양과 패턴을 시각적으로 기억하세요. 각 문자를 그림처럼 연상하여 암기하는 것이 효과적입니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-hand-paper method-icon"></i>
+                    <div class="method-title">쓰기 연습</div>
+                    <div class="method-description">
+                        반복적인 쓰기 연습으로 근육 기억을 형성하세요. 올바른 획순을 지켜 정확하게 써보는 것이 중요합니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-volume-up method-icon"></i>
+                    <div class="method-title">발음 연습</div>
+                    <div class="method-description">
+                        각 문자를 소리 내어 읽으며 청각적 기억을 활용하세요. 정확한 발음으로 반복 학습하는 것이 효과적입니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-gamepad method-icon"></i>
+                    <div class="method-title">게임화 학습</div>
+                    <div class="method-description">
+                        퀴즈나 플래시카드 등 재미있는 방식으로 학습하세요. 지루하지 않게 꾸준히 할 수 있는 방법을 찾는 것이 핵심입니다.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 주간 학습 스케줄 -->
+            <h2><i class="fas fa-calendar-alt"></i>추천 주간 학습 스케줄</h2>
+            
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>주차</th>
+                        <th>월</th>
+                        <th>화</th>
+                        <th>수</th>
+                        <th>목</th>
+                        <th>금</th>
+                        <th>토</th>
+                        <th>일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1주차</strong></td>
+                        <td>あ행 학습</td>
+                        <td>か행 학습</td>
+                        <td>さ행 학습</td>
+                        <td>た행 학습</td>
+                        <td>な행 학습</td>
+                        <td>복습</td>
+                        <td>종합 테스트</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2주차</strong></td>
+                        <td>は행 학습</td>
+                        <td>ま행 학습</td>
+                        <td>や행 학습</td>
+                        <td>ら행 학습</td>
+                        <td>わ행 + ん</td>
+                        <td>전체 복습</td>
+                        <td>히라가나 완성</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3주차</strong></td>
+                        <td>탁음 학습</td>
+                        <td>반탁음 학습</td>
+                        <td>특수문자 연습</td>
+                        <td>히라가나 총복습</td>
+                        <td>가타가나 준비</td>
+                        <td>가타가나 시작</td>
+                        <td>진도 점검</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4주차</strong></td>
+                        <td>가타가나 기초</td>
+                        <td>가타가나 심화</td>
+                        <td>탁음·반탁음</td>
+                        <td>혼합 연습</td>
+                        <td>실전 연습</td>
+                        <td>종합 평가</td>
+                        <td>다음 단계 준비</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 학습 진도 체크리스트 -->
+            <h2><i class="fas fa-tasks"></i>학습 진도 체크리스트</h2>
+
+            <h3><i class="fas fa-list-check"></i>히라가나 체크리스트</h3>
+            <div class="tip-box">
+                <h4>기본 문자 (46자)</h4>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 0%" id="hiragana-basic-progress"></div>
+                </div>
+                <ul class="checklist">
+                    <li><i class="far fa-square"></i>あ행 (あいうえお) - 5자</li>
+                    <li><i class="far fa-square"></i>か행 (かきくけこ) - 5자</li>
+                    <li><i class="far fa-square"></i>さ행 (さしすせそ) - 5자</li>
+                    <li><i class="far fa-square"></i>た행 (たちつてと) - 5자</li>
+                    <li><i class="far fa-square"></i>な행 (なにぬねの) - 5자</li>
+                    <li><i class="far fa-square"></i>は행 (はひふへほ) - 5자</li>
+                    <li><i class="far fa-square"></i>ま행 (まみむめも) - 5자</li>
+                    <li><i class="far fa-square"></i>や행 (やゆよ) - 3자</li>
+                    <li><i class="far fa-square"></i>ら행 (らりるれろ) - 5자</li>
+                    <li><i class="far fa-square"></i>わ행 (わを) + ん - 3자</li>
+                </ul>
+            </div>
+
+            <h3><i class="fas fa-list-check"></i>가타가나 체크리스트</h3>
+            <div class="warning-box">
+                <h4>기본 문자 (46자)</h4>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 0%" id="katakana-basic-progress"></div>
+                </div>
+                <ul class="checklist">
+                    <li><i class="far fa-square"></i>ア행 (アイウエオ) - 5자</li>
+                    <li><i class="far fa-square"></i>カ행 (カキクケコ) - 5자</li>
+                    <li><i class="far fa-square"></i>サ행 (サシスセソ) - 5자</li>
+                    <li><i class="far fa-square"></i>タ행 (タチツテト) - 5자</li>
+                    <li><i class="far fa-square"></i>ナ행 (ナニヌネノ) - 5자</li>
+                    <li><i class="far fa-square"></i>ハ행 (ハヒフヘホ) - 5자</li>
+                    <li><i class="far fa-square"></i>マ행 (マミムメモ) - 5자</li>
+                    <li><i class="far fa-square"></i>ヤ행 (ヤユヨ) - 3자</li>
+                    <li><i class="far fa-square"></i>ラ행 (ラリルレロ) - 5자</li>
+                    <li><i class="far fa-square"></i>ワ행 (ワヲ) + ン - 3자</li>
+                </ul>
+            </div>
+
+            <!-- 자주 하는 실수 -->
+            <h2><i class="fas fa-exclamation-circle"></i>자주 하는 실수와 해결법</h2>
+
+            <div class="error-box">
+                <h4><i class="fas fa-times-circle"></i> 흔한 실수들</h4>
+                <p><strong>🔄 비슷한 문자 혼동</strong></p>
+                <p>• は(ha)와 ほ(ho) 구별하기</p>
+                <p>• シ(shi)와 ツ(tsu) 방향 주의하기</p>
+                <p>• ソ(so)와 ン(n) 각도 차이 인식하기</p>
+                
+                <p><strong>📝 쓰기 실수</strong></p>
+                <p>• 획순을 무시하고 쓰기</p>
+                <p>• 비례와 균형 무시하기</p>
+                <p>• 탁점/반탁점 위치 틀리기</p>
+
+                <p><strong>🔊 발음 실수</strong></p>
+                <p>• 장모음(ー) 무시하기</p>
+                <p>• 촉음(っ) 발음 빼먹기</p>
+                <p>• し와 ち 발음 구별 못하기</p>
+            </div>
+
+            <!-- 학습 도구 활용법 -->
+            <h2><i class="fas fa-tools"></i>학습 도구 활용법</h2>
+
+            <div class="practice-methods">
+                <div class="method-card">
+                    <i class="fas fa-computer method-icon"></i>
+                    <div class="method-title">웹사이트 활용</div>
+                    <div class="method-description">
+                        이 사이트의 인터랙티브 차트를 매일 활용하세요. 문자를 클릭하여 시각적 피드백을 받으며 반복 학습할 수 있습니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-sticky-note method-icon"></i>
+                    <div class="method-title">플래시카드</div>
+                    <div class="method-description">
+                        앞면에는 히라가나/가타가나, 뒷면에는 로마자를 적어 반복 학습하세요. 디지털 앱이나 종이 카드 모두 효과적입니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-book method-icon"></i>
+                    <div class="method-title">워크북 활용</div>
+                    <div class="method-description">
+                        별도의 연습장을 만들어 매일 쓰기 연습을 하세요. 하루 한 페이지씩 꾸준히 쓰는 것이 실력 향상의 지름길입니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-mobile-alt method-icon"></i>
+                    <div class="method-title">모바일 학습</div>
+                    <div class="method-description">
+                        이동 중이나 잠깐의 여유 시간을 활용하여 스마트폰으로 복습하세요. 작은 시간도 모이면 큰 실력이 됩니다.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 레벨별 목표 설정 -->
+            <h2><i class="fas fa-target"></i>레벨별 목표 설정</h2>
+
+            <div class="learning-phase">
+                <h3><i class="fas fa-baby"></i>초급 레벨 (1-2개월)</h3>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>히라가나 46자 완벽 암기</li>
+                    <li><i class="fas fa-check-circle"></i>가타가나 46자 완벽 암기</li>
+                    <li><i class="fas fa-check-circle"></i>탁음·반탁음 모든 문자 학습</li>
+                    <li><i class="fas fa-check-circle"></i>1분 내 모든 문자 읽기 가능</li>
+                </ul>
+            </div>
+
+            <div class="learning-phase">
+                <h3><i class="fas fa-user-graduate"></i>중급 레벨 (2-3개월)</h3>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>단어 단위로 빠르게 읽기</li>
+                    <li><i class="fas fa-check-circle"></i>간단한 문장 읽기 가능</li>
+                    <li><i class="fas fa-check-circle"></i>히라가나↔가타가나 변환 숙달</li>
+                    <li><i class="fas fa-check-circle"></i>외래어 정확히 읽기</li>
+                </ul>
+            </div>
+
+            <!-- 자주 묻는 질문 -->
+            <h2><i class="fas fa-question-circle"></i>자주 묻는 질문 (FAQ)</h2>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-clock"></i> Q: 하루에 얼마나 공부해야 하나요?</h4>
+                <p><strong>A:</strong> 초보자는 하루 15-20분이 적당합니다. 짧더라도 매일 꾸준히 하는 것이 중요합니다. 익숙해지면 30분까지 늘려보세요.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4><i class="fas fa-route"></i> Q: 히라가나와 가타가나 중 어느 것을 먼저 배워야 하나요?</h4>
+                <p><strong>A:</strong> 히라가나를 먼저 배우는 것을 강력히 추천합니다. 히라가나가 일본어의 기본이며, 사용 빈도도 훨씬 높습니다.</p>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-brain"></i> Q: 암기가 잘 안 되는데 어떻게 해야 하나요?</h4>
+                <p><strong>A:</strong> 여러 감각을 동시에 활용하세요. 보면서(시각), 쓰면서(촉각), 읽으면서(청각) 학습하면 기억에 더 오래 남습니다.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4><i class="fas fa-hourglass-half"></i> Q: 완전히 익히는 데 얼마나 걸리나요?</h4>
+                <p><strong>A:</strong> 개인차가 있지만, 매일 20분씩 공부하면 히라가나는 2-3주, 가타가나는 1-2주 정도 소요됩니다. 총 1-2개월이면 충분합니다.</p>
+            </div>
+
+            <!-- 다음 단계 안내 -->
+            <h2><i class="fas fa-arrow-right"></i>가나 마스터 후 다음 단계</h2>
+
+            <div class="learning-phase">
+                <h3><i class="fas fa-graduation-cap"></i>한자 학습 준비</h3>
+                <p>히라가나와 가타가나를 완전히 익혔다면, 이제 한자 학습을 시작할 차례입니다. JLPT 5급 수준의 기초 한자부터 차근차근 시작하세요.</p>
+                
+                <h4>추천 학습 순서:</h4>
+                <ul class="checklist">
+                    <li><i class="fas fa-check-circle"></i>숫자 한자 (一二三四五六七八九十)</li>
+                    <li><i class="fas fa-check-circle"></i>요일 한자 (月火水木金土日)</li>
+                    <li><i class="fas fa-check-circle"></i>기본 동사 한자 (見食飲読書)</li>
+                    <li><i class="fas fa-check-circle"></i>일상 명사 한자 (人本車家学校)</li>
+                </ul>
+            </div>
+
+            <!-- 동기 부여 섹션 -->
+            <div class="learning-phase">
+                <h3><i class="fas fa-heart"></i>동기 부여 및 격려</h3>
+                <p><strong>🌸 축하합니다!</strong> 히라가나와 가타가나 학습을 시작하신 것만으로도 일본어 마스터로의 첫걸음을 내디뎠습니다.</p>
+                
+                <p><strong>💪 포기하지 마세요!</strong> 처음에는 어려워 보일 수 있지만, 꾸준히 반복하면 반드시 익힐 수 있습니다. 많은 사람들이 이미 성공했습니다.</p>
+                
+                <p><strong>🎯 작은 성취를 축하하세요!</strong> 하나의 행을 완전히 익힐 때마다 스스로를 격려해주세요. 작은 성공들이 모여 큰 실력이 됩니다.</p>
+                
+                <div class="tip-box">
+                    <h4><i class="fas fa-trophy"></i> 성공을 위한 마음가짐</h4>
+                    <p><strong>🐢 거북이처럼</strong>: 빠르게 하려 하지 말고 꾸준히, 정확하게</p>
+                    <p><strong>🔄 실수는 성장</strong>: 틀려도 괜찮습니다. 실수를 통해 더 확실하게 기억됩니다</p>
+                    <p><strong>🎉 즐거움 유지</strong>: 학습을 즐겁게 만드는 나만의 방법을 찾아보세요</p>
+                </div>
+            </div>
+
+            <!-- 추가 학습 자료 -->
+            <h2><i class="fas fa-plus-circle"></i>추가 학습 자료 추천</h2>
+
+            <div class="practice-methods">
+                <div class="method-card">
+                    <i class="fas fa-book-open method-icon"></i>
+                    <div class="method-title">교재 추천</div>
+                    <div class="method-description">
+                        초보자용 히라가나·가타가나 교재를 병행하여 다양한 연습 문제를 풀어보세요. 시중의 기초 일본어 교재들이 도움이 됩니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-video method-icon"></i>
+                    <div class="method-title">동영상 학습</div>
+                    <div class="method-description">
+                        YouTube 등에서 히라가나·가타가나 쓰기 순서와 발음을 보여주는 영상을 활용하세요. 시각과 청각을 동시에 활용할 수 있습니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-users method-icon"></i>
+                    <div class="method-title">스터디 그룹</div>
+                    <div class="method-description">
+                        온라인이나 오프라인에서 같이 공부할 동료를 찾아보세요. 서로 문제를 내고 격려하며 공부하면 더욱 효과적입니다.
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <i class="fas fa-calendar-check method-icon"></i>
+                    <div class="method-title">학습 일지</div>
+                    <div class="method-description">
+                        매일의 학습 내용과 진도를 기록하세요. 성취감을 느끼고 부족한 부분을 파악하는 데 도움이 됩니다.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 마무리 응원 메시지 -->
+            <div class="learning-phase" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;">
+                <h3 style="color: #ffd700;"><i class="fas fa-star"></i>마지막 응원의 말</h3>
+                <p style="color: rgba(255, 255, 255, 0.9);">일본어 학습은 마라톤과 같습니다. 빠르게 달리려 하지 말고, 꾸준히 자신만의 페이스를 유지하세요. 히라가나와 가타가나는 일본어 학습의 든든한 기초가 될 것입니다.</p>
+                
+                <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0;"><strong>頑張って！(간바떼!) 화이팅!</strong> 여러분의 일본어 여정을 응원합니다! 🌸</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 모바일 메뉴 토글 기능
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                menuIcon.className = 'fas fa-times';
+            } else {
+                menuIcon.className = 'fas fa-bars';
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+            }
+        }
+
+        // 모바일에서 드롭다운 토글
+        function toggleDropdown(element) {
+            if (window.innerWidth <= 768) {
+                const navItem = element.closest('.nav-item');
+                const wasActive = navItem.classList.contains('active');
+                
+                const allNavItems = document.querySelectorAll('.nav-item');
+                allNavItems.forEach(item => item.classList.remove('active'));
+                
+                if (!wasActive) {
+                    navItem.classList.add('active');
+                }
+            }
+        }
+
+        // 화면 크기 변경 시 모바일 메뉴 상태 리셋
+        window.addEventListener('resize', function() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                menuIcon.className = 'fas fa-bars';
+                
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+            }
+        });
+
+        // 모바일 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (window.innerWidth <= 768 && 
+                navMenu.classList.contains('active') && 
+                !nav.contains(e.target)) {
+                toggleMobileMenu();
+            }
+        });
+
+        // ESC 키로 모바일 메뉴 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const navMenu = document.getElementById('navMenu');
+                if (navMenu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+
+        // 체크리스트 클릭 기능
+        function toggleChecklistItem(element) {
+            const icon = element.querySelector('i');
+            const progressBars = document.querySelectorAll('.progress-bar');
+            
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far', 'fa-square');
+                icon.classList.add('fas', 'fa-check-square');
+                icon.style.color = '#4ecdc4';
+            } else {
+                icon.classList.remove('fas', 'fa-check-square');
+                icon.classList.add('far', 'fa-square');
+                icon.style.color = '#4ecdc4';
+            }
+            
+            // 진도율 업데이트
+            updateProgress();
+        }
+
+        // 진도율 계산 및 업데이트
+        function updateProgress() {
+            // 히라가나 진도율
+            const hiraganaChecks = document.querySelectorAll('#hiragana-basic-progress').length > 0 ? 
+                document.querySelectorAll('.tip-box .checklist .fas.fa-check-square').length : 0;
+            const hiraganaTotal = document.querySelectorAll('.tip-box .checklist li').length;
+            const hiraganaProgress = hiraganaTotal > 0 ? (hiraganaChecks / hiraganaTotal) * 100 : 0;
+            
+            // 가타가나 진도율
+            const katakanaChecks = document.querySelectorAll('#katakana-basic-progress').length > 0 ? 
+                document.querySelectorAll('.warning-box .checklist .fas.fa-check-square').length : 0;
+            const katakanaTotal = document.querySelectorAll('.warning-box .checklist li').length;
+            const katakanaProgress = katakanaTotal > 0 ? (katakanaChecks / katakanaTotal) * 100 : 0;
+            
+            // 프로그레스 바 업데이트
+            const hiraganaBar = document.getElementById('hiragana-basic-progress');
+            const katakanaBar = document.getElementById('katakana-basic-progress');
+            
+            if (hiraganaBar) hiraganaBar.style.width = hiraganaProgress + '%';
+            if (katakanaBar) katakanaBar.style.width = katakanaProgress + '%';
+        }
+
+        // 부드러운 스크롤 효과
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            // 체크리스트 클릭 이벤트 추가
+            const checklistItems = document.querySelectorAll('.checklist li');
+            checklistItems.forEach(item => {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', function() {
+                    toggleChecklistItem(this);
+                });
+            });
+
+            // 페이드 인 애니메이션 적용
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            // 학습 단계 카드 순차 애니메이션
+            const learningPhases = document.querySelectorAll('.learning-phase');
+            learningPhases.forEach((phase, index) => {
+                phase.classList.add('fade-in');
+                phase.style.animationDelay = `${index * 0.15}s`;
+            });
+
+            // 스크롤 시 애니메이션 효과
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // 카드들에 스크롤 애니메이션 적용
+            const cards = document.querySelectorAll('.method-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+
+            // 툴팁 효과 (호버 시 추가 정보 표시)
+            const methodCards = document.querySelectorAll('.method-card');
+            methodCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.borderTop = '4px solid #ff6b6b';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.borderTop = '4px solid #667eea';
+                });
+            });
+
+            // 프로그레스 바 초기 애니메이션
+            setTimeout(() => {
+                updateProgress();
+            }, 500);
+        });
+
+        // 학습 타이머 기능 (추가 기능)
+        let studyTimer = null;
+        let studyTime = 0;
+
+        function startStudyTimer() {
+            if (studyTimer) return;
+            
+            studyTimer = setInterval(() => {
+                studyTime++;
+                const minutes = Math.floor(studyTime / 60);
+                const seconds = studyTime % 60;
+                console.log(`학습 시간: ${minutes}분 ${seconds}초`);
+            }, 1000);
+        }
+
+        function stopStudyTimer() {
+            if (studyTimer) {
+                clearInterval(studyTimer);
+                studyTimer = null;
+                const minutes = Math.floor(studyTime / 60);
+                const seconds = studyTime % 60;
+                alert(`오늘 학습 시간: ${minutes}분 ${seconds}초\n수고하셨습니다! 🎉`);
+                studyTime = 0;
+            }
+        }
+
+        // 페이지 벗어날 때 타이머 정리
+        window.addEventListener('beforeunload', function() {
+            if (studyTimer) {
+                stopStudyTimer();
+            }
+        });
+    </script>
+
+</body>
+</html>

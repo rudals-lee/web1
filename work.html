@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 문서 인코딩 및 기본 메타데이터 설정 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    
+    <!-- 외부 CSS 파일 및 폰트 링크 -->
+    <link rel="stylesheet" href="/styles/work_style.css"> <!-- 메인 스타일시트 -->
+    <!-- Google Fonts - Montserrat 폰트 (영문용) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Pretendard 폰트 (한글용) -->
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Swiper 슬라이더 라이브러리 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
+    <!-- Font Awesome 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- JavaScript 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script> <!-- Swiper JS -->
+    
+<style>
+/* ============ Footer 스타일 ============ */
+footer {
+    background: #222; /* 어두운 배경색 */
+    color: white; /* 흰색 텍스트 */
+    padding: 3rem 0 1rem; /* 상단 3rem, 하단 1rem 패딩 */
+    margin-top: 4rem; /* 상단 마진 4rem */
+}
+
+/* Footer 내부 컨테이너 */
+footer .ftinner{ 
+    margin: 0 auto; /* 중앙 정렬 */
+    width: 83.33%; /* 전체 너비의 83.33% */
+}
+
+/* Footer 메인 제목 스타일 */
+footer .ftinner strong{
+    font-size: 32px; 
+    padding-top: 50px; 
+    display: block; 
+    font-family: "Montserrat", sans-serif; /* Montserrat 폰트 적용 */
+}
+
+/* Footer 구분선 스타일 */
+footer .ftinner hr{
+    padding: 5px; 
+    border-bottom: 1px solid rgba(94, 94, 94, 0.4); /* 반투명 회색 구분선 */
+} 
+
+/* Footer 설명 텍스트 */
+footer .ftinner > p{
+    font-size: 1.5rem; 
+    padding-top: 20px; 
+    color: #575757; /* 중간 회색 */
+}
+
+/* 연락처 리스트 컨테이너 */
+footer .ftinner .contact_list{
+    padding-top: 26px; 
+}
+
+/* 연락처 리스트 가로 배치 */
+footer .ftinner .contact_list ul{
+    display: flex; /* 플렉스박스 사용 */
+    gap: 30px; /* 각 항목 간 30px 간격 */
+}
+
+/* 연락처 링크 스타일 */
+footer .ftinner .contact_list ul li a{ 
+    padding: 10px; 
+    font-size: 24px; /* 아이콘 크기 */
+}
+
+/* 연락처 텍스트 스타일 */
+footer .ftinner .contact_list ul li a span{
+    display: block; 
+    font-size: 28px; 
+    padding-top: 8px; 
+    font-weight: 500; 
+    color: white; /* 흰색 텍스트 */
+}
+
+/* ============ 버튼 스타일 ============ */        
+/* View 버튼 스타일 */
+.go_btn2 {
+    display: inline-block;              
+    border-radius: 15px; /* 둥근 모서리 */
+    background-color: #ffdcc6; /* 연한 오렌지 배경 */
+    font-size: 1rem;
+    padding: 5px 15px; /* 상하 5px, 좌우 15px 패딩 */               
+    color: #ff741e; /* 진한 오렌지 텍스트 */
+    margin-top: 15px;
+    text-align: center;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */               
+}
+
+/* 상세보기 버튼 스타일 (go_btn2와 동일한 스타일) */
+.pop {
+    display: inline-block;               
+    border-radius: 15px;
+    background-color: #ffdcc6;
+    font-size: 1rem;
+    padding: 5px 15px;                  
+    color: #ff741e;
+    margin-top: 15px;
+    text-align: center;
+    white-space: nowrap;                 
+}
+
+/* ============ 반응형 미디어 쿼리 ============ */
+/* 모바일 화면 (768px 이하)에서 적용되는 스타일 */
+@media screen and (max-width: 768px) {
+    /* 모바일에서 네비게이션 버튼 숨기기 */
+    .coding-swiper .swiper-button-next,
+    .coding-swiper .swiper-button-prev {
+        display: none; /* 스와이퍼 네비게이션 버튼 숨김 */
+    }
+    
+    /* 모바일에서 스와이퍼 패딩 조정 */
+    .coding-swiper {
+        padding: 30px 0; /* 상하 30px 패딩 */
+    }
+}
+</style>
+</head>
+<body>
+<!-- 전체 래퍼 div (스타일링 목적) -->
+<div class="wrap"></div>
+
+<!-- ============ 모바일 햄버거 메뉴 버튼 ============ -->
+<div class="mbmenu">
+    <!-- 햄버거 메뉴 아이콘을 구성하는 3개의 선 -->
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- ============ 데스크톱 헤더 네비게이션 ============ -->
+<header>
+    <nav>
+        <ul>
+            <!-- 각 메뉴 항목과 해당 링크 -->
+            <li><a href="/HOME.html">HOME</a></li>
+            <li><a href="/HOME.html#about">ABOUT</a></li> <!-- 앵커 링크 -->
+            <li><a href="/about me.html">ABOUT-ME</a></li>
+            <li><a href="/HOME.html#skill">SKILL</a></li> <!-- 앵커 링크 -->
+            <li><a href="/work.html">WORK</a></li>
+            <li><a href="/HOME.html#coding">CODING</a></li> <!-- 앵커 링크 -->
+        </ul>
+    </nav>
+</header>
+
+<!-- ============ 모바일 슬라이드 네비게이션 ============ -->
+<div class="open_nav">
+    <ul class="subnav_menu">
+        <!-- 모바일용 메뉴 (데스크톱과 동일한 구조) -->
+        <li><a href="/HOME.html">HOME</a></li>
+        <li><a href="/HOME.html#about">ABOUT</a></li>
+        <li><a href="/about me.html">ABOUT-ME</a></li>
+        <li><a href="/HOME.html#skill">SKILL</a></li>
+        <li><a href="/work.html">WORK</a></li>
+        <li><a href="/HOME.html#coding">CODING</a></li>
+    </ul>
+</div>
+
+<!-- ============ 메인 타이틀 ============ -->
+<div class="main_title">
+    <h4>PORTFOLIO</h4>
+</div>
+
+<!-- ============ 메인 탭 네비게이션 ============ -->
+<div class="main_tab_container">
+    <div class="main_tab">
+        <!-- 탭 버튼들 (첫 번째 버튼에 'on' 클래스로 활성화 상태) -->
+        <button class="on">Learning</button>
+        <button>Coding</button>
+        <button>UI/UX Design</button>
+        <button>Achievements</button>
+    </div>
+</div>
+
+<section>
+    <!-- ============ Learning 섹션 (첫 번째 탭) ============ -->
+    <div class="item Learning">
+        <div class="inner">
+            <div class="title">
+                <span>Learning Process</span>
+            </div>
+            
+            <!-- Learning 프로젝트 리스트 -->
+            <ul>
+                <li>
+                    <!-- 프로젝트 이미지 영역 -->
+                    <div class="coding_img">
+                        <img src="/images/법무법인 세종 로고.svg" alt="Coding Project 1">
+                    </div>
+                    <!-- 프로젝트 설명 영역 -->
+                    <div class="coding_text">
+                        <strong>웹사이트 프로젝트</strong>
+                        <span> 법무법인 세종 리디자인</span>
+                        <p>
+                            <!-- 사용 기술 태그들 -->
+                            <span>HTML/CSS</span>
+                            <span>JavaScript</span>
+                            <span>jQuery를 활용한 인터랙티브 웹사이트</span>
+                        </p>
+                        <!-- 리디자인 버전 링크 -->
+                        <div class="button_area">
+                            <a href="/세종_리디자인/법무법인 세종 리디자인.html" class="go_btn2">리디자인</a>
+                        </div>
+                        <!-- 원본 사이트 링크 -->
+                        <div class="button_area">
+                            <a href="https://shinkim.com/kor" class="go_btn2">원본</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============ Coding 섹션 (두 번째 탭) ============ -->
+    <div class="item coding">
+        <div class="inner">
+            <div class="title">
+                <span>Coding Projects</span>
+            </div>
+            
+            <!-- ============ Swiper 슬라이더 컨테이너 ============ -->
+            <div class="swiper coding-swiper">
+                <div class="swiper-wrapper">
+                    <!-- 첫 번째 슬라이드 - 반응형 웹사이트 프로젝트 -->
+                    <div class="swiper-slide">
+                        <div class="coding_img">
+                            <img src="/images/Chat GPT image 로고 (1)-2.png" alt="Coding Project 1">
+                        </div>
+                        <div class="coding_text">
+                            <strong>웹사이트 프로젝트</strong>
+                            <span>반응형 웹사이트</span>
+                            <p>
+                                <span>HTML/CSS</span>
+                                <span>JavaScript</span>
+                                <span>jQuery를 활용한 인터랙티브 웹사이트</span>
+                            </p>
+                            <div class="button_area">
+                                <a href="/jQuery_Web.html" class="go_btn2">View<span>화살표</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 두 번째 슬라이드 - React 애플리케이션 -->
+                    <div class="swiper-slide">
+                        <div class="coding_img">
+                            <img src="/images/Chat GPT image 로고 (3)-2.png" alt="Coding Project 2">
+                        </div>
+                        <div class="coding_text">
+                            <strong>React 애플리케이션</strong>
+                            <span>SPA 웹앱</span>
+                            <p>
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>모던 웹 기술을 활용한 싱글페이지 애플리케이션</span>
+                            </p>
+                            <div class="button_area">
+                                <a href="#" class="go_btn2">View<span>화살표</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 세 번째 슬라이드 - 모바일 앱 -->
+                    <div class="swiper-slide">
+                        <div class="coding_img">
+                            <img src="/images/Chat GPT image 로고 (5)-2.png"  alt="Coding Project 3">
+                        </div>
+                        <div class="coding_text">
+                            <strong>모바일 앱</strong>
+                            <span>크로스플랫폼 앱</span>
+                            <p>
+                                <span>React Native</span>
+                                <span>Firebase</span>
+                                <span>iOS/Android 호환 모바일 애플리케이션</span>
+                            </p>
+                            <div class="button_area">
+                                <a href="#" class="go_btn2">View<span>화살표</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 네 번째 슬라이드 - E-Commerce 플랫폼 -->
+                    <div class="swiper-slide">
+                        <div class="coding_img">
+                            <img src="/images/Chat GPT image 로고 (6)-2.png" alt="Coding Project 4">
+                        </div>
+                        <div class="coding_text">
+                            <strong>E-Commerce 플랫폼</strong>
+                            <span>온라인 쇼핑몰</span>
+                            <p>
+                                <span>Vue.js</span>
+                                <span>Express.js</span>
+                                <span>완전한 온라인 쇼핑 플랫폼 구축</span>
+                            </p>
+                            <div class="button_area">
+                                <a href="#" class="go_btn2">View<span>화살표</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 다섯 번째 슬라이드 - 데이터 시각화 대시보드 -->
+                    <div class="swiper-slide">
+                        <div class="coding_img">
+                            <img src="/images/Chat GPT image 로고 (8)-1.png"  alt="Coding Project 5">
+                        </div>
+                        <div class="coding_text">
+                            <strong>데이터 시각화 대시보드</strong>
+                            <span>실시간 분석 도구</span>
+                            <p>
+                                <span>D3.js</span>
+                                <span>Python</span>
+                                <span>실시간 데이터 분석 및 시각화 시스템</span>
+                            </p>
+                            <div class="button_area">
+                                <a href="#" class="go_btn2">View<span>화살표</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Swiper 페이지네이션 (점 표시) -->
+                <div class="swiper-pagination"></div>
+                
+                <!-- Swiper 네비게이션 버튼 (이전/다음) -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ UI/UX Design 섹션 첫 번째 부분 (세 번째 탭) ============ -->
+    <div class="item design_1">
+        <div class="inner">
+            <div class="uiux_con">
+                <!-- UI/UX 타이틀 영역 -->
+                <div class="uiux_title_area">
+                    <div class="uiux_title">
+                        <strong>UI/UX<br class="br"> DESIGN</strong>
+                        <p>2025년 세무사 1차 재정학 (62회)</p>
+                        <a href="/62회-재정학 40문제.html" class="go_btn2">재정학<span>화살표</span></a>
+                        <a href="/62회-세법 40문제.html" class="go_btn2">세법<span>화살표</span></a>
+                    </div>
+                </div>
+                <!-- UI/UX 이미지 영역 -->
+                <div class="uiux_img_area">
+                    <img src="/images/ChatGPT 세무사 (1).png"  alt="UI/UX Design">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ Design Projects 섹션 두 번째 부분 ============ -->
+    <div class="item design_2">
+        <div class="inner">
+            <div class="content_design">
+                <!-- 디자인 카테고리 탭 영역 -->
+                <div class="content_txt_area">
+                    <div class="content_txt">
+                        <ul>
+                            <!-- 각 디자인 카테고리 탭 -->
+                            <li><span>Web Design</span></li>
+                            <li><span>Mobile Design</span></li>
+                            <li><span>Brand Design</span></li>
+                            <li><span>Achievements</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- ============ Web Design 콘텐츠 (첫 번째 탭) ============ -->
+                <div class="content_img_area">
+                    <!-- 웹 디자인 이미지들 -->
+                    <ul class="list">
+                        <li>
+                            <img src="/images/Chat GPT image 로고 (7)-1.png" alt="Web Design 1">
+                        </li>
+                        <li>
+                            <img src="/images/ChatGPT 세무사 (7).png" alt="Web Design 2">
+                        </li>
+                    </ul>
+                    <!-- 상세보기 버튼들 -->
+                    <ul class="pop_list">
+                        <li><a href="#" class="pop">상세보기</a></li>
+                        <li><a href="#" class="pop">상세보기</a></li>
+                    </ul>
+                </div>
+
+                <!-- ============ Mobile Design 콘텐츠 (두 번째 탭) ============ -->
+                <div class="content_img_area">
+                    <!-- 모바일 디자인 이미지들 -->
+                    <ul class="list">
+                        <li><img src="/images/Chat GPT image 로고 (6)-1.png" alt="Mobile Design 1"></li>
+                        <li><img src="/images/ChatGPT 세무사 (3).png" alt="Mobile Design 2"></li>
+                    </ul>
+                    <!-- 상세보기 버튼들 -->
+                    <ul class="pop_list">
+                        <li><a href="#" class="pop">상세보기</a></li>
+                        <li><a href="#" class="pop">상세보기</a></li>
+                    </ul>
+                </div>
+
+                <!-- ============ Brand Design 콘텐츠 (세 번째 탭) ============ -->
+                <div class="content_img_area">
+                    <!-- 브랜드 디자인 이미지들 -->
+                    <ul class="list">
+                        <li><img src="/images/Chat GPT image 로고 (3)-1.png" alt="Brand Design 1"></li>
+                        <li><img src="/images/ChatGPT 세무사 (5).png" alt="Brand Design 2"></li>
+                    </ul>
+                    <!-- 상세보기 버튼들 -->
+                    <ul class="pop_list">
+                        <li><a href="#" class="pop">상세보기</a></li>
+                        <li><a href="#" class="pop">상세보기</a></li>
+                    </ul>
+                </div>
+                
+                <!-- ============ Achievements 콘텐츠 (네 번째 탭) ============ -->
+                <div class="content_img_area">
+                    <!-- 성과 이미지 (단일 이미지, 반응형 스타일 적용) -->
+                    <ul class="list">
+                        <img src="/images/ChatGPT Image 2025년 8월 4일 오후 02_41_29.png" 
+                             style="max-width: 400px; width: 100%; height: auto;" 
+                             alt="성과 이미지">
+                    </ul>
+                    <!-- 상세보기 버튼 -->
+                    <ul class="pop_list">
+                       <a href="/5_achievements.html" class="pop">상세보기</a>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 팝업 창들 ============ -->
+<!-- 첫 번째 팝업 - 웹 디자인 프로젝트 상세 정보 -->
+<div class="popup">
+    <div class="popcon">
+        <!-- 팝업 텍스트 영역 -->
+        <div class="pop_text">
+            <div class="pop_maintxt">
+                <strong>웹 디자인 프로젝트</strong>
+                <!-- 팝업 닫기 버튼 -->
+                <button class="close"><img src="/images/icons8-close-window-50.png" alt="닫기"></button>
+            </div>
+            <hr>
+            <!-- 프로젝트 상세 정보 리스트 -->
+            <ol>
+                <li>
+                    <dt>프로젝트 개요</dt>
+                    <dd>반응형 웹사이트 디자인 및 구현</dd>
+                </li>
+                <li>
+                    <dt>사용 기술</dt>
+                    <dd>HTML5, CSS3, JavaScript, jQuery</dd>
+                </li>
+                <li>
+                    <dt>특징</dt>
+                    <dd>모바일 퍼스트 디자인, 크로스 브라우저 호환</dd>
+                </li>
+                <li><a href="/web1.html" class="pop">웹사이트</a></li>
+            </ol>
+        </div>
+        <!-- 팝업 이미지 영역 -->
+        <div class="pop_img">
+            <img src="/images/해커스.png" alt="프로젝트 상세 이미지">
+        </div>
+    </div>
+</div>
+
+<!-- 두 번째 팝업 - 모바일 앱 디자인 상세 정보 -->
+<div class="popup">
+    <div class="popcon">
+        <!-- 팝업 텍스트 영역 -->
+        <div class="pop_text">
+            <div class="pop_maintxt">
+                <strong>모바일 앱 디자인</strong>
+                <!-- 팝업 닫기 버튼 -->
+                <button class="close"><img src="/images/icons8-close-window-50.png" alt="닫기"></button>
+            </div>
+            <hr>
+            <!-- 프로젝트 상세 정보 리스트 -->
+            <ol>
+                <li>
+                    <dt>프로젝트 개요</dt>
+                    <dd>iOS/Android 네이티브 앱 UI/UX 디자인</dd>
+                </li>
+                <li>
+                    <dt>디자인 도구</dt>
+                    <dd>Figma, Adobe XD, Sketch</dd>
+                </li>
+                <li>
+                    <dt>특징</dt>
+                    <dd>사용자 중심 인터페이스, 직관적인 네비게이션</dd>
+                </li>
+            </ol>
+        </div>
+        <!-- 팝업 이미지 영역 -->
+        <div class="pop_img">
+            <img src="#" alt="모바일 앱 디자인">
+            <img src="#" alt="모바일 앱 디자인">
+        </div>
+    </div>
+</div>
+
+<!-- ============ Footer 영역 ============ -->
+<footer>
+    <div class="ftinner">
+        <!-- Footer 메인 제목 -->
+        <strong>Name : 이경민</strong>
+        <hr>
+        <!-- 저작권 정보 -->
+        <p>© 2025 웹 포트폴리오. All Rights Reserved.</p>
+        
+        <!-- 연락처 정보 리스트 -->
+        <div class="contact_list">
+            <ul>
+                <!-- GitHub 링크 -->
+                <li>
+                    <a href="https://github.com/rudals-lee">
+                        <i class="fab fa-github" style="color: white;"></i>
+                        <span>GitHub<br> 
+                            https://github.com/rudals-lee
+                        </span>
+                    </a>
+                </li>
+                <!-- Instagram 정보 -->
+                <li>
+                    <a href="#">
+                        <i class="fab fa-instagram" style="color: white;"></i>
+                        <span>Instagram<br>
+                            계정 없음
+                        </span>
+                    </a>
+                </li>
+                <!-- 이메일 정보 -->
+                <li>
+                    <a href="#">
+                        <i class="fas fa-envelope" style="color: white;"></i>
+                        <span>email<br>
+                            lkm4175@gmail.com
+                        </span>
+                    </a>
+                </li>
+                <!-- 전화번호 정보 -->
+                <li>
+                    <a href="#">
+                        <i class="fas fa-phone-alt" style="color: white;"></i>
+                        <span>전화번호<br>
+                            010-4559-4175
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<!-- ============ 맨 위로 가기 버튼 ============ -->
+<div class="top_btn">
+    <a href="#"><img src="/images/scroll-up-64.png" alt="위로가기"></a>
+</div>
+
+<!-- ============ JavaScript 코드 ============ -->
+<script>
+$(function () {
+    // ============ Swiper 슬라이더 초기화 ============
+    const codingSwiper = new Swiper('.coding-swiper', {
+        slidesPerView: 1, // 기본적으로 한 번에 1개 슬라이드 표시
+        spaceBetween: 30, // 슬라이드 간 간격 30px
+        loop: true, // 무한 루프 활성화
+        
+        // 자동 재생 설정
+        autoplay: {
+            delay: 4000, // 4초마다 자동 넘김
+            disableOnInteraction: false, // 사용자 상호작용 후에도 자동재생 유지
+        },
+        
+        // 페이지네이션 설정
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true, // 페이지네이션 점 클릭 가능
+        },
+        
+        // 네비게이션 버튼 설정
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        
+        // 반응형 브레이크포인트 설정
+        breakpoints: {
+            768: { // 768px 이상에서
+                slidesPerView: 2, // 2개 슬라이드 표시
+                spaceBetween: 30,
+            },
+            1024: { // 1024px 이상에서
+                slidesPerView: 3, // 3개 슬라이드 표시
+                spaceBetween: 30,
+            }
+        }
+    });
+
+    // ============ 메인 탭 기능 ============
+    $(".main_tab button").click(function (e) {
+        e.preventDefault(); // 기본 동작 방지
+        var tg = $(this); // 클릭된 버튼
+        var i = tg.index(); // 클릭된 버튼의 인덱스
+        var section = $("section .item").eq(i); // 해당 인덱스의 섹션
+        var tt = section.offset().top; // 섹션의 상단 위치 계산
+        $(".main_tab button").removeClass("on"); // 모든 탭 버튼에서 활성화 클래스 제거
+        $(this).addClass("on"); // 클릭된 버튼에 활성화 클래스 추가
+        $("html,body").stop().animate({ scrollTop: tt }, 600); // 해당 섹션으로 부드럽게 스크롤 (600ms)
+    });
+
+    // ============ 맨 위로 가기 버튼 기능 ============
+    $(window).scroll(function () {
+        t = $(window).scrollTop(); // 현재 스크롤 위치
+        if (t > 400) $(".top_btn>a").fadeIn(); // 400px 이상 스크롤 시 버튼 표시
+        else {
+            $(".top_btn>a").fadeOut(); // 400px 미만 시 버튼 숨김
+        }
+    });
+    $(window).trigger("scroll"); // 페이지 로드 시 스크롤 이벤트 강제 실행
+    
+    // 맨 위로 가기 버튼 클릭 이벤트
+    $(".top_btn>a").click(function (e) {
+        e.preventDefault(); // 기본 링크 동작 방지
+        $("body,html").animate({ scrollTop: 0 }); // 페이지 최상단으로 부드럽게 스크롤
+    });
+
+    // ============ 디자인 카테고리 탭 기능 ============
+    $(".content_design .content_img_area").hide(); // 모든 콘텐츠 영역 숨김
+    $(".content_design .content_img_area").eq(0).show(); // 첫 번째 콘텐츠만 표시
+
+    // 디자인 카테고리 탭 클릭 이벤트
+    $(".content_txt>ul>li").click(function () {
+        var i = $(this).index(); // 클릭된 탭의 인덱스
+        $(".content_img_area").hide(); // 모든 콘텐츠 영역 숨김
+        $(".content_img_area").eq(i).show(); // 해당 인덱스의 콘텐츠만 표시
+        return false; // 이벤트 버블링 방지
+    });
+
+    // ============ 모바일 햄버거 메뉴 기능 ============
+    $(".mbmenu").click(function () {
+        $(".mbmenu").toggleClass("active"); // 햄버거 메뉴 아이콘 애니메이션 토글
+        $(".open_nav").stop().toggleClass("active"); // 모바일 네비게이션 메뉴 슬라이드 토글
+    });
+
+    // ============ 팝업 기능 ============
+    // 상세보기 버튼 클릭 시 팝업 열기
+    $(".content_img_area>.pop_list>li").click(function (e) {
+        e.preventDefault(); // 기본 동작 방지
+        let i = $(this).index(".pop_list>li"); // 클릭된 버튼의 전체 인덱스
+        $(".popup").eq(i).show(); // 해당 인덱스의 팝업 표시
+    });
+    
+    // 팝업 닫기 버튼 클릭 시 팝업 닫기
+    $(".close").click(function (e) {
+        e.preventDefault(); // 기본 동작 방지
+        $(".popup").hide(); // 모든 팝업 숨김
+    });
+});
+
+// ============ 모바일 메뉴 자동 닫기 기능 ============
+document.addEventListener("DOMContentLoaded", function () {
+    // 모든 모바일 메뉴 링크에 이벤트 리스너 추가
+    const menuLinks = document.querySelectorAll(".subnav_menu li a");
+    const openNav = document.querySelector(".open_nav");
+
+    // 각 메뉴 링크 클릭 시 모바일 메뉴 자동 닫기
+    menuLinks.forEach(link => {
+        link.addEventListener("click", function () {
+            openNav.classList.remove("active"); // 모바일 네비게이션 닫기
+        });
+    });
+});
+</script>
+</body>
+</html>

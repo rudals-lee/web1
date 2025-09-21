@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 히라가나 & 가타가나 학습 사이트</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           전역 스타일 설정 - 모든 요소에 적용되는 기본 스타일
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* ==========================================================================
+           헤더 스타일 - 네비게이션 메뉴
+           ========================================================================== */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            flex: 0 0 auto;
+            z-index: 1001;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* 햄버거 메뉴 버튼 */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        /* 네비게이션 메뉴 컨테이너 */
+        .nav-menu {
+            display: flex;
+            gap: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .nav-item > li > a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 드롭다운 메뉴 스타일 */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 5px;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item.highlighted {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .dropdown-item.highlighted:hover {
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+            transform: translateX(5px);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 5px 15px;
+        }
+
+        /* ==========================================================================
+           메인 콘텐츠 영역 스타일
+           ========================================================================== */
+        .main-content {
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ==========================================================================
+           제목 및 헤더 스타일
+           ========================================================================== */
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            word-break: keep-all;
+        }
+
+        /* ==========================================================================
+           토글 버튼 스타일
+           ========================================================================== */
+        .toggle-container {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 140px;
+            touch-action: manipulation;
+        }
+
+        .toggle-btn:hover, .toggle-btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        /* ==========================================================================
+           차트 컨테이너 및 제목 스타일
+           ========================================================================== */
+        .chart-container {
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: bold;
+            word-break: keep-all;
+        }
+
+        /* ==========================================================================
+           가나 테이블 스타일
+           ========================================================================== */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .kana-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .kana-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .kana-table td {
+            padding: 8px 4px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            background: white;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 50px;
+        }
+
+        .kana-table td:hover, .kana-table td:active {
+            background: linear-gradient(45deg, #f7fafc, #edf2f7);
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ==========================================================================
+           일본어 문자 및 로마자 스타일
+           ========================================================================== */
+        .japanese-char {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .romaji {
+            font-size: 10px;
+            color: #718096;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        /* ==========================================================================
+           유틸리티 클래스
+           ========================================================================== */
+        .hidden {
+            display: none;
+        }
+
+        .dakuten-table {
+            margin-top: 15px;
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 20px 0;
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           정보 박스 스타일
+           ========================================================================== */
+        .info-box {
+            background: linear-gradient(45deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box h3 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .info-box p {
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* ==========================================================================
+           반응형 디자인 - 태블릿
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 0 15px;
+            }
+
+            .nav-item > li > a {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .dropdown {
+                min-width: 180px;
+            }
+
+            .container {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .chart-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* 모바일 크기 (768px 이하) */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                justify-content: space-between;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(102, 126, 234, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 20px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .nav-item {
+                width: 90%;
+                max-width: 300px;
+                margin-bottom: 10px;
+            }
+
+            .nav-item > li > a {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                justify-content: space-between;
+            }
+
+            .nav-item > li > a:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: none;
+            }
+
+            /* 모바일에서 드롭다운을 아코디언 스타일로 변경 */
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+                border: none;
+                border-radius: 10px;
+                margin-top: 10px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-item.active .dropdown {
+                max-height: 500px;
+            }
+
+            .nav-item.active .dropdown-icon {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-item {
+                background: rgba(255, 255, 255, 0.1);
+                margin: 5px 10px;
+                color: white;
+                border-radius: 8px;
+                padding: 12px 15px;
+            }
+
+            .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: none;
+                color: white;
+            }
+
+            .dropdown-item.highlighted {
+                background: rgba(255, 255, 255, 0.3);
+                color: white;
+            }
+
+            .dropdown-item.highlighted:hover {
+                background: rgba(255, 255, 255, 0.4);
+            }
+
+            .dropdown-divider {
+                background: rgba(255, 255, 255, 0.3);
+                margin: 8px 20px;
+            }
+
+            /* 메인 콘텐츠 스타일 */
+            .main-content {
+                padding: 8px;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+
+            .chart-title {
+                font-size: 1.2rem;
+                margin-bottom: 12px;
+            }
+
+            .toggle-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+                min-width: 120px;
+            }
+
+            .kana-table {
+                min-width: 500px;
+                font-size: 13px;
+            }
+
+            .japanese-char {
+                font-size: 16px;
+            }
+
+            .romaji {
+                font-size: 9px;
+            }
+
+            .kana-table th {
+                font-size: 11px;
+                padding: 6px 3px;
+            }
+
+            .kana-table td {
+                padding: 6px 3px;
+                min-width: 45px;
+            }
+        }
+
+        /* 작은 모바일 크기 (480px 이하) */
+        @media (max-width: 480px) {
+            nav ul {
+                height: 60px;
+            }
+
+            .nav-menu {
+                top: 60px;
+                height: calc(100vh - 60px);
+            }
+
+            .logo a {
+                font-size: 1.3rem;
+            }
+
+            .main-content {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 12px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+                margin-bottom: 12px;
+                line-height: 1.3;
+            }
+
+            .chart-title {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+                line-height: 1.3;
+            }
+
+            .toggle-container {
+                margin-bottom: 15px;
+                gap: 8px;
+            }
+
+            .toggle-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+                min-width: 110px;
+                border-radius: 20px;
+            }
+
+            .kana-table {
+                min-width: 450px;
+                font-size: 12px;
+            }
+
+            .japanese-char {
+                font-size: 15px;
+            }
+
+            .romaji {
+                font-size: 8px;
+            }
+
+            .kana-table th {
+                font-size: 10px;
+                padding: 5px 2px;
+            }
+
+            .kana-table td {
+                padding: 5px 2px;
+                min-width: 40px;
+            }
+
+            .info-box {
+                padding: 12px;
+            }
+
+            .info-box h3 {
+                font-size: 1rem;
+            }
+
+            .info-box p {
+                font-size: 13px;
+            }
+        }
+
+        /* 아주 작은 모바일 (360px 이하) */
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .chart-title {
+                font-size: 1rem;
+            }
+
+            .toggle-btn {
+                padding: 7px 10px;
+                font-size: 11px;
+                min-width: 100px;
+            }
+
+            .kana-table {
+                min-width: 400px;
+                font-size: 11px;
+            }
+
+            .japanese-char {
+                font-size: 14px;
+            }
+
+            .romaji {
+                font-size: 7px;
+            }
+
+            .kana-table th {
+                font-size: 9px;
+                padding: 4px 2px;
+            }
+
+            .kana-table td {
+                padding: 4px 2px;
+                min-width: 36px;
+            }
+        }
+
+        /* ==========================================================================
+           터치 디바이스 최적화
+           ========================================================================== */
+        @media (hover: none) and (pointer: coarse) {
+            .kana-table td:hover {
+                transform: none;
+                background: white;
+                box-shadow: none;
+            }
+
+            .kana-table td:active {
+                background: linear-gradient(45deg, #f7fafc, #edf2f7);
+                transform: scale(0.98);
+            }
+
+            .toggle-btn:hover {
+                transform: none;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        /* ==========================================================================
+           스크롤바 스타일링
+           ========================================================================== */
+        .table-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 3px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+        }
+    </style>
+</head>
+<body>
+    <!-- 메인 헤더 영역 -->
+    <header>
+        <nav>
+            <ul>
+                <!-- 로고 영역 -->
+                <div class="logo">
+                    <a href="#main">🗾 일본어 학습</a>
+                </div>
+
+                <!-- 모바일 햄버거 메뉴 버튼 -->
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </button>
+
+                <!-- 네비게이션 메뉴 -->
+                <div class="nav-menu" id="navMenu">
+                    <!-- HOME 메뉴 항목 -->
+                    <div class="nav-item">
+                        <li><a href="#main">HOME</a></li>
+                    </div>
+
+                    <!-- 학습 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#learning" onclick="toggleDropdown(this)">학습 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="#hiragana" class="dropdown-item highlighted" onclick="showChart('hiragana')">
+                                <i class="fas fa-language"></i>히라가나
+                            </a>
+                            <a href="#katakana" class="dropdown-item" onclick="showChart('katakana')">
+                                <i class="fas fa-font"></i>가타가나
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  문법 .html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-book"></i>문법
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  읽기.html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-book-reader"></i>읽기
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  듣기.html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-headphones"></i>듣기
+                            </a>
+                            <a href="/JLPT 5급 시험/JLPT 5급  한자.html" class="dropdown-item" onclick="showChart('#')">
+                                <i class="fas fa-language"></i>한자
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#practice" class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i>연습하기
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 도구 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#tools" onclick="toggleDropdown(this)">도구 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="/JLPT 5급 시험/문자 변환기.html" class="dropdown-item">
+                                <i class="fas fa-exchange-alt"></i>문자 변환기
+                            </a>
+                            <a href="/JLPT 5급 시험/퀴즈.html" class="dropdown-item">
+                                <i class="fas fa-question-circle"></i>퀴즈
+                            </a>
+                            <a href="/JLPT 5급 시험/플래시 카드.html" class="dropdown-item">
+                                <i class="fas fa-clone"></i>플래시카드
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 정보 메뉴 드롭다운 -->
+                    <div class="nav-item">
+                        <li><a href="#info" onclick="toggleDropdown(this)">정보 <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+                        <div class="dropdown">
+                            <a href="/JLPT 5급 시험/사이트 소개.html" class="dropdown-item">
+                                <i class="fas fa-info-circle"></i>사이트 소개
+                            </a>
+                            <a href="/JLPT 5급 시험/학습 가이드.html" class="dropdown-item">
+                                <i class="fas fa-book"></i>학습 가이드
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/JLPT 5급 시험/문의하기.html" class="dropdown-item">
+                                <i class="fas fa-envelope"></i>문의하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <div class="container">
+            <!-- 페이지 제목 -->
+            <h1>🗾 일본어 히라가나 & 가타가나 학습 차트 🗾</h1>
+            
+            <!-- 차트 전환 버튼 컨테이너 -->
+            <div class="toggle-container">
+                <button class="toggle-btn active" onclick="showChart('hiragana')">히라가나 (ひらがな)</button>
+                <button class="toggle-btn" onclick="showChart('katakana')">가타가나 (カタカナ)</button>
+            </div>
+            
+            <!-- 히라가나 차트 섹션 -->
+            <div id="hiragana-chart" class="chart-container">
+                <h2 class="chart-title">히라가나 (ひらがな) - 일본어 기본 문자</h2>
+                
+                <!-- 기본 히라가나 표 -->
+                <div class="table-wrapper">
+                    <table class="kana-table">
+                        <thead>
+                            <tr>
+                                <th>あ단</th>
+                                <th>か단</th>
+                                <th>さ단</th>
+                                <th>た단</th>
+                                <th>な단</th>
+                                <th>は단</th>
+                                <th>ま단</th>
+                                <th>や단</th>
+                                <th>ら단</th>
+                                <th>わ단</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="japanese-char">あ</div><div class="romaji">a</div></td>
+                                <td><div class="japanese-char">か</div><div class="romaji">ka</div></td>
+                                <td><div class="japanese-char">さ</div><div class="romaji">sa</div></td>
+                                <td><div class="japanese-char">た</div><div class="romaji">ta</div></td>
+                                <td><div class="japanese-char">な</div><div class="romaji">na</div></td>
+                                <td><div class="japanese-char">は</div><div class="romaji">ha</div></td>
+                                <td><div class="japanese-char">ま</div><div class="romaji">ma</div></td>
+                                <td><div class="japanese-char">や</div><div class="romaji">ya</div></td>
+                                <td><div class="japanese-char">ら</div><div class="romaji">ra</div></td>
+                                <td><div class="japanese-char">わ</div><div class="romaji">wa</div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">い</div><div class="romaji">i</div></td>
+                                <td><div class="japanese-char">き</div><div class="romaji">ki</div></td>
+                                <td><div class="japanese-char">し</div><div class="romaji">shi</div></td>
+                                <td><div class="japanese-char">ち</div><div class="romaji">chi</div></td>
+                                <td><div class="japanese-char">に</div><div class="romaji">ni</div></td>
+                                <td><div class="japanese-char">ひ</div><div class="romaji">hi</div></td>
+                                <td><div class="japanese-char">み</div><div class="romaji">mi</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">り</div><div class="romaji">ri</div></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">う</div><div class="romaji">u</div></td>
+                                <td><div class="japanese-char">く</div><div class="romaji">ku</div></td>
+                                <td><div class="japanese-char">す</div><div class="romaji">su</div></td>
+                                <td><div class="japanese-char">つ</div><div class="romaji">tsu</div></td>
+                                <td><div class="japanese-char">ぬ</div><div class="romaji">nu</div></td>
+                                <td><div class="japanese-char">ふ</div><div class="romaji">fu</div></td>
+                                <td><div class="japanese-char">む</div><div class="romaji">mu</div></td>
+                                <td><div class="japanese-char">ゆ</div><div class="romaji">yu</div></td>
+                                <td><div class="japanese-char">る</div><div class="romaji">ru</div></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">え</div><div class="romaji">e</div></td>
+                                <td><div class="japanese-char">け</div><div class="romaji">ke</div></td>
+                                <td><div class="japanese-char">せ</div><div class="romaji">se</div></td>
+                                <td><div class="japanese-char">て</div><div class="romaji">te</div></td>
+                                <td><div class="japanese-char">ね</div><div class="romaji">ne</div></td>
+                                <td><div class="japanese-char">へ</div><div class="romaji">he</div></td>
+                                <td><div class="japanese-char">め</div><div class="romaji">me</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">れ</div><div class="romaji">re</div></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">お</div><div class="romaji">o</div></td>
+                                <td><div class="japanese-char">こ</div><div class="romaji">ko</div></td>
+                                <td><div class="japanese-char">そ</div><div class="romaji">so</div></td>
+                                <td><div class="japanese-char">と</div><div class="romaji">to</div></td>
+                                <td><div class="japanese-char">の</div><div class="romaji">no</div></td>
+                                <td><div class="japanese-char">ほ</div><div class="romaji">ho</div></td>
+                                <td><div class="japanese-char">も</div><div class="romaji">mo</div></td>
+                                <td><div class="japanese-char">よ</div><div class="romaji">yo</div></td>
+                                <td><div class="japanese-char">ろ</div><div class="romaji">ro</div></td>
+                                <td><div class="japanese-char">を</div><div class="romaji">wo</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 탁음과 반탁음 히라가나 표 -->
+                <div class="table-wrapper">
+                    <table class="kana-table dakuten-table">
+                        <thead>
+                            <tr>
+                                <th colspan="5">탁음 (濁音) - 히라가나</th>
+                                <th colspan="3">반탁음 (半濁音) - 히라가나</th>
+                                <th>ん</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="japanese-char">が</div><div class="romaji">ga</div></td>
+                                <td><div class="japanese-char">ざ</div><div class="romaji">za</div></td>
+                                <td><div class="japanese-char">だ</div><div class="romaji">da</div></td>
+                                <td><div class="japanese-char">ば</div><div class="romaji">ba</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ぱ</div><div class="romaji">pa</div></td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="japanese-char">ん</div><div class="romaji">n</div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ぎ</div><div class="romaji">gi</div></td>
+                                <td><div class="japanese-char">じ</div><div class="romaji">ji</div></td>
+                                <td><div class="japanese-char">ぢ</div><div class="romaji">ji</div></td>
+                                <td><div class="japanese-char">び</div><div class="romaji">bi</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ぴ</div><div class="romaji">pi</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ぐ</div><div class="romaji">gu</div></td>
+                                <td><div class="japanese-char">ず</div><div class="romaji">zu</div></td>
+                                <td><div class="japanese-char">づ</div><div class="romaji">zu</div></td>
+                                <td><div class="japanese-char">ぶ</div><div class="romaji">bu</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ぷ</div><div class="romaji">pu</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">げ</div><div class="romaji">ge</div></td>
+                                <td><div class="japanese-char">ぜ</div><div class="romaji">ze</div></td>
+                                <td><div class="japanese-char">で</div><div class="romaji">de</div></td>
+                                <td><div class="japanese-char">べ</div><div class="romaji">be</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ぺ</div><div class="romaji">pe</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ご</div><div class="romaji">go</div></td>
+                                <td><div class="japanese-char">ぞ</div><div class="romaji">zo</div></td>
+                                <td><div class="japanese-char">ど</div><div class="romaji">do</div></td>
+                                <td><div class="japanese-char">ぼ</div><div class="romaji">bo</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ぽ</div><div class="romaji">po</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 가타가나 차트 섹션 -->
+            <div id="katakana-chart" class="chart-container hidden">
+                <h2 class="chart-title">가타가나 (カタカナ) - 외래어 표기 문자</h2>
+                
+                <!-- 기본 가타가나 표 -->
+                <div class="table-wrapper">
+                    <table class="kana-table">
+                        <thead>
+                            <tr>
+                                <th>ア단</th>
+                                <th>カ단</th>
+                                <th>サ단</th>
+                                <th>タ단</th>
+                                <th>ナ단</th>
+                                <th>ハ단</th>
+                                <th>マ단</th>
+                                <th>ヤ단</th>
+                                <th>ラ단</th>
+                                <th>ワ단</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="japanese-char">ア</div><div class="romaji">a</div></td>
+                                <td><div class="japanese-char">カ</div><div class="romaji">ka</div></td>
+                                <td><div class="japanese-char">サ</div><div class="romaji">sa</div></td>
+                                <td><div class="japanese-char">タ</div><div class="romaji">ta</div></td>
+                                <td><div class="japanese-char">ナ</div><div class="romaji">na</div></td>
+                                <td><div class="japanese-char">ハ</div><div class="romaji">ha</div></td>
+                                <td><div class="japanese-char">マ</div><div class="romaji">ma</div></td>
+                                <td><div class="japanese-char">ヤ</div><div class="romaji">ya</div></td>
+                                <td><div class="japanese-char">ラ</div><div class="romaji">ra</div></td>
+                                <td><div class="japanese-char">ワ</div><div class="romaji">wa</div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">イ</div><div class="romaji">i</div></td>
+                                <td><div class="japanese-char">キ</div><div class="romaji">ki</div></td>
+                                <td><div class="japanese-char">シ</div><div class="romaji">shi</div></td>
+                                <td><div class="japanese-char">チ</div><div class="romaji">chi</div></td>
+                                <td><div class="japanese-char">ニ</div><div class="romaji">ni</div></td>
+                                <td><div class="japanese-char">ヒ</div><div class="romaji">hi</div></td>
+                                <td><div class="japanese-char">ミ</div><div class="romaji">mi</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">リ</div><div class="romaji">ri</div></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ウ</div><div class="romaji">u</div></td>
+                                <td><div class="japanese-char">ク</div><div class="romaji">ku</div></td>
+                                <td><div class="japanese-char">ス</div><div class="romaji">su</div></td>
+                                <td><div class="japanese-char">ツ</div><div class="romaji">tsu</div></td>
+                                <td><div class="japanese-char">ヌ</div><div class="romaji">nu</div></td>
+                                <td><div class="japanese-char">フ</div><div class="romaji">fu</div></td>
+                                <td><div class="japanese-char">ム</div><div class="romaji">mu</div></td>
+                                <td><div class="japanese-char">ユ</div><div class="romaji">yu</div></td>
+                                <td><div class="japanese-char">ル</div><div class="romaji">ru</div></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">エ</div><div class="romaji">e</div></td>
+                                <td><div class="japanese-char">ケ</div><div class="romaji">ke</div></td>
+                                <td><div class="japanese-char">セ</div><div class="romaji">se</div></td>
+                                <td><div class="japanese-char">テ</div><div class="romaji">te</div></td>
+                                <td><div class="japanese-char">ネ</div><div class="romaji">ne</div></td>
+                                <td><div class="japanese-char">ヘ</div><div class="romaji">he</div></td>
+                                <td><div class="japanese-char">メ</div><div class="romaji">me</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">レ</div><div class="romaji">re</div></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">オ</div><div class="romaji">o</div></td>
+                                <td><div class="japanese-char">コ</div><div class="romaji">ko</div></td>
+                                <td><div class="japanese-char">ソ</div><div class="romaji">so</div></td>
+                                <td><div class="japanese-char">ト</div><div class="romaji">to</div></td>
+                                <td><div class="japanese-char">ノ</div><div class="romaji">no</div></td>
+                                <td><div class="japanese-char">ホ</div><div class="romaji">ho</div></td>
+                                <td><div class="japanese-char">モ</div><div class="romaji">mo</div></td>
+                                <td><div class="japanese-char">ヨ</div><div class="romaji">yo</div></td>
+                                <td><div class="japanese-char">ロ</div><div class="romaji">ro</div></td>
+                                <td><div class="japanese-char">ヲ</div><div class="romaji">wo</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 탁음과 반탁음 가타가나 표 -->
+                <div class="table-wrapper">
+                    <table class="kana-table dakuten-table">
+                        <thead>
+                            <tr>
+                                <th colspan="5">탁음 (濁音) - 가타가나</th>
+                                <th colspan="3">반탁음 (半濁音) - 가타가나</th>
+                                <th>ン</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="japanese-char">ガ</div><div class="romaji">ga</div></td>
+                                <td><div class="japanese-char">ザ</div><div class="romaji">za</div></td>
+                                <td><div class="japanese-char">ダ</div><div class="romaji">da</div></td>
+                                <td><div class="japanese-char">バ</div><div class="romaji">ba</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">パ</div><div class="romaji">pa</div></td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="japanese-char">ン</div><div class="romaji">n</div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ギ</div><div class="romaji">gi</div></td>
+                                <td><div class="japanese-char">ジ</div><div class="romaji">ji</div></td>
+                                <td><div class="japanese-char">ヂ</div><div class="romaji">ji</div></td>
+                                <td><div class="japanese-char">ビ</div><div class="romaji">bi</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ピ</div><div class="romaji">pi</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">グ</div><div class="romaji">gu</div></td>
+                                <td><div class="japanese-char">ズ</div><div class="romaji">zu</div></td>
+                                <td><div class="japanese-char">ヅ</div><div class="romaji">zu</div></td>
+                                <td><div class="japanese-char">ブ</div><div class="romaji">bu</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">プ</div><div class="romaji">pu</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ゲ</div><div class="romaji">ge</div></td>
+                                <td><div class="japanese-char">ゼ</div><div class="romaji">ze</div></td>
+                                <td><div class="japanese-char">デ</div><div class="romaji">de</div></td>
+                                <td><div class="japanese-char">ベ</div><div class="romaji">be</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ペ</div><div class="romaji">pe</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><div class="japanese-char">ゴ</div><div class="romaji">go</div></td>
+                                <td><div class="japanese-char">ゾ</div><div class="romaji">zo</div></td>
+                                <td><div class="japanese-char">ド</div><div class="romaji">do</div></td>
+                                <td><div class="japanese-char">ボ</div><div class="romaji">bo</div></td>
+                                <td></td>
+                                <td><div class="japanese-char">ポ</div><div class="romaji">po</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 섹션 구분선 -->
+            <div class="section-divider"></div>
+            
+            <!-- 학습 팁 정보 박스 -->
+            <div class="info-box">
+                <h3>📚 학습 팁</h3>
+                <p><strong>히라가나</strong>는 일본어의 기본 문자로 주로 일본어 고유 단어에 사용됩니다.</p>
+                <p><strong>가타가나</strong>는 주로 외래어, 외국어 고유명사, 의성어/의태어 등에 사용됩니다.</p>
+                <p>각 문자를 터치하면 시각적 피드백을 받을 수 있습니다. 규칙적으로 반복 학습하는 것이 중요합니다!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 모바일 메뉴 토글 기능
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                menuIcon.className = 'fas fa-times';
+            } else {
+                menuIcon.className = 'fas fa-bars';
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+            }
+        }
+
+        // 모바일에서 드롭다운 토글
+        function toggleDropdown(element) {
+            if (window.innerWidth <= 768) {
+                const navItem = element.closest('.nav-item');
+                const wasActive = navItem.classList.contains('active');
+                
+                const allNavItems = document.querySelectorAll('.nav-item');
+                allNavItems.forEach(item => item.classList.remove('active'));
+                
+                if (!wasActive) {
+                    navItem.classList.add('active');
+                }
+            }
+        }
+
+        // 차트 전환 함수
+        function showChart(type) {
+            const hiraganaChart = document.getElementById('hiragana-chart');
+            const katakanaChart = document.getElementById('katakana-chart');
+            const buttons = document.querySelectorAll('.toggle-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (type === 'hiragana') {
+                hiraganaChart.classList.remove('hidden');
+                katakanaChart.classList.add('hidden');
+                buttons[0].classList.add('active');
+            } else {
+                hiraganaChart.classList.add('hidden');
+                katakanaChart.classList.remove('hidden');
+                buttons[1].classList.add('active');
+            }
+
+            // 모바일 메뉴 닫기
+            if (window.innerWidth <= 768) {
+                toggleMobileMenu();
+            }
+        }
+
+        // 화면 크기 변경 시 모바일 메뉴 상태 리셋
+        window.addEventListener('resize', function() {
+            const navMenu = document.getElementById('navMenu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                menuIcon.className = 'fas fa-bars';
+                
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+            }
+
+            // 테이블 스크롤 초기화
+            setTimeout(() => {
+                const tableWrappers = document.querySelectorAll('.table-wrapper');
+                tableWrappers.forEach(wrapper => {
+                    wrapper.scrollLeft = 0;
+                });
+            }, 100);
+        });
+
+        // 모바일 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (window.innerWidth <= 768 && 
+                navMenu.classList.contains('active') && 
+                !nav.contains(e.target)) {
+                toggleMobileMenu();
+            }
+        });
+
+        // ESC 키로 모바일 메뉴 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const navMenu = document.getElementById('navMenu');
+                if (navMenu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+
+        // DOM 로딩 완료 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            const cells = document.querySelectorAll('.kana-table td');
+            
+            cells.forEach(cell => {
+                cell.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.classList.add('touching');
+                }, { passive: false });
+                
+                cell.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('touching');
+                    handleCellInteraction(this);
+                }, { passive: false });
+                
+                cell.addEventListener('click', function(e) {
+                    if (!('ontouchstart' in window)) {
+                        handleCellInteraction(this);
+                    }
+                });
+            });
+            
+            function handleCellInteraction(cell) {
+                const char = cell.querySelector('.japanese-char');
+                const romaji = cell.querySelector('.romaji');
+                
+                if (char && romaji) {
+                    cell.style.transform = 'scale(1.15)';
+                    cell.style.background = 'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
+                    cell.style.color = 'white';
+                    cell.style.zIndex = '100';
+                    
+                    setTimeout(() => {
+                        cell.style.transform = '';
+                        cell.style.background = '';
+                        cell.style.color = '';
+                        cell.style.zIndex = '';
+                    }, 200);
+                    
+                    console.log(`${char.textContent} - ${romaji.textContent}`);
+                }
+            }
+            
+            // 버튼 터치 최적화
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'translateY(-1px) scale(0.98)';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+            });
+        });
+
+        // iOS Safari 터치 최적화
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.table-wrapper')) {
+                return;
+            }
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+
+</body>
+</html>

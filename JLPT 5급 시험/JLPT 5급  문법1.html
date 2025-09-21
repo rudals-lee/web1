@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 문서 타입 및 언어 설정 -->
+    <meta charset="UTF-8">
+    <!-- 모바일 최적화: 뷰포트 설정, 사용자 확대/축소 비활성화 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>JLPT N5 문법 문제집</title>
+    <style>
+        /* ========== 기본 스타일 초기화 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
+        }
+        
+        /* ========== 전체 페이지 스타일 ========== */
+        body {
+            /* 시스템 폰트 우선 사용으로 성능 향상 및 일관성 확보 */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+            /* 대각선 그라디언트 배경으로 시각적 매력도 증대 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; /* 최소 전체 화면 높이 보장 */
+            padding: 10px; /* 전체 여백 */
+            line-height: 1.6; /* 가독성을 위한 줄 간격 */
+        }
+        
+        /* ========== 메인 컨테이너 스타일 ========== */
+        .container {
+            max-width: 900px; /* 최대 너비 제한으로 가독성 향상 */
+            margin: 0 auto; /* 중앙 정렬 */
+            background: white; /* 콘텐츠 배경 */
+            border-radius: 20px; /* 둥근 모서리로 현대적 디자인 */
+            /* 깊이감을 주는 그림자 효과 */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            overflow: hidden; /* 둥근 모서리 유지 */
+            position: relative; /* 자식 요소의 절대 위치 기준점 */
+        }
+        
+        /* ========== 헤더 영역 스타일 ========== */
+        .header {
+            /* 헤더용 그라디언트 배경 */
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+        }
+        
+        /* 헤더 제목 - 반응형 폰트 크기 */
+        .header h1 {
+            /* clamp(): 최소값, 선호값, 최대값으로 반응형 크기 설정 */
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 8px;
+            font-weight: 700; /* 굵은 글꼴 */
+            word-break: keep-all; /* 한글 단어 단위로 줄바꿈 */
+        }
+        
+        /* 헤더 부제목 */
+        .header p {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            opacity: 0.9; /* 약간 투명하게 처리 */
+            word-break: keep-all;
+        }
+        
+        /* ========== 퀴즈 컨테이너 스타일 ========== */
+        .quiz-container {
+            padding: 15px; /* 내부 여백 */
+        }
+        
+        /* ========== 문제 카드 스타일 ========== */
+        .question-card {
+            background: #f8f9fa; /* 연한 회색 배경 */
+            border-radius: 15px;
+            padding: 20px 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #2196F3; /* 왼쪽 강조 테두리 */
+            /* 호버 시 부드러운 애니메이션을 위한 트랜지션 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        /* 문제 카드 호버 효과 - 살짝 들어올리기 */
+        .question-card:hover {
+            transform: translateY(-2px); /* 위로 2px 이동 */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* 그림자 확대 */
+        }
+        
+        /* ========== 문제 번호 스타일 ========== */
+        .question-number {
+            background: #2196F3;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%; /* 원형 */
+            /* 플렉스박스로 중앙 정렬 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* ========== 문제 텍스트 스타일 ========== */
+        .question-text {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333; /* 어두운 회색 */
+            word-break: keep-all;
+        }
+        
+        /* 일본어 텍스트 강조 스타일 */
+        .japanese-text {
+            font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+            color: #1976D2; /* 진한 파란색으로 강조 */
+            font-weight: 500; /* 중간 굵기 */
+            display: block; /* 블록 요소로 표시 */
+            margin-top: 8px;
+            word-break: keep-all;
+        }
+        
+        /* ========== 선택지 컨테이너 스타일 ========== */
+        .options {
+            display: flex;
+            flex-direction: column; /* 세로 배치 */
+            gap: 10px; /* 선택지 간 간격 */
+            margin-bottom: 15px;
+        }
+        
+        /* ========== 개별 선택지 스타일 ========== */
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0; /* 기본 테두리 */
+            border-radius: 10px;
+            padding: 15px 12px;
+            cursor: pointer; /* 클릭 가능 표시 */
+            /* 모든 상태 변화에 부드러운 애니메이션 적용 */
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+            min-height: 50px; /* 최소 높이 보장 */
+            /* 플렉스박스로 수직 중앙 정렬 */
+            display: flex;
+            align-items: center;
+            word-break: keep-all;
+            user-select: none; /* 텍스트 선택 방지 */
+            -webkit-tap-highlight-color: transparent; /* 모바일 터치 하이라이트 제거 */
+        }
+        
+        /* 선택지 호버 및 포커스 효과 */
+        .option:hover, .option:focus {
+            border-color: #2196F3; /* 파란색 테두리 */
+            transform: translateY(-1px); /* 살짝 위로 이동 */
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2); /* 파란색 그림자 */
+            outline: none; /* 기본 포커스 아웃라인 제거 */
+        }
+        
+        /* 선택지 클릭(활성) 효과 */
+        .option:active {
+            transform: translateY(0); /* 원래 위치로 복귀 */
+        }
+        
+        /* 선택된 선택지 스타일 */
+        .option.selected {
+            border-color: #2196F3;
+            background: #e3f2fd; /* 연한 파란색 배경 */
+            color: #1976D2; /* 진한 파란색 텍스트 */
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+        }
+        
+        /* 정답 선택지 스타일 */
+        .option.correct {
+            border-color: #4CAF50; /* 초록색 테두리 */
+            background: #e8f5e8; /* 연한 초록색 배경 */
+            color: #2e7d32; /* 진한 초록색 텍스트 */
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        /* 오답 선택지 스타일 */
+        .option.incorrect {
+            border-color: #f44336; /* 빨간색 테두리 */
+            background: #ffebee; /* 연한 빨간색 배경 */
+            color: #c62828; /* 진한 빨간색 텍스트 */
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+        
+        /* ========== 해설 영역 스타일 ========== */
+        .explanation {
+            background: #e8f5e8; /* 연한 초록색 배경 */
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
+            border-left: 4px solid #4CAF50; /* 왼쪽 초록색 강조선 */
+            display: none; /* 초기에는 숨김 */
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            word-break: keep-all;
+        }
+        
+        /* 해설 표시 상태 */
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.4s ease; /* 슬라이드 다운 애니메이션 */
+        }
+        
+        /* ========== 슬라이드 다운 애니메이션 ========== */
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                max-height: 0; 
+                transform: translateY(-10px); /* 위에서 아래로 */
+            }
+            to { 
+                opacity: 1; 
+                max-height: 200px;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ========== 버튼 컨테이너 스타일 ========== */
+        .controls {
+            text-align: center;
+            margin: 25px 0;
+            padding: 0 10px;
+        }
+        
+        /* ========== 버튼 기본 스타일 ========== */
+        .check-button, .reset-button {
+            border: none;
+            padding: 14px 25px;
+            border-radius: 25px; /* 둥근 버튼 */
+            cursor: pointer;
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
+            font-weight: 600;
+            transition: all 0.3s ease; /* 부드러운 상태 변화 */
+            margin: 5px;
+            min-width: 120px; /* 최소 너비 보장 */
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* 정답 확인 버튼 스타일 */
+        .check-button {
+            background: #2196F3;
+            color: white;
+        }
+        
+        /* 정답 확인 버튼 호버 효과 (비활성화 상태가 아닐 때) */
+        .check-button:hover:not(:disabled) {
+            background: #1976D2; /* 더 진한 파란색 */
+            transform: translateY(-2px); /* 위로 이동 */
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4); /* 그림자 효과 */
+        }
+        
+        /* 정답 확인 버튼 비활성화 상태 */
+        .check-button:disabled {
+            background: #ccc; /* 회색 배경 */
+            cursor: not-allowed; /* 비활성화 커서 */
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* 다시 풀기 버튼 스타일 */
+        .reset-button {
+            background: #f44336; /* 빨간색 배경 */
+            color: white;
+        }
+        
+        /* 다시 풀기 버튼 호버 효과 */
+        .reset-button:hover {
+            background: #d32f2f; /* 더 진한 빨간색 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+        }
+        
+        /* ========== 점수 표시 영역 스타일 ========== */
+        .score {
+            /* 초록색 그라디언트 배경 */
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 15px;
+            margin: 20px 10px;
+            text-align: center;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            display: none; /* 초기에는 숨김 */
+            word-break: keep-all;
+        }
+        
+        /* 점수 표시 상태 */
+        .score.show {
+            display: block;
+            animation: fadeIn 0.6s ease; /* 페이드인 애니메이션 */
+        }
+        
+        /* 점수 영역 제목 스타일 */
+        .score h3 {
+            margin-bottom: 10px;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+        }
+        
+        /* 점수 영역 문단 스타일 */
+        .score p {
+            margin: 8px 0;
+        }
+        
+        /* ========== 페이드인 애니메이션 ========== */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); /* 아래에서 위로, 약간 축소된 상태에서 */
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); /* 원래 크기로 */
+            }
+        }
+        
+        /* ========== 태블릿 세로 모드 (768px - 1024px) ========== */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container {
+                max-width: 95%; /* 화면 활용도 증대 */
+            }
+            
+            .quiz-container {
+                padding: 25px; /* 더 큰 여백 */
+            }
+            
+            /* 선택지를 2열 그리드로 배치 */
+            .options {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .question-card {
+                padding: 25px; /* 더 큰 내부 여백 */
+            }
+            
+            .controls {
+                margin: 30px 0;
+            }
+        }
+        
+        /* ========== 데스크톱 (1025px 이상) ========== */
+        @media (min-width: 1025px) {
+            body {
+                padding: 20px; /* 더 큰 전체 여백 */
+            }
+            
+            .quiz-container {
+                padding: 30px;
+            }
+            
+            /* 데스크톱에서도 2열 그리드 선택지 */
+            .options {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .question-card {
+                padding: 25px;
+            }
+            
+            /* 문제 번호를 더 크게 */
+            .question-number {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .controls {
+                margin: 35px 0;
+            }
+        }
+        
+        /* ========== 매우 작은 화면 (320px 이하) ========== */
+        @media (max-width: 320px) {
+            body {
+                padding: 5px; /* 최소한의 여백 */
+            }
+            
+            .container {
+                border-radius: 15px; /* 더 작은 둥근 모서리 */
+            }
+            
+            .quiz-container {
+                padding: 10px; /* 최소한의 내부 여백 */
+            }
+            
+            .question-card {
+                padding: 15px 10px;
+                border-radius: 12px;
+            }
+            
+            .option {
+                padding: 12px 8px;
+                min-height: 45px; /* 터치하기 쉬운 최소 높이 */
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+        }
+        
+        /* ========== 가로 모드 스마트폰 (높이 600px 이하) ========== */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .header {
+                padding: 15px; /* 헤더 높이 축소 */
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 5px;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .quiz-container {
+                padding: 15px;
+            }
+            
+            .question-card {
+                margin-bottom: 12px; /* 더 촘촘한 배치 */
+            }
+        }
+        
+        /* ========== 터치 디바이스 최적화 ========== */
+        /* 호버 기능이 없고 터치 입력을 사용하는 디바이스 */
+        @media (hover: none) and (pointer: coarse) {
+            .option {
+                min-height: 55px; /* 더 큰 터치 영역 */
+                padding: 16px 12px;
+            }
+            
+            .check-button, .reset-button {
+                min-height: 50px; /* 더 큰 버튼 */
+                padding: 16px 25px;
+            }
+        }
+        
+        /* ========== 고해상도 디스플레이 최적화 ========== */
+        /* 레티나 디스플레이 등 고밀도 화면 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .container {
+                box-shadow: 0 20px 40px rgba(0,0,0,0.12); /* 더 부드러운 그림자 */
+            }
+            
+            .question-card {
+                box-shadow: none;
+                border-left-width: 4px; /* 더 선명한 테두리 */
+            }
+        }
+        
+        /* ========== 다크모드 지원 준비 ========== */
+        /* 사용자가 다크모드를 선호하는 경우 (현재는 비어있음) */
+        @media (prefers-color-scheme: dark) {
+            /* 필요시 다크모드 스타일 추가 가능 */
+        }
+        
+        /* ========== 애니메이션 감소 설정 사용자 ========== */
+        /* 사용자가 애니메이션을 선호하지 않는 경우 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important; /* 애니메이션을 거의 즉시 완료 */
+                animation-iteration-count: 1 !important; /* 한 번만 실행 */
+                transition-duration: 0.01ms !important; /* 트랜지션을 거의 즉시 완료 */
+            }
+        }
+        
+        /* ========== 접근성 개선: 포커스 표시 ========== */
+        /* 키보드 탐색 시 포커스가 명확히 보이도록 */
+        .option:focus-visible {
+            outline: 3px solid #2196F3; /* 파란색 아웃라인 */
+            outline-offset: 2px; /* 아웃라인과 요소 간 간격 */
+        }
+        
+        .check-button:focus-visible, 
+        .reset-button:focus-visible {
+            outline: 3px solid rgba(255, 255, 255, 0.8); /* 반투명 흰색 아웃라인 */
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <!-- 헤더 영역: 제목과 설명 -->
+        <div class="header">
+            <h1>📚 JLPT N5 문법 문제집</h1>
+            <p>일본어 기초 문법을 마스터하세요! (총 10문제)</p>
+        </div>
+        
+        <!-- 퀴즈 콘텐츠 영역 -->
+        <div class="quiz-container">
+            <!-- ========== 문제 1: 형용사 과거형 ========== -->
+            <div class="question-card">
+                <div class="question-number">1</div>
+                <div class="question-text">
+                    형용사 과거형<br>
+                    <span class="japanese-text">きのうの えいがは とても（　）。</span>
+                </div>
+                <!-- 선택지 컨테이너 -->
+                <div class="options">
+                    <!-- 각 선택지는 data-answer 속성으로 번호 구분, 접근성을 위한 tabindex와 role 속성 -->
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. おもしろかったです</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. おもしろいです</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. おもしろいでした</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. おもしろかったでした</div>
+                </div>
+                <!-- 해설 영역 (초기에는 숨겨짐) -->
+                <div class="explanation">
+                    ✅ <strong>1) おもしろかったです</strong><br>
+                    과거형: い형용사 → かった + です
+                </div>
+            </div>
+
+            <!-- ========== 문제 2: 동사 て형 연결 ========== -->
+            <div class="question-card">
+                <div class="question-number">2</div>
+                <div class="question-text">
+                    동사 て형 연결<br>
+                    <span class="japanese-text">まいにち ほんを よんで（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. います</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. いきます</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. いました</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. いません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) います</strong><br>
+                    현재 진행형: 동사 て형 + いる
+                </div>
+            </div>
+
+            <!-- ========== 문제 3: 조사(목적지) ========== -->
+            <div class="question-card">
+                <div class="question-number">3</div>
+                <div class="question-text">
+                    조사(목적지)<br>
+                    <span class="japanese-text">ともだち（　）でんわを かけます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. に</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. が</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. を</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. で</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) に</strong><br>
+                    대상(상대방)에게 ~하다 → に
+                </div>
+            </div>
+
+            <!-- ========== 문제 4: 부정형(형용사) ========== -->
+            <div class="question-card">
+                <div class="question-number">4</div>
+                <div class="question-text">
+                    부정형(형용사)<br>
+                    <span class="japanese-text">この スープは あつく（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. ないです</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. ありません</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. なくです</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. なしです</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ないです</strong><br>
+                    부정: い형용사 어간 + くないです
+                </div>
+            </div>
+
+            <!-- ========== 문제 5: 시간 표현 ========== -->
+            <div class="question-card">
+                <div class="question-number">5</div>
+                <div class="question-text">
+                    시간 표현<br>
+                    <span class="japanese-text">（　）に 日本へ 行きました。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. らいげつ</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. きょねん</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. まいにち</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. いま</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) きょねん</strong><br>
+                    과거시제와 어울림
+                </div>
+            </div>
+
+            <!-- ========== 문제 6: 비교 표현 ========== -->
+            <div class="question-card">
+                <div class="question-number">6</div>
+                <div class="question-text">
+                    비교 표현<br>
+                    <span class="japanese-text">ねこは いぬ（　）かわいいです。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. と</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. より</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. まで</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. が</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) より</strong><br>
+                    비교: Aは Bより ~
+                </div>
+            </div>
+
+            <!-- ========== 문제 7: 의지형 표현 ========== -->
+            <div class="question-card">
+                <div class="question-number">7</div>
+                <div class="question-text">
+                    의지형 표현<br>
+                    <span class="japanese-text">あした こうえんへ 行き（　）か。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. ましょう</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. ます</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. ました</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. ません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ましょう</strong><br>
+                    "갑시다" 청유형
+                </div>
+            </div>
+
+            <!-- ========== 문제 8: 위치 표현 ========== -->
+            <div class="question-card">
+                <div class="question-number">8</div>
+                <div class="question-text">
+                    위치 표현<br>
+                    <span class="japanese-text">ほんは つくえの 上（　）あります。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. に</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. が</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. で</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. と</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) に</strong><br>
+                    위치 + 존재 동사
+                </div>
+            </div>
+
+            <!-- ========== 문제 9: 경험 표현 ========== -->
+            <div class="question-card">
+                <div class="question-number">9</div>
+                <div class="question-text">
+                    경험 표현<br>
+                    <span class="japanese-text">にほんへ 行った（　）がありますか。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. とき</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. もの</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. こと</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. よう</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) こと</strong><br>
+                    경험: 동사 과거형 + ことがある
+                </div>
+            </div>
+
+            <!-- ========== 문제 10: 청유 표현 ========== -->
+            <div class="question-card">
+                <div class="question-number">10</div>
+                <div class="question-text">
+                    청유 표현<br>
+                    <span class="japanese-text">いっしょに コーヒーを のみ（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1" tabindex="0" role="button" aria-label="선택지 1">1. ませんか</div>
+                    <div class="option" data-answer="2" tabindex="0" role="button" aria-label="선택지 2">2. ました</div>
+                    <div class="option" data-answer="3" tabindex="0" role="button" aria-label="선택지 3">3. ます</div>
+                    <div class="option" data-answer="4" tabindex="0" role="button" aria-label="선택지 4">4. ましょうか</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ませんか</strong><br>
+                    "하지 않겠습니까?" 권유형
+                </div>
+            </div>
+
+            <!-- ========== 버튼 영역 ========== -->
+            <div class="controls">
+                <!-- 정답 확인 버튼: onclick 이벤트로 checkAllAnswers() 함수 호출 -->
+                <button class="check-button" onclick="checkAllAnswers()" aria-label="정답 확인하기">정답 확인</button>
+                <!-- 다시 풀기 버튼: onclick 이벤트로 resetQuiz() 함수 호출 -->
+                <button class="reset-button" onclick="resetQuiz()" aria-label="퀴즈 다시 풀기">다시 풀기</button>
+            </div>
+
+            <!-- ========== 점수 표시 영역 ========== -->
+            <!-- role="alert"와 aria-live="polite"로 스크린 리더 접근성 향상 -->
+            <div class="score" id="scoreDisplay" role="alert" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ========== 전역 변수 ========== */
+        // 정답 배열: 각 문제의 정답 번호 (1부터 시작)
+        const correctAnswers = [1, 1, 1, 1, 2, 2, 1, 1, 3, 1];
+        // 사용자 답안을 저장하는 객체: {문제번호: 선택한답안번호}
+        let userAnswers = {};
+
+        /* ========== 이벤트 리스너 설정 ========== */
+        // 모든 선택지에 클릭 및 키보드 이벤트 바인딩
+        document.querySelectorAll('.option').forEach((option, index) => {
+            // 마우스 클릭 이벤트
+            option.addEventListener('click', function() {
+                selectOption(this);
+            });
+            
+            // 키보드 접근성: Enter 키 또는 Space 키로 선택
+            option.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault(); // 기본 동작 방지 (스크롤 등)
+                    selectOption(this);
+                }
+            });
+            
+            /* ========== 터치 디바이스 최적화 ========== */
+            // 터치 시작 시 시각적 피드백
+            option.addEventListener('touchstart', function(e) {
+                // 터치 시 약간 축소하여 눌림 효과 제공
+                this.style.transform = 'scale(0.98)';
+            }, {passive: true}); // 성능 최적화를 위한 passive 옵션
+            
+            // 터치 종료 시 원래 크기로 복원
+            option.addEventListener('touchend', function(e) {
+                this.style.transform = '';
+            }, {passive: true});
+        });
+
+        /* ========== 선택지 선택 함수 ========== */
+        function selectOption(optionElement) {
+            // 클릭된 선택지가 속한 문제 카드 찾기
+            const questionCard = optionElement.closest('.question-card');
+            // 문제 번호 추출 (텍스트에서 숫자로 변환)
+            const questionNumber = parseInt(questionCard.querySelector('.question-number').textContent);
+            // 선택한 답안 번호 추출
+            const answerNumber = parseInt(optionElement.dataset.answer);
+            
+            // 같은 문제의 다른 선택지들 선택 해제
+            questionCard.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected'); // CSS 클래스 제거
+                opt.setAttribute('aria-selected', 'false'); // 접근성 속성 업데이트
+            });
+            
+            // 현재 클릭한 선택지 선택 표시
+            optionElement.classList.add('selected'); // CSS 클래스 추가
+            optionElement.setAttribute('aria-selected', 'true'); // 접근성 속성 업데이트
+            
+            // 사용자 답안 저장
+            userAnswers[questionNumber] = answerNumber;
+            
+            // 모바일 디바이스에서 햅틱 피드백 제공 (지원하는 경우)
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50); // 50ms 진동
+            }
+        }
+
+        /* ========== 전체 정답 확인 함수 ========== */
+        function checkAllAnswers() {
+            let correctCount = 0; // 맞춘 문제 수
+            const totalQuestions = correctAnswers.length; // 총 문제 수
+
+            // 각 문제 카드에 대해 정답 검사 및 시각화
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                const questionNumber = index + 1;
+                const correctAnswer = correctAnswers[index]; // 정답
+                const userAnswer = userAnswers[questionNumber]; // 사용자 답안
+                const explanation = card.querySelector('.explanation'); // 해설 영역
+                
+                /* ========== 선택지 색상 처리 ========== */
+                card.querySelectorAll('.option').forEach(option => {
+                    const optionNumber = parseInt(option.dataset.answer);
+                    
+                    // 정답인 선택지는 초록색으로 표시
+                    if (optionNumber === correctAnswer) {
+                        option.classList.add('correct');
+                        option.setAttribute('aria-label', option.getAttribute('aria-label') + ' - 정답');
+                    } 
+                    // 사용자가 선택했지만 틀린 선택지는 빨간색으로 표시
+                    else if (optionNumber === userAnswer && userAnswer !== correctAnswer) {
+                        option.classList.add('incorrect');
+                        option.setAttribute('aria-label', option.getAttribute('aria-label') + ' - 오답');
+                    }
+                });
+                
+                // 해설 표시 (슬라이드 다운 애니메이션과 함께)
+                explanation.classList.add('show');
+                
+                // 정답 개수 카운트
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            /* ========== 점수 계산 및 표시 ========== */
+            const scorePercentage = Math.round((correctCount / totalQuestions) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            
+            // 점수 결과 HTML 생성
+            scoreDisplay.innerHTML = `
+                <h3>🎉 채점 결과</h3>
+                <p>${correctCount}/${totalQuestions}문제 정답 (${scorePercentage}점)</p>
+                <p>${getGradeMessage(scorePercentage)}</p>
+            `;
+            
+            // 점수 영역 표시 (페이드인 애니메이션과 함께)
+            scoreDisplay.classList.add('show');
+            
+            // 점수 영역으로 부드럽게 스크롤 이동
+            scoreDisplay.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+
+            // 정답 확인 버튼 비활성화 (중복 확인 방지)
+            document.querySelector('.check-button').disabled = true;
+            
+            // 완료 시 햅틱 피드백 (더 긴 패턴)
+            if ('vibrate' in navigator) {
+                navigator.vibrate([100, 50, 100]); // 진동-멈춤-진동 패턴
+            }
+        }
+
+        /* ========== 점수에 따른 메시지 생성 함수 ========== */
+        function getGradeMessage(score) {
+            if (score >= 90) return "🏆 훌륭해요! JLPT N5 문법을 잘 이해하고 계시네요!";
+            if (score >= 80) return "👍 잘했어요! 조금만 더 공부하면 완벽해질 거예요!";
+            if (score >= 70) return "📚 괜찮아요! 틀린 문제들을 다시 복습해보세요!";
+            if (score >= 60) return "💪 아직 부족해요. 기초 문법을 더 공부해보세요!";
+            return "📖 많은 연습이 필요해요. 포기하지 마세요!";
+        }
+
+        /* ========== 퀴즈 초기화 함수 ========== */
+        function resetQuiz() {
+            // 사용자 답안 데이터 초기화
+            userAnswers = {};
+            
+            /* ========== 모든 선택지 상태 초기화 ========== */
+            document.querySelectorAll('.option').forEach(option => {
+                // CSS 클래스 모두 제거
+                option.classList.remove('selected', 'correct', 'incorrect');
+                option.setAttribute('aria-selected', 'false');
+                
+                // aria-label에서 정답/오답 텍스트 제거
+                const originalLabel = option.getAttribute('aria-label').replace(' - 정답', '').replace(' - 오답', '');
+                option.setAttribute('aria-label', originalLabel);
+                
+                // 인라인 스타일 초기화
+                option.style.transform = '';
+            });
+            
+            /* ========== 해설 영역 숨기기 ========== */
+            document.querySelectorAll('.explanation').forEach(explanation => {
+                explanation.classList.remove('show');
+            });
+            
+            // 점수 표시 영역 숨기기
+            document.getElementById('scoreDisplay').classList.remove('show');
+            
+            // 정답 확인 버튼 다시 활성화
+            document.querySelector('.check-button').disabled = false;
+            
+            // 페이지 맨 위로 부드럽게 스크롤
+            window.scrollTo({ 
+                top: 0, 
+                behavior: 'smooth' 
+            });
+            
+            // 접근성 향상: 첫 번째 선택지로 포커스 이동
+            const firstOption = document.querySelector('.option');
+            if (firstOption) {
+                // 약간의 지연 후 포커스 이동 (스크롤 완료 후)
+                setTimeout(() => {
+                    firstOption.focus();
+                }, 300);
+            }
+        }
+
+        /* ========== 페이지 로드 시 초기화 ========== */
+        document.addEventListener('DOMContentLoaded', function() {
+            /* ========== 터치 디바이스 최적화 ========== */
+            // 터치 기능이 있는 디바이스 감지
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                document.body.classList.add('touch-device');
+                
+                /* ========== iOS Safari 100vh 문제 해결 ========== */
+                // 모바일에서 주소창 때문에 100vh가 정확하지 않은 문제 해결
+                const setVH = () => {
+                    let vh = window.innerHeight * 0.01;
+                    document.documentElement.style.setProperty('--vh', `${vh}px`);
+                };
+                
+                // 화면 크기 변경 및 방향 전환 시 재계산
+                window.addEventListener('resize', setVH);
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(setVH, 100); // 방향 전환 완료 후 실행
+                });
+                setVH(); // 초기 실행
+            }
+            
+            /* ========== 키보드 내비게이션 개선 ========== */
+            document.addEventListener('keydown', function(e) {
+                const focusedElement = document.activeElement;
+                
+                // 위아래 화살표 키로 선택지 간 이동
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    if (focusedElement.classList.contains('option')) {
+                        e.preventDefault(); // 기본 스크롤 동작 방지
+                        
+                        const options = Array.from(document.querySelectorAll('.option'));
+                        const currentIndex = options.indexOf(focusedElement);
+                        
+                        // 아래 화살표: 다음 선택지로
+                        if (e.key === 'ArrowDown' && currentIndex < options.length - 1) {
+                            options[currentIndex + 1].focus();
+                        } 
+                        // 위 화살표: 이전 선택지로
+                        else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                            options[currentIndex - 1].focus();
+                        }
+                    }
+                }
+            });
+            
+            /* ========== 성능 최적화: Intersection Observer ========== */
+            // 화면에 보이는 요소들만 애니메이션 적용
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    threshold: 0.1, // 10% 보일 때 트리거
+                    rootMargin: '50px' // 50px 미리 로딩
+                };
+                
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, observerOptions);
+                
+                // 모든 문제 카드 관찰
+                document.querySelectorAll('.question-card').forEach(card => {
+                    observer.observe(card);
+                });
+            }
+            
+            /* ========== PWA 지원 준비 ========== */
+            // Service Worker 등록 (실제 구현 시 주석 해제)
+            if ('serviceWorker' in navigator) {
+                // navigator.serviceWorker.register('/sw.js')
+                //     .then(reg => console.log('SW registered'))
+                //     .catch(err => console.log('SW registration failed'));
+            }
+        });
+
+        /* ========== 화면 크기 변경 대응 ========== */
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            // 리사이즈 이벤트 디바운싱 (성능 최적화)
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                const container = document.querySelector('.container');
+                if (container) {
+                    // 필요시 동적 레이아웃 조정 로직 추가
+                    // 예: 폰트 크기 재계산, 그리드 재배치 등
+                }
+            }, 250);
+        });
+
+        /* ========== 네트워크 상태 감지 ========== */
+        // 온라인/오프라인 상태 변화 감지
+        window.addEventListener('online', function() {
+            console.log('온라인 상태로 전환됨');
+            // 필요시 온라인 상태 UI 업데이트
+            // 예: 서버 동기화, 알림 표시 등
+        });
+
+        window.addEventListener('offline', function() {
+            console.log('오프라인 상태로 전환됨');
+            // 필요시 오프라인 상태 UI 업데이트
+            // 예: 오프라인 모드 안내, 데이터 저장 등
+        });
+
+        /* ========== 메모리 누수 방지 ========== */
+        // 페이지 언로드 시 정리 작업
+        window.addEventListener('beforeunload', function() {
+            // 이벤트 리스너 정리 (가비지 컬렉션 도움)
+            document.querySelectorAll('.option').forEach(option => {
+                // 명시적으로 이벤트 리스너 제거 (실제로는 자동으로 처리됨)
+                // option.removeEventListener('click', selectOption);
+            });
+        });
+
+        /* ========== 디바이스 방향 변경 처리 ========== */
+        window.addEventListener('orientationchange', function() {
+            // 방향 변경 후 레이아웃 안정화를 위한 지연
+            setTimeout(function() {
+                // 현재 스크롤 위치 유지하며 레이아웃 재조정
+                window.scrollTo(0, window.scrollY);
+            }, 100);
+        });
+
+        /* ========== 추가 유틸리티 함수들 ========== */
+        
+        // 디바이스 타입 감지 함수
+        function getDeviceType() {
+            const width = window.innerWidth;
+            if (width <= 768) return 'mobile';
+            if (width <= 1024) return 'tablet';
+            return 'desktop';
+        }
+        
+        // 브라우저 지원 여부 확인 함수
+        function checkBrowserSupport() {
+            const features = {
+                flexbox: CSS.supports('display', 'flex'),
+                grid: CSS.supports('display', 'grid'),
+                customProperties: CSS.supports('--custom', 'property'),
+                intersectionObserver: 'IntersectionObserver' in window,
+                serviceWorker: 'serviceWorker' in navigator
+            };
+            
+            console.log('브라우저 지원 기능:', features);
+            return features;
+        }
+        
+        // 성능 모니터링 함수 (개발용)
+        function measurePerformance() {
+            if (window.performance && window.performance.mark) {
+                window.performance.mark('quiz-load-start');
+                
+                window.addEventListener('load', function() {
+                    window.performance.mark('quiz-load-end');
+                    window.performance.measure('quiz-load-time', 'quiz-load-start', 'quiz-load-end');
+                    
+                    const measure = window.performance.getEntriesByName('quiz-load-time')[0];
+                    console.log(`퀴즈 로딩 시간: ${measure.duration}ms`);
+                });
+            }
+        }
+        
+        // 초기화 시 성능 측정 시작
+        measurePerformance();
+        
+    </script>
+</body>
+</html>

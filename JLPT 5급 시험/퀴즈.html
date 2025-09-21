@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 히라가나 & 가타가나 퀴즈</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 기본 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* 메인 콘텐츠 */
+        .main-content {
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 퀴즈 설정 패널 */
+        .quiz-settings {
+            background: linear-gradient(45deg, #ffeaa7, #fdcb6e);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .setting-group {
+            text-align: center;
+        }
+
+        .setting-label {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin: 0 5px;
+            min-width: 80px;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 퀴즈 영역 */
+        .quiz-container {
+            display: none;
+            text-align: center;
+        }
+
+        .quiz-progress {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .question-type {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .question {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin: 20px 0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 15px 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-btn.correct {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border-color: #4ecdc4;
+        }
+
+        .option-btn.incorrect {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border-color: #ff6b6b;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* 결과 화면 */
+        .result-container {
+            display: none;
+            text-align: center;
+        }
+
+        .result-score {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .score-excellent {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .score-good {
+            background: linear-gradient(45deg, #ffeaa7, #fdcb6e);
+            color: #2d3748;
+        }
+
+        .score-needs-practice {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        }
+
+        .result-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .result-details {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(45deg, #718096, #4a5568);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .question {
+                font-size: 3rem;
+            }
+
+            .options {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .option-btn {
+                font-size: 14px;
+                min-height: 50px;
+            }
+
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 1.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-btn {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .question {
+                font-size: 2.5rem;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .option-btn {
+                font-size: 16px;
+            }
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <div class="logo">🎯 일본어 가나 퀴즈</div>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>🎯 히라가나 & 가타가나 퀴즈</h1>
+            
+            <!-- 퀴즈 설정 패널 -->
+            <div class="quiz-settings" id="settingsPanel">
+                <div class="settings-title">📋 퀴즈 설정</div>
+                
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label class="setting-label">문자 종류</label>
+                        <button class="toggle-btn active" data-type="hiragana">히라가나</button>
+                        <button class="toggle-btn" data-type="katakana">가타가나</button>
+                        <button class="toggle-btn" data-type="both">혼합</button>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label class="setting-label">문제 유형</label>
+                        <button class="toggle-btn active" data-mode="kana-to-romaji">가나→로마자</button>
+                        <button class="toggle-btn" data-mode="romaji-to-kana">로마자→가나</button>
+                        <button class="toggle-btn" data-mode="mixed">혼합</button>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label class="setting-label">문제 수</label>
+                        <button class="toggle-btn" data-count="5">5문제</button>
+                        <button class="toggle-btn active" data-count="10">10문제</button>
+                        <button class="toggle-btn" data-count="20">20문제</button>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startQuiz()">
+                    <i class="fas fa-play"></i> 퀴즈 시작하기
+                </button>
+            </div>
+            
+            <!-- 퀴즈 진행 영역 -->
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">문제 1 / 10</div>
+                </div>
+                
+                <div class="question-container fade-in">
+                    <div class="question-type" id="questionType">히라가나 → 로마자</div>
+                    <div class="question" id="questionText">あ</div>
+                    <div class="options" id="optionsContainer">
+                        <!-- 선택지들이 여기에 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 결과 화면 -->
+            <div class="result-container" id="resultContainer">
+                <div class="result-score">
+                    <div class="score-circle" id="scoreCircle">100%</div>
+                    <div class="result-message" id="resultMessage">완벽합니다! 🎉</div>
+                    <div class="result-details" id="resultDetails">10문제 중 10문제를 맞혔습니다.</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="restartQuiz()">
+                        <i class="fas fa-redo"></i> 다시 도전
+                    </button>
+                    <button class="action-btn secondary" onclick="goToSettings()">
+                        <i class="fas fa-cog"></i> 설정 변경
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 히라가나와 가타가나 데이터
+        const hiraganaData = {
+            'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
+            'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
+            'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
+            'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
+            'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
+            'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
+            'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
+            'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
+            'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
+            'わ': 'wa', 'を': 'wo', 'ん': 'n'
+        };
+
+        const katakanaData = {
+            'ア': 'a', 'イ': 'i', 'ウ': 'u', 'エ': 'e', 'オ': 'o',
+            'カ': 'ka', 'キ': 'ki', 'ク': 'ku', 'ケ': 'ke', 'コ': 'ko',
+            'サ': 'sa', 'シ': 'shi', 'ス': 'su', 'セ': 'se', 'ソ': 'so',
+            'タ': 'ta', 'チ': 'chi', 'ツ': 'tsu', 'テ': 'te', 'ト': 'to',
+            'ナ': 'na', 'ニ': 'ni', 'ヌ': 'nu', 'ネ': 'ne', 'ノ': 'no',
+            'ハ': 'ha', 'ヒ': 'hi', 'フ': 'fu', 'ヘ': 'he', 'ホ': 'ho',
+            'マ': 'ma', 'ミ': 'mi', 'ム': 'mu', 'メ': 'me', 'モ': 'mo',
+            'ヤ': 'ya', 'ユ': 'yu', 'ヨ': 'yo',
+            'ラ': 'ra', 'リ': 'ri', 'ル': 'ru', 'レ': 're', 'ロ': 'ro',
+            'ワ': 'wa', 'ヲ': 'wo', 'ン': 'n'
+        };
+
+        // 퀴즈 설정 및 상태 관리
+        let quizSettings = {
+            type: 'hiragana',
+            mode: 'kana-to-romaji',
+            count: 10
+        };
+
+        let quizState = {
+            currentQuestion: 0,
+            correctAnswers: 0,
+            questions: [],
+            isAnswered: false
+        };
+
+        // 설정 버튼 이벤트 처리
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.closest('.setting-group');
+                parent.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // 설정 업데이트
+                if (this.dataset.type) quizSettings.type = this.dataset.type;
+                if (this.dataset.mode) quizSettings.mode = this.dataset.mode;
+                if (this.dataset.count) quizSettings.count = parseInt(this.dataset.count);
+            });
+        });
+
+        // 퀴즈 시작
+        function startQuiz() {
+            generateQuestions();
+            showQuizContainer();
+            displayQuestion();
+        }
+
+        // 문제 생성
+        function generateQuestions() {
+            const questions = [];
+            let availableChars = {};
+
+            // 문자 종류에 따라 데이터 선택
+            if (quizSettings.type === 'hiragana') {
+                availableChars = {...hiraganaData};
+            } else if (quizSettings.type === 'katakana') {
+                availableChars = {...katakanaData};
+            } else {
+                availableChars = {...hiraganaData, ...katakanaData};
+            }
+
+            const chars = Object.keys(availableChars);
+
+            for (let i = 0; i < quizSettings.count; i++) {
+                const randomChar = chars[Math.floor(Math.random() * chars.length)];
+                const correctAnswer = availableChars[randomChar];
+                
+                // 문제 유형 결정
+                let questionMode = quizSettings.mode;
+                if (questionMode === 'mixed') {
+                    questionMode = Math.random() < 0.5 ? 'kana-to-romaji' : 'romaji-to-kana';
+                }
+
+                // 오답 선택지 생성
+                const allAnswers = Object.values(availableChars);
+                const wrongAnswers = allAnswers.filter(ans => ans !== correctAnswer)
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3);
+
+                const options = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
+                questions.push({
+                    char: randomChar,
+                    answer: correctAnswer,
+                    options: options,
+                    mode: questionMode,
+                    type: randomChar in hiraganaData ? 'hiragana' : 'katakana'
+                });
+            }
+
+            quizState.questions = questions;
+            quizState.currentQuestion = 0;
+            quizState.correctAnswers = 0;
+            quizState.isAnswered = false;
+        }
+
+        // 문제 표시
+        function displayQuestion() {
+            const question = quizState.questions[quizState.currentQuestion];
+            const questionText = document.getElementById('questionText');
+            const questionType = document.getElementById('questionType');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const progressText = document.getElementById('progressText');
+            const progressFill = document.getElementById('progressFill');
+
+            // 진행률 업데이트
+            const progress = ((quizState.currentQuestion + 1) / quizSettings.count) * 100;
+            progressFill.style.width = progress + '%';
+            progressText.textContent = `문제 ${quizState.currentQuestion + 1} / ${quizSettings.count}`;
+
+            // 문제 타입 표시
+            const typeText = question.type === 'hiragana' ? '히라가나' : '가타가나';
+            const modeText = question.mode === 'kana-to-romaji' ? '→ 로마자' : '→ 가나';
+            questionType.textContent = typeText + ' ' + modeText;
+
+            // 문제 표시
+            if (question.mode === 'kana-to-romaji') {
+                questionText.textContent = question.char;
+            } else {
+                questionText.textContent = question.answer;
+            }
+
+            // 선택지 생성
+            optionsContainer.innerHTML = '';
+            question.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                
+                if (question.mode === 'kana-to-romaji') {
+                    btn.textContent = option;
+                } else {
+                    // 로마자→가나 모드에서는 올바른 문자 찾기
+                    const targetChar = Object.keys(question.type === 'hiragana' ? hiraganaData : katakanaData)
+                        .find(char => (question.type === 'hiragana' ? hiraganaData : katakanaData)[char] === option);
+                    btn.textContent = targetChar || option;
+                }
+                
+                btn.addEventListener('click', () => selectOption(btn, option === question.answer));
+                optionsContainer.appendChild(btn);
+            });
+
+            quizState.isAnswered = false;
+        }
+
+        // 선택지 클릭 처리
+        function selectOption(selectedBtn, isCorrect) {
+            if (quizState.isAnswered) return;
+
+            quizState.isAnswered = true;
+            const optionBtns = document.querySelectorAll('.option-btn');
+
+            // 모든 버튼 비활성화
+            optionBtns.forEach(btn => btn.classList.add('disabled'));
+
+            // 정답/오답 표시
+            if (isCorrect) {
+                selectedBtn.classList.add('correct');
+                selectedBtn.innerHTML += ' <i class="fas fa-check"></i>';
+                quizState.correctAnswers++;
+            } else {
+                selectedBtn.classList.add('incorrect');
+                selectedBtn.innerHTML += ' <i class="fas fa-times"></i>';
+                
+                // 정답 표시
+                const correctAnswer = quizState.questions[quizState.currentQuestion].answer;
+                optionBtns.forEach(btn => {
+                    const btnText = btn.textContent.trim();
+                    if (btnText === correctAnswer || 
+                        (quizState.questions[quizState.currentQuestion].mode === 'romaji-to-kana' && 
+                         btnText === quizState.questions[quizState.currentQuestion].char)) {
+                        btn.classList.add('correct');
+                        btn.innerHTML += ' <i class="fas fa-check"></i>';
+                    }
+                });
+            }
+
+            // 1.5초 후 다음 문제로
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+
+        // 다음 문제로 이동
+        function nextQuestion() {
+            quizState.currentQuestion++;
+            
+            if (quizState.currentQuestion < quizSettings.count) {
+                displayQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // 결과 표시
+        function showResult() {
+            const score = Math.round((quizState.correctAnswers / quizSettings.count) * 100);
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultMessage = document.getElementById('resultMessage');
+            const resultDetails = document.getElementById('resultDetails');
+
+            scoreCircle.textContent = score + '%';
+            resultDetails.textContent = `${quizSettings.count}문제 중 ${quizState.correctAnswers}문제를 맞혔습니다.`;
+
+            // 성적에 따른 스타일 및 메시지 설정
+            if (score >= 90) {
+                scoreCircle.className = 'score-circle score-excellent';
+                resultMessage.textContent = '완벽합니다! 🎉';
+            } else if (score >= 70) {
+                scoreCircle.className = 'score-circle score-good';
+                resultMessage.textContent = '잘했습니다! 👏';
+            } else {
+                scoreCircle.className = 'score-circle score-needs-practice';
+                resultMessage.textContent = '더 연습이 필요해요 💪';
+            }
+
+            scoreCircle.classList.add('pulse');
+
+            showResultContainer();
+        }
+
+        // 화면 전환 함수들
+        function showQuizContainer() {
+            document.getElementById('settingsPanel').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('resultContainer').style.display = 'none';
+        }
+
+        function showResultContainer() {
+            document.getElementById('settingsPanel').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+        }
+
+        function showSettingsPanel() {
+            document.getElementById('settingsPanel').style.display = 'block';
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'none';
+        }
+
+        // 액션 함수들
+        function restartQuiz() {
+            startQuiz();
+        }
+
+        function goToSettings() {
+            showSettingsPanel();
+        }
+
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            showSettingsPanel();
+        });
+    </script>
+</body>
+</html>

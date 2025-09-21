@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JLPT N5 읽기 문제집</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .quiz-container {
+            padding: 30px;
+        }
+        
+        .section-title {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #FF6B35;
+            transition: transform 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .question-number {
+            background: #FF6B35;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .japanese-text {
+            background: linear-gradient(45deg, #1976D2, #2196F3);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 500;
+            line-height: 1.4;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+        
+        .option:hover {
+            border-color: #FF6B35;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .option.selected {
+            border-color: #FF6B35;
+            background: #fff3f0;
+            color: #FF6B35;
+        }
+        
+        .option.correct {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .explanation {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+        
+        .check-button {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .check-button:hover {
+            background: #E5532A;
+        }
+        
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .reset-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .reset-button:hover {
+            background: #d32f2f;
+        }
+        
+        .score {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            display: none;
+        }
+        
+        .score.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .japanese-text {
+                font-size: 1.5rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📖 JLPT N5 읽기 문제집</h1>
+            <p>일본어 읽기 실력을 향상시키세요! (15문제)</p>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="section-title">📚 짧은 문장 독해 (1~15번)</div>
+
+            <div class="question-card">
+                <div class="question-number">1</div>
+                <div class="japanese-text">このドアは 右から 開けてください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 문을 오른쪽으로 옮기세요</div>
+                    <div class="option" data-answer="2">2. 문을 오른쪽에서 열어 주세요</div>
+                    <div class="option" data-answer="3">3. 문을 오른쪽에 놓으세요</div>
+                    <div class="option" data-answer="4">4. 문을 오른쪽에 닫아 주세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2번 정답</strong><br>
+                    「右から 開ける」= 오른쪽에서 열다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">2</div>
+                <div class="japanese-text">あぶない！ 車に 気を つけてください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 차를 깨끗하게 해 주세요</div>
+                    <div class="option" data-answer="2">2. 차를 조심하세요</div>
+                    <div class="option" data-answer="3">3. 차를 빨리 타세요</div>
+                    <div class="option" data-answer="4">4. 차를 닦아 주세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2번 정답</strong><br>
+                    「気をつける」= 조심하다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">3</div>
+                <div class="japanese-text">きょうは お休みします。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 오늘 쉽니다</div>
+                    <div class="option" data-answer="2">2. 오늘 쉽지 않습니다</div>
+                    <div class="option" data-answer="3">3. 오늘 쉽니까?</div>
+                    <div class="option" data-answer="4">4. 오늘 쉽게 합니다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「休む」= 쉬다, 휴식하다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">4</div>
+                <div class="japanese-text">ご自由に おとりください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 마음대로 드세요</div>
+                    <div class="option" data-answer="2">2. 마음대로 버리세요</div>
+                    <div class="option" data-answer="3">3. 마음대로 사세요</div>
+                    <div class="option" data-answer="4">4. 마음대로 놓으세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「自由に とる」= 마음대로 가져가다/드시다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">5</div>
+                <div class="japanese-text">この先 工事中</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 이 앞에서 공사 중입니다</div>
+                    <div class="option" data-answer="2">2. 이 앞에서 판매 중입니다</div>
+                    <div class="option" data-answer="3">3. 이 앞에서 운전 중입니다</div>
+                    <div class="option" data-answer="4">4. 이 앞에서 대기 중입니다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「工事中」= 공사 중
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">6</div>
+                <div class="japanese-text">本日 雨のため 中止</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 오늘 비 때문에 취소</div>
+                    <div class="option" data-answer="2">2. 오늘 비가 많이 옴</div>
+                    <div class="option" data-answer="3">3. 오늘 비가 오지 않음</div>
+                    <div class="option" data-answer="4">4. 오늘 비가 약간 옴</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「雨のため 中止」= 비 때문에 취소
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">7</div>
+                <div class="japanese-text">このかさは ご自由に お使いください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 이 우산은 마음대로 쓰세요</div>
+                    <div class="option" data-answer="2">2. 이 우산은 사지 마세요</div>
+                    <div class="option" data-answer="3">3. 이 우산은 버리세요</div>
+                    <div class="option" data-answer="4">4. 이 우산은 팔지 마세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「自由に 使う」= 마음대로 사용하다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">8</div>
+                <div class="japanese-text">ごみは こちらへ</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 쓰레기를 이쪽에 버리세요</div>
+                    <div class="option" data-answer="2">2. 쓰레기를 가져가세요</div>
+                    <div class="option" data-answer="3">3. 쓰레기를 가져오세요</div>
+                    <div class="option" data-answer="4">4. 쓰레기를 버리지 마세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「ごみは こちらへ」= 쓰레기는 이쪽에 (버리세요)
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">9</div>
+                <div class="japanese-text">ただいま 準備中</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 지금 준비 중입니다</div>
+                    <div class="option" data-answer="2">2. 지금 판매 중입니다</div>
+                    <div class="option" data-answer="3">3. 지금 운전 중입니다</div>
+                    <div class="option" data-answer="4">4. 지금 휴식 중입니다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「準備中」= 준비 중
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">10</div>
+                <div class="japanese-text">ペットを つれて 入らないでください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 애완동물을 데리고 들어오지 마세요</div>
+                    <div class="option" data-answer="2">2. 애완동물을 가져오세요</div>
+                    <div class="option" data-answer="3">3. 애완동물을 사고 들어오세요</div>
+                    <div class="option" data-answer="4">4. 애완동물을 먹이지 마세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「つれて 入らないで」= 데리고 들어오지 마세요
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">11</div>
+                <div class="japanese-text">火を 使わないでください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 불을 사용하지 마세요</div>
+                    <div class="option" data-answer="2">2. 불을 켜세요</div>
+                    <div class="option" data-answer="3">3. 불을 꺼주세요</div>
+                    <div class="option" data-answer="4">4. 불을 가져오세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「使わないで」= 사용하지 마세요
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">12</div>
+                <div class="japanese-text">さわらないでください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 만지지 마세요</div>
+                    <div class="option" data-answer="2">2. 먹지 마세요</div>
+                    <div class="option" data-answer="3">3. 쓰지 마세요</div>
+                    <div class="option" data-answer="4">4. 버리지 마세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「さわる」= 만지다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">13</div>
+                <div class="japanese-text">えいぎょう 時間 9:00〜18:00</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 영업 시간은 오전 9시부터 오후 6시까지입니다</div>
+                    <div class="option" data-answer="2">2. 영업 시간은 오전 8시부터 오후 6시까지입니다</div>
+                    <div class="option" data-answer="3">3. 영업 시간은 오전 9시부터 오후 5시까지입니다</div>
+                    <div class="option" data-answer="4">4. 영업 시간은 오전 10시부터 오후 6시까지입니다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「9:00〜18:00」= 오전 9시부터 오후 6시까지
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">14</div>
+                <div class="japanese-text">こちらは 女性 せんよう 車両です。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 이곳은 여성 전용 차량입니다</div>
+                    <div class="option" data-answer="2">2. 이곳은 남성 전용 차량입니다</div>
+                    <div class="option" data-answer="3">3. 이곳은 전용 차량이 아닙니다</div>
+                    <div class="option" data-answer="4">4. 이곳은 어린이 전용 차량입니다</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「女性 専用」= 여성 전용
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">15</div>
+                <div class="japanese-text">きけん！ 入らないでください。</div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. 위험하니 들어가지 마세요</div>
+                    <div class="option" data-answer="2">2. 위험하니 들어오세요</div>
+                    <div class="option" data-answer="3">3. 위험하니 멈추세요</div>
+                    <div class="option" data-answer="4">4. 위험하니 달리세요</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1번 정답</strong><br>
+                    「危険！ 入らないで」= 위험! 들어가지 마세요
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="section-title">📊 표·메뉴 독해 (16~25번)</div>
+
+        <div class="question-card">
+            <div class="question-number">16</div>
+            <div class="japanese-text">
+                🍜 ラーメン店メニュー 🍜<br>
+                しょうゆラーメン … 500円<br>
+                みそラーメン … 550円<br>
+                ぎょうざ … 300円<br>
+                ごはん … 200円
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 300엔</div>
+                <div class="option" data-answer="2">2. 500엔</div>
+                <div class="option" data-answer="3">3. 550엔</div>
+                <div class="option" data-answer="4">4. 600엔</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>3번 정답</strong><br>
+                みそラーメン는 550엔입니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">17</div>
+            <div class="japanese-text">위 메뉴에서 라면 중 더 싼 것은?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. しょうゆラーメン</div>
+                <div class="option" data-answer="2">2. みそラーメン</div>
+                <div class="option" data-answer="3">3. ぎょうざ</div>
+                <div class="option" data-answer="4">4. ごはん</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                しょうゆラーメン(500엔)이 みそラーメン(550엔)보다 저렴합니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">18</div>
+            <div class="japanese-text">しょうゆラーメンと ぎょうざを 一緒に 買うと いくらですか。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 750엔</div>
+                <div class="option" data-answer="2">2. 800엔</div>
+                <div class="option" data-answer="3">3. 850엔</div>
+                <div class="option" data-answer="4">4. 900엔</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                しょうゆラーメン 500엔 + ぎょうざ 300엔 = 800엔
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">19</div>
+            <div class="japanese-text">
+                🚆 電車時刻表 (東京→横浜) 🚆<br>
+                9:00 / 9:30 / 10:00 / 10:30<br><br>
+                9時30分の 次の 電車は 何時ですか。
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 9:45</div>
+                <div class="option" data-answer="2">2. 10:00</div>
+                <div class="option" data-answer="3">3. 10:15</div>
+                <div class="option" data-answer="4">4. 10:30</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                9:30 다음 전차는 10:00입니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">20</div>
+            <div class="japanese-text">10時台に 出発する 電車は 全部で いくつですか。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 1つ</div>
+                <div class="option" data-answer="2">2. 2つ</div>
+                <div class="option" data-answer="3">3. 3つ</div>
+                <div class="option" data-answer="4">4. 4つ</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                10시대는 10:00, 10:30 두 편입니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">21</div>
+            <div class="japanese-text">
+                📅 図書館開館時間 📅<br>
+                月曜日〜金曜日: 9:00〜18:00<br>
+                土曜日・日曜日: 10:00〜17:00<br><br>
+                土曜日の 閉館時間は 何時ですか。
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 17:00</div>
+                <div class="option" data-answer="2">2. 18:00</div>
+                <div class="option" data-answer="3">3. 19:00</div>
+                <div class="option" data-answer="4">4. 20:00</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                토요일 폐관시간은 17:00입니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">22</div>
+            <div class="japanese-text">月曜日と 土曜日の 開館時間の 違いは 何時間ですか。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 1時間</div>
+                <div class="option" data-answer="2">2. 2時間</div>
+                <div class="option" data-answer="3">3. 3時間</div>
+                <div class="option" data-answer="4">4. 4時間</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                월요일 9시간(9:00~18:00), 토요일 7시간(10:00~17:00) = 2시간 차이
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">23</div>
+            <div class="japanese-text">
+                🏥 病院受付時間 🏥<br>
+                午前: 9:00〜12:00<br>
+                午後: 14:00〜17:00<br>
+                休診: 水曜日・日曜日<br><br>
+                水曜日に 病院に 行けますか。
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 行けます</div>
+                <div class="option" data-answer="2">2. 行けません</div>
+                <div class="option" data-answer="3">3. 午前だけ 行けます</div>
+                <div class="option" data-answer="4">4. 午後だけ 行けます</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                水曜日は 休診日이므로 갈 수 없습니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">24</div>
+            <div class="japanese-text">午後の 受付は 何時から 何時までですか。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 13:00〜16:00</div>
+                <div class="option" data-answer="2">2. 14:00〜17:00</div>
+                <div class="option" data-answer="3">3. 14:00〜18:00</div>
+                <div class="option" data-answer="4">4. 15:00〜17:00</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                오후 접수시간은 14:00〜17:00입니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">25</div>
+            <div class="japanese-text">
+                🍽️ レストランメニュー 🍽️<br>
+                カレーライス: 800円<br>
+                ハンバーガー: 600円<br>
+                サラダ: 400円<br>
+                ドリンク: 200円<br><br>
+                1000円で 買えない 組み合わせは どれですか。
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. カレーライス + ドリンク</div>
+                <div class="option" data-answer="2">2. ハンバーガー + サラダ</div>
+                <div class="option" data-answer="3">3. カレーライス + サラダ</div>
+                <div class="option" data-answer="4">4. ハンバーガー + ドリンク</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>3번 정답</strong><br>
+                카레라이스(800엔) + 샐러드(400엔) = 1200엔 (1000엔 초과)
+            </div>
+        </div>
+
+        <div class="section-title">🏪 안내문 독해 (26~35번)</div>
+
+        <div class="question-card">
+            <div class="question-number">26</div>
+            <div class="japanese-text">このエレベーターは 使用中止です。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 엘리베이터를 사용하세요</div>
+                <div class="option" data-answer="2">2. 엘리베이터를 사용할 수 없습니다</div>
+                <div class="option" data-answer="3">3. 엘리베이터를 닫으세요</div>
+                <div class="option" data-answer="4">4. 엘리베이터를 열어 주세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「使用中止」= 사용 중지
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">27</div>
+            <div class="japanese-text">ここで たばこを 吸わないでください。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 여기서 담배를 피워도 됩니다</div>
+                <div class="option" data-answer="2">2. 여기서 담배를 피우지 마세요</div>
+                <div class="option" data-answer="3">3. 여기서 담배를 사세요</div>
+                <div class="option" data-answer="4">4. 여기서 담배를 버리세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「吸わないで」= 피우지 마세요
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">28</div>
+            <div class="japanese-text">この先 トイレは ありません。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 이 앞에 화장실이 없습니다</div>
+                <div class="option" data-answer="2">2. 이 앞에 화장실이 있습니다</div>
+                <div class="option" data-answer="3">3. 이 앞에 화장실이 많습니다</div>
+                <div class="option" data-answer="4">4. 이 앞에 화장실을 만드세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                「ありません」= 없습니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">29</div>
+            <div class="japanese-text">入口は あちらです。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 입구는 여기입니다</div>
+                <div class="option" data-answer="2">2. 입구는 저쪽입니다</div>
+                <div class="option" data-answer="3">3. 입구는 없습니다</div>
+                <div class="option" data-answer="4">4. 입구는 닫혔습니다</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「あちら」= 저쪽
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">30</div>
+            <div class="japanese-text">10分ほど お待ちください。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 10분 기다려 주세요</div>
+                <div class="option" data-answer="2">2. 10분 후에 오세요</div>
+                <div class="option" data-answer="3">3. 10분 전에 오세요</div>
+                <div class="option" data-answer="4">4. 10분 동안 쉬세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                「お待ちください」= 기다려 주세요
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">31</div>
+            <div class="japanese-text">店内での 撮影は ご遠慮ください。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 가게 안에서 촬영하지 마세요</div>
+                <div class="option" data-answer="2">2. 가게 안에서 촬영하세요</div>
+                <div class="option" data-answer="3">3. 가게 안에서 촬영 가능합니다</div>
+                <div class="option" data-answer="4">4. 가게 안에서 촬영하세요, 무료입니다</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                「ご遠慮ください」= 삼가 주세요 (하지 마세요)
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">32</div>
+            <div class="japanese-text">この水は 飲めません。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 이 물은 마셔도 됩니다</div>
+                <div class="option" data-answer="2">2. 이 물은 마시면 안 됩니다</div>
+                <div class="option" data-answer="3">3. 이 물은 맛있습니다</div>
+                <div class="option" data-answer="4">4. 이 물은 뜨겁습니다</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「飲めません」= 마실 수 없습니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">33</div>
+            <div class="japanese-text">ここに 車を とめないでください。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 여기서 차를 세우지 마세요</div>
+                <div class="option" data-answer="2">2. 여기서 차를 세우세요</div>
+                <div class="option" data-answer="3">3. 여기서 차를 가져오세요</div>
+                <div class="option" data-answer="4">4. 여기서 차를 팔지 마세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                「とめないで」= 세우지 마세요
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">34</div>
+            <div class="japanese-text">かさを お持ちください。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 우산을 가지세요</div>
+                <div class="option" data-answer="2">2. 우산을 버리세요</div>
+                <div class="option" data-answer="3">3. 우산을 빌리세요</div>
+                <div class="option" data-answer="4">4. 우산을 사세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                「お持ちください」= 가지세요
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">35</div>
+            <div class="japanese-text">この道は せまいので 気をつけてください。</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 이 길은 넓으니 조심하세요</div>
+                <div class="option" data-answer="2">2. 이 길은 좁으니 조심하세요</div>
+                <div class="option" data-answer="3">3. 이 길은 짧으니 조심하세요</div>
+                <div class="option" data-answer="4">4. 이 길은 길으니 조심하세요</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「せまい」= 좁다
+            </div>
+        </div>
+
+        <div class="section-title">📖 긴 독해문 (36~50번)</div>
+
+        <div class="question-card">
+            <div class="question-number">36</div>
+            <div class="japanese-text">
+                きのう、友だちと 公園へ 行きました。天気が よくて、花が たくさん さいていました。おべんとうを 食べたあと、サッカーを しました。それから、写真を とって 家に 帰りました。<br><br>
+                어제 주인공은 어디에 갔습니까?
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 도서관</div>
+                <div class="option" data-answer="2">2. 공원</div>
+                <div class="option" data-answer="3">3. 학교</div>
+                <div class="option" data-answer="4">4. 시장</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「公園へ 行きました」= 공원에 갔습니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">37</div>
+            <div class="japanese-text">위 글에서 날씨는 어땠습니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 나빴다</div>
+                <div class="option" data-answer="2">2. 좋았다</div>
+                <div class="option" data-answer="3">3. 추웠다</div>
+                <div class="option" data-answer="4">4. 비가 왔다</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「天気が よくて」= 날씨가 좋았다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">38</div>
+            <div class="japanese-text">점심 후에 무엇을 했습니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 사진을 찍었다</div>
+                <div class="option" data-answer="2">2. 축구를 했다</div>
+                <div class="option" data-answer="3">3. 집에 갔다</div>
+                <div class="option" data-answer="4">4. 꽃을 보았다</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「おべんとうを 食べたあと、サッカーを しました」
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">39</div>
+            <div class="japanese-text">누구와 함께 갔습니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 가족</div>
+                <div class="option" data-answer="2">2. 친구</div>
+                <div class="option" data-answer="3">3. 혼자</div>
+                <div class="option" data-answer="4">4. 선생님</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「友だちと 公園へ 行きました」= 친구와 공원에 갔습니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">40</div>
+            <div class="japanese-text">사진은 언제 찍었습니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 점심 전에</div>
+                <div class="option" data-answer="2">2. 축구 후에</div>
+                <div class="option" data-answer="3">3. 공원 가기 전에</div>
+                <div class="option" data-answer="4">4. 집에 온 후에</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「サッカーを しました。それから、写真を とって」= 축구 후에 사진을 찍었다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">41</div>
+            <div class="japanese-text">
+                わたしの うちは 駅から 歩いて 10分です。近くに 大きい スーパーと 小さい こうえんが あります。スーパーは とても べんりです。こうえんでは 子どもたちが よく あそんでいます。<br><br>
+                집에서 역까지 얼마나 걸립니까?
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 5분</div>
+                <div class="option" data-answer="2">2. 10분</div>
+                <div class="option" data-answer="3">3. 15분</div>
+                <div class="option" data-answer="4">4. 20분</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「駅から 歩いて 10分です」= 역에서 걸어서 10분입니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">42</div>
+            <div class="japanese-text">집 근처에 없는 것은?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 큰 슈퍼</div>
+                <div class="option" data-answer="2">2. 작은 공원</div>
+                <div class="option" data-answer="3">3. 영화관</div>
+                <div class="option" data-answer="4">4. 편리한 시설</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>3번 정답</strong><br>
+                글에서 영화관에 대한 언급이 없습니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">43</div>
+            <div class="japanese-text">공원에서는 누가 자주 놉니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 어른</div>
+                <div class="option" data-answer="2">2. 아이들</div>
+                <div class="option" data-answer="3">3. 학생</div>
+                <div class="option" data-answer="4">4. 경찰</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「子どもたちが よく あそんでいます」= 아이들이 자주 놉니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">44</div>
+            <div class="japanese-text">슈퍼는 어떤가요?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 불편하다</div>
+                <div class="option" data-answer="2">2. 편리하다</div>
+                <div class="option" data-answer="3">3. 작다</div>
+                <div class="option" data-answer="4">4. 멀다</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「スーパーは とても べんりです」= 슈퍼는 매우 편리합니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">45</div>
+            <div class="japanese-text">
+                来週の 日曜日に、学校で 文化さいが あります。午前10時から 午後3時までです。食べ物や 飲み物を うっています。午後1時から ダンスショーも あります。ぜひ 来てください。<br><br>
+                문화제는 언제 있습니까?
+            </div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 이번 주 일요일</div>
+                <div class="option" data-answer="2">2. 다음 주 일요일</div>
+                <div class="option" data-answer="3">3. 월요일</div>
+                <div class="option" data-answer="4">4. 토요일</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「来週の 日曜日に」= 다음 주 일요일에
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">46</div>
+            <div class="japanese-text">문화제는 몇 시에 시작합니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 오전 9시</div>
+                <div class="option" data-answer="2">2. 오전 10시</div>
+                <div class="option" data-answer="3">3. 오후 1시</div>
+                <div class="option" data-answer="4">4. 오후 3시</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「午前10時から」= 오전 10시부터
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">47</div>
+            <div class="japanese-text">문화제에서 없는 것은?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 음식</div>
+                <div class="option" data-answer="2">2. 음료</div>
+                <div class="option" data-answer="3">3. 영화</div>
+                <div class="option" data-answer="4">4. 쇼</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>3번 정답</strong><br>
+                글에서 영화에 대한 언급이 없습니다.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">48</div>
+            <div class="japanese-text">댄스쇼는 언제 있습니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 오전 10시</div>
+                <div class="option" data-answer="2">2. 오후 1시</div>
+                <div class="option" data-answer="3">3. 오후 3시</div>
+                <div class="option" data-answer="4">4. 오후 2시</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>2번 정답</strong><br>
+                「午後1時から ダンスショーも あります」= 오후 1시부터 댄스쇼도 있습니다
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">49</div>
+            <div class="japanese-text">문화제는 몇 시에 끝납니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 오후 1시</div>
+                <div class="option" data-answer="2">2. 오후 2시</div>
+                <div class="option" data-answer="3">3. 오후 3시</div>
+                <div class="option" data-answer="4">4. 오후 4시</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>3번 정답</strong><br>
+                「午後3時まで」= 오후 3시까지
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number">50</div>
+            <div class="japanese-text">이 안내문의 목적은 무엇입니까?</div>
+            <div class="options">
+                <div class="option" data-answer="1">1. 문화제 안내</div>
+                <div class="option" data-answer="2">2. 시험 안내</div>
+                <div class="option" data-answer="3">3. 공연 안내</div>
+                <div class="option" data-answer="4">4. 쇼핑 안내</div>
+            </div>
+            <div class="explanation">
+                ✅ <strong>1번 정답</strong><br>
+                문화제에 대한 전반적인 안내입니다.
+            </div>
+        </div>            <p>일본어 읽기 실력을 향상시키세요! (50문제)</p>
+
+            <div class="controls">
+                <button class="check-button" onclick="checkAllAnswers()">정답 확인</button>
+                <button class="reset-button" onclick="resetQuiz()">다시 풀기</button>
+            </div>
+
+            <div class="score" id="scoreDisplay"></div>
+            
+        </div>
+    </div>
+
+    <script>
+        // 정답 배열 (각 문제의 정답 번호)
+        const correctAnswers = [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+        let userAnswers = {};
+
+        // 옵션 클릭 이벤트
+        document.querySelectorAll('.option').forEach((option, index) => {
+            option.addEventListener('click', function() {
+                const questionCard = this.closest('.question-card');
+                const questionNumber = parseInt(questionCard.querySelector('.question-number').textContent);
+                const answerNumber = parseInt(this.dataset.answer);
+                
+                // 같은 문제의 다른 옵션들의 선택 해제
+                questionCard.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // 현재 옵션 선택
+                this.classList.add('selected');
+                userAnswers[questionNumber] = answerNumber;
+            });
+        });
+
+        function checkAllAnswers() {
+            let correctCount = 0;
+            const totalQuestions = correctAnswers.length;
+
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                const questionNumber = index + 1;
+                const correctAnswer = correctAnswers[index];
+                const userAnswer = userAnswers[questionNumber];
+                const explanation = card.querySelector('.explanation');
+                
+                // 정답 표시
+                card.querySelectorAll('.option').forEach(option => {
+                    const optionNumber = parseInt(option.dataset.answer);
+                    
+                    if (optionNumber === correctAnswer) {
+                        option.classList.add('correct');
+                    } else if (optionNumber === userAnswer && userAnswer !== correctAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                // 해설 표시
+                explanation.classList.add('show');
+                
+                // 정답 개수 카운트
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            // 점수 표시
+            const scorePercentage = Math.round((correctCount / totalQuestions) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.innerHTML = `
+                <h3>🎉 채점 결과</h3>
+                <p>${correctCount}/${totalQuestions}문제 정답 (${scorePercentage}점)</p>
+                <p>${getGradeMessage(scorePercentage)}</p>
+            `;
+            scoreDisplay.classList.add('show');
+
+            // 버튼 비활성화
+            document.querySelector('.check-button').disabled = true;
+        }
+
+        function getGradeMessage(score) {
+            if (score >= 90) return "🏆 훌륭해요! 일본어 읽기 실력이 뛰어나네요!";
+            if (score >= 80) return "👍 잘했어요! 기본적인 읽기는 문제없어 보여요!";
+            if (score >= 70) return "📚 괜찮아요! 조금만 더 연습하면 향상될 거예요!";
+            if (score >= 60) return "💪 아직 부족해요. 기초 어휘와 표현을 더 공부해보세요!";
+            return "📖 더 많은 연습이 필요해요. 꾸준히 공부하면 실력이 늘 거예요!";
+        }
+
+        function resetQuiz() {
+            // 모든 선택 및 결과 초기화
+            userAnswers = {};
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.explanation').forEach(explanation => {
+                explanation.classList.remove('show');
+            });
+            
+            document.getElementById('scoreDisplay').classList.remove('show');
+            document.querySelector('.check-button').disabled = false;
+            
+            // 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

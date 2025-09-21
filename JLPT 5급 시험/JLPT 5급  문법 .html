@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JLPT N5 문법 문제집</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .quiz-container {
+            padding: 30px;
+        }
+        
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2196F3;
+            transition: transform 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .question-number {
+            background: #2196F3;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .japanese-text {
+            font-size: 1.5rem;
+            color: #1976D2;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .option:hover {
+            border-color: #2196F3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .option.selected {
+            border-color: #2196F3;
+            background: #e3f2fd;
+            color: #1976D2;
+        }
+        
+        .option.correct {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .explanation {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+        
+        .check-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .check-button:hover {
+            background: #1976D2;
+        }
+        
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .reset-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .reset-button:hover {
+            background: #d32f2f;
+        }
+        
+        .score {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            display: none;
+        }
+        
+        .score.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 JLPT N5 문법 문제집</h1>
+            <p>일본어 기초 문법을 마스터하세요! (총 50문제)</p>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question-card">
+                <div class="question-number">1</div>
+                <div class="question-text">
+                    형용사 과거형<br>
+                    <span class="japanese-text">きのうの えいがは とても（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. おもしろかったです</div>
+                    <div class="option" data-answer="2">2. おもしろいです</div>
+                    <div class="option" data-answer="3">3. おもしろいでした</div>
+                    <div class="option" data-answer="4">4. おもしろかったでした</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) おもしろかったです</strong><br>
+                    과거형: い형용사 → かった + です
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">2</div>
+                <div class="question-text">
+                    동사 て형 연결<br>
+                    <span class="japanese-text">まいにち ほんを よんで（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. います</div>
+                    <div class="option" data-answer="2">2. いきます</div>
+                    <div class="option" data-answer="3">3. いました</div>
+                    <div class="option" data-answer="4">4. いません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) います</strong><br>
+                    현재 진행형: 동사 て형 + いる
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">3</div>
+                <div class="question-text">
+                    조사(목적지)<br>
+                    <span class="japanese-text">ともだち（　）でんわを かけます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. に</div>
+                    <div class="option" data-answer="2">2. が</div>
+                    <div class="option" data-answer="3">3. を</div>
+                    <div class="option" data-answer="4">4. で</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) に</strong><br>
+                    대상(상대방)에게 ~하다 → に
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">4</div>
+                <div class="question-text">
+                    부정형(형용사)<br>
+                    <span class="japanese-text">この スープは あつく（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ないです</div>
+                    <div class="option" data-answer="2">2. ありません</div>
+                    <div class="option" data-answer="3">3. なくです</div>
+                    <div class="option" data-answer="4">4. なしです</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ないです</strong><br>
+                    부정: い형용사 어간 + くないです
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">5</div>
+                <div class="question-text">
+                    시간 표현<br>
+                    <span class="japanese-text">（　）に 日本へ 行きました。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. らいげつ</div>
+                    <div class="option" data-answer="2">2. きょねん</div>
+                    <div class="option" data-answer="3">3. まいにち</div>
+                    <div class="option" data-answer="4">4. いま</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) きょねん</strong><br>
+                    과거시제와 어울림
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">6</div>
+                <div class="question-text">
+                    비교 표현<br>
+                    <span class="japanese-text">ねこは いぬ（　）かわいいです。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. と</div>
+                    <div class="option" data-answer="2">2. より</div>
+                    <div class="option" data-answer="3">3. まで</div>
+                    <div class="option" data-answer="4">4. が</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) より</strong><br>
+                    비교: Aは Bより ~
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">7</div>
+                <div class="question-text">
+                    의지형 표현<br>
+                    <span class="japanese-text">あした こうえんへ 行き（　）か。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ましょう</div>
+                    <div class="option" data-answer="2">2. ます</div>
+                    <div class="option" data-answer="3">3. ました</div>
+                    <div class="option" data-answer="4">4. ません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ましょう</strong><br>
+                    "갑시다" 청유형
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">8</div>
+                <div class="question-text">
+                    위치 표현<br>
+                    <span class="japanese-text">ほんは つくえの 上（　）あります。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. に</div>
+                    <div class="option" data-answer="2">2. が</div>
+                    <div class="option" data-answer="3">3. で</div>
+                    <div class="option" data-answer="4">4. と</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) に</strong><br>
+                    위치 + 존재 동사
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">9</div>
+                <div class="question-text">
+                    경험 표현<br>
+                    <span class="japanese-text">にほんへ 行った（　）がありますか。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. とき</div>
+                    <div class="option" data-answer="2">2. もの</div>
+                    <div class="option" data-answer="3">3. こと</div>
+                    <div class="option" data-answer="4">4. よう</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) こと</strong><br>
+                    경험: 동사 과거형 + ことがある
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">10</div>
+                <div class="question-text">
+                    청유 표현<br>
+                    <span class="japanese-text">いっしょに コーヒーを のみ（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ませんか</div>
+                    <div class="option" data-answer="2">2. ました</div>
+                    <div class="option" data-answer="3">3. ます</div>
+                    <div class="option" data-answer="4">4. ましょうか</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ませんか</strong><br>
+                    "하지 않겠습니까?" 권유형
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">11</div>
+                <div class="question-text">
+                    동사 ない형<br>
+                    <span class="japanese-text">あしたは はやく おき（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ません</div>
+                    <div class="option" data-answer="2">2. ないです</div>
+                    <div class="option" data-answer="3">3. ませんか</div>
+                    <div class="option" data-answer="4">4. ましょう</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ません</strong><br>
+                    부정 현재
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">12</div>
+                <div class="question-text">
+                    조사(수단)<br>
+                    <span class="japanese-text">ともだち（　）メールを おくります。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. と</div>
+                    <div class="option" data-answer="2">2. で</div>
+                    <div class="option" data-answer="3">3. に</div>
+                    <div class="option" data-answer="4">4. を</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) で</strong><br>
+                    수단/방법
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">13</div>
+                <div class="question-text">
+                    목적 표현<br>
+                    <span class="japanese-text">スーパーへ パンを かい（　）行きます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. たい</div>
+                    <div class="option" data-answer="2">2. に</div>
+                    <div class="option" data-answer="3">3. ます</div>
+                    <div class="option" data-answer="4">4. て</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) に</strong><br>
+                    목적을 나타내는 조사
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">14</div>
+                <div class="question-text">
+                    순서 연결<br>
+                    <span class="japanese-text">ごはんを たべて（　）を あらいます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. それから</div>
+                    <div class="option" data-answer="2">2. だから</div>
+                    <div class="option" data-answer="3">3. けれど</div>
+                    <div class="option" data-answer="4">4. でも</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) それから</strong><br>
+                    순서 연결
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">15</div>
+                <div class="question-text">
+                    과거 경험 부정<br>
+                    <span class="japanese-text">日本で すしを たべた（　）がありません。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. こと</div>
+                    <div class="option" data-answer="2">2. とき</div>
+                    <div class="option" data-answer="3">3. よう</div>
+                    <div class="option" data-answer="4">4. もの</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) こと</strong><br>
+                    부정: ~한 적이 없다
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">16</div>
+                <div class="question-text">
+                    이유 표현<br>
+                    <span class="japanese-text">あめ（　）サッカーを しません。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ので</div>
+                    <div class="option" data-answer="2">2. と</div>
+                    <div class="option" data-answer="3">3. が</div>
+                    <div class="option" data-answer="4">4. を</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ので</strong><br>
+                    이유를 나타냄
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">17</div>
+                <div class="question-text">
+                    상태 표현<br>
+                    <span class="japanese-text">まどが あいて（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. います</div>
+                    <div class="option" data-answer="2">2. いきます</div>
+                    <div class="option" data-answer="3">3. いました</div>
+                    <div class="option" data-answer="4">4. いません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) います</strong><br>
+                    상태 지속
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">18</div>
+                <div class="question-text">
+                    조사(장소)<br>
+                    <span class="japanese-text">プール（　）およぎます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. で</div>
+                    <div class="option" data-answer="2">2. に</div>
+                    <div class="option" data-answer="3">3. を</div>
+                    <div class="option" data-answer="4">4. が</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) で</strong><br>
+                    장소에서 동작 수행
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">19</div>
+                <div class="question-text">
+                    부사 위치<br>
+                    <span class="japanese-text">（　）べんきょうします。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. よく</div>
+                    <div class="option" data-answer="2">2. よい</div>
+                    <div class="option" data-answer="3">3. よかった</div>
+                    <div class="option" data-answer="4">4. よくて</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) よく</strong><br>
+                    "자주/잘" 의미 부사
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">20</div>
+                <div class="question-text">
+                    가능형<br>
+                    <span class="japanese-text">日本語が（　）ます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. はなせ</div>
+                    <div class="option" data-answer="2">2. はなせる</div>
+                    <div class="option" data-answer="3">3. はなす</div>
+                    <div class="option" data-answer="4">4. はなし</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) はなせる</strong><br>
+                    가능형
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">21</div>
+                <div class="question-text">
+                    조사(목적어)<br>
+                    <span class="japanese-text">本（　）よみます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. を</div>
+                    <div class="option" data-answer="2">2. に</div>
+                    <div class="option" data-answer="3">3. が</div>
+                    <div class="option" data-answer="4">4. で</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) を</strong><br>
+                    목적어
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">22</div>
+                <div class="question-text">
+                    명사 수식<br>
+                    <span class="japanese-text">（　）シャツを きています。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. あかい</div>
+                    <div class="option" data-answer="2">2. あかく</div>
+                    <div class="option" data-answer="3">3. あかかった</div>
+                    <div class="option" data-answer="4">4. あかくて</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) あかい</strong><br>
+                    명사 수식형
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">23</div>
+                <div class="question-text">
+                    ~たい형<br>
+                    <span class="japanese-text">水を のみ（　）です。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. たい</div>
+                    <div class="option" data-answer="2">2. た</div>
+                    <div class="option" data-answer="3">3. たく</div>
+                    <div class="option" data-answer="4">4. たくて</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) たい</strong><br>
+                    희망 표현
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">24</div>
+                <div class="question-text">
+                    권유 표현<br>
+                    <span class="japanese-text">（　）本を よみましょう。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. この</div>
+                    <div class="option" data-answer="2">2. これ</div>
+                    <div class="option" data-answer="3">3. ここ</div>
+                    <div class="option" data-answer="4">4. こちら</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) この</strong><br>
+                    명사 앞: "이"
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">25</div>
+                <div class="question-text">
+                    의문사<br>
+                    <span class="japanese-text">（　）行きますか。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. どこへ</div>
+                    <div class="option" data-answer="2">2. どこで</div>
+                    <div class="option" data-answer="3">3. どこが</div>
+                    <div class="option" data-answer="4">4. どこを</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) どこへ</strong><br>
+                    방향
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">26</div>
+                <div class="question-text">
+                    ~ています<br>
+                    <span class="japanese-text">いま ごはんを たべ（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ている</div>
+                    <div class="option" data-answer="2">2. ます</div>
+                    <div class="option" data-answer="3">3. ました</div>
+                    <div class="option" data-answer="4">4. た</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ている</strong><br>
+                    진행
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">27</div>
+                <div class="question-text">
+                    ~ながら<br>
+                    <span class="japanese-text">おんがくを きき（　）べんきょうします。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ながら</div>
+                    <div class="option" data-answer="2">2. て</div>
+                    <div class="option" data-answer="3">3. から</div>
+                    <div class="option" data-answer="4">4. のに</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ながら</strong><br>
+                    동시 진행
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">28</div>
+                <div class="question-text">
+                    명령형<br>
+                    <span class="japanese-text">はやく（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. きて</div>
+                    <div class="option" data-answer="2">2. きます</div>
+                    <div class="option" data-answer="3">3. きた</div>
+                    <div class="option" data-answer="4">4. きろ</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>4) きろ</strong><br>
+                    명령형
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">29</div>
+                <div class="question-text">
+                    금지 표현<br>
+                    <span class="japanese-text">ここで たばこを（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. すわないでください</div>
+                    <div class="option" data-answer="2">2. すってください</div>
+                    <div class="option" data-answer="3">3. すいません</div>
+                    <div class="option" data-answer="4">4. すいました</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) すわないでください</strong><br>
+                    금지
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">30</div>
+                <div class="question-text">
+                    ~でしょう<br>
+                    <span class="japanese-text">あしたは あめが（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ふるでしょう</div>
+                    <div class="option" data-answer="2">2. ふります</div>
+                    <div class="option" data-answer="3">3. ふりました</div>
+                    <div class="option" data-answer="4">4. ふらない</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ふるでしょう</strong><br>
+                    추측
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">31</div>
+                <div class="question-text">
+                    순서 연결<br>
+                    <span class="japanese-text">スーパーへ 行って（　）パンを かいました。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. そして</div>
+                    <div class="option" data-answer="2">2. だから</div>
+                    <div class="option" data-answer="3">3. けれど</div>
+                    <div class="option" data-answer="4">4. でも</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) そして</strong><br>
+                    순서·추가 연결
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">32</div>
+                <div class="question-text">
+                    조사(도구)<br>
+                    <span class="japanese-text">はし（　）ごはんを たべます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. で</div>
+                    <div class="option" data-answer="2">2. に</div>
+                    <div class="option" data-answer="3">3. を</div>
+                    <div class="option" data-answer="4">4. が</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) で</strong><br>
+                    도구/수단
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">33</div>
+                <div class="question-text">
+                    현재진행<br>
+                    <span class="japanese-text">かれは いま 本を よんで（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. います</div>
+                    <div class="option" data-answer="2">2. いきます</div>
+                    <div class="option" data-answer="3">3. いました</div>
+                    <div class="option" data-answer="4">4. いません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) います</strong><br>
+                    진행
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">34</div>
+                <div class="question-text">
+                    조건형<br>
+                    <span class="japanese-text">あめが ふれ（　）、うちに います。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ば</div>
+                    <div class="option" data-answer="2">2. て</div>
+                    <div class="option" data-answer="3">3. のに</div>
+                    <div class="option" data-answer="4">4. から</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ば</strong><br>
+                    조건
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">35</div>
+                <div class="question-text">
+                    청유형<br>
+                    <span class="japanese-text">ちょっと やすみ（　）か。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ません</div>
+                    <div class="option" data-answer="2">2. ませんか</div>
+                    <div class="option" data-answer="3">3. ましょう</div>
+                    <div class="option" data-answer="4">4. ました</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) ませんか</strong><br>
+                    권유
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">36</div>
+                <div class="question-text">
+                    경험<br>
+                    <span class="japanese-text">きょうとへ 行った（　）があります。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. こと</div>
+                    <div class="option" data-answer="2">2. とき</div>
+                    <div class="option" data-answer="3">3. よう</div>
+                    <div class="option" data-answer="4">4. もの</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) こと</strong><br>
+                    경험
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">37</div>
+                <div class="question-text">
+                    ~てから<br>
+                    <span class="japanese-text">しごとが おわっ（　）うちへ かえります。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. てから</div>
+                    <div class="option" data-answer="2">2. たら</div>
+                    <div class="option" data-answer="3">3. のに</div>
+                    <div class="option" data-answer="4">4. ば</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) てから</strong><br>
+                    순서(먼저 A 후 B)
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">38</div>
+                <div class="question-text">
+                    가능형<br>
+                    <span class="japanese-text">えいごが よく（　）ます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. はなせ</div>
+                    <div class="option" data-answer="2">2. はなせる</div>
+                    <div class="option" data-answer="3">3. はなす</div>
+                    <div class="option" data-answer="4">4. はなし</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) はなせる</strong><br>
+                    가능
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">39</div>
+                <div class="question-text">
+                    조사(방향)<br>
+                    <span class="japanese-text">がっこう（　）行きます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. へ</div>
+                    <div class="option" data-answer="2">2. で</div>
+                    <div class="option" data-answer="3">3. を</div>
+                    <div class="option" data-answer="4">4. に</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) へ</strong><br>
+                    방향
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">40</div>
+                <div class="question-text">
+                    ~ながら<br>
+                    <span class="japanese-text">テレビを み（　）ごはんを たべます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ながら</div>
+                    <div class="option" data-answer="2">2. て</div>
+                    <div class="option" data-answer="3">3. から</div>
+                    <div class="option" data-answer="4">4. のに</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ながら</strong><br>
+                    동시 진행
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">41</div>
+                <div class="question-text">
+                    이유<br>
+                    <span class="japanese-text">びょうき（　）学校を 休みます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. なので</div>
+                    <div class="option" data-answer="2">2. ので</div>
+                    <div class="option" data-answer="3">3. から</div>
+                    <div class="option" data-answer="4">4. でも</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>2) ので</strong><br>
+                    이유
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">42</div>
+                <div class="question-text">
+                    부정형(동사)<br>
+                    <span class="japanese-text">あしたは バスに の（　）です。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. らない</div>
+                    <div class="option" data-answer="2">2. らないで</div>
+                    <div class="option" data-answer="3">3. りません</div>
+                    <div class="option" data-answer="4">4. らないです</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) りません</strong><br>
+                    부정: のる → のりません
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">43</div>
+                <div class="question-text">
+                    조사(대상)<br>
+                    <span class="japanese-text">母（　）手紙を 書きます。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. に</div>
+                    <div class="option" data-answer="2">2. を</div>
+                    <div class="option" data-answer="3">3. で</div>
+                    <div class="option" data-answer="4">4. が</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) に</strong><br>
+                    대상
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">44</div>
+                <div class="question-text">
+                    ~たい형<br>
+                    <span class="japanese-text">日本で すしを たべ（　）です。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. たい</div>
+                    <div class="option" data-answer="2">2. たく</div>
+                    <div class="option" data-answer="3">3. たくて</div>
+                    <div class="option" data-answer="4">4. た</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) たい</strong><br>
+                    희망
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">45</div>
+                <div class="question-text">
+                    비교<br>
+                    <span class="japanese-text">このかばんは あのかばん（　）やすいです。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. より</div>
+                    <div class="option" data-answer="2">2. が</div>
+                    <div class="option" data-answer="3">3. と</div>
+                    <div class="option" data-answer="4">4. の</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) より</strong><br>
+                    비교
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">46</div>
+                <div class="question-text">
+                    명사 수식<br>
+                    <span class="japanese-text">（　）くるまを かいました。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. あたらしい</div>
+                    <div class="option" data-answer="2">2. あたらしく</div>
+                    <div class="option" data-answer="3">3. あたらしかった</div>
+                    <div class="option" data-answer="4">4. あたらしくて</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) あたらしい</strong><br>
+                    명사 수식
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">47</div>
+                <div class="question-text">
+                    권유<br>
+                    <span class="japanese-text">いっしょに べんきょう（　）か。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. しません</div>
+                    <div class="option" data-answer="2">2. します</div>
+                    <div class="option" data-answer="3">3. しませんか</div>
+                    <div class="option" data-answer="4">4. しました</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>3) しませんか</strong><br>
+                    권유
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">48</div>
+                <div class="question-text">
+                    ~てください<br>
+                    <span class="japanese-text">ドアを あけ（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. てください</div>
+                    <div class="option" data-answer="2">2. ます</div>
+                    <div class="option" data-answer="3">3. ました</div>
+                    <div class="option" data-answer="4">4. て</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) てください</strong><br>
+                    부탁
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">49</div>
+                <div class="question-text">
+                    금지<br>
+                    <span class="japanese-text">ここで しゃしんを とら（　）ください。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. ないで</div>
+                    <div class="option" data-answer="2">2. ませんで</div>
+                    <div class="option" data-answer="3">3. ない</div>
+                    <div class="option" data-answer="4">4. ません</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) ないで</strong><br>
+                    금지
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number">50</div>
+                <div class="question-text">
+                    추측<br>
+                    <span class="japanese-text">あしたは いい てんき（　）。</span>
+                </div>
+                <div class="options">
+                    <div class="option" data-answer="1">1. でしょう</div>
+                    <div class="option" data-answer="2">2. です</div>
+                    <div class="option" data-answer="3">3. でした</div>
+                    <div class="option" data-answer="4">4. ではない</div>
+                </div>
+                <div class="explanation">
+                    ✅ <strong>1) でしょう</strong><br>
+                    추측
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="check-button" onclick="checkAllAnswers()">정답 확인</button>
+                <button class="reset-button" onclick="resetQuiz()">다시 풀기</button>
+            </div>
+
+            <div class="score" id="scoreDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        // 정답 배열 (각 문제의 정답 번호)
+        const correctAnswers = [1, 1, 1, 1, 2, 2, 1, 1, 3, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 3, 1, 1, 1, 1, 3, 1, 1, 1];
+        let userAnswers = {};
+
+        // 옵션 클릭 이벤트
+        document.querySelectorAll('.option').forEach((option, index) => {
+            option.addEventListener('click', function() {
+                const questionCard = this.closest('.question-card');
+                const questionNumber = parseInt(questionCard.querySelector('.question-number').textContent);
+                const answerNumber = parseInt(this.dataset.answer);
+                
+                // 같은 문제의 다른 옵션들의 선택 해제
+                questionCard.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // 현재 옵션 선택
+                this.classList.add('selected');
+                userAnswers[questionNumber] = answerNumber;
+            });
+        });
+
+        function checkAllAnswers() {
+            let correctCount = 0;
+            const totalQuestions = correctAnswers.length;
+
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                const questionNumber = index + 1;
+                const correctAnswer = correctAnswers[index];
+                const userAnswer = userAnswers[questionNumber];
+                const explanation = card.querySelector('.explanation');
+                
+                // 정답 표시
+                card.querySelectorAll('.option').forEach(option => {
+                    const optionNumber = parseInt(option.dataset.answer);
+                    
+                    if (optionNumber === correctAnswer) {
+                        option.classList.add('correct');
+                    } else if (optionNumber === userAnswer && userAnswer !== correctAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                // 해설 표시
+                explanation.classList.add('show');
+                
+                // 정답 개수 카운트
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            // 점수 표시
+            const scorePercentage = Math.round((correctCount / totalQuestions) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.innerHTML = `
+                <h3>🎉 채점 결과</h3>
+                <p>${correctCount}/${totalQuestions}문제 정답 (${scorePercentage}점)</p>
+                <p>${getGradeMessage(scorePercentage)}</p>
+            `;
+            scoreDisplay.classList.add('show');
+
+            // 버튼 비활성화
+            document.querySelector('.check-button').disabled = true;
+        }
+
+        function getGradeMessage(score) {
+            if (score >= 90) return "🏆 훌륭해요! JLPT N5 문법을 잘 이해하고 계시네요!";
+            if (score >= 80) return "👍 잘했어요! 조금만 더 공부하면 완벽해질 거예요!";
+            if (score >= 70) return "📚 괜찮아요! 틀린 문제들을 다시 복습해보세요!";
+            if (score >= 60) return "💪 아직 부족해요. 기초 문법을 더 공부해보세요!";
+            return "📖 많은 연습이 필요해요. 포기하지 마세요!";
+        }
+
+        function resetQuiz() {
+            // 모든 선택 및 결과 초기화
+            userAnswers = {};
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.explanation').forEach(explanation => {
+                explanation.classList.remove('show');
+            });
+            
+            document.getElementById('scoreDisplay').classList.remove('show');
+            document.querySelector('.check-button').disabled = false;
+            
+            // 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

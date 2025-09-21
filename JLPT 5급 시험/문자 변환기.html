@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 문자 변환기</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            word-break: keep-all;
+        }
+
+        .converter-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: #4a5568;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'Noto Sans CJK JP', 'Yu Gothic', sans-serif;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .convert-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .convert-btn:hover, .convert-btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+
+        .convert-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-display {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            min-height: 120px;
+            font-size: 16px;
+            color: #2d3748;
+            white-space: pre-wrap;
+            font-family: 'Noto Sans CJK JP', 'Yu Gothic', sans-serif;
+            line-height: 1.8;
+        }
+
+        .copy-btn {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid #e2e8f0;
+            color: #4a5568;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box {
+            background: linear-gradient(45deg, #ffeaa7, #fdcb6e);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .info-box p {
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .example-text {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Noto Sans CJK JP', 'Yu Gothic', monospace;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+            transform: translateX(300px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .conversion-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #667eea;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .text-input, .result-display {
+                min-height: 100px;
+                font-size: 14px;
+            }
+
+            .mode-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mode-btn {
+                min-width: 200px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notification {
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+            }
+
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 일본어 문자 변환기</h1>
+        
+        <!-- 변환 모드 선택 -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('romaji-to-kana')">로마자 → 가나</button>
+            <button class="mode-btn" onclick="setMode('hiragana-to-katakana')">히라가나 → 가타가나</button>
+            <button class="mode-btn" onclick="setMode('katakana-to-hiragana')">가타가나 → 히라가나</button>
+            <button class="mode-btn" onclick="setMode('kana-to-romaji')">가나 → 로마자</button>
+        </div>
+
+        <!-- 변환기 섹션 -->
+        <div class="converter-section">
+            <div class="section-title" id="conversion-title">로마자를 히라가나/가타가나로 변환</div>
+            
+            <div class="input-group">
+                <label class="input-label" id="input-label">입력 텍스트:</label>
+                <textarea 
+                    class="text-input" 
+                    id="inputText" 
+                    placeholder="변환할 텍스트를 입력하세요..."
+                    oninput="autoConvert()"
+                ></textarea>
+            </div>
+
+            <button class="convert-btn" onclick="convertText()">
+                <i class="fas fa-sync-alt"></i>
+                변환하기
+            </button>
+
+            <div class="conversion-arrow">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" id="output-label">변환 결과:</label>
+                <div class="result-display" id="outputText">여기에 변환 결과가 표시됩니다.</div>
+                <button class="copy-btn" onclick="copyResult()">
+                    <i class="fas fa-copy"></i>
+                    결과 복사
+                </button>
+            </div>
+        </div>
+
+        <!-- 기능 소개 -->
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">🔤</div>
+                <h4>로마자 변환</h4>
+                <p>로마자를 히라가나나 가타가나로 변환</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">あ</div>
+                <h4>히라가나 변환</h4>
+                <p>히라가나를 가타가나나 로마자로 변환</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">ア</div>
+                <h4>가타가나 변환</h4>
+                <p>가타가나를 히라가나나 로마자로 변환</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h4>실시간 변환</h4>
+                <p>입력과 동시에 자동 변환</p>
+            </div>
+        </div>
+
+        <!-- 사용법 안내 -->
+        <div class="info-box">
+            <h3>📚 사용법 안내</h3>
+            <p><strong>로마자 → 가나:</strong> "konnichiwa" → "こんにちは" / "コンニチハ"</p>
+            <p><strong>히라가나 → 가타가나:</strong> "こんにちは" → "コンニチハ"</p>
+            <p><strong>가타가나 → 히라가나:</strong> "コンニチハ" → "こんにちは"</p>
+            <p><strong>가나 → 로마자:</strong> "こんにちは" → "konnichiwa"</p>
+            <div class="example-text">
+                예시: arigatou gozaimasu → ありがとうございます → アリガトウゴザイマス
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 메시지 -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let currentMode = 'romaji-to-kana';
+
+        // 히라가나 - 가타가나 - 로마자 변환 테이블
+        const conversionTable = {
+            // 기본 문자
+            'あ': { katakana: 'ア', romaji: 'a' },
+            'い': { katakana: 'イ', romaji: 'i' },
+            'う': { katakana: 'ウ', romaji: 'u' },
+            'え': { katakana: 'エ', romaji: 'e' },
+            'お': { katakana: 'オ', romaji: 'o' },
+            'か': { katakana: 'カ', romaji: 'ka' },
+            'き': { katakana: 'キ', romaji: 'ki' },
+            'く': { katakana: 'ク', romaji: 'ku' },
+            'け': { katakana: 'ケ', romaji: 'ke' },
+            'こ': { katakana: 'コ', romaji: 'ko' },
+            'さ': { katakana: 'サ', romaji: 'sa' },
+            'し': { katakana: 'シ', romaji: 'shi' },
+            'す': { katakana: 'ス', romaji: 'su' },
+            'せ': { katakana: 'セ', romaji: 'se' },
+            'そ': { katakana: 'ソ', romaji: 'so' },
+            'た': { katakana: 'タ', romaji: 'ta' },
+            'ち': { katakana: 'チ', romaji: 'chi' },
+            'つ': { katakana: 'ツ', romaji: 'tsu' },
+            'て': { katakana: 'テ', romaji: 'te' },
+            'と': { katakana: 'ト', romaji: 'to' },
+            'な': { katakana: 'ナ', romaji: 'na' },
+            'に': { katakana: 'ニ', romaji: 'ni' },
+            'ぬ': { katakana: 'ヌ', romaji: 'nu' },
+            'ね': { katakana: 'ネ', romaji: 'ne' },
+            'の': { katakana: 'ノ', romaji: 'no' },
+            'は': { katakana: 'ハ', romaji: 'ha' },
+            'ひ': { katakana: 'ヒ', romaji: 'hi' },
+            'ふ': { katakana: 'フ', romaji: 'fu' },
+            'へ': { katakana: 'ヘ', romaji: 'he' },
+            'ほ': { katakana: 'ホ', romaji: 'ho' },
+            'ま': { katakana: 'マ', romaji: 'ma' },
+            'み': { katakana: 'ミ', romaji: 'mi' },
+            'む': { katakana: 'ム', romaji: 'mu' },
+            'め': { katakana: 'メ', romaji: 'me' },
+            'も': { katakana: 'モ', romaji: 'mo' },
+            'や': { katakana: 'ヤ', romaji: 'ya' },
+            'ゆ': { katakana: 'ユ', romaji: 'yu' },
+            'よ': { katakana: 'ヨ', romaji: 'yo' },
+            'ら': { katakana: 'ラ', romaji: 'ra' },
+            'り': { katakana: 'リ', romaji: 'ri' },
+            'る': { katakana: 'ル', romaji: 'ru' },
+            'れ': { katakana: 'レ', romaji: 're' },
+            'ろ': { katakana: 'ロ', romaji: 'ro' },
+            'わ': { katakana: 'ワ', romaji: 'wa' },
+            'ゐ': { katakana: 'ヰ', romaji: 'wi' },
+            'ゑ': { katakana: 'ヱ', romaji: 'we' },
+            'を': { katakana: 'ヲ', romaji: 'wo' },
+            'ん': { katakana: 'ン', romaji: 'n' },
+            
+            // 탁음
+            'が': { katakana: 'ガ', romaji: 'ga' },
+            'ぎ': { katakana: 'ギ', romaji: 'gi' },
+            'ぐ': { katakana: 'グ', romaji: 'gu' },
+            'げ': { katakana: 'ゲ', romaji: 'ge' },
+            'ご': { katakana: 'ゴ', romaji: 'go' },
+            'ざ': { katakana: 'ザ', romaji: 'za' },
+            'じ': { katakana: 'ジ', romaji: 'ji' },
+            'ず': { katakana: 'ズ', romaji: 'zu' },
+            'ぜ': { katakana: 'ゼ', romaji: 'ze' },
+            'ぞ': { katakana: 'ゾ', romaji: 'zo' },
+            'だ': { katakana: 'ダ', romaji: 'da' },
+            'ぢ': { katakana: 'ヂ', romaji: 'ji' },
+            'づ': { katakana: 'ヅ', romaji: 'zu' },
+            'で': { katakana: 'デ', romaji: 'de' },
+            'ど': { katakana: 'ド', romaji: 'do' },
+            'ば': { katakana: 'バ', romaji: 'ba' },
+            'び': { katakana: 'ビ', romaji: 'bi' },
+            'ぶ': { katakana: 'ブ', romaji: 'bu' },
+            'べ': { katakana: 'ベ', romaji: 'be' },
+            'ぼ': { katakana: 'ボ', romaji: 'bo' },
+            
+            // 반탁음
+            'ぱ': { katakana: 'パ', romaji: 'pa' },
+            'ぴ': { katakana: 'ピ', romaji: 'pi' },
+            'ぷ': { katakana: 'プ', romaji: 'pu' },
+            'ぺ': { katakana: 'ペ', romaji: 'pe' },
+            'ぽ': { katakana: 'ポ', romaji: 'po' },
+            
+            // 작은 문자들
+            'ゃ': { katakana: 'ャ', romaji: 'ya' },
+            'ゅ': { katakana: 'ュ', romaji: 'yu' },
+            'ょ': { katakana: 'ョ', romaji: 'yo' },
+            'っ': { katakana: 'ッ', romaji: 'tsu' }
+        };
+
+        // 로마자를 가나로 변환하는 테이블
+        const romajiToKana = {};
+        const katakanaToHiragana = {};
+        const hiraganaToKatakana = {};
+        const kanaToRomaji = {};
+
+        // 변환 테이블 생성
+        for (const [hiragana, data] of Object.entries(conversionTable)) {
+            romajiToKana[data.romaji] = { hiragana, katakana: data.katakana };
+            katakanaToHiragana[data.katakana] = hiragana;
+            hiraganaToKatakana[hiragana] = data.katakana;
+            kanaToRomaji[hiragana] = data.romaji;
+            kanaToRomaji[data.katakana] = data.romaji;
+        }
+
+        // 긴 로마자 조합 추가
+        const longRomaji = {
+            'kya': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ',
+            'sha': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ',
+            'cha': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ',
+            'nya': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ',
+            'hya': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ',
+            'mya': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ',
+            'rya': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ',
+            'gya': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ',
+            'ja': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ',
+            'bya': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ',
+            'pya': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'
+        };
+
+        // 긴 로마지 조합을 메인 테이블에 추가
+        for (const [romaji, hiragana] of Object.entries(longRomaji)) {
+            const katakana = hiraganaToKatakana[hiragana.charAt(0)] + hiraganaToKatakana[hiragana.charAt(1)];
+            romajiToKana[romaji] = { hiragana, katakana };
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // 버튼 활성화 상태 변경
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // UI 텍스트 업데이트
+            updateUITexts();
+            
+            // 입력 필드 초기화
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').textContent = '여기에 변환 결과가 표시됩니다.';
+        }
+
+        function updateUITexts() {
+            const titles = {
+                'romaji-to-kana': '로마자를 히라가나/가타가나로 변환',
+                'hiragana-to-katakana': '히라가나를 가타가나로 변환',
+                'katakana-to-hiragana': '가타가나를 히라가나로 변환',
+                'kana-to-romaji': '히라가나/가타가나를 로마자로 변환'
+            };
+            
+            const placeholders = {
+                'romaji-to-kana': 'konnichiwa, arigatou 등 로마자를 입력하세요',
+                'hiragana-to-katakana': 'こんにちは, ありがとう 등 히라가나를 입력하세요',
+                'katakana-to-hiragana': 'コンニチハ, アリガトウ 등 가타가나를 입력하세요',
+                'kana-to-romaji': 'こんにちは, コンニチハ 등 가나를 입력하세요'
+            };
+            
+            document.getElementById('conversion-title').textContent = titles[currentMode];
+            document.getElementById('inputText').placeholder = placeholders[currentMode];
+        }
+
+        function convertText() {
+            const input = document.getElementById('inputText').value.trim().toLowerCase();
+            if (!input) {
+                showNotification('변환할 텍스트를 입력해주세요!', 'warning');
+                return;
+            }
+
+            let result = '';
+            
+            try {
+                switch (currentMode) {
+                    case 'romaji-to-kana':
+                        result = convertRomajiToKana(input);
+                        break;
+                    case 'hiragana-to-katakana':
+                        result = convertHiraganaToKatakana(input);
+                        break;
+                    case 'katakana-to-hiragana':
+                        result = convertKatakanaToHiragana(input);
+                        break;
+                    case 'kana-to-romaji':
+                        result = convertKanaToRomaji(input);
+                        break;
+                }
+                
+                document.getElementById('outputText').textContent = result || '변환할 수 없는 문자가 포함되어 있습니다.';
+                if (result) {
+                    showNotification('변환이 완료되었습니다!', 'success');
+                }
+            } catch (error) {
+                document.getElementById('outputText').textContent = '변환 중 오류가 발생했습니다.';
+                showNotification('변환 중 오류가 발생했습니다.', 'error');
+            }
+        }
+
+        function convertRomajiToKana(text) {
+            let result = { hiragana: '', katakana: '' };
+            let i = 0;
+            
+            while (i < text.length) {
+                let found = false;
+                
+                // 긴 조합부터 확인 (3글자)
+                for (let len = 3; len >= 1; len--) {
+                    const substr = text.substr(i, len);
+                    if (romajiToKana[substr]) {
+                        result.hiragana += romajiToKana[substr].hiragana;
+                        result.katakana += romajiToKana[substr].katakana;
+                        i += len;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    // 변환할 수 없는 문자는 그대로 유지
+                    result.hiragana += text[i];
+                    result.katakana += text[i];
+                    i++;
+                }
+            }
+            
+            return `히라가나: ${result.hiragana}\n가타가나: ${result.katakana}`;
+        }
+
+        function convertHiraganaToKatakana(text) {
+            let result = '';
+            for (let char of text) {
+                result += hiraganaToKatakana[char] || char;
+            }
+            return result;
+        }
+
+        function convertKatakanaToHiragana(text) {
+            let result = '';
+            for (let char of text) {
+                result += katakanaToHiragana[char] || char;
+            }
+            return result;
+        }
+
+        function convertKanaToRomaji(text) {
+            let result = '';
+            for (let char of text) {
+                result += kanaToRomaji[char] || char;
+            }
+            return result;
+        }
+
+        function autoConvert() {
+            const input = document.getElementById('inputText').value;
+            if (input.length > 0) {
+                convertText();
+            } else {
+                document.getElementById('outputText').textContent = '여기에 변환 결과가 표시됩니다.';
+            }
+        }
+
+        function copyResult() {
+            const result = document.getElementById('outputText').textContent;
+            if (result === '여기에 변환 결과가 표시됩니다.' || result === '변환할 수 없는 문자가 포함되어 있습니다.') {
+                showNotification('복사할 내용이 없습니다.', 'warning');
+                return;
+            }
+
+            navigator.clipboard.writeText(result).then(function() {
+                showNotification('클립보드에 복사되었습니다!', 'success');
+            }).catch(function() {
+                // 클립보드 API를 지원하지 않는 경우 대체 방법
+                const textArea = document.createElement('textarea');
+                textArea.value = result;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showNotification('클립보드에 복사되었습니다!', 'success');
+                } catch (err) {
+                    showNotification('복사에 실패했습니다.', 'error');
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            
+            // 타입에 따른 색상 변경
+            switch (type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(45deg, #48bb78, #38a169)';
+                    break;
+                case 'warning':
+                    notification.style.background = 'linear-gradient(45deg, #ed8936, #dd6b20)';
+                    break;
+                case 'error':
+                    notification.style.background = 'linear-gradient(45deg, #f56565, #e53e3e)';
+                    break;
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 키보드 단축키
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 'Enter':
+                        e.preventDefault();
+                        convertText();
+                        break;
+                    case 'c':
+                        if (e.shiftKey) {
+                            e.preventDefault();
+                            copyResult();
+                        }
+                        break;
+                }
+            }
+        });
+
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUITexts();
+            
+            // 예시 텍스트 설정
+            const examples = {
+                'romaji-to-kana': 'konnichiwa arigatou gozaimasu',
+                'hiragana-to-katakana': 'こんにちは ありがとう',
+                'katakana-to-hiragana': 'コンニチハ アリガトウ',
+                'kana-to-romaji': 'こんにちは コンニチハ'
+            };
+            
+            // 모드 버튼에 예시 설정 기능 추가
+            document.querySelectorAll('.mode-btn').forEach((btn, index) => {
+                btn.addEventListener('click', function() {
+                    const modes = ['romaji-to-kana', 'hiragana-to-katakana', 'katakana-to-hiragana', 'kana-to-romaji'];
+                    setTimeout(() => {
+                        document.getElementById('inputText').value = examples[modes[index]];
+                        autoConvert();
+                    }, 100);
+                });
+            });
+            
+            // 터치 디바이스 최적화
+            if ('ontouchstart' in window) {
+                document.body.style.overflow = 'auto';
+                document.body.style.webkitOverflowScrolling = 'touch';
+            }
+        });
+
+        // 페이지 로드 시 첫 번째 예시 설정
+        window.addEventListener('load', function() {
+            document.getElementById('inputText').value = 'konnichiwa arigatou gozaimasu';
+            autoConvert();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자동 프롬프터 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            display: flex;
+            flex-direction: column;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            color: white;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-group label {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-button, .control-input, .control-select {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .control-button.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .control-input, .control-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .control-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .editor-panel {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .editor-title {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .editor-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .prompter-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .prompter-screen {
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 40px;
+        }
+
+        .prompter-text {
+            color: white;
+            font-size: 32px;
+            line-height: 1.8;
+            text-align: center;
+            white-space: pre-line;
+            transition: transform 0.1s linear;
+            font-weight: 300;
+        }
+
+        .mirror-mode .prompter-text {
+            transform: scaleX(-1);
+        }
+
+        .status-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff4444;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .sync-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4CAF50;
+        }
+
+        .remote-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .remote-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .remote-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .wave-bar {
+            width: 3px;
+            height: 20px;
+            background: #4CAF50;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { height: 20px; }
+            50% { height: 5px; }
+        }
+
+        .situation-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .situation-btn {
+            padding: 6px 8px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 11px;
+            font-weight: 500;
+            min-width: 60px;
+            height: 28px;
+        }
+
+        .situation-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .situation-btn.active {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                padding: 10px;
+                gap: 15px;
+            }
+            
+            .editor-panel {
+                width: 100%;
+                order: 2;
+            }
+            
+            .prompter-container {
+                order: 1;
+                min-height: 60vh;
+            }
+            
+            .controls {
+                gap: 8px;
+                justify-content: space-around;
+                padding: 0 10px;
+            }
+            
+            .control-group {
+                flex: 1;
+                min-width: 80px;
+            }
+            
+            .control-button, .control-input, .control-select {
+                width: 100%;
+                padding: 12px 8px;
+                font-size: 12px;
+                min-height: 44px;
+            }
+            
+            .prompter-text {
+                font-size: 28px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 24px;
+            }
+            
+            .prompter-text {
+                font-size: 24px;
+            }
+            
+            .editor-textarea {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">📺 자동 프롬프터 시스템</h1>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>자동 스크롤</label>
+                <button id="autoScrollBtn" class="control-button">시작</button>
+            </div>
+            
+            <div class="control-group">
+                <label>스크롤 속도</label>
+                <input type="range" id="speedSlider" class="control-input" min="1" max="10" value="5" style="width: 100px;">
+            </div>
+            
+            <div class="control-group">
+                <label>글자 크기</label>
+                <select id="fontSizeSelect" class="control-select">
+                    <option value="24">24px</option>
+                    <option value="32" selected>32px</option>
+                    <option value="40">40px</option>
+                    <option value="48">48px</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>미러 모드</label>
+                <button id="mirrorBtn" class="control-button">OFF</button>
+            </div>
+            
+            <div class="control-group">
+                <label>AI 음성 재생</label>
+                <button id="voicePlayBtn" class="control-button">▶️ 재생</button>
+            </div>
+            
+            <div class="control-group">
+                <label>음성 속도</label>
+                <select id="voiceSpeedSelect" class="control-select">
+                    <option value="0.7">0.7배속</option>
+                    <option value="0.8">0.8배속</option>
+                    <option value="0.9">0.9배속</option>
+                    <option value="1.0" selected>1.0배속</option>
+                    <option value="1.1">1.1배속</option>
+                    <option value="1.2">1.2배속</option>
+                    <option value="1.3">1.3배속</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>상황별 대응</label>
+                <div class="situation-buttons">
+                    <button id="busyBtn" class="situation-btn" title="키보드: B">바쁨</button>
+                    <button id="okayBtn" class="situation-btn" title="키보드: O">확인</button>
+                    <button id="textBtn" class="situation-btn" title="키보드: T">문자</button>
+                    <button id="nextBtn" class="situation-btn" title="키보드: N">다음</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>음성 동기화</label>
+                <button id="voiceBtn" class="control-button">시작</button>
+            </div>
+            
+            <div class="control-group">
+                <label>리셋</label>
+                <button id="resetBtn" class="control-button">↻</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="editor-panel">
+            <h3 class="editor-title">📝 대본 편집</h3>
+            <textarea id="scriptEditor" class="editor-textarea" placeholder="여기에 대본을 입력하세요...">안녕하세요, 여러분!
+
+오늘 저희가 준비한 발표를 시작하겠습니다.
+
+먼저 프로젝트의 개요를 말씀드리겠습니다.
+
+이 시스템은 다양한 용도로 활용할 수 있는 
+범용 프롬프터 시스템입니다.
+
+주요 기능:
+- 자동 스크롤링
+- 음성 동기화
+- 반응형 디자인
+- 실시간 편집
+
+사용법:
+1. 대본을 입력창에 작성
+2. 글자 크기와 속도 조절
+3. 자동 스크롤 시작
+4. 음성에 맞춰 자동 동기화
+
+이제 시연을 시작하겠습니다.
+
+감사합니다.</textarea>
+        </div>
+
+        <div class="prompter-container" id="prompterContainer">
+            <div class="prompter-screen">
+                <div id="prompterText" class="prompter-text">안녕하세요, 여러분!
+
+오늘 저희가 준비한 발표를 시작하겠습니다.
+
+먼저 프로젝트의 개요를 말씀드리겠습니다.
+
+이 시스템은 다양한 용도로 활용할 수 있는 
+범용 프롬프터 시스템입니다.
+
+주요 기능:
+- 자동 스크롤링
+- 음성 동기화
+- 반응형 디자인
+- 실시간 편집
+
+사용법:
+1. 대본을 입력창에 작성
+2. 글자 크기와 속도 조절
+3. 자동 스크롤 시작
+4. 음성에 맞춰 자동 동기화
+
+이제 시연을 시작하겠습니다.
+
+감사합니다.
+
+— 자동 프롬프터 시스템 —
+
+📺 전문 발표용 프롬프터가 준비되었습니다!
+
+💡 주요 기능:
+✓ 자동 스크롤링 (속도 조절 가능)
+✓ 음성 동기화 (실시간 동기화)
+✓ AI 음성 재생 (다양한 속도)
+✓ 미러 모드 (카메라 촬영용)
+✓ 반응형 디자인 (모든 기기 지원)
+✓ 실시간 편집 기능
+
+🎯 사용법:
+1. Space: 자동 스크롤 시작/정지
+2. 방향키: 수동 스크롤
+3. Ctrl+V: 음성 동기화 시작/정지
+4. Ctrl+R: 위치 리셋
+
+이제 전문적인 발표가 가능합니다! 🚀</div>
+            </div>
+            <div class="status-bar">
+                <div class="recording-indicator" id="recordingIndicator" style="display: none;">
+                    <div class="recording-dot"></div>
+                    <span>음성 인식 중...</span>
+                    <div class="voice-wave">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="sync-indicator" id="syncIndicator">
+                    <span>🔄 동기화 준비</span>
+                </div>
+                
+                <div>속도: <span id="currentSpeed">5</span>/10</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="remote-controls">
+        <button class="remote-btn" id="remoteUp" title="위로 스크롤">↑</button>
+        <button class="remote-btn" id="remotePause" title="일시정지">⏸</button>
+        <button class="remote-btn" id="remoteDown" title="아래로 스크롤">↓</button>
+    </div>
+
+    <script>
+        // 전역 변수
+        let isAutoScrolling = false;
+        let scrollSpeed = 5;
+        let currentPosition = 0;
+        let animationId = null;
+        let isMirrorMode = false;
+        let isVoiceRecognition = false;
+        let recognition = null;
+        let recognizedText = '';
+        let currentWordIndex = 0;
+        let scriptWords = [];
+        let speechRate = 0;
+        let lastSpeechTime = Date.now();
+
+        // DOM 요소 가져오기
+        const autoScrollBtn = document.getElementById('autoScrollBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const fontSizeSelect = document.getElementById('fontSizeSelect');
+        const mirrorBtn = document.getElementById('mirrorBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const voicePlayBtn = document.getElementById('voicePlayBtn');
+        const voiceSpeedSelect = document.getElementById('voiceSpeedSelect');
+        const busyBtn = document.getElementById('busyBtn');
+        const okayBtn = document.getElementById('okayBtn');
+        const textBtn = document.getElementById('textBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const scriptEditor = document.getElementById('scriptEditor');
+        const prompterText = document.getElementById('prompterText');
+        const prompterContainer = document.getElementById('prompterContainer');
+        const currentSpeedDisplay = document.getElementById('currentSpeed');
+        const recordingIndicator = document.getElementById('recordingIndicator');
+        const syncIndicator = document.getElementById('syncIndicator');
+        const remoteUp = document.getElementById('remoteUp');
+        const remotePause = document.getElementById('remotePause');
+        const remoteDown = document.getElementById('remoteDown');
+
+        // 자동 스크롤 기능
+        function startAutoScroll() {
+            if (animationId) cancelAnimationFrame(animationId);
+            
+            function scroll() {
+                currentPosition += scrollSpeed * 0.5;
+                prompterText.style.transform = `translateY(-${currentPosition}px)`;
+                
+                if (isAutoScrolling) {
+                    animationId = requestAnimationFrame(scroll);
+                }
+            }
+            
+            if (isAutoScrolling) {
+                animationId = requestAnimationFrame(scroll);
+            }
+        }
+
+        // 음성 인식 설정
+        function initVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('이 브라우저는 음성 인식을 지원하지 않습니다.\\nChrome, Edge 브라우저를 사용해주세요.');
+                return false;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'ko-KR';
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = () => {
+                recordingIndicator.style.display = 'flex';
+                syncIndicator.innerHTML = '<span>🎤 음성 인식 시작됨</span>';
+            };
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                if (finalTranscript) {
+                    recognizedText += finalTranscript;
+                    syncWithSpeech(finalTranscript);
+                    syncIndicator.innerHTML = '<span>🎯 음성 동기화: ' + finalTranscript.substring(0, 20) + '...</span>';
+                } else if (interimTranscript) {
+                    syncIndicator.innerHTML = '<span>🎤 듣는 중: ' + interimTranscript.substring(0, 20) + '...</span>';
+                }
+            };
+
+            recognition.onerror = (event) => {
+                let errorMsg = '';
+                switch(event.error) {
+                    case 'not-allowed':
+                        errorMsg = '마이크 권한이 거부되었습니다.';
+                        break;
+                    case 'no-speech':
+                        errorMsg = '음성이 감지되지 않습니다.';
+                        break;
+                    case 'audio-capture':
+                        errorMsg = '마이크에 접근할 수 없습니다.';
+                        break;
+                    case 'network':
+                        errorMsg = '네트워크 오류가 발생했습니다.';
+                        break;
+                    default:
+                        errorMsg = '음성 인식 오류: ' + event.error;
+                }
+                syncIndicator.innerHTML = '<span>❌ ' + errorMsg + '</span>';
+                
+                if (isVoiceRecognition && event.error !== 'not-allowed') {
+                    setTimeout(() => {
+                        if (isVoiceRecognition && recognition) {
+                            try {
+                                recognition.start();
+                            } catch (e) {
+                                console.error('음성 인식 재시작 실패:', e);
+                            }
+                        }
+                    }, 3000);
+                }
+            };
+
+            recognition.onend = () => {
+                if (isVoiceRecognition) {
+                    setTimeout(() => {
+                        if (recognition) {
+                            try {
+                                recognition.start();
+                            } catch (e) {
+                                console.error('음성 인식 재시작 실패:', e);
+                            }
+                        }
+                    }, 100);
+                } else {
+                    recordingIndicator.style.display = 'none';
+                    syncIndicator.innerHTML = '<span>🔄 동기화 준비</span>';
+                }
+            };
+
+            return true;
+        }
+
+        // 음성과 텍스트 동기화
+        function syncWithSpeech(spokenText) {
+            const scriptText = scriptEditor.value.toLowerCase();
+            const spokenWords = spokenText.toLowerCase().trim().split(/\s+/);
+            scriptWords = scriptText.split(/\s+/);
+            
+            for (let i = 0; i < scriptWords.length - spokenWords.length + 1; i++) {
+                let match = true;
+                for (let j = 0; j < spokenWords.length; j++) {
+                    if (!scriptWords[i + j] || !scriptWords[i + j].toLowerCase().includes(spokenWords[j].substring(0, 3))) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    currentWordIndex = i + spokenWords.length;
+                    adjustScrollPosition();
+                    
+                    const now = Date.now();
+                    const timeDiff = (now - lastSpeechTime) / 1000;
+                    if (timeDiff > 0) {
+                        speechRate = spokenWords.length / timeDiff;
+                        autoAdjustScrollSpeed();
+                    }
+                    lastSpeechTime = now;
+                    break;
+                }
+            }
+        }
+
+        // 스크롤 위치 조정
+        function adjustScrollPosition() {
+            if (currentWordIndex > 0 && scriptWords.length > 0) {
+                const progress = currentWordIndex / scriptWords.length;
+                const totalHeight = prompterText.scrollHeight;
+                const targetPosition = progress * totalHeight * 0.6;
+                currentPosition = targetPosition;
+                prompterText.style.transform = `translateY(-${currentPosition}px)`;
+            }
+        }
+
+        // 자동 스크롤 속도 조정
+        function autoAdjustScrollSpeed() {
+            if (speechRate > 0) {
+                let newSpeed = Math.max(1, Math.min(10, Math.round(speechRate * 2)));
+                scrollSpeed = newSpeed;
+                speedSlider.value = newSpeed;
+                currentSpeedDisplay.textContent = newSpeed;
+            }
+        }
+
+        // TTS 음성 재생
+        function playTextToSpeech() {
+            if (!('speechSynthesis' in window)) {
+                alert('이 브라우저는 음성 합성을 지원하지 않습니다.');
+                return;
+            }
+
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+                voicePlayBtn.textContent = '▶️ 재생';
+                voicePlayBtn.classList.remove('active');
+                return;
+            }
+
+            const text = scriptEditor.value;
+            if (!text.trim()) {
+                alert('재생할 텍스트를 입력해주세요.');
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voices = speechSynthesis.getVoices();
+            const koreanVoice = voices.find(voice => voice.lang.includes('ko')) || voices[0];
+            
+            if (koreanVoice) {
+                utterance.voice = koreanVoice;
+            }
+            
+            utterance.rate = parseFloat(voiceSpeedSelect.value);
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            utterance.onstart = () => {
+                voicePlayBtn.textContent = '⏹️ 정지';
+                voicePlayBtn.classList.add('active');
+            };
+
+            utterance.onend = () => {
+                voicePlayBtn.textContent = '▶️ 재생';
+                voicePlayBtn.classList.remove('active');
+            };
+
+            speechSynthesis.speak(utterance);
+        }
+
+        // 상황별 대응 스크립트 적용
+        function applySituationScript(situation, button) {
+            const situations = {
+                busy: "네, 바쁘시군요. 간단히 말씀드리겠습니다.",
+                okay: "네, 좋습니다. 계속 진행하겠습니다.",
+                text: "네, 문자로도 보내드리겠습니다.",
+                next: "그럼 다음 단계로 넘어가겠습니다."
+            };
+
+            // 모든 상황 버튼의 active 클래스 제거
+            document.querySelectorAll('.situation-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if (button) {
+                button.classList.add('active');
+            }
+
+            const currentText = scriptEditor.value;
+            const newText = currentText + '\n\n[상황 대응]\n' + situations[situation];
+            scriptEditor.value = newText;
+            prompterText.textContent = newText;
+            
+            setTimeout(() => {
+                if (button) {
+                    button.classList.remove('active');
+                }
+            }, 2000);
+        }
+
+        // 마이크 권한 요청
+        async function requestMicrophonePermission() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop());
+                    return true;
+                } catch (error) {
+                    console.error('마이크 권한 오류:', error);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // 모바일 디바이스 감지
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // 화면 방향 변경 감지
+        function handleOrientationChange() {
+            setTimeout(() => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }, 100);
+        }
+
+        // iOS Safari 뷰포트 높이 문제 해결
+        function setVhProperty() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // 이벤트 리스너 설정
+        autoScrollBtn.addEventListener('click', () => {
+            isAutoScrolling = !isAutoScrolling;
+            autoScrollBtn.textContent = isAutoScrolling ? '정지' : '시작';
+            autoScrollBtn.classList.toggle('active', isAutoScrolling);
+            
+            if (isAutoScrolling) {
+                startAutoScroll();
+                syncIndicator.innerHTML = '<span>▶️ 자동 스크롤 중</span>';
+            } else {
+                syncIndicator.innerHTML = '<span>⏸️ 스크롤 정지</span>';
+            }
+        });
+
+        speedSlider.addEventListener('input', (e) => {
+            scrollSpeed = parseInt(e.target.value);
+            currentSpeedDisplay.textContent = scrollSpeed;
+        });
+
+        fontSizeSelect.addEventListener('change', (e) => {
+            prompterText.style.fontSize = e.target.value + 'px';
+        });
+
+        mirrorBtn.addEventListener('click', () => {
+            isMirrorMode = !isMirrorMode;
+            mirrorBtn.textContent = isMirrorMode ? 'ON' : 'OFF';
+            mirrorBtn.classList.toggle('active', isMirrorMode);
+            prompterContainer.classList.toggle('mirror-mode', isMirrorMode);
+        });
+
+        voiceBtn.addEventListener('click', async () => {
+            if (isMobileDevice() && !recognition) {
+                syncIndicator.innerHTML = '<span>🎤 마이크 권한 확인 중...</span>';
+                const hasPermission = await requestMicrophonePermission();
+                if (!hasPermission) {
+                    syncIndicator.innerHTML = '<span>❌ 마이크 권한이 필요합니다</span>';
+                    alert('음성 인식을 사용하려면 마이크 권한을 허용해주세요.');
+                    return;
+                }
+            }
+
+            if (!recognition) {
+                const initialized = initVoiceRecognition();
+                if (!initialized) return;
+            }
+            
+            isVoiceRecognition = !isVoiceRecognition;
+            voiceBtn.textContent = isVoiceRecognition ? '정지' : '시작';
+            voiceBtn.classList.toggle('active', isVoiceRecognition);
+            
+            if (isVoiceRecognition) {
+                syncIndicator.innerHTML = '<span>🎤 음성 인식 준비 중...</span>';
+                
+                try {
+                    recognition.start();
+                    recognizedText = '';
+                    currentWordIndex = 0;
+                    lastSpeechTime = Date.now();
+                } catch (error) {
+                    console.error('음성 인식 시작 실패:', error);
+                    isVoiceRecognition = false;
+                    voiceBtn.textContent = '시작';
+                    voiceBtn.classList.remove('active');
+                    syncIndicator.innerHTML = '<span>❌ 음성 인식 시작 실패</span>';
+                }
+            } else {
+                try {
+                    recognition.stop();
+                } catch (error) {
+                    console.error('음성 인식 정지 실패:', error);
+                }
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            currentPosition = 0;
+            prompterText.style.transform = 'translateY(0px)';
+            syncIndicator.innerHTML = '<span>🔄 위치 리셋</span>';
+        });
+
+        voicePlayBtn.addEventListener('click', () => {
+            playTextToSpeech();
+        });
+
+        scriptEditor.addEventListener('input', (e) => {
+            prompterText.textContent = e.target.value;
+            scriptWords = e.target.value.toLowerCase().split(/\s+/);
+            currentWordIndex = 0;
+        });
+
+        // 상황별 버튼 이벤트
+        busyBtn.addEventListener('click', () => {
+            applySituationScript('busy', busyBtn);
+        });
+
+        okayBtn.addEventListener('click', () => {
+            applySituationScript('okay', okayBtn);
+        });
+
+        textBtn.addEventListener('click', () => {
+            applySituationScript('text', textBtn);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            applySituationScript('next', nextBtn);
+        });
+
+        // 리모컨 버튼
+        remoteUp.addEventListener('click', () => {
+            currentPosition = Math.max(0, currentPosition - 50);
+            prompterText.style.transform = `translateY(-${currentPosition}px)`;
+        });
+
+        remotePause.addEventListener('click', () => {
+            autoScrollBtn.click();
+        });
+
+        remoteDown.addEventListener('click', () => {
+            currentPosition += 50;
+            prompterText.style.transform = `translateY(-${currentPosition}px)`;
+        });
+
+        // 키보드 단축키
+        document.addEventListener('keydown', (e) => {
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    autoScrollBtn.click();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    remoteUp.click();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    remoteDown.click();
+                    break;
+                case 'KeyR':
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        resetBtn.click();
+                    }
+                    break;
+                case 'KeyV':
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        voiceBtn.click();
+                    }
+                    break;
+                case 'KeyB':
+                    e.preventDefault();
+                    applySituationScript('busy', busyBtn);
+                    break;
+                case 'KeyO':
+                    e.preventDefault();
+                    applySituationScript('okay', okayBtn);
+                    break;
+                case 'KeyT':
+                    e.preventDefault();
+                    applySituationScript('text', textBtn);
+                    break;
+                case 'KeyN':
+                    e.preventDefault();
+                    applySituationScript('next', nextBtn);
+                    break;
+                case 'KeyP':
+                    e.preventDefault();
+                    playTextToSpeech();
+                    break;
+            }
+        });
+
+        // 마우스 휠로 스크롤 제어
+        prompterContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY > 0) {
+                currentPosition += 30;
+            } else {
+                currentPosition = Math.max(0, currentPosition - 30);
+            }
+            prompterText.style.transform = `translateY(-${currentPosition}px)`;
+        });
+
+        // 터치 이벤트 처리
+        let touchStartY = 0;
+        let touchStartTime = 0;
+        let isScrollingByTouch = false;
+
+        prompterContainer.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+            isScrollingByTouch = true;
+        }, { passive: true });
+
+        prompterContainer.addEventListener('touchmove', (e) => {
+            if (!isScrollingByTouch) return;
+            
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchStartY - touchY;
+            
+            currentPosition += deltaY * 0.5;
+            currentPosition = Math.max(0, currentPosition);
+            prompterText.style.transform = `translateY(-${currentPosition}px)`;
+            
+            touchStartY = touchY;
+        }, { passive: true });
+
+        prompterContainer.addEventListener('touchend', () => {
+            isScrollingByTouch = false;
+        }, { passive: true });
+
+        // 더블 탭으로 자동 스크롤 토글
+        let lastTouchTime = 0;
+        prompterContainer.addEventListener('touchend', (e) => {
+            const currentTime = Date.now();
+            if (currentTime - lastTouchTime < 300) {
+                autoScrollBtn.click();
+                e.preventDefault();
+            }
+            lastTouchTime = currentTime;
+        });
+
+        // 이벤트 리스너 등록
+        window.addEventListener('resize', handleOrientationChange);
+        window.addEventListener('orientationchange', handleOrientationChange);
+        
+        // 초기 설정
+        setVhProperty();
+        
+        // 초기화
+        document.addEventListener('DOMContentLoaded', async () => {
+            syncIndicator.innerHTML = '<span>✅ 시스템 준비 완료</span>';
+            
+            if ('speechSynthesis' in window) {
+                speechSynthesis.addEventListener('voiceschanged', () => {
+                    const voices = speechSynthesis.getVoices();
+                    const koreanVoices = voices.filter(voice => 
+                        voice.lang.includes('ko') || 
+                        voice.name.includes('Korean') || 
+                        voice.name.includes('한국')
+                    );
+                    console.log('사용 가능한 한국어 음성:', koreanVoices.length + '개');
+                });
+            } else {
+                console.warn('이 브라우저는 음성 합성을 지원하지 않습니다.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JLPT N5 한자 모음집</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* 네비게이션 스타일 */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            color: #ff6b6b;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 드롭다운 메뉴 */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9ff;
+        }
+
+        .dropdown-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* 햄버거 메뉴 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* 모바일 메뉴 */
+        .mobile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-nav-item {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-nav-link:hover {
+            background: #f8f9ff;
+            color: #667eea;
+        }
+
+        .mobile-dropdown {
+            background: #f8f9ff;
+        }
+
+        .mobile-dropdown-item {
+            padding-left: 40px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .categories {
+            padding: 30px;
+        }
+
+        .category {
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-title:hover::before {
+            left: 100%;
+        }
+
+        .kanji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .kanji-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kanji-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .kanji-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .kanji-char {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .readings {
+            margin-bottom: 15px;
+        }
+
+        .reading-type {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 10px;
+        }
+
+        .reading-value {
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .meaning {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #2d3436;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .examples {
+            border-top: 1px solid #e1e5e9;
+            padding-top: 15px;
+        }
+
+        .example {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .example-word {
+            font-weight: bold;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .example-reading {
+            color: #666;
+            font-style: italic;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: transparent;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .nav-menu {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .kanji-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                border-radius: 10px;
+                margin: 10px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                height: 60px;
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .categories {
+                padding: 20px;
+            }
+
+            .kanji-card {
+                padding: 15px;
+            }
+
+            .kanji-char {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 네비게이션 바 -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">📚 JLPT N5</a>
+                
+                <!-- 데스크톱 메뉴 -->
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">카테고리 ▾</a>
+                        <div class="dropdown-content">
+                            <div class="dropdown-item"><a href="#" onclick="filterCategory('numbers')">숫자</a></div>
+                            <div class="dropdown-item"><a href="#" onclick="filterCategory('time')">시간·날짜</a></div>
+                            <div class="dropdown-item"><a href="#" onclick="filterCategory('people')">사람·생활</a></div>
+                            <div class="dropdown-item"><a href="#" onclick="filterCategory('place')">장소·방향</a></div>
+                            <div class="dropdown-item"><a href="#" onclick="filterCategory('basic')">기본 동작</a></div>
+                            <div class="dropdown-item"><a href="#" onclick="filterCategory('others')">기타</a></div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">학습 도구 ▾</a>
+                        <div class="dropdown-content">
+                            <div class="dropdown-item"><a href="#">퀴즈</a></div>
+                            <div class="dropdown-item"><a href="#">플래시카드</a></div>
+                            <div class="dropdown-item"><a href="#">진도 관리</a></div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">정보</a>
+                    </li>
+                </ul>
+
+                <!-- 햄버거 메뉴 -->
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- 모바일 메뉴 -->
+            <div class="mobile-menu" id="mobileMenu">
+                <div class="mobile-nav-item">
+                    <a href="#" class="mobile-nav-link">홈</a>
+                </div>
+                <div class="mobile-nav-item">
+                    <a href="#" class="mobile-nav-link" onclick="toggleMobileDropdown('categoryDropdown')">카테고리 ▾</a>
+                    <div class="mobile-dropdown" id="categoryDropdown" style="display: none;">
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item" onclick="filterCategory('numbers')">숫자</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item" onclick="filterCategory('time')">시간·날짜</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item" onclick="filterCategory('people')">사람·생활</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item" onclick="filterCategory('place')">장소·방향</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item" onclick="filterCategory('basic')">기본 동작</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item" onclick="filterCategory('others')">기타</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-nav-item">
+                    <a href="#" class="mobile-nav-link" onclick="toggleMobileDropdown('toolsDropdown')">학습 도구 ▾</a>
+                    <div class="mobile-dropdown" id="toolsDropdown" style="display: none;">
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item">퀴즈</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item">플래시카드</a>
+                        </div>
+                        <div class="mobile-nav-item">
+                            <a href="#" class="mobile-nav-link mobile-dropdown-item">진도 관리</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-nav-item">
+                    <a href="#" class="mobile-nav-link">정보</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="header">
+            <h1>📚 JLPT N5 한자 모음집</h1>
+            <p>일본어능력시험 5급 필수 한자 103개</p>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="한자 또는 읽기를 검색하세요..." id="searchInput">
+            </div>
+        </div>
+
+        <div class="categories">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterCategory('all')">전체</button>
+                <button class="filter-btn" onclick="filterCategory('numbers')">숫자</button>
+                <button class="filter-btn" onclick="filterCategory('time')">시간·날짜</button>
+                <button class="filter-btn" onclick="filterCategory('people')">사람·생활</button>
+                <button class="filter-btn" onclick="filterCategory('place')">장소·방향</button>
+                <button class="filter-btn" onclick="filterCategory('basic')">기본 동작</button>
+                <button class="filter-btn" onclick="filterCategory('others')">기타</button>
+            </div>
+
+            <!-- 샘플 한자 카드들 -->
+            <div class="category" data-category="numbers">
+                <div class="category-title">🔢 숫자</div>
+                <div class="kanji-grid">
+                    <div class="kanji-card">
+                        <div class="kanji-char">一</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">いち</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ひと(つ)</span>
+                        </div>
+                        <div class="meaning">하나, 일</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">一つ</span><span class="example-reading">ひとつ (하나)</span></div>
+                            <div class="example"><span class="example-word">一日</span><span class="example-reading">いちにち (하루)</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanji-card">
+                        <div class="kanji-char">二</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">に</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ふた(つ)</span>
+                        </div>
+                        <div class="meaning">둘, 이</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">二つ</span><span class="example-reading">ふたつ (둘)</span></div>
+                            <div class="example"><span class="example-word">二人</span><span class="example-reading">ふたり (두 사람)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">三</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">さん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">みっ(つ)</span>
+                        </div>
+                        <div class="meaning">셋, 삼</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">三つ</span><span class="example-reading">みっつ (셋)</span></div>
+                            <div class="example"><span class="example-word">三月</span><span class="example-reading">さんがつ (3월)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">四</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">し、よん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">よっ(つ)</span>
+                        </div>
+                        <div class="meaning">넷, 사</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">四つ</span><span class="example-reading">よっつ (넷)</span></div>
+                            <div class="example"><span class="example-word">四日</span><span class="example-reading">よっか (4일)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">五</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ご</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">いつ(つ)</span>
+                        </div>
+                        <div class="meaning">다섯, 오</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">五つ</span><span class="example-reading">いつつ (다섯)</span></div>
+                            <div class="example"><span class="example-word">五人</span><span class="example-reading">ごにん (다섯 사람)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">六</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ろく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">むっ(つ)</span>
+                        </div>
+                        <div class="meaning">여섯, 육</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">六つ</span><span class="example-reading">むっつ (여섯)</span></div>
+                            <div class="example"><span class="example-word">六月</span><span class="example-reading">ろくがつ (6월)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">七</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">しち、なな</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">なな(つ)</span>
+                        </div>
+                        <div class="meaning">일곱, 칠</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">七つ</span><span class="example-reading">ななつ (일곱)</span></div>
+                            <div class="example"><span class="example-word">七月</span><span class="example-reading">しちがつ (7월)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">八</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">はち</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">やっ(つ)</span>
+                        </div>
+                        <div class="meaning">여덟, 팔</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">八つ</span><span class="example-reading">やっつ (여덟)</span></div>
+                            <div class="example"><span class="example-word">八月</span><span class="example-reading">はちがつ (8월)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">九</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">きゅう、く</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ここの(つ)</span>
+                        </div>
+                        <div class="meaning">아홉, 구</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">九つ</span><span class="example-reading">ここのつ (아홉)</span></div>
+                            <div class="example"><span class="example-word">九月</span><span class="example-reading">くがつ (9월)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">十</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">じゅう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">とお</span>
+                        </div>
+                        <div class="meaning">열, 십</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">十日</span><span class="example-reading">とおか (열흘)</span></div>
+                            <div class="example"><span class="example-word">十年</span><span class="example-reading">じゅうねん (10년)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">百</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ひゃく</span>
+                        </div>
+                        <div class="meaning">백</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">百円</span><span class="example-reading">ひゃくえん (100엔)</span></div>
+                            <div class="example"><span class="example-word">百人</span><span class="example-reading">ひゃくにん (백 명)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">千</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ち</span>
+                        </div>
+                        <div class="meaning">천</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">千円</span><span class="example-reading">せんえん (천 엔)</span></div>
+                            <div class="example"><span class="example-word">千人</span><span class="example-reading">せんにん (천 명)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">万</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">まん、ばん</span>
+                        </div>
+                        <div class="meaning">만</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">一万</span><span class="example-reading">いちまん (1만)</span></div>
+                            <div class="example"><span class="example-word">万円</span><span class="example-reading">まんえん (만 엔)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">円</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">えん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">まる</span>
+                        </div>
+                        <div class="meaning">원(화폐), 둥글다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">百円</span><span class="example-reading">ひゃくえん (100원)</span></div>
+                            <div class="example"><span class="example-word">円い</span><span class="example-reading">まるい (둥글다)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category" data-category="time">
+                <div class="category-title">⏰ 시간·날짜</div>
+                <div class="kanji-grid">
+                    <div class="kanji-card">
+                        <div class="kanji-char">日</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">にち、じつ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ひ、か</span>
+                        </div>
+                        <div class="meaning">날, 해, 일</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">日曜日</span><span class="example-reading">にちようび (일요일)</span></div>
+                            <div class="example"><span class="example-word">今日</span><span class="example-reading">きょう (오늘)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">月</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">げつ、がつ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">つき</span>
+                        </div>
+                        <div class="meaning">달, 월</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">月曜日</span><span class="example-reading">げつようび (월요일)</span></div>
+                            <div class="example"><span class="example-word">一月</span><span class="example-reading">いちがつ (1월)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">火</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">か</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ひ</span>
+                        </div>
+                        <div class="meaning">불</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">火曜日</span><span class="example-reading">かようび (화요일)</span></div>
+                            <div class="example"><span class="example-word">火山</span><span class="example-reading">かざん (화산)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">水</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">すい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">みず</span>
+                        </div>
+                        <div class="meaning">물</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">水曜日</span><span class="example-reading">すいようび (수요일)</span></div>
+                            <div class="example"><span class="example-word">水道</span><span class="example-reading">すいどう (수도)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">木</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">もく、ぼく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">き</span>
+                        </div>
+                        <div class="meaning">나무</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">木曜日</span><span class="example-reading">もくようび (목요일)</span></div>
+                            <div class="example"><span class="example-word">木村</span><span class="example-reading">きむら (기무라)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">金</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">きん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">かね</span>
+                        </div>
+                        <div class="meaning">금, 돈</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">金曜日</span><span class="example-reading">きんようび (금요일)</span></div>
+                            <div class="example"><span class="example-word">お金</span><span class="example-reading">おかね (돈)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">土</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ど、と</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">つち</span>
+                        </div>
+                        <div class="meaning">흙, 토</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">土曜日</span><span class="example-reading">どようび (토요일)</span></div>
+                            <div class="example"><span class="example-word">土地</span><span class="example-reading">とち (토지)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">時</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">じ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">とき</span>
+                        </div>
+                        <div class="meaning">시간, 때</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">一時</span><span class="example-reading">いちじ (1시)</span></div>
+                            <div class="example"><span class="example-word">時間</span><span class="example-reading">じかん (시간)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">分</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ぶん、ふん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">わ(ける)</span>
+                        </div>
+                        <div class="meaning">분, 나누다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">五分</span><span class="example-reading">ごふん (5분)</span></div>
+                            <div class="example"><span class="example-word">分ける</span><span class="example-reading">わける (나누다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">年</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ねん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">とし</span>
+                        </div>
+                        <div class="meaning">해, 년</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">一年</span><span class="example-reading">いちねん (1년)</span></div>
+                            <div class="example"><span class="example-word">年上</span><span class="example-reading">としうえ (연상)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">今</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">こん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">いま</span>
+                        </div>
+                        <div class="meaning">지금</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">今日</span><span class="example-reading">きょう (오늘)</span></div>
+                            <div class="example"><span class="example-word">今月</span><span class="example-reading">こんげつ (이번 달)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">半</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">はん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">なか(ば)</span>
+                        </div>
+                        <div class="meaning">절반</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">半分</span><span class="example-reading">はんぶん (절반)</span></div>
+                            <div class="example"><span class="example-word">三時半</span><span class="example-reading">さんじはん (3시 반)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category" data-category="people">
+                <div class="category-title">👥 사람·생활</div>
+                <div class="kanji-grid">
+                    <div class="kanji-card">
+                        <div class="kanji-char">人</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">じん、にん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ひと</span>
+                        </div>
+                        <div class="meaning">사람</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">日本人</span><span class="example-reading">にほんじん (일본인)</span></div>
+                            <div class="example"><span class="example-word">人口</span><span class="example-reading">じんこう (인구)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">子</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">し</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">こ</span>
+                        </div>
+                        <div class="meaning">아이</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">子ども</span><span class="example-reading">こども (아이)</span></div>
+                            <div class="example"><span class="example-word">女の子</span><span class="example-reading">おんなのこ (여자아이)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">女</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">じょ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">おんな</span>
+                        </div>
+                        <div class="meaning">여자</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">女の人</span><span class="example-reading">おんなのひと (여성)</span></div>
+                            <div class="example"><span class="example-word">女子</span><span class="example-reading">じょし (여자)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">男</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">だん、なん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">おとこ</span>
+                        </div>
+                        <div class="meaning">남자</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">男の人</span><span class="example-reading">おとこのひと (남성)</span></div>
+                            <div class="example"><span class="example-word">男子</span><span class="example-reading">だんし (남자)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">母</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ぼ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">はは</span>
+                        </div>
+                        <div class="meaning">어머니</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">母の日</span><span class="example-reading">ははのひ (어머니의 날)</span></div>
+                            <div class="example"><span class="example-word">母親</span><span class="example-reading">ははおや (어머니)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">父</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ふ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ちち</span>
+                        </div>
+                        <div class="meaning">아버지</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">父の日</span><span class="example-reading">ちちのひ (아버지의 날)</span></div>
+                            <div class="example"><span class="example-word">父親</span><span class="example-reading">ちちおや (아버지)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">友</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ゆう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">とも</span>
+                        </div>
+                        <div class="meaning">친구</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">友だち</span><span class="example-reading">ともだち (친구)</span></div>
+                            <div class="example"><span class="example-word">親友</span><span class="example-reading">しんゆう (친한 친구)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">私</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">し</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">わたし</span>
+                        </div>
+                        <div class="meaning">나</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">私たち</span><span class="example-reading">わたしたち (우리)</span></div>
+                            <div class="example"><span class="example-word">私立</span><span class="example-reading">しりつ (사립)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">名</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">めい、みょう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">な</span>
+                        </div>
+                        <div class="meaning">이름</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">名前</span><span class="example-reading">なまえ (이름)</span></div>
+                            <div class="example"><span class="example-word">有名</span><span class="example-reading">ゆうめい (유명한)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category" data-category="place">
+                <div class="category-title">🗺️ 장소·방향</div>
+                <div class="kanji-grid">
+                    <div class="kanji-card">
+                        <div class="kanji-char">山</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">さん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">やま</span>
+                        </div>
+                        <div class="meaning">산</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">富士山</span><span class="example-reading">ふじさん (후지산)</span></div>
+                            <div class="example"><span class="example-word">山道</span><span class="example-reading">やまみち (산길)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">川</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">かわ</span>
+                        </div>
+                        <div class="meaning">강</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">川口</span><span class="example-reading">かわぐち (가와구치)</span></div>
+                            <div class="example"><span class="example-word">河川</span><span class="example-reading">かせん (하천)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">田</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">でん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">た</span>
+                        </div>
+                        <div class="meaning">밭, 논</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">田中</span><span class="example-reading">たなか (다나카)</span></div>
+                            <div class="example"><span class="example-word">水田</span><span class="example-reading">すいでん (논)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">上</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">じょう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">うえ、あ(がる)</span>
+                        </div>
+                        <div class="meaning">위, 오르다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">上手</span><span class="example-reading">じょうず (능숙한)</span></div>
+                            <div class="example"><span class="example-word">上がる</span><span class="example-reading">あがる (오르다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">下</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">か、げ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">した、さ(がる)</span>
+                        </div>
+                        <div class="meaning">아래, 내리다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">地下</span><span class="example-reading">ちか (지하)</span></div>
+                            <div class="example"><span class="example-word">下がる</span><span class="example-reading">さがる (내리다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">中</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ちゅう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">なか</span>
+                        </div>
+                        <div class="meaning">안, 중간</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">中国</span><span class="example-reading">ちゅうごく (중국)</span></div>
+                            <div class="example"><span class="example-word">中心</span><span class="example-reading">ちゅうしん (중심)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">大</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">だい、たい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">おお(きい)</span>
+                        </div>
+                        <div class="meaning">크다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">大学</span><span class="example-reading">だいがく (대학)</span></div>
+                            <div class="example"><span class="example-word">大きい</span><span class="example-reading">おおきい (크다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">小</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">しょう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ちい(さい)</span>
+                        </div>
+                        <div class="meaning">작다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">小学校</span><span class="example-reading">しょうがっこう (초등학교)</span></div>
+                            <div class="example"><span class="example-word">小さい</span><span class="example-reading">ちいさい (작다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">右</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">う</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">みぎ</span>
+                        </div>
+                        <div class="meaning">오른쪽</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">右手</span><span class="example-reading">みぎて (오른손)</span></div>
+                            <div class="example"><span class="example-word">右側</span><span class="example-reading">みぎがわ (오른쪽)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">左</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">さ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ひだり</span>
+                        </div>
+                        <div class="meaning">왼쪽</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">左手</span><span class="example-reading">ひだりて (왼손)</span></div>
+                            <div class="example"><span class="example-word">左側</span><span class="example-reading">ひだりがわ (왼쪽)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">前</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ぜん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">まえ</span>
+                        </div>
+                        <div class="meaning">앞</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">午前</span><span class="example-reading">ごぜん (오전)</span></div>
+                            <div class="example"><span class="example-word">名前</span><span class="example-reading">なまえ (이름)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">後</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ご</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">うし(ろ)、のち</span>
+                        </div>
+                        <div class="meaning">뒤, 나중</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">午後</span><span class="example-reading">ごご (오후)</span></div>
+                            <div class="example"><span class="example-word">後ろ</span><span class="example-reading">うしろ (뒤)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">東</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">とう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ひがし</span>
+                        </div>
+                        <div class="meaning">동쪽</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">東京</span><span class="example-reading">とうきょう (도쿄)</span></div>
+                            <div class="example"><span class="example-word">東口</span><span class="example-reading">ひがしぐち (동쪽 출구)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">西</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せい、さい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">にし</span>
+                        </div>
+                        <div class="meaning">서쪽</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">西口</span><span class="example-reading">にしぐち (서쪽 출구)</span></div>
+                            <div class="example"><span class="example-word">関西</span><span class="example-reading">かんさい (간사이)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">南</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">なん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">みなみ</span>
+                        </div>
+                        <div class="meaning">남쪽</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">南口</span><span class="example-reading">みなみぐち (남쪽 출구)</span></div>
+                            <div class="example"><span class="example-word">南国</span><span class="example-reading">なんごく (남국)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">北</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ほく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">きた</span>
+                        </div>
+                        <div class="meaning">북쪽</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">北口</span><span class="example-reading">きたぐち (북쪽 출구)</span></div>
+                            <div class="example"><span class="example-word">北海道</span><span class="example-reading">ほっかいどう (홋카이도)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category" data-category="basic">
+                <div class="category-title">🏃‍♂️ 기본 동작</div>
+                <div class="kanji-grid">
+                    <div class="kanji-card">
+                        <div class="kanji-char">行</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">こう、ぎょう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">い(く)</span>
+                        </div>
+                        <div class="meaning">가다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">行く</span><span class="example-reading">いく (가다)</span></div>
+                            <div class="example"><span class="example-word">銀行</span><span class="example-reading">ぎんこう (은행)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">来</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">らい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">く(る)</span>
+                        </div>
+                        <div class="meaning">오다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">来る</span><span class="example-reading">くる (오다)</span></div>
+                            <div class="example"><span class="example-word">来年</span><span class="example-reading">らいねん (내년)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">帰</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">き</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">かえ(る)</span>
+                        </div>
+                        <div class="meaning">돌아가다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">帰る</span><span class="example-reading">かえる (돌아가다)</span></div>
+                            <div class="example"><span class="example-word">帰国</span><span class="example-reading">きこく (귀국)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">見</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">けん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">み(る)</span>
+                        </div>
+                        <div class="meaning">보다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">見る</span><span class="example-reading">みる (보다)</span></div>
+                            <div class="example"><span class="example-word">見学</span><span class="example-reading">けんがく (견학)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">聞</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ぶん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">き(く)</span>
+                        </div>
+                        <div class="meaning">듣다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">聞く</span><span class="example-reading">きく (듣다)</span></div>
+                            <div class="example"><span class="example-word">新聞</span><span class="example-reading">しんぶん (신문)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">読</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">どく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">よ(む)</span>
+                        </div>
+                        <div class="meaning">읽다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">読む</span><span class="example-reading">よむ (읽다)</span></div>
+                            <div class="example"><span class="example-word">読書</span><span class="example-reading">どくしょ (독서)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">書</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">しょ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">か(く)</span>
+                        </div>
+                        <div class="meaning">쓰다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">書く</span><span class="example-reading">かく (쓰다)</span></div>
+                            <div class="example"><span class="example-word">図書館</span><span class="example-reading">としょかん (도서관)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">食</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">しょく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">た(べる)</span>
+                        </div>
+                        <div class="meaning">먹다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">食べる</span><span class="example-reading">たべる (먹다)</span></div>
+                            <div class="example"><span class="example-word">食事</span><span class="example-reading">しょくじ (식사)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">飲</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">いん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">の(む)</span>
+                        </div>
+                        <div class="meaning">마시다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">飲む</span><span class="example-reading">のむ (마시다)</span></div>
+                            <div class="example"><span class="example-word">飲食店</span><span class="example-reading">いんしょくてん (음식점)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">買</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ばい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">か(う)</span>
+                        </div>
+                        <div class="meaning">사다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">買う</span><span class="example-reading">かう (사다)</span></div>
+                            <div class="example"><span class="example-word">買い物</span><span class="example-reading">かいもの (쇼핑)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">休</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">きゅう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">やす(む)</span>
+                        </div>
+                        <div class="meaning">쉬다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">休む</span><span class="example-reading">やすむ (쉬다)</span></div>
+                            <div class="example"><span class="example-word">休日</span><span class="example-reading">きゅうじつ (휴일)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category" data-category="others">
+                <div class="category-title">📚 기타 중요 한자</div>
+                <div class="kanji-grid">
+                    <div class="kanji-card">
+                        <div class="kanji-char">学</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">がく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">まな(ぶ)</span>
+                        </div>
+                        <div class="meaning">배우다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">学生</span><span class="example-reading">がくせい (학생)</span></div>
+                            <div class="example"><span class="example-word">大学</span><span class="example-reading">だいがく (대학)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">校</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">こう</span>
+                        </div>
+                        <div class="meaning">학교</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">学校</span><span class="example-reading">がっこう (학교)</span></div>
+                            <div class="example"><span class="example-word">校長</span><span class="example-reading">こうちょう (교장)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">生</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">い(きる)</span>
+                        </div>
+                        <div class="meaning">살다, 태어나다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">先生</span><span class="example-reading">せんせい (선생님)</span></div>
+                            <div class="example"><span class="example-word">学生</span><span class="example-reading">がくせい (학생)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">先</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">さき</span>
+                        </div>
+                        <div class="meaning">먼저</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">先生</span><span class="example-reading">せんせい (선생님)</span></div>
+                            <div class="example"><span class="example-word">先週</span><span class="example-reading">せんしゅう (지난주)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">車</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">しゃ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">くるま</span>
+                        </div>
+                        <div class="meaning">차</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">電車</span><span class="example-reading">でんしゃ (전차)</span></div>
+                            <div class="example"><span class="example-word">自動車</span><span class="example-reading">じどうしゃ (자동차)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">駅</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">えき</span>
+                        </div>
+                        <div class="meaning">역</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">東京駅</span><span class="example-reading">とうきょうえき (도쿄역)</span></div>
+                            <div class="example"><span class="example-word">駅前</span><span class="example-reading">えきまえ (역앞)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">電</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">でん</span>
+                        </div>
+                        <div class="meaning">전기</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">電車</span><span class="example-reading">でんしゃ (전차)</span></div>
+                            <div class="example"><span class="example-word">電話</span><span class="example-reading">でんわ (전화)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">話</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">わ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">はな(す)</span>
+                        </div>
+                        <div class="meaning">말하다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">話す</span><span class="example-reading">はなす (말하다)</span></div>
+                            <div class="example"><span class="example-word">会話</span><span class="example-reading">かいわ (대화)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">語</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ご</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">かた(る)</span>
+                        </div>
+                        <div class="meaning">말, 언어</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">日本語</span><span class="example-reading">にほんご (일본어)</span></div>
+                            <div class="example"><span class="example-word">外国語</span><span class="example-reading">がいこくご (외국어)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">何</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">なん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">なに</span>
+                        </div>
+                        <div class="meaning">무엇</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">何時</span><span class="example-reading">なんじ (몇 시)</span></div>
+                            <div class="example"><span class="example-word">何人</span><span class="example-reading">なんにん (몇 명)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">白</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">はく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">しろ(い)</span>
+                        </div>
+                        <div class="meaning">하얗다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">白い</span><span class="example-reading">しろい (하얗다)</span></div>
+                            <div class="example"><span class="example-word">白鳥</span><span class="example-reading">はくちょう (백조)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">黒</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">こく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">くろ(い)</span>
+                        </div>
+                        <div class="meaning">검다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">黒い</span><span class="example-reading">くろい (검다)</span></div>
+                            <div class="example"><span class="example-word">黒板</span><span class="example-reading">こくばん (칠판)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">赤</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せき</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">あか(い)</span>
+                        </div>
+                        <div class="meaning">빨갛다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">赤い</span><span class="example-reading">あかい (빨갛다)</span></div>
+                            <div class="example"><span class="example-word">赤ちゃん</span><span class="example-reading">あかちゃん (아기)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">青</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せい</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">あお(い)</span>
+                        </div>
+                        <div class="meaning">파랗다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">青い</span><span class="example-reading">あおい (파랗다)</span></div>
+                            <div class="example"><span class="example-word">青年</span><span class="example-reading">せいねん (청년)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">花</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">か</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">はな</span>
+                        </div>
+                        <div class="meaning">꽃</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">花見</span><span class="example-reading">はなみ (꽃구경)</span></div>
+                            <div class="example"><span class="example-word">花火</span><span class="example-reading">はなび (불꽃놀이)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">魚</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">ぎょ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">さかな</span>
+                        </div>
+                        <div class="meaning">물고기</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">魚屋</span><span class="example-reading">さかなや (생선가게)</span></div>
+                            <div class="example"><span class="example-word">金魚</span><span class="example-reading">きんぎょ (금붕어)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">天</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">てん</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">あめ</span>
+                        </div>
+                        <div class="meaning">하늘</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">天気</span><span class="example-reading">てんき (날씨)</span></div>
+                            <div class="example"><span class="example-word">天国</span><span class="example-reading">てんごく (천국)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">気</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">き</span>
+                        </div>
+                        <div class="meaning">기운</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">天気</span><span class="example-reading">てんき (날씨)</span></div>
+                            <div class="example"><span class="example-word">元気</span><span class="example-reading">げんき (건강하다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">空</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">くう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">そら、から</span>
+                        </div>
+                        <div class="meaning">하늘, 비다</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">空港</span><span class="example-reading">くうこう (공항)</span></div>
+                            <div class="example"><span class="example-word">青空</span><span class="example-reading">あおぞら (푸른 하늘)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">雨</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">う</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">あめ</span>
+                        </div>
+                        <div class="meaning">비</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">雨天</span><span class="example-reading">うてん (우천)</span></div>
+                            <div class="example"><span class="example-word">大雨</span><span class="example-reading">おおあめ (큰 비)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">雪</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">せつ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ゆき</span>
+                        </div>
+                        <div class="meaning">눈</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">雪国</span><span class="example-reading">ゆきぐに (설국)</span></div>
+                            <div class="example"><span class="example-word">大雪</span><span class="example-reading">おおゆき (대설)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">手</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">しゅ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">て</span>
+                        </div>
+                        <div class="meaning">손</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">手紙</span><span class="example-reading">てがみ (편지)</span></div>
+                            <div class="example"><span class="example-word">上手</span><span class="example-reading">じょうず (능숙한)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">足</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">そく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">あし</span>
+                        </div>
+                        <div class="meaning">발, 다리</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">足元</span><span class="example-reading">あしもと (발밑)</span></div>
+                            <div class="example"><span class="example-word">足りる</span><span class="example-reading">たりる (충분하다)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">目</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">もく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">め</span>
+                        </div>
+                        <div class="meaning">눈</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">目的</span><span class="example-reading">もくてき (목적)</span></div>
+                            <div class="example"><span class="example-word">目次</span><span class="example-reading">もくじ (목차)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">耳</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">じ</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">みみ</span>
+                        </div>
+                        <div class="meaning">귀</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">耳鼻科</span><span class="example-reading">じびか (이비인후과)</span></div>
+                            <div class="example"><span class="example-word">耳</span><span class="example-reading">みみ (귀)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">口</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">こう</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">くち</span>
+                        </div>
+                        <div class="meaning">입</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">出口</span><span class="example-reading">でぐち (출구)</span></div>
+                            <div class="example"><span class="example-word">入口</span><span class="example-reading">いりぐち (입구)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="kanji-card">
+                        <div class="kanji-char">力</div>
+                        <div class="readings">
+                            <span class="reading-type">음독:</span><span class="reading-value">りょく</span><br>
+                            <span class="reading-type">훈독:</span><span class="reading-value">ちから</span>
+                        </div>
+                        <div class="meaning">힘</div>
+                        <div class="examples">
+                            <div class="example"><span class="example-word">力持ち</span><span class="example-reading">ちからもち (힘센 사람)</span></div>
+                            <div class="example"><span class="example-word">能力</span><span class="example-reading">のうりょく (능력)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 햄버거 메뉴 토글
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // 모바일 드롭다운 토글
+        function toggleMobileDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        // 검색 기능
+        const searchInput = document.getElementById('searchInput');
+        const kanjiCards = document.querySelectorAll('.kanji-card');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            kanjiCards.forEach(card => {
+                const kanji = card.querySelector('.kanji-char').textContent;
+                const readings = card.querySelector('.readings').textContent;
+                const meaning = card.querySelector('.meaning').textContent;
+                const examples = card.querySelector('.examples').textContent;
+                
+                const searchText = (kanji + readings + meaning + examples).toLowerCase();
+                
+                if (searchText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // 카테고리 필터 기능
+        function filterCategory(category) {
+            const categories = document.querySelectorAll('.category');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // 버튼 활성화 상태 업데이트
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            categories.forEach(cat => {
+                if (category === 'all') {
+                    cat.style.display = 'block';
+                } else {
+                    const categoryData = cat.getAttribute('data-category');
+                    if (categoryData === category) {
+                        cat.style.display = 'block';
+                    } else {
+                        cat.style.display = 'none';
+                    }
+                }
+            });
+            
+            // 검색 초기화
+            searchInput.value = '';
+            kanjiCards.forEach(card => {
+                card.style.display = 'block';
+            });
+
+            // 모바일 메뉴 닫기
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+
+        // 카드 호버 효과 개선
+        kanjiCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // 외부 클릭 시 모바일 메뉴 닫기
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // 윈도우 리사이즈 시 모바일 메뉴 초기화
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 히라가나 & 가타가나 플래시카드</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 120px;
+        }
+
+        .control-btn:hover, .control-btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .stats {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            backface-visibility: hidden;
+            padding: 20px;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .japanese-char {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .romaji {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-type {
+            font-size: 1rem;
+            color: #718096;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #f7fafc, #edf2f7);
+            border-radius: 20px;
+        }
+
+        .hint-text {
+            font-size: 1.2rem;
+            color: #4a5568;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 120px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn.success {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .action-btn.again {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+        }
+
+        .feedback {
+            text-align: center;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 16px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .feedback.show {
+            opacity: 1;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+            color: white;
+        }
+
+        .end-screen {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .end-screen.show {
+            display: block;
+        }
+
+        .end-screen h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .final-stats {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 모바일 최적화 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+
+            .controls {
+                padding: 15px;
+            }
+
+            .control-btn, .action-btn {
+                padding: 10px 15px;
+                font-size: 13px;
+                min-width: 100px;
+            }
+
+            .flashcard-container {
+                height: 350px;
+            }
+
+            .japanese-char {
+                font-size: 4.5rem;
+            }
+
+            .romaji {
+                font-size: 1.6rem;
+            }
+
+            .card-type {
+                font-size: 0.9rem;
+            }
+
+            .hint-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flashcard-container {
+                height: 300px;
+            }
+
+            .japanese-char {
+                font-size: 3.5rem;
+            }
+
+            .romaji {
+                font-size: 1.4rem;
+            }
+
+            .control-row {
+                gap: 8px;
+            }
+
+            .action-buttons {
+                gap: 8px;
+            }
+
+            .control-btn, .action-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+                min-width: 90px;
+            }
+
+            .end-screen {
+                padding: 25px;
+            }
+
+            .end-screen h2 {
+                font-size: 1.5rem;
+            }
+
+            .final-stats {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗾 일본어 플래시카드 🗾</h1>
+
+        <div class="controls">
+            <div class="control-row">
+                <button class="control-btn active" onclick="setMode('hiragana')">히라가나</button>
+                <button class="control-btn" onclick="setMode('katakana')">가타가나</button>
+                <button class="control-btn" onclick="setMode('mixed')">혼합</button>
+            </div>
+            
+            <div class="stats">
+                <div>진행률: <span id="progress">0</span>/<span id="total">0</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div>정답률: <span id="accuracy">0%</span> | 연속 정답: <span id="streak">0</span></div>
+            </div>
+        </div>
+
+        <div class="flashcard-container" id="flashcardContainer">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="card-face card-front">
+                    <div class="japanese-char" id="japaneseChar">あ</div>
+                    <div class="card-type" id="cardType">히라가나</div>
+                    <div class="hint-text">카드를 클릭해서 답을 확인하세요</div>
+                </div>
+                
+                <div class="card-face card-back">
+                    <div class="romaji" id="romaji">a</div>
+                    <div class="hint-text">로마자 읽기</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="action-buttons" id="actionButtons">
+            <button class="action-btn again" onclick="markAnswer(false)" disabled>
+                <i class="fas fa-times"></i> 다시
+            </button>
+            <button class="action-btn" onclick="flipCard()">
+                <i class="fas fa-redo"></i> 뒤집기
+            </button>
+            <button class="action-btn success" onclick="markAnswer(true)" disabled>
+                <i class="fas fa-check"></i> 정답
+            </button>
+        </div>
+
+        <div class="action-buttons">
+            <button class="control-btn" onclick="nextCard()">
+                <i class="fas fa-arrow-right"></i> 다음 카드
+            </button>
+            <button class="control-btn" onclick="restartSession()">
+                <i class="fas fa-refresh"></i> 다시 시작
+            </button>
+        </div>
+
+        <div class="end-screen" id="endScreen">
+            <h2>🎉 학습 완료! 🎉</h2>
+            <div class="final-stats" id="finalStats"></div>
+            <button class="restart-btn" onclick="restartSession()">
+                <i class="fas fa-play"></i> 다시 시작하기
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 히라가나 데이터
+        const hiraganaData = [
+            {char: 'あ', romaji: 'a'}, {char: 'い', romaji: 'i'}, {char: 'う', romaji: 'u'}, {char: 'え', romaji: 'e'}, {char: 'お', romaji: 'o'},
+            {char: 'か', romaji: 'ka'}, {char: 'き', romaji: 'ki'}, {char: 'く', romaji: 'ku'}, {char: 'け', romaji: 'ke'}, {char: 'こ', romaji: 'ko'},
+            {char: 'さ', romaji: 'sa'}, {char: 'し', romaji: 'shi'}, {char: 'す', romaji: 'su'}, {char: 'せ', romaji: 'se'}, {char: 'そ', romaji: 'so'},
+            {char: 'た', romaji: 'ta'}, {char: 'ち', romaji: 'chi'}, {char: 'つ', romaji: 'tsu'}, {char: 'て', romaji: 'te'}, {char: 'と', romaji: 'to'},
+            {char: 'な', romaji: 'na'}, {char: 'に', romaji: 'ni'}, {char: 'ぬ', romaji: 'nu'}, {char: 'ね', romaji: 'ne'}, {char: 'の', romaji: 'no'},
+            {char: 'は', romaji: 'ha'}, {char: 'ひ', romaji: 'hi'}, {char: 'ふ', romaji: 'fu'}, {char: 'へ', romaji: 'he'}, {char: 'ほ', romaji: 'ho'},
+            {char: 'ま', romaji: 'ma'}, {char: 'み', romaji: 'mi'}, {char: 'む', romaji: 'mu'}, {char: 'め', romaji: 'me'}, {char: 'も', romaji: 'mo'},
+            {char: 'や', romaji: 'ya'}, {char: 'ゆ', romaji: 'yu'}, {char: 'よ', romaji: 'yo'},
+            {char: 'ら', romaji: 'ra'}, {char: 'り', romaji: 'ri'}, {char: 'る', romaji: 'ru'}, {char: 'れ', romaji: 're'}, {char: 'ろ', romaji: 'ro'},
+            {char: 'わ', romaji: 'wa'}, {char: 'ゐ', romaji: 'wi'}, {char: 'ゑ', romaji: 'we'}, {char: 'を', romaji: 'wo'}, {char: 'ん', romaji: 'n'}
+        ];
+
+        // 가타가나 데이터
+        const katakanaData = [
+            {char: 'ア', romaji: 'a'}, {char: 'イ', romaji: 'i'}, {char: 'ウ', romaji: 'u'}, {char: 'エ', romaji: 'e'}, {char: 'オ', romaji: 'o'},
+            {char: 'カ', romaji: 'ka'}, {char: 'キ', romaji: 'ki'}, {char: 'ク', romaji: 'ku'}, {char: 'ケ', romaji: 'ke'}, {char: 'コ', romaji: 'ko'},
+            {char: 'サ', romaji: 'sa'}, {char: 'シ', romaji: 'shi'}, {char: 'ス', romaji: 'su'}, {char: 'セ', romaji: 'se'}, {char: 'ソ', romaji: 'so'},
+            {char: 'タ', romaji: 'ta'}, {char: 'チ', romaji: 'chi'}, {char: 'ツ', romaji: 'tsu'}, {char: 'テ', romaji: 'te'}, {char: 'ト', romaji: 'to'},
+            {char: 'ナ', romaji: 'na'}, {char: 'ニ', romaji: 'ni'}, {char: 'ヌ', romaji: 'nu'}, {char: 'ネ', romaji: 'ne'}, {char: 'ノ', romaji: 'no'},
+            {char: 'ハ', romaji: 'ha'}, {char: 'ヒ', romaji: 'hi'}, {char: 'フ', romaji: 'fu'}, {char: 'ヘ', romaji: 'he'}, {char: 'ホ', romaji: 'ho'},
+            {char: 'マ', romaji: 'ma'}, {char: 'ミ', romaji: 'mi'}, {char: 'ム', romaji: 'mu'}, {char: 'メ', romaji: 'me'}, {char: 'モ', romaji: 'mo'},
+            {char: 'ヤ', romaji: 'ya'}, {char: 'ユ', romaji: 'yu'}, {char: 'ヨ', romaji: 'yo'},
+            {char: 'ラ', romaji: 'ra'}, {char: 'リ', romaji: 'ri'}, {char: 'ル', romaji: 'ru'}, {char: 'レ', romaji: 're'}, {char: 'ロ', romaji: 'ro'},
+            {char: 'ワ', romaji: 'wa'}, {char: 'ヰ', romaji: 'wi'}, {char: 'ヱ', romaji: 'we'}, {char: 'ヲ', romaji: 'wo'}, {char: 'ン', romaji: 'n'}
+        ];
+
+        // 게임 상태 변수들
+        let currentMode = 'hiragana';
+        let currentData = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let correctAnswers = 0;
+        let totalAnswers = 0;
+        let currentStreak = 0;
+        let shuffledData = [];
+
+        // 초기화
+        function initialize() {
+            setMode(currentMode);
+            updateStats();
+        }
+
+        // 모드 설정
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // 버튼 상태 업데이트
+            const buttons = document.querySelectorAll('.control-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (mode === 'hiragana') {
+                buttons[0].classList.add('active');
+                currentData = [...hiraganaData];
+            } else if (mode === 'katakana') {
+                buttons[1].classList.add('active');
+                currentData = [...katakanaData];
+            } else if (mode === 'mixed') {
+                buttons[2].classList.add('active');
+                currentData = [...hiraganaData, ...katakanaData];
+            }
+            
+            shuffleData();
+            resetStats();
+            loadCard();
+            hideEndScreen();
+        }
+
+        // 데이터 섞기
+        function shuffleData() {
+            shuffledData = [...currentData];
+            for (let i = shuffledData.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledData[i], shuffledData[j]] = [shuffledData[j], shuffledData[i]];
+            }
+        }
+
+        // 카드 로드
+        function loadCard() {
+            if (currentIndex >= shuffledData.length) {
+                showEndScreen();
+                return;
+            }
+
+            const currentCard = shuffledData[currentIndex];
+            document.getElementById('japaneseChar').textContent = currentCard.char;
+            document.getElementById('romaji').textContent = currentCard.romaji;
+            
+            // 카드 타입 표시
+            const cardType = document.getElementById('cardType');
+            if (currentCard.char.match(/[\u3040-\u309F]/)) {
+                cardType.textContent = '히라가나';
+            } else if (currentCard.char.match(/[\u30A0-\u30FF]/)) {
+                cardType.textContent = '가타가나';
+            }
+            
+            resetCard();
+            enableAnswerButtons(false);
+        }
+
+        // 카드 뒤집기
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            
+            if (isFlipped) {
+                flashcard.classList.add('flipped');
+                enableAnswerButtons(true);
+            } else {
+                flashcard.classList.remove('flipped');
+                enableAnswerButtons(false);
+            }
+        }
+
+        // 카드 리셋
+        function resetCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flipped');
+            isFlipped = false;
+            hideFeedback();
+        }
+
+        // 답변 버튼 활성화/비활성화
+        function enableAnswerButtons(enabled) {
+            const buttons = document.querySelectorAll('.action-btn');
+            buttons[0].disabled = !enabled; // 다시
+            buttons[2].disabled = !enabled; // 정답
+        }
+
+        // 답변 처리
+        function markAnswer(correct) {
+            if (!isFlipped) return;
+            
+            totalAnswers++;
+            if (correct) {
+                correctAnswers++;
+                currentStreak++;
+                showFeedback('정답입니다! 🎉', 'correct');
+            } else {
+                currentStreak = 0;
+                showFeedback('다시 한 번 공부해보세요! 📚', 'incorrect');
+            }
+            
+            updateStats();
+            setTimeout(() => {
+                nextCard();
+            }, 1500);
+        }
+
+        // 다음 카드
+        function nextCard() {
+            currentIndex++;
+            loadCard();
+        }
+
+        // 피드백 표시
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = message;
+            feedback.className = `feedback show ${type}`;
+        }
+
+        // 피드백 숨기기
+        function hideFeedback() {
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('show');
+        }
+
+        // 통계 업데이트
+        function updateStats() {
+            document.getElementById('progress').textContent = currentIndex;
+            document.getElementById('total').textContent = shuffledData.length;
+            document.getElementById('streak').textContent = currentStreak;
+            
+            const accuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+            
+            const progressPercent = shuffledData.length > 0 ? (currentIndex / shuffledData.length) * 100 : 0;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+        }
+
+        // 통계 리셋
+        function resetStats() {
+            currentIndex = 0;
+            correctAnswers = 0;
+            totalAnswers = 0;
+            currentStreak = 0;
+            updateStats();
+        }
+
+        // 세션 다시 시작
+        function restartSession() {
+            resetStats();
+            shuffleData();
+            loadCard();
+            hideEndScreen();
+        }
+
+        // 종료 화면 표시
+        function showEndScreen() {
+            const endScreen = document.getElementById('endScreen');
+            const finalStats = document.getElementById('finalStats');
+            
+            const accuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
+            const maxStreak = currentStreak;
+            
+            finalStats.innerHTML = `
+                <div>총 문제 수: ${shuffledData.length}개</div>
+                <div>정답 수: ${correctAnswers}개</div>
+                <div>정답률: ${accuracy}%</div>
+                <div>최대 연속 정답: ${maxStreak}개</div>
+                <div>학습 모드: ${getModeText()}</div>
+            `;
+            
+            endScreen.classList.add('show');
+            document.getElementById('flashcardContainer').style.display = 'none';
+            document.getElementById('actionButtons').style.display = 'none';
+        }
+
+        // 종료 화면 숨기기
+        function hideEndScreen() {
+            document.getElementById('endScreen').classList.remove('show');
+            document.getElementById('flashcardContainer').style.display = 'block';
+            document.getElementById('actionButtons').style.display = 'flex';
+        }
+
+        // 모드 텍스트 반환
+        function getModeText() {
+            switch(currentMode) {
+                case 'hiragana': return '히라가나';
+                case 'katakana': return '가타가나';
+                case 'mixed': return '혼합';
+                default: return '히라가나';
+            }
+        }
+
+        // 키보드 이벤트
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case ' ':
+                case 'Enter':
+                    e.preventDefault();
+                    flipCard();
+                    break;
+                case 'ArrowRight':
+                case 'n':
+                    e.preventDefault();
+                    nextCard();
+                    break;
+                case 'ArrowUp':
+                case 'o':
+                    e.preventDefault();
+                    if (isFlipped) markAnswer(true);
+                    break;
+                case 'ArrowDown':
+                case 'x':
+                    e.preventDefault();
+                    if (isFlipped) markAnswer(false);
+                    break;
+                case 'r':
+                    e.preventDefault();
+                    restartSession();
+                    break;
+            }
+        });
+
+        // 터치 이벤트 최적화
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.flashcard')) {
+                e.target.style.transform = 'scale(0.98)';
+            }
+        });
+
+        document.addEventListener('touchend', function(e) {
+            if (e.target.closest('.flashcard')) {
+                e.target.style.transform = '';
+            }
+        });
+
+        // 초기화 실행
+        initialize();
+    </script>
+</body>
+</html>
