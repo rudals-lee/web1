@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내용증명 작성</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container-P {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .sidebar-P {
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .content-P {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        .section-P {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 20px;
+        }
+        
+        .section-title-P {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .step-number-P {
+            background: #666;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .form-group-P {
+            margin-bottom: 20px;
+        }
+        
+        .form-label-P {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .radio-group-P {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .radio-item-P {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .form-input-P {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-input-P:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .document-title-P {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #333;
+        }
+        
+        .party-info-P {
+            margin-bottom: 30px;
+        }
+        
+        .party-header-P {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .info-row-P {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        
+        .info-label-P {
+            width: 80px;
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .info-content-P {
+            flex: 1;
+            color: #333;
+        }
+        
+        .editable-P {
+            background-color: #f9f9f9;
+            padding: 2px 4px;
+            border-radius: 3px;
+            cursor: text;
+            min-width: 100px;
+            display: inline-block;
+        }
+        
+        .editable-P:hover {
+            background-color: #e9e9e9;
+        }
+        
+        .editable-P:focus {
+            outline: 2px solid #007bff;
+            background-color: white;
+        }
+        
+        .content-section-P {
+            margin-top: 30px;
+        }
+        
+        .content-header-P {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .content-list-P {
+            list-style: decimal;
+            padding-left: 20px;
+        }
+        
+        .content-list-P li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .content-sublist-P {
+            list-style: lower-alpha;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .content-sublist-P li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight-P {
+            font-weight: bold;
+            color: #d63384;
+        }
+        
+        .date-input-P {
+            color: #007bff;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+        
+        .checkbox-P {
+            margin-right: 8px;
+        }
+        
+        .checkbox-label-P {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .button-group-P {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-P {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-P:hover {
+            background: #f8f9fa;
+        }
+
+        .progress-info-P {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .additional-input-P {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .additional-input-P.show {
+            display: block;
+        }
+
+        .account-inputs-P {
+            margin-top: 10px;
+        }
+
+        .account-inputs-P input {
+            margin-bottom: 10px;
+        }
+
+        .input-row-P {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .final-section-P {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .sender-date-P {
+            text-align: right;
+            margin-top: 40px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* 주소 검색 관련 스타일 */
+        .address-search-container-P {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .address-search-btn-P {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .address-search-btn-P:hover {
+            background: #0056b3;
+        }
+
+        .address-modal-P {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .address-modal-content-P {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .address-modal-header-P {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .address-close-P {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .address-close-P:hover {
+            color: #333;
+        }
+
+        .address-search-input-P {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .address-search-submit-P {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .address-search-submit-P:hover {
+            background: #0056b3;
+        }
+
+        .address-results-P {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .address-item-P {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .address-item-P:hover {
+            background-color: #f8f9fa;
+        }
+
+        .address-item-road-P {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .address-item-jibun-P {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .address-input-with-search-P {
+            position: relative;
+        }
+
+        .address-input-with-search-P input {
+            padding-right: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-P">
+        <div class="sidebar-P">
+            <div class="progress-info-P">
+                계약 정보를 입력하시겠어요? ℹ️<br>
+                <label style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
+                    <input type="radio" name="contract-info" value="입력함" checked> 입력함
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="radio" name="contract-info" value="입력하지 않음"> 입력하지 않음
+                </label>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">1</span>
+                    발신인 및 수신인
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">보내는 사람(발신인)</div>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="sender-corp" name="sender-type" value="법인" checked>
+                            <label for="sender-corp">법인</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="sender-person" name="sender-type" value="개인">
+                            <label for="sender-person">개인</label>
+                        </div>
+                    </div>
+                    <input type="text" class="form-input-P" id="sender-name-input" placeholder="성명" value="김광신">
+                    <div class="address-input-with-search-P" style="margin-top: 10px;">
+                        <input type="text" class="form-input-P" id="sender-address-input" placeholder="주소" value="부산 기장군 장안읍 판곡로 2 (오리) 103호 22201호">
+                        <button type="button" class="address-search-btn-P" onclick="openAddressSearch('sender-address-input')">주소검색</button>
+                    </div>
+                    <input type="text" class="form-input-P" id="sender-phone-input" placeholder="전화번호" value="010-1234-5678" style="margin-top: 10px;">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">받는 사람(수신인)</div>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="receiver-corp" name="receiver-type" value="법인" checked>
+                            <label for="receiver-corp">법인</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="receiver-person" name="receiver-type" value="개인">
+                            <label for="receiver-person">개인</label>
+                        </div>
+                    </div>
+                    <input type="text" class="form-input-P" id="receiver-name-input" placeholder="성명" value="김수신">
+                    <div class="address-input-with-search-P" style="margin-top: 10px;">
+                        <input type="text" class="form-input-P" id="receiver-address-input" placeholder="주소" value="광주 남구 판촌로 23-3 (양촌동) 102동 4846호">
+                        <button type="button" class="address-search-btn-P" onclick="openAddressSearch('receiver-address-input')">주소검색</button>
+                    </div>
+                    <input type="text" class="form-input-P" id="receiver-phone-input" placeholder="전화번호" value="010-9876-5432" style="margin-top: 10px;">
+                </div>
+            </div>
+            
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">2</span>
+                    체결한 계약의 내용
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">계약명</div>
+                    <input type="text" class="form-input-P" id="contract-name-input" placeholder="홈페이지 개발 용역" value="홈페이지 개발 용역">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">계약한 날</div>
+                    <input type="date" class="form-input-P" id="contract-date-input" value="2025-01-06">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">계약의 내용</div>
+                    <input type="text" class="form-input-P" id="contract-content-input" placeholder="2025. 3.10. 부품 300개 납부" value="2025. 3.10. 부품 300개 납부">
+                    <input type="text" class="form-input-P additional-input-P" placeholder="추가 계약 내용">
+                </div>
+                
+                <div class="button-group-P">
+                    <button class="btn-P" onclick="addContractContent()">+ 추가</button>
+                    <button class="btn-P" onclick="removeContractContent()">- 삭제</button>
+                </div>
+            </div>
+            
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">3</span>
+                    이행하지 않은 계약의 내용
+                </div>
+                
+                <div class="form-group-P">
+                    <label class="checkbox-label-P">
+                        <input type="checkbox" class="checkbox-P" id="breach-money" checked>
+                        대금을 지급하지 않음
+                    </label>
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">미지급 금액 및 지급기한</div>
+                    <div class="input-row-P">
+                        <span>금</span>
+                        <input type="text" class="form-input-P" id="amount-input" value="5,000,000" style="flex: 1;">
+                        <span>원</span>
+                    </div>
+                    <input type="date" class="form-input-P" id="payment-date" value="2025-07-01">
+                </div>
+                
+                <div class="form-group-P">
+                    <label class="checkbox-label-P">
+                        <input type="checkbox" class="checkbox-P" id="breach-performance" checked>
+                        용역업무를 수행하지 않음
+                    </label>
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">수신인이 해야 할 업무내용</div>
+                    <input type="text" class="form-input-P" id="work-content" placeholder="2025 2. 3. 착공하기로 함" value="2025 2. 3. 착공하기로 함">
+                    <input type="text" class="form-input-P additional-input-P" placeholder="추가 업무내용">
+                </div>
+                
+                <div class="button-group-P">
+                    <button class="btn-P" onclick="addWorkContent()">+ 추가</button>
+                    <button class="btn-P" onclick="removeWorkContent()">- 삭제</button>
+                </div>
+                
+                <div class="form-group-P">
+                    <label class="checkbox-label-P">
+                        <input type="checkbox" class="checkbox-P" id="breach-direct" checked>
+                        직접입력
+                    </label>
+                </div>
+                
+                <div class="form-group-P">
+                    <input type="text" class="form-input-P" id="direct-input" placeholder="2025. 5.3. 500개를 납품 하지 않음" value="2025. 5.3. 500개를 납품 하지 않음">
+                    <input type="text" class="form-input-P additional-input-P" placeholder="추가 직접입력">
+                </div>
+                
+                <div class="button-group-P">
+                    <button class="btn-P" onclick="addDirectInput()">+ 추가</button>
+                    <button class="btn-P" onclick="removeDirectInput()">- 삭제</button>
+                </div>
+            </div>
+            
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">4</span>
+                    이행기한 및 계약해지
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">이행기한</div>
+                    <input type="date" class="form-input-P" id="performance-deadline" value="2025-03-04">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">계약해지 통보</div>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="terminate-yes" name="terminate" value="계약해지 함" checked>
+                            <label for="terminate-yes">계약해지 함</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="terminate-no" name="terminate" value="계약해지 하지 않음">
+                            <label for="terminate-no">계약해지 하지 않음</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">5</span>
+                    수신인에게 청구할 사항
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">정산금 청구</div>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="claim-yes" name="claim" value="청구함" checked>
+                            <label for="claim-yes">청구함</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="claim-no" name="claim" value="청구하지 않음">
+                            <label for="claim-no">청구하지 않음</label>
+                        </div>
+                    </div>
+                    <input type="text" class="form-input-P" id="claim-amount" placeholder="계약금 300만원 중 200만원 반환" value="계약금 300만원 중 200만원 반환">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">손해배상 청구</div>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="damage-claim" name="damage" value="청구함">
+                            <label for="damage-claim">청구함</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="damage-no" name="damage" value="청구하지 않음" checked>
+                            <label for="damage-no">청구하지 않음</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">지급기한</div>
+                    <input type="date" class="form-input-P" id="payment-deadline" value="2025-03-04">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">계좌 정보를 입력하시겠어요?</div>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="account-yes" name="account" value="입력함" checked>
+                            <label for="account-yes">입력함</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="account-no" name="account" value="입력하지 않음">
+                            <label for="account-no">입력하지 않음</label>
+                        </div>
+                    </div>
+                    <div class="account-inputs-P">
+                        <input type="text" class="form-input-P" id="account-holder" placeholder="예금주" value="김피해">
+                        <input type="text" class="form-input-P" id="bank-name" placeholder="은행명" value="국민은행">
+                        <input type="text" class="form-input-P" id="account-number" placeholder="계좌번호" value="110-1111-11111">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">6</span>
+                    추가 요청사항
+                </div>
+                
+                <div class="progress-info-P">
+                    추가 요청사항 <span style="color: #666;">6 / 8</span>
+                </div>
+                
+                <div class="form-group-P">
+                    <input type="text" class="form-input-P" id="additional-request" placeholder="이미 지급한 금액에 대한 세금계산서 발행" value="이미 지급한 금액에 대한 세금계산서 발행">
+                </div>
+                
+                <div class="button-group-P">
+                    <button class="btn-P">+ 추가</button>
+                    <button class="btn-P">- 삭제</button>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">7</span>
+                    발신인 상세정보
+                </div>
+                
+                <div class="progress-info-P">
+                    발신인 상세정보 <span style="color: #666;">7 / 8</span>
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">성명</div>
+                    <input type="text" class="form-input-P" id="sender-detail-name" value="김발신">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">주소</div>
+                    <div class="address-input-with-search-P">
+                        <input type="text" class="form-input-P" id="sender-detail-address" placeholder="부산 기장군 장안읍 판곡로 2 (오리)" value="부산 기장군 장안읍 판곡로 2 (오리)">
+                        <button type="button" class="address-search-btn-P" onclick="openAddressSearch('sender-detail-address')">주소검색</button>
+                    </div>
+                    <input type="text" class="form-input-P" id="sender-detail-address2" placeholder="103동 22201호" value="103동 22201호" style="margin-top: 10px;">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">전화번호</div>
+                    <input type="text" class="form-input-P" id="sender-detail-phone" value="010-1234-5678">
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">
+                    <span class="step-number-P">8</span>
+                    수신인 상세정보
+                </div>
+                
+                <div class="progress-info-P">
+                    수신인 상세정보 <span style="color: #666;">8 / 8</span>
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">성명</div>
+                    <input type="text" class="form-input-P" id="receiver-detail-name" value="김수신">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">주소</div>
+                    <div class="address-input-with-search-P">
+                        <input type="text" class="form-input-P" id="receiver-detail-address" placeholder="광주 남구 판촌로 23-3 (양촌동)" value="광주 남구 판촌로 23-3 (양촌동)">
+                        <button type="button" class="address-search-btn-P" onclick="openAddressSearch('receiver-detail-address')">주소검색</button>
+                    </div>
+                    <input type="text" class="form-input-P" id="receiver-detail-address2" placeholder="102동 4846호" value="102동 4846호" style="margin-top: 10px;">
+                </div>
+                
+                <div class="form-group-P">
+                    <div class="form-label-P">전화번호</div>
+                    <input type="text" class="form-input-P" id="receiver-detail-phone" value="010-9876-5432">
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-P">
+            <h1 class="document-title-P">내용증명</h1>
+            
+            <div class="party-info-P">
+                <div class="party-header-P">발신인</div>
+                <div class="info-row-P">
+                    <span class="info-label-P">성명 :</span>
+                    <span class="info-content-P"><span class="editable-P" contenteditable="true" id="doc-sender-name">김광신</span></span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">주소 :</span>
+                    <span class="info-content-P"><span class="editable-P" contenteditable="true" id="doc-sender-address">부산 기장군 장안읍 판곡로 2 (오리) 103호 22201호</span></span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">전화번호 :</span>
+                    <span class="info-content-P"><span class="editable-P" contenteditable="true" id="doc-sender-phone">010-1234-5678</span></span>
+                </div>
+            </div>
+            
+            <div class="party-info-P">
+                <div class="party-header-P">수신인</div>
+                <div class="info-row-P">
+                    <span class="info-label-P">성명 :</span>
+                    <span class="info-content-P"><span class="editable-P" contenteditable="true" id="doc-receiver-name">김수신</span></span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">주소 :</span>
+                    <span class="info-content-P"><span class="editable-P" contenteditable="true" id="doc-receiver-address">광주 남구 판촌로 23-3 (양촌동) 102동 4846호</span></span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">전화번호 :</span>
+                    <span class="info-content-P"><span class="editable-P" contenteditable="true" id="doc-receiver-phone">010-9876-5432</span></span>
+                </div>
+            </div>
+            
+            <div class="content-section-P">
+                <div class="content-header-P">제목 : 계약 불이행에 대한 조치 통보</div>
+                
+                <ol class="content-list-P">
+                    <li>
+                        귀하(수신인, 이하 '<span class="editable-P" contenteditable="true" id="doc-receiver-title">귀하</span>'이라 한다)가 무궁한 발전을 기원합니다.
+                    </li>
+                    
+                    <li>
+                        본 발신인은 귀하와 <span class="editable-P highlight-P" contenteditable="true" id="doc-contract-name">홈페이지 개발 용역</span>(이하 '본 계약'이라 한다)을 아래와 같은 내용으로 체결하였습니다.
+                        <ol class="content-sublist-P">
+                            <li>계약 체결일 : <span class="editable-P date-input-P" contenteditable="true" id="doc-contract-date">2025.01.06.</span></li>
+                            <li>계약의 내용
+                                <br>1) <span class="editable-P" contenteditable="true" id="doc-contract-content">2025. 3.10. 부품 300개 납부</span>
+                            </li>
+                        </ol>
+                    </li>
+                    
+                    <li>
+                        그러나 귀하는 아래와 같이 본 계약에서 정한 계약상의 의무를 이행하지도 이행하고 있지 않습니다.
+                        <br>가. <span class="editable-P date-input-P" contenteditable="true" id="doc-payment-date">2025.07.01.</span>까지 지급하기로 한 <span class="editable-P highlight-P" contenteditable="true" id="doc-amount">5,000,000원</span>을 지급하지 않음
+                        <br>나. 아래의 용역업무를 수행하지 않음
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;1) <span class="editable-P" contenteditable="true" id="doc-work-content">2025 2. 3. 착공하기로 함</span>
+                        <br>다. <span class="editable-P" contenteditable="true" id="doc-direct-content">2025. 5.3. 500개를 납품 하지 않음</span>
+                    </li>
+                    
+                    <li>
+                        본 발신인은 위와 같은 귀하의 본 계약상의 의무 불이행을 이유로 본 내용증명을 귀하에게 발송하는 바, 귀하는 <span class="editable-P date-input-P" contenteditable="true" id="doc-performance-deadline1">2025.03.04.</span>까지 귀하의 계약상 의무를 조속히 이행할 것을 촉구합니다.
+                    </li>
+                    
+                    <li>
+                        <span class="editable-P date-input-P" contenteditable="true" id="doc-performance-deadline2">2025.03.04.</span>까지 의무를 이행하지 않을 경우 본 계약을 해지(해제)할 것임을 본 내용증명을 통해 통보하며, 귀하의 의무 불이행으로 인한 본 계약이 해지(해제)될 경우 본 발신인의 귀하에 대한 본 계약상의 의무 또한 소멸함을 알려드립니다.
+                    </li>
+                    
+                    <li>
+                        또한, 본 발신인은 귀하의 아래와 같은 조치를 조속히 이행할 것을 통보하며, 만일 동 관련 법규와 본 계약에 따라 본 발신인은 귀하에 대한 의무를 이행할 필요가 없음을 고지합니다.
+                        <br>가. 정산금 청구사항
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;1) 정산내용 : <span class="editable-P" contenteditable="true" id="doc-claim-amount">계약금 300만원 중 200만원 반환</span>
+                        <br>나. 이행기한 : <span class="editable-P date-input-P" contenteditable="true" id="doc-payment-deadline">2025.03.04.</span>
+                        <br>다. 지급방법
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;1) 입금계좌 정보
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가) 예금주 : <span class="editable-P" contenteditable="true" id="doc-account-holder">김피해</span>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;나) 은행명 : <span class="editable-P" contenteditable="true" id="doc-bank-name">국민은행</span>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;다) 계좌번호 : <span class="editable-P" contenteditable="true" id="doc-account-number">110-1111-11111</span>
+                    </li>
+                    
+                    <li>
+                        나아가 본 발신인은 귀하에게 본 계약의 내용 및 이와 관련하여 아래와 같은 조치를 추가로 요청하는바 조속히 이행을 청구합니다.
+                        <br>가. <span class="editable-P" contenteditable="true" id="doc-additional-request">이미 지급한 금액에 대한 세금계산서 발행</span>
+                    </li>
+                    
+                    <li>
+                        귀하가 본 내용증명을 받고, 위와 같은 의무를 이행하지 않을 경우 본 발신인은 귀하의 재산에 대하여 민사집행법 제276조 이하 등에 따른 가압류 등 보전 처분 및 민사소송 등에 따른 민사 소송을 불가피하게 제기할 것이며, 관련 특별법 등에 따른 형사상 고소 및 고발을 하게 될 것임을 본 내용증명을 통해 미리 통보합니다.
+                    </li>
+                </ol>
+                
+                <div class="sender-date-P">
+                    <span class="editable-P date-input-P" contenteditable="true" id="doc-send-date">2025년 7월 26일</span>
+                    <br><br>
+                    발신인 : <span class="editable-P" contenteditable="true" id="doc-sender-signature">김발신</span> (인)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 주소 검색 모달 -->
+    <div id="addressModal" class="address-modal-P">
+        <div class="address-modal-content-P">
+            <div class="address-modal-header-P">
+                <h3>주소 검색</h3>
+                <span class="address-close-P">&times;</span>
+            </div>
+            <div>
+                <input type="text" id="addressSearchInput" class="address-search-input-P" placeholder="도로명 또는 지번을 입력하세요 (예: 판교역로 166)">
+                <button type="button" class="address-search-submit-P" onclick="searchAddress()">검색</button>
+                <div id="addressResults" class="address-results-P"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 주소 검색 관련 변수
+        let currentAddressTarget = null;
+
+        // 주소 검색 모달 열기
+        function openAddressSearch(targetInputId) {
+            currentAddressTarget = targetInputId;
+            const modal = document.getElementById('addressModal');
+            modal.style.display = 'block';
+            document.getElementById('addressSearchInput').focus();
+        }
+
+        // 주소 검색 모달 닫기
+        function closeAddressModal() {
+            const modal = document.getElementById('addressModal');
+            modal.style.display = 'none';
+            document.getElementById('addressSearchInput').value = '';
+            document.getElementById('addressResults').innerHTML = '';
+            currentAddressTarget = null;
+        }
+
+        // 주소 검색 함수 (샘플 데이터 사용)
+        function searchAddress() {
+            const query = document.getElementById('addressSearchInput').value.trim();
+            if (!query) {
+                alert('검색어를 입력해주세요.');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('addressResults');
+            resultsDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">검색 중...</div>';
+
+            // 실제 환경에서는 도로명주소 API를 사용하지만, 
+            // 여기서는 샘플 데이터로 시연합니다.
+            setTimeout(() => {
+                const sampleResults = getSampleAddressResults(query);
+                displayAddressResults(sampleResults);
+            }, 500);
+        }
+
+        // 샘플 주소 데이터 생성
+        function getSampleAddressResults(query) {
+            const samples = [
+                {
+                    roadAddress: '서울특별시 강남구 테헤란로 152 (강남동)',
+                    jibunAddress: '서울특별시 강남구 강남동 818-3',
+                    zipCode: '06236'
+                },
+                {
+                    roadAddress: '서울특별시 서초구 효령로 335 (서초동)',
+                    jibunAddress: '서울특별시 서초구 서초동 1303-34',
+                    zipCode: '06651'
+                },
+                {
+                    roadAddress: '경기도 성남시 분당구 판교역로 166 (백현동)',
+                    jibunAddress: '경기도 성남시 분당구 백현동 532',
+                    zipCode: '13494'
+                },
+                {
+                    roadAddress: '부산광역시 기장군 장안읍 판곡로 2 (오리)',
+                    jibunAddress: '부산광역시 기장군 장안읍 오리 103-5',
+                    zipCode: '46062'
+                },
+                {
+                    roadAddress: '광주광역시 남구 판촌로 23-3 (양촌동)',
+                    jibunAddress: '광주광역시 남구 양촌동 102-15',
+                    zipCode: '61642'
+                }
+            ];
+
+            // 검색어와 관련된 결과 필터링
+            return samples.filter(addr => 
+                addr.roadAddress.includes(query) || 
+                addr.jibunAddress.includes(query)
+            );
+        }
+
+        // 검색 결과 표시
+        function displayAddressResults(results) {
+            const resultsDiv = document.getElementById('addressResults');
+            
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            let html = '';
+            results.forEach((result, index) => {
+                html += `
+                    <div class="address-item-P" onclick="selectAddress('${result.roadAddress}', '${result.zipCode}')">
+                        <div class="address-item-road-P">[${result.zipCode}] ${result.roadAddress}</div>
+                        <div class="address-item-jibun-P">지번: ${result.jibunAddress}</div>
+                    </div>
+                `;
+            });
+            resultsDiv.innerHTML = html;
+        }
+
+        // 주소 선택
+        function selectAddress(roadAddress, zipCode) {
+            if (currentAddressTarget) {
+                const targetInput = document.getElementById(currentAddressTarget);
+                if (targetInput) {
+                    targetInput.value = roadAddress;
+                    // 입력 이벤트 발생시켜 동기화 트리거
+                    const event = new Event('input', { bubbles: true });
+                    targetInput.dispatchEvent(event);
+                }
+            }
+            closeAddressModal();
+        }
+
+        // 모달 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('addressModal');
+            const closeBtn = document.querySelector('.address-close-P');
+            const searchInput = document.getElementById('addressSearchInput');
+
+            // 닫기 버튼 클릭
+            closeBtn.addEventListener('click', closeAddressModal);
+
+            // 모달 외부 클릭시 닫기
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeAddressModal();
+                }
+            });
+
+            // Enter 키로 검색
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchAddress();
+                }
+            });
+
+            // ESC 키로 모달 닫기
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    closeAddressModal();
+                }
+            });
+        });
+
+        // 편집 가능한 요소들의 실시간 업데이트
+        document.addEventListener('DOMContentLoaded', function() {
+            // 사이드바 입력값과 내용 동기화 함수들
+            function syncField(inputId, docId) {
+                const input = document.getElementById(inputId);
+                const doc = document.getElementById(docId);
+                if (input && doc) {
+                    input.addEventListener('input', function() {
+                        doc.textContent = this.value;
+                    });
+                }
+            }
+
+            function syncFieldWithFormat(inputId, docId, formatter) {
+                const input = document.getElementById(inputId);
+                const doc = document.getElementById(docId);
+                if (input && doc) {
+                    input.addEventListener('input', function() {
+                        doc.textContent = formatter ? formatter(this.value) : this.value;
+                    });
+                }
+            }
+
+            // 기본 필드 동기화
+            syncField('sender-name-input', 'doc-sender-name');
+            syncField('sender-address-input', 'doc-sender-address');
+            syncField('sender-phone-input', 'doc-sender-phone');
+            syncField('receiver-name-input', 'doc-receiver-name');
+            syncField('receiver-address-input', 'doc-receiver-address');
+            syncField('receiver-phone-input', 'doc-receiver-phone');
+            syncField('contract-name-input', 'doc-contract-name');
+            syncField('contract-content-input', 'doc-contract-content');
+            syncField('work-content', 'doc-work-content');
+            syncField('direct-input', 'doc-direct-content');
+            syncField('claim-amount', 'doc-claim-amount');
+            syncField('account-holder', 'doc-account-holder');
+            syncField('bank-name', 'doc-bank-name');
+            syncField('account-number', 'doc-account-number');
+            syncField('additional-request', 'doc-additional-request');
+            syncField('sender-detail-name', 'doc-sender-signature');
+
+            // 상세 정보 동기화 (발신인)
+            function syncSenderDetailAddress() {
+                const addr1 = document.getElementById('sender-detail-address');
+                const addr2 = document.getElementById('sender-detail-address2');
+                const docAddr = document.getElementById('doc-sender-address');
+                
+                if (addr1 && addr2 && docAddr) {
+                    function updateAddress() {
+                        const fullAddress = addr1.value + (addr2.value ? ' ' + addr2.value : '');
+                        docAddr.textContent = fullAddress;
+                    }
+                    addr1.addEventListener('input', updateAddress);
+                    addr2.addEventListener('input', updateAddress);
+                }
+            }
+            
+            // 상세 정보 동기화 (수신인)
+            function syncReceiverDetailAddress() {
+                const addr1 = document.getElementById('receiver-detail-address');
+                const addr2 = document.getElementById('receiver-detail-address2');
+                const docAddr = document.getElementById('doc-receiver-address');
+                
+                if (addr1 && addr2 && docAddr) {
+                    function updateAddress() {
+                        const fullAddress = addr1.value + (addr2.value ? ' ' + addr2.value : '');
+                        docAddr.textContent = fullAddress;
+                    }
+                    addr1.addEventListener('input', updateAddress);
+                    addr2.addEventListener('input', updateAddress);
+                }
+            }
+
+            syncField('sender-detail-name', 'doc-sender-name');
+            syncField('sender-detail-phone', 'doc-sender-phone');
+            syncField('receiver-detail-name', 'doc-receiver-name');
+            syncField('receiver-detail-phone', 'doc-receiver-phone');
+            
+            syncSenderDetailAddress();
+            syncReceiverDetailAddress();
+
+            // 날짜 필드 동기화 (형식 변환)
+            syncFieldWithFormat('contract-date-input', 'doc-contract-date', function(value) {
+                return value.replace(/-/g, '.') + '.';
+            });
+
+            syncFieldWithFormat('payment-date', 'doc-payment-date', function(value) {
+                return value.replace(/-/g, '.') + '.';
+            });
+
+            syncFieldWithFormat('performance-deadline', 'doc-performance-deadline1', function(value) {
+                return value.replace(/-/g, '.') + '.';
+            });
+
+            syncFieldWithFormat('performance-deadline', 'doc-performance-deadline2', function(value) {
+                return value.replace(/-/g, '.') + '.';
+            });
+
+            syncFieldWithFormat('payment-deadline', 'doc-payment-deadline', function(value) {
+                return value.replace(/-/g, '.') + '.';
+            });
+
+            // 금액 필드 동기화
+            const amountInput = document.getElementById('amount-input');
+            const docAmount = document.getElementById('doc-amount');
+            if (amountInput && docAmount) {
+                amountInput.addEventListener('input', function() {
+                    docAmount.textContent = this.value + '원';
+                });
+            }
+
+            // 수신인 이름을 귀하 필드에도 동기화 (상세정보 우선)
+            const receiverDetailNameInput = document.getElementById('receiver-detail-name');
+            const receiverNameInput = document.getElementById('receiver-name-input');
+            const receiverTitle = document.getElementById('doc-receiver-title');
+            if (receiverDetailNameInput && receiverTitle) {
+                receiverDetailNameInput.addEventListener('input', function() {
+                    receiverTitle.textContent = this.value || '귀하';
+                });
+            }
+            if (receiverNameInput && receiverTitle) {
+                receiverNameInput.addEventListener('input', function() {
+                    if (!receiverDetailNameInput.value) {
+                        receiverTitle.textContent = this.value || '귀하';
+                    }
+                });
+            }
+
+            // 오늘 날짜를 발송일에 설정
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            const todayStr = year + '년 ' + month + '월 ' + day + '일';
+            document.getElementById('doc-send-date').textContent = todayStr;
+
+            // 편집 가능한 요소들에 포커스 효과 추가
+            const editableElements = document.querySelectorAll('.editable-P[contenteditable="true"]');
+            editableElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.style.backgroundColor = '#fff3cd';
+                    this.style.border = '1px solid #ffc107';
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.backgroundColor = '#f9f9f9';
+                    this.style.border = 'none';
+                });
+            });
+
+            // 계좌 정보 표시/숨김 기능
+            const accountRadios = document.querySelectorAll('input[name="account"]');
+            const accountInputs = document.querySelector('.account-inputs-P');
+            accountRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === '입력함') {
+                        accountInputs.style.display = 'block';
+                    } else {
+                        accountInputs.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 동적 입력 필드 추가/삭제 함수들
+        function addContractContent() {
+            const additionalInput = document.querySelector('#contract-content-input + .additional-input-P');
+            if (additionalInput) {
+                additionalInput.classList.add('show');
+            }
+        }
+
+        function removeContractContent() {
+            const additionalInput = document.querySelector('#contract-content-input + .additional-input-P');
+            if (additionalInput) {
+                additionalInput.classList.remove('show');
+                additionalInput.value = '';
+            }
+        }
+
+        function addWorkContent() {
+            const additionalInput = document.querySelector('#work-content + .additional-input-P');
+            if (additionalInput) {
+                additionalInput.classList.add('show');
+            }
+        }
+
+        function removeWorkContent() {
+            const additionalInput = document.querySelector('#work-content + .additional-input-P');
+            if (additionalInput) {
+                additionalInput.classList.remove('show');
+                additionalInput.value = '';
+            }
+        }
+
+        function addDirectInput() {
+            const additionalInput = document.querySelector('#direct-input + .additional-input-P');
+            if (additionalInput) {
+                additionalInput.classList.add('show');
+            }
+        }
+
+        function removeDirectInput() {
+            const additionalInput = document.querySelector('#direct-input + .additional-input-P');
+            if (additionalInput) {
+                additionalInput.classList.remove('show');
+                additionalInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

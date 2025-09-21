@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LawForm - 이용요금</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+/* === 상단 헤더 === */
+    .header {
+      background: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo img { height: 50px; width: 50px; }
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+        
+        .nav-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-right span {
+            color: #666;
+            cursor: pointer;
+        }
+
+        .main-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .floating-docs {
+            position: absolute;
+            right: 10%;
+            top: -20px;
+            opacity: 0.3;
+            font-size: 80px;
+            color: #4a9eff;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            border: none;
+            background: #e9ecef;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            border-radius: 0;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .tab:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .tab:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #007bff;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "POPULAR";
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #007bff;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .current-price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .discount {
+            color: #28a745;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .features {
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .feature-group {
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-title::before {
+            content: "✓";
+            color: #28a745;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .feature-item {
+            color: #666;
+            font-size: 14px;
+            margin: 3px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .feature-item::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: #007bff;
+        }
+
+        .feature-highlight {
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-btn:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .featured .select-btn {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+            
+            .hero-section h1 {
+                font-size: 36px;
+            }
+            
+            .floating-docs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+  <header class="header">
+    <div class="logo">
+      <a href="/로폼_리디자인/html/lawform_index.html"><img src="/로폼_리디자인/image/ChatGPT Image lee4.png" alt="법률문서 로고" /></a>
+    </div>
+    <nav class="nav-menu">
+      <a href="/로폼_리디자인/html/이용요금.html" class="nav-item">요금 안내</a>
+      <a href="/로폼_리디자인/html/로그인.html" class="nav-item">로그인</a>
+      <a href="/로폼_리디자인/html/회원가입.html" class="nav-item">회원가입</a>
+      <a href="/로폼_리디자인/html/더보기.html" class="nav-item">☰</a>
+      <!-- <div style="cursor: pointer;">☰</div> -->
+    </nav>
+  </header>
+    <!-- 헤더 끝 -->
+
+    <div class="main-container">
+        <section class="hero-section">
+            <div class="floating-docs">📄</div>
+            <h1>이용요금</h1>
+            <p>로폼 이용료에 대해 자세히 알아보세요.</p>
+        </section>
+
+        <div class="tab-container">
+            <button class="tab active">상품플랜</button>
+            <button class="tab">알디플랜</button>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- 미니 플랜 -->
+            <div class="pricing-card">
+                <h3 class="plan-name">미니</h3>
+                <div class="original-price">12,000원</div>
+                <div class="current-price">11,000</div>
+                <div class="discount">(월 920P)</div>
+                
+                <div class="features">
+                    <div class="feature-group">
+                        <div class="feature-title">문서생성 : <span class="feature-highlight">1건</span></div>
+                        <div class="feature-item">작업/문서 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">인쇄/다운로드 : <span class="feature-highlight">5건</span></div>
+                    </div>
+                    <div class="feature-group">
+                        <div class="feature-title">전자서명 : <span class="feature-highlight">1건</span></div>
+                        <div class="feature-item">기본 서명 기능 제공</div>
+                        <div class="feature-item">외부문서 서명 가능</div>
+                    </div>
+                </div>
+
+                <button class="select-btn">선택하기</button>
+            </div>
+
+            <!-- 베이직 플랜 -->
+            <div class="pricing-card">
+                <h3 class="plan-name">베이직</h3>
+                <div class="original-price">100,000원</div>
+                <div class="current-price">90,000</div>
+                <div class="discount">(월 7,500P)</div>
+                
+                <div class="features">
+                    <div class="feature-group">
+                        <div class="feature-title">문서생성 : <span class="feature-highlight">50건</span></div>
+                        <div class="feature-item">작업/문서 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">인쇄/다운로드 : <span class="feature-highlight">무제한</span></div>
+                    </div>
+                    <div class="feature-group">
+                        <div class="feature-title">전자서명 : <span class="feature-highlight">5건</span></div>
+                        <div class="feature-item">기본 서명 기능 제공</div>
+                        <div class="feature-item">외부문서 서명 가능</div>
+                    </div>
+                </div>
+
+                <button class="select-btn">선택하기</button>
+            </div>
+
+            <!-- 프로 플랜 -->
+            <div class="pricing-card featured">
+                <h3 class="plan-name">프로</h3>
+                <div class="original-price">290,000원</div>
+                <div class="current-price">250,000</div>
+                <div class="discount">(월 20,900P)</div>
+                
+                <div class="features">
+                    <div class="feature-group">
+                        <div class="feature-title">문서생성 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">작업/문서 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">인쇄/다운로드 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">사본생성/미리알림 : <span class="feature-highlight">200건</span></div>
+                    </div>
+                    <div class="feature-group">
+                        <div class="feature-title">전자서명 : <span class="feature-highlight">30건</span></div>
+                        <div class="feature-item">기본 서명 기능 제공</div>
+                        <div class="feature-item">외부문서 서명 가능</div>
+                        <div class="feature-item">계약 요청 통계 기능 (이미지 업로드)</div>
+                        <div class="feature-item">다중서명 기능</div>
+                    </div>
+                </div>
+
+                <button class="select-btn">선택하기</button>
+            </div>
+
+            <!-- 마스터 플랜 -->
+            <div class="pricing-card">
+                <h3 class="plan-name">마스터</h3>
+                <div class="original-price">600,000원</div>
+                <div class="current-price">500,000</div>
+                <div class="discount">(월 41,700P)</div>
+                
+                <div class="features">
+                    <div class="feature-group">
+                        <div class="feature-title">문서생성 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">작업/문서 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">인쇄/다운로드 : <span class="feature-highlight">무제한</span></div>
+                        <div class="feature-item">사본생성/미리알림 : <span class="feature-highlight">무제한</span></div>
+                    </div>
+                    <div class="feature-group">
+                        <div class="feature-title">전자서명 : <span class="feature-highlight">200건</span></div>
+                        <div class="feature-item">기본 서명 기능 제공</div>
+                        <div class="feature-item">외부문서 서명 가능</div>
+                        <div class="feature-item">계약 요청 통계 기능 (이미지 업로드)</div>
+                        <div class="feature-item">다중서명 기능</div>
+                    </div>
+                </div>
+
+                <button class="select-btn">선택하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 탭 전환 기능
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // 플랜 선택 버튼 기능
+        const selectBtns = document.querySelectorAll('.select-btn');
+        selectBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const planName = e.target.closest('.pricing-card').querySelector('.plan-name').textContent;
+                alert(`${planName} 플랜을 선택하셨습니다!`);
+            });
+        });
+
+        // 카드 호버 애니메이션
+        const cards = document.querySelectorAll('.pricing-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = card.classList.contains('featured') ? 'scale(1.05) translateY(-10px)' : 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = card.classList.contains('featured') ? 'scale(1.05)' : 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

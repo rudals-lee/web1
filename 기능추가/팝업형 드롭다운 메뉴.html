@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Dropdown Example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      padding: 50px;
+    }
+
+    .dropdown-D {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-btn-D {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
+    .dropdown-btn-D:hover {
+      background-color: #0056b3;
+    }
+
+    .dropdown-content-D {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 10px;
+      background-color: white;
+      min-width: 220px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 1;
+      animation: fadeSlideDown 0.3s ease-in-out;
+    }
+
+    .dropdown-content-D a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content-D a:hover {
+      background-color: #f1f1f1;
+    }
+
+    @keyframes fadeSlideDown {
+      from {opacity: 0; transform: translateY(-10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* optional: icon rotate */
+    .dropdown-D.active .fa-caret-right {
+      transform: rotate(90deg);
+      transition: transform 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dropdown-D" id="codingDropdown">
+  <button class="dropdown-btn-D">
+    Coding View more <i class="fa-solid fa-caret-right"></i>
+  </button>
+  <div class="dropdown-content-D">
+    <a href="#">Front-end</a>
+    <a href="#">JavaScript</a>
+    <a href="#">React</a>
+    <a href="#">GitHub</a>
+  </div>
+</div>
+
+<script>
+  const dropdown = document.getElementById("codingDropdown");
+  const button = dropdown.querySelector(".dropdown-btn-D");
+  const content = dropdown.querySelector(".dropdown-content-D");
+
+  button.addEventListener("click", () => {
+    const isShown = content.style.display === "block";
+    content.style.display = isShown ? "none" : "block";
+    dropdown.classList.toggle("active", !isShown);
+  });
+
+  // 외부 클릭 시 닫기
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target)) {
+      content.style.display = "none";
+      dropdown.classList.remove("active");
+    }
+  });
+</script>
+
+</body>
+</html>

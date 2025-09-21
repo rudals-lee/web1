@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7월 25일 아침 9시 뉴스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .current-time {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .news-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-category {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .news-content {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #718096;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .news-source {
+            font-weight: bold;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .weather-widget {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .news-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌅 7월 25일 아침 뉴스</h1>
+            <div class="current-time" id="currentTime"></div>
+            <div class="last-updated">마지막 업데이트: <span id="lastUpdated"></span></div>
+            <br>
+            <button class="refresh-btn" onclick="refreshNews()">🔄 뉴스 새로고침</button>
+        </div>
+
+        <div class="weather-widget">
+            <div class="weather-title">☀️ 오늘의 날씨</div>
+            <div class="news-content">
+                아침 최저기온은 서울 26도, 인천 25도, 수원 25도로 예상되며, 낮 최고기온은 서울 33도까지 올라갈 전망입니다. 전국적으로 무더운 날씨가 계속될 것으로 보입니다.
+            </div>
+        </div>
+
+        <div id="newsContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+                뉴스를 불러오는 중입니다...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 샘플 뉴스 데이터 (실제로는 API에서 가져와야 함)
+        const sampleNews = [
+            {
+                category: "국제",
+                title: "태국·캄보디아 접경지 무력 충돌, 외교부 특별여행주의보 발령",
+                content: "외교부는 태국과 캄보디아 접경지역에서 양국 군대 간 무력충돌이 발생함에 따라 양국 일부 지역에 대해 25일 낮 12시부로 여행경보 2단계 '여행자제' 또는 특별여행주의보를 발령했다고 발표했습니다.",
+                source: "정책브리핑",
+                time: "1일 전"
+            },
+            {
+                category: "경제",
+                title: "소비쿠폰 효과로 전통시장 활기, 수박·킹크랩까지 구매 증가",
+                content: "정부의 소비쿠폰 지급으로 전통시장과 소상공인 매출이 크게 증가하고 있습니다. 시장 곳곳에서 수박, 킹크랩 등 고가 상품까지 구매하는 고객들이 늘어나며 상인들의 웃음꽃이 피고 있습니다.",
+                source: "뉴스1",
+                time: "7시간 전"
+            },
+            {
+                category: "국제",
+                title: "트럼프에 5500억 투자 약속한 일본, 벌써 후폭풍 조짐",
+                content: "트럼프 미국 대통령에게 5500억 원 규모의 투자를 약속한 일본이 벌써부터 후폭풍에 시달리고 있습니다. 일본 내에서는 성급한 약속이었다는 비판의 목소리가 나오고 있습니다.",
+                source: "세계일보",
+                time: "7시간 전"
+            },
+            {
+                category: "과학기술",
+                title: "격투기까지 하는 휴머노이드 로봇 'R1' 공개, 가격 815만원",
+                content: "격투기까지 할 수 있는 고성능 휴머노이드 로봇 'R1'이 공개되어 화제를 모으고 있습니다. 815만원의 가격으로 책정되어 일반 소비자도 구매 가능한 수준입니다.",
+                source: "아이뉴스24",
+                time: "7시간 전"
+            },
+            {
+                category: "정치",
+                title: "트럼프식 협상 타결, 각국에서 여진 계속",
+                content: "트럼프 대통령의 독특한 협상 방식으로 여러 국제 현안이 타결되고 있지만, 관련 국가들에서는 여전히 여진이 계속되고 있습니다. '끝날 때까지 끝난 게 아니다'라는 분석이 나오고 있습니다.",
+                source: "매일경제",
+                time: "7시간 전"
+            },
+            {
+                category: "사회",
+                title: "올해 폭염 심각, 온열질환자 83% 급증",
+                content: "올해 들어 온열질환자가 800명을 넘어서며 지난해 같은 기간 대비 83% 급증했습니다. 기상청은 계속되는 폭염에 대한 각별한 주의를 당부했습니다.",
+                source: "네이버 블로그",
+                time: "1일 전"
+            }
+        ];
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        function displayNews() {
+            const container = document.getElementById('newsContainer');
+            
+            setTimeout(() => {
+                let newsHTML = '<div class="news-grid">';
+                
+                sampleNews.forEach(news => {
+                    newsHTML += `
+                        <div class="news-card">
+                            <div class="news-category">${news.category}</div>
+                            <div class="news-title">${news.title}</div>
+                            <div class="news-content">${news.content}</div>
+                            <div class="news-meta">
+                                <span class="news-source">${news.source}</span>
+                                <span class="news-time">${news.time}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                newsHTML += '</div>';
+                container.innerHTML = newsHTML;
+                
+                // 마지막 업데이트 시간 설정
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ko-KR');
+            }, 1500);
+        }
+
+        function refreshNews() {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    뉴스를 새로 불러오는 중입니다...
+                </div>
+            `;
+            
+            // 뉴스 다시 로드
+            displayNews();
+        }
+
+        // 페이지 로드 시 실행
+        window.onload = function() {
+            updateTime();
+            setInterval(updateTime, 1000); // 1초마다 시간 업데이트
+            displayNews();
+            
+            // 10분마다 자동 새로고침 (실제 환경에서는 API 호출)
+            setInterval(refreshNews, 600000);
+        };
+
+        // 실제 뉴스 API 연동 함수 (예시)
+        async function fetchRealNews() {
+            try {
+                // 실제로는 뉴스 API를 호출해야 합니다
+                // 예: 네이버 뉴스 API, 다음 뉴스 API 등
+                // const response = await fetch('YOUR_NEWS_API_ENDPOINT');
+                // const data = await response.json();
+                // return data;
+                
+                // 현재는 샘플 데이터 반환
+                return sampleNews;
+            } catch (error) {
+                console.error('뉴스를 불러오는 중 오류가 발생했습니다:', error);
+                return sampleNews; // 오류 시 샘플 데이터 사용
+            }
+        }
+    </script>
+</body>
+</html>

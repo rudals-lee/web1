@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>물품 매매계약서 생성기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .sidebar {
+            width: 380px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .main-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .section-count {
+            color: #667eea;
+            font-size: 12px;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        select.form-control {
+            cursor: pointer;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+        
+        .item-type-selector {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .item-type-selector .form-label {
+            color: white;
+            font-weight: bold;
+        }
+        
+        .item-type-selector select {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            color: #333;
+        }
+        
+        .current-step {
+            border: 2px solid #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 25px;
+            line-height: 1.5;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        /* 메인 콘텐츠 스타일 */
+        .document-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .document-info {
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-size: 16px;
+            color: #444;
+        }
+        
+        .contract-terms {
+            margin: 30px 0;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .contract-terms h3 {
+            margin: 25px 0 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .contract-terms ol {
+            margin-left: 25px;
+        }
+        
+        .contract-terms li {
+            margin-bottom: 10px;
+        }
+        
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #667eea;
+            margin: 30px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-table th,
+        .form-table td {
+            border: 1px solid #667eea;
+            padding: 15px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .form-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            width: 120px;
+        }
+        
+        .form-table td {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .signature-box {
+            border: 2px dashed #667eea;
+            height: 80px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .date-signature {
+            text-align: center;
+            margin: 40px 0;
+            line-height: 2;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 업데이트 하이라이트 */
+        .highlight-update {
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            padding: 4px 8px;
+            border-radius: 5px;
+            transition: all 0.8s ease;
+        }
+
+        /* 빈 콘텐츠 상태 */
+        .empty-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .empty-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        /* 콘텐츠 영역 */
+        .content-container {
+            display: none;
+        }
+
+        .content-container.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 버튼 스타일 */
+        .bottom-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-save {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+        }
+        
+        .btn-load {
+            background: linear-gradient(45deg, #55a3ff, #003d82);
+            color: white;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        /* 숨김 필드 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 물품별 특화 필드 스타일 */
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .spec-full {
+            grid-column: 1 / -1;
+        }
+
+        /* 파일 입력 스타일 */
+        .file-input {
+            display: none;
+        }
+
+        /* 알림 메시지 스타일 */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: linear-gradient(45deg, #e17055, #d63031);
+        }
+
+        /* 인쇄 스타일 */
+        @media print {
+            body {
+                background: white !important;
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            .header, .sidebar, .bottom-bar, .notification {
+                display: none !important;
+            }
+            
+            .container {
+                display: block !important;
+                height: auto !important;
+                padding: 0 !important;
+            }
+            
+            .main-content {
+                background: white !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 20px !important;
+            }
+            
+            .document-title {
+                color: #333 !important;
+                background: none !important;
+                -webkit-text-fill-color: initial !important;
+            }
+            
+            .contract-terms h3 {
+                color: #333 !important;
+            }
+            
+            .form-table th {
+                background: #f0f0f0 !important;
+                color: #333 !important;
+            }
+            
+            .signature-box {
+                border: 2px solid #333 !important;
+                background: none !important;
+                color: #333 !important;
+            }
+            
+            .highlight-update {
+                background: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔄 물품 매매계약서</h1>
+        <div class="subtitle">다양한 물품의 매매계약서를 쉽고 빠르게 생성하세요</div>
+    </div>
+    
+    <div class="container">
+        <!-- 사이드바: 입력 폼 -->
+        <div class="sidebar">
+            <!-- 물품 종류 선택 -->
+            <div class="item-type-selector">
+                <div class="form-group">
+                    <label class="form-label">📦 물품 종류 선택</label>
+                    <select id="item_type" class="form-control">
+                        <option value="">물품을 선택하세요</option>
+                        <option value="laptop">💻 노트북/컴퓨터</option>
+                        <option value="phone">📱 휴대폰/태블릿</option>
+                        <option value="car">🚗 자동차</option>
+                        <option value="furniture">🪑 가구</option>
+                        <option value="appliance">🔌 가전제품</option>
+                        <option value="book">📚 도서</option>
+                        <option value="jewelry">💎 귀금속/보석</option>
+                        <option value="art">🎨 예술품/골동품</option>
+                        <option value="instrument">🎵 악기</option>
+                        <option value="sports">⚽ 스포츠용품</option>
+                        <option value="etc">📋 기타</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-title">👥 당사자 정보</span>
+                    <span class="section-count">1 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">매도인 (갑)</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="seller_person" name="seller_type" value="개인" checked>
+                            <label for="seller_person">개인</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="seller_corp" name="seller_type" value="법인">
+                            <label for="seller_corp">법인</label>
+                        </div>
+                    </div>
+                    <input type="text" id="seller_name" class="form-control" placeholder="이름 또는 회사명" style="margin-top: 10px;">
+                    <input type="text" id="seller_address" class="form-control" placeholder="주소" style="margin-top: 8px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">매수인 (을)</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="buyer_person" name="buyer_type" value="개인" checked>
+                            <label for="buyer_person">개인</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="buyer_corp" name="buyer_type" value="법인">
+                            <label for="buyer_corp">법인</label>
+                        </div>
+                    </div>
+                    <input type="text" id="buyer_name" class="form-control" placeholder="이름 또는 회사명" style="margin-top: 10px;">
+                    <input type="text" id="buyer_address" class="form-control" placeholder="주소 (선택사항)" style="margin-top: 8px;">
+                </div>
+            </div>
+            
+            <div class="form-section" id="item-info-section">
+                <div class="section-header">
+                    <span class="section-title" id="item-section-title">📦 물품 정보</span>
+                    <span class="section-count">2 / 4</span>
+                </div>
+                <div id="dynamic-fields">
+                    <!-- 동적으로 생성될 필드들 -->
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-title">💰 매매조건</span>
+                    <span class="section-count">3 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">매매가격</label>
+                    <input type="text" id="price_number" class="form-control" placeholder="숫자 (예: 500,000)">
+                    <input type="text" id="price_korean" class="form-control" placeholder="한글표기" style="margin-top: 8px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">결제방법</label>
+                    <select id="payment_method" class="form-control">
+                        <option value="">결제방법 선택</option>
+                        <option>계좌이체</option>
+                        <option>현금</option>
+                        <option>카드결제</option>
+                        <option>할부</option>
+                        <option>기타</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">계좌정보</label>
+                    <input type="text" id="bank_account" class="form-control" placeholder="은행 계좌번호">
+                    <input type="text" id="bank_holder" class="form-control" placeholder="예금주" style="margin-top: 8px;">
+                </div>
+            </div>
+            
+            <div class="form-section current-step">
+                <div class="section-header">
+                    <span class="section-title">📋 계약정보</span>
+                    <span class="section-count">4 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">계약일자</label>
+                    <input type="date" id="contract_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">인도일자</label>
+                    <input type="date" id="delivery_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">특약사항</label>
+                    <textarea id="special_terms" class="form-control" rows="4" placeholder="특별한 조건이나 약정사항을 입력하세요"></textarea>
+                </div>
+            </div>
+            
+            <div class="help-text">
+                💡 <strong>도움말:</strong><br>
+                1. 먼저 물품 종류를 선택해주세요<br>
+                2. 각 항목을 입력하면 실시간으로 계약서가 생성됩니다<br>
+                3. 임시저장으로 작업 내용을 저장할 수 있습니다<br>
+                4. 계약서 생성으로 최종 인쇄가 가능합니다
+            </div>
+        </div>
+        
+        <!-- 메인 콘텐츠: 계약서 미리보기 -->
+        <div class="main-content">
+            <!-- 빈 상태 -->
+            <div id="empty-state" class="empty-content">
+                <div>
+                    <h3>📋 계약서 미리보기</h3>
+                    <p>먼저 물품 종류를 선택하고<br>왼쪽 사이드바에서 정보를 입력하면<br>여기에 맞춤형 계약서가 생성됩니다.</p>
+                </div>
+            </div>
+
+            <!-- 계약서 내용 -->
+            <div id="contract-content" class="content-container">
+                <div class="document-title" id="contract-title">물품 매매계약서</div>
+                
+                <div class="document-info">
+                    <span id="item-description">물품</span> 매도인 "<strong>갑</strong>"과 <span id="item-description2">물품</span> 매수인 "<strong>을</strong>"은 다음과 같이 <span id="item-description3">물품</span> 매매 계약을 체결한다.
+                </div>
+                
+                <div class="contract-terms">
+                    <h3>제1조 목적</h3>
+                    본 계약은 "을"이 <span id="contract-purpose">해당 물품</span>을 구매하기 위하여 "갑"으로부터 <span id="contract-item">해당 물품</span>을 구매하고 이와 관련된 사항을 규율함을 목적으로 한다.
+                    
+                    <h3>제2조 매매 <span id="item-name-title">물품</span></h3>
+                    본 계약의 <span id="item-name-content">물품</span>은 다음 각호에 따른다.
+                    <ol id="item-details-list">
+                        <li><span id="detail-item-name">물품명</span>: <span id="preview_item_name">-</span></li>
+                        <li><span id="detail-item-specs">사양</span>: <span id="preview_specs">-</span></li>
+                    </ol>
+                    
+                    <h3>제3조 매매가격</h3>
+                    <ol>
+                        <li>본 계약의 <span id="price-item-name">물품</span> 매매가격은 <span id="preview_condition">-</span> <span id="price-item-name2">물품</span> 시세에 따라 <span id="preview_price_korean">-</span>으로 한다.</li>
+                        <li>매매 금액은 &lt;<span id="preview_bank">-</span>&gt; 계좌로 <span id="preview_payment">-</span>로 지불한다.</li>
+                    </ol>
+                    
+                    <h3>제4조 인도</h3>
+                    "갑"은 "을"에게 <span id="preview_delivery_date">-</span>에 <span id="delivery-item-name">물품</span>을 인도한다. <span id="preview_special_terms">-</span>
+                </div>
+                
+                <table class="form-table">
+                    <tr>
+                        <th>매도인 (갑)</th>
+                        <td>
+                            <strong><span id="preview_seller_name">-</span></strong><br>
+                            <span id="preview_seller_address">-</span><br>
+                            <span id="preview_seller_rep">-</span>
+                            <div class="signature-box">(서명 또는 인)</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>매수인 (을)</th>
+                        <td>
+                            <strong><span id="preview_buyer_name">-</span></strong><br>
+                            <span id="preview_buyer_address">-</span>
+                            <div class="signature-box">(서명 또는 인)</div>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="date-signature">
+                    <span id="preview_contract_date">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-bar">
+        <input type="file" id="fileInput" class="file-input" accept=".json" />
+        <button class="btn btn-load" onclick="loadContract()">📂 불러오기</button>
+        <button class="btn btn-save" onclick="saveContract()">💾 임시저장</button>
+        <button class="btn btn-submit" onclick="generateContract()">📄 계약서 생성</button>
+    </div>
+
+    <!-- 알림 메시지 -->
+    <div id="notification" class="notification"></div>
+    
+    <script>
+        // 물품별 필드 정의
+        const itemConfigs = {
+            laptop: {
+                title: '💻 노트북/컴퓨터',
+                description: '노트북/컴퓨터',
+                fields: [
+                    { id: 'item_name', label: '모델명', placeholder: '제품 모델명', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '제조사', type: 'text' },
+                    { id: 'cpu', label: 'CPU', placeholder: 'CPU 사양', type: 'text' },
+                    { id: 'ram', label: 'RAM', placeholder: 'RAM 용량', type: 'text' },
+                    { id: 'storage', label: '저장장치', placeholder: '저장장치 정보', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '상급', '중급', '하급'] }
+                ]
+            },
+            phone: {
+                title: '📱 휴대폰/태블릿',
+                description: '휴대폰/태블릿',
+                fields: [
+                    { id: 'item_name', label: '모델명', placeholder: '휴대폰 모델명', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '제조사', type: 'text' },
+                    { id: 'color', label: '색상', placeholder: '제품 색상', type: 'text' },
+                    { id: 'storage', label: '저장용량', placeholder: '저장용량', type: 'text' },
+                    { id: 'network', label: '통신사', placeholder: '통신사 정보', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', 'S급', 'A급', 'B급', 'C급'] }
+                ]
+            },
+            car: {
+                title: '🚗 자동차',
+                description: '자동차',
+                fields: [
+                    { id: 'item_name', label: '차량명', placeholder: '차량 모델명', type: 'text' },
+                    { id: 'item_brand', label: '제조사', placeholder: '자동차 브랜드', type: 'text' },
+                    { id: 'year', label: '연식', placeholder: '제조년도', type: 'text' },
+                    { id: 'mileage', label: '주행거리', placeholder: '주행거리 (km)', type: 'text' },
+                    { id: 'fuel', label: '연료', placeholder: '연료 종류', type: 'select', options: ['가솔린', '디젤', '하이브리드', '전기', 'LPG'] },
+                    { id: 'transmission', label: '변속기', placeholder: '변속기 종류', type: 'select', options: ['수동', '자동', 'CVT'] },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['우수', '양호', '보통', '수리필요'] }
+                ]
+            },
+            furniture: {
+                title: '🪑 가구',
+                description: '가구',
+                fields: [
+                    { id: 'item_name', label: '가구명', placeholder: '가구 종류 및 모델', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '제조업체', type: 'text' },
+                    { id: 'material', label: '재질', placeholder: '주요 재질', type: 'text' },
+                    { id: 'size', label: '크기', placeholder: '가로 x 세로 x 높이', type: 'text' },
+                    { id: 'color', label: '색상', placeholder: '색상/마감', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '우수', '양호', '보통'] }
+                ]
+            },
+            appliance: {
+                title: '🔌 가전제품',
+                description: '가전제품',
+                fields: [
+                    { id: 'item_name', label: '제품명', placeholder: '가전제품명', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '제조업체', type: 'text' },
+                    { id: 'model', label: '모델번호', placeholder: '모델번호', type: 'text' },
+                    { id: 'capacity', label: '용량/사양', placeholder: '용량 또는 주요 사양', type: 'text' },
+                    { id: 'year', label: '제조년도', placeholder: '제조년도', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '정상작동', '수리필요'] }
+                ]
+            },
+            book: {
+                title: '📚 도서',
+                description: '도서',
+                fields: [
+                    { id: 'item_name', label: '도서명', placeholder: '책 제목', type: 'text' },
+                    { id: 'author', label: '저자', placeholder: '저자명', type: 'text' },
+                    { id: 'publisher', label: '출판사', placeholder: '출판사명', type: 'text' },
+                    { id: 'isbn', label: 'ISBN', placeholder: 'ISBN 번호', type: 'text' },
+                    { id: 'year', label: '출간년도', placeholder: '출간년도', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새책', '중고', '상급', '중급', '하급'] }
+                ]
+            },
+            jewelry: {
+                title: '💎 귀금속/보석',
+                description: '귀금속/보석',
+                fields: [
+                    { id: 'item_name', label: '제품명', placeholder: '귀금속/보석 종류', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '브랜드/제조사', type: 'text' },
+                    { id: 'material', label: '재질', placeholder: '금, 은, 다이아몬드 등', type: 'text' },
+                    { id: 'weight', label: '중량/캐럿', placeholder: '중량 또는 캐럿', type: 'text' },
+                    { id: 'certificate', label: '감정서', placeholder: '감정서 유무 및 기관', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '우수', '양호', '보통'] }
+                ]
+            },
+            art: {
+                title: '🎨 예술품/골동품',
+                description: '예술품/골동품',
+                fields: [
+                    { id: 'item_name', label: '작품명', placeholder: '예술품/골동품명', type: 'text' },
+                    { id: 'artist', label: '작가/제작자', placeholder: '작가명 또는 제작자', type: 'text' },
+                    { id: 'year', label: '제작년도', placeholder: '제작 연도', type: 'text' },
+                    { id: 'size', label: '크기', placeholder: '작품 크기', type: 'text' },
+                    { id: 'material', label: '재료/기법', placeholder: '사용된 재료나 기법', type: 'text' },
+                    { id: 'authenticity', label: '진품여부', placeholder: '진품 확인 방법', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['완벽', '우수', '양호', '보통', '복원필요'] }
+                ]
+            },
+            instrument: {
+                title: '🎵 악기',
+                description: '악기',
+                fields: [
+                    { id: 'item_name', label: '악기명', placeholder: '악기 종류 및 모델', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '제조사/브랜드', type: 'text' },
+                    { id: 'model', label: '모델명', placeholder: '정확한 모델명', type: 'text' },
+                    { id: 'year', label: '제조년도', placeholder: '제조년도', type: 'text' },
+                    { id: 'serial', label: '시리얼번호', placeholder: '시리얼번호', type: 'text' },
+                    { id: 'accessories', label: '부속품', placeholder: '케이스, 악세서리 등', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '연주가능', '수리필요', '부품용'] }
+                ]
+            },
+            sports: {
+                title: '⚽ 스포츠용품',
+                description: '스포츠용품',
+                fields: [
+                    { id: 'item_name', label: '제품명', placeholder: '스포츠용품명', type: 'text' },
+                    { id: 'item_brand', label: '브랜드', placeholder: '제조사/브랜드', type: 'text' },
+                    { id: 'category', label: '종목', placeholder: '스포츠 종목', type: 'text' },
+                    { id: 'size', label: '사이즈', placeholder: '크기/사이즈', type: 'text' },
+                    { id: 'material', label: '재질', placeholder: '주요 재질', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '사용가능', '수리필요'] }
+                ]
+            },
+            etc: {
+                title: '📋 기타',
+                description: '물품',
+                fields: [
+                    { id: 'item_name', label: '물품명', placeholder: '물품 이름', type: 'text' },
+                    { id: 'item_brand', label: '브랜드/제조사', placeholder: '브랜드 또는 제조사', type: 'text' },
+                    { id: 'description', label: '상세설명', placeholder: '물품에 대한 상세 설명', type: 'textarea' },
+                    { id: 'specifications', label: '사양/특징', placeholder: '주요 사양이나 특징', type: 'text' },
+                    { id: 'condition', label: '상태', placeholder: '', type: 'select', options: ['새것', '중고', '우수', '양호', '보통', '수리필요'] }
+                ]
+            }
+        };
+
+        class ContractGenerator {
+            constructor() {
+                this.hasContent = false;
+                this.currentItemType = '';
+                this.initializeEventListeners();
+                this.setDefaultDate();
+            }
+
+            setDefaultDate() {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('contract_date').value = today;
+            }
+
+            initializeEventListeners() {
+                // 물품 종류 선택 이벤트
+                document.getElementById('item_type').addEventListener('change', (e) => {
+                    this.handleItemTypeChange(e.target.value);
+                });
+
+                // 기본 입력 필드들 이벤트 리스너 등록
+                const staticInputs = document.querySelectorAll('#seller_name, #seller_address, #buyer_name, #buyer_address, #price_number, #price_korean, #payment_method, #bank_account, #bank_holder, #contract_date, #delivery_date, #special_terms');
+                
+                staticInputs.forEach(input => {
+                    input.addEventListener('input', () => this.updateContract(input.id));
+                    input.addEventListener('change', () => this.updateContract(input.id));
+                });
+
+                // 라디오 버튼 이벤트
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', () => this.updateContract(radio.name));
+                });
+
+                // 파일 입력 이벤트
+                document.getElementById('fileInput').addEventListener('change', this.handleFileLoad);
+            }
+
+            handleItemTypeChange(itemType) {
+                this.currentItemType = itemType;
+                
+                if (!itemType) {
+                    this.hideContract();
+                    document.getElementById('dynamic-fields').innerHTML = '';
+                    return;
+                }
+
+                this.generateDynamicFields(itemType);
+                this.updateContractLabels(itemType);
+                
+                if (!this.hasContent) {
+                    this.showContract();
+                }
+                
+                this.updateContract('item_type');
+            }
+
+            generateDynamicFields(itemType) {
+                const config = itemConfigs[itemType];
+                const dynamicFields = document.getElementById('dynamic-fields');
+                
+                // 섹션 제목 업데이트
+                document.getElementById('item-section-title').textContent = config.title;
+                
+                let fieldsHtml = '';
+                
+                config.fields.forEach(field => {
+                    fieldsHtml += `<div class="form-group">`;
+                    fieldsHtml += `<label class="form-label">${field.label}</label>`;
+                    
+                    if (field.type === 'select') {
+                        fieldsHtml += `<select id="${field.id}" class="form-control">`;
+                        fieldsHtml += `<option value="">${field.label} 선택</option>`;
+                        field.options.forEach(option => {
+                            fieldsHtml += `<option value="${option}">${option}</option>`;
+                        });
+                        fieldsHtml += `</select>`;
+                    } else if (field.type === 'textarea') {
+                        fieldsHtml += `<textarea id="${field.id}" class="form-control" rows="3" placeholder="${field.placeholder}"></textarea>`;
+                    } else {
+                        fieldsHtml += `<input type="${field.type}" id="${field.id}" class="form-control" placeholder="${field.placeholder}">`;
+                    }
+                    
+                    fieldsHtml += `</div>`;
+                });
+                
+                dynamicFields.innerHTML = fieldsHtml;
+                
+                // 새로 생성된 필드들에 이벤트 리스너 추가
+                const newInputs = dynamicFields.querySelectorAll('input, select, textarea');
+                newInputs.forEach(input => {
+                    input.addEventListener('input', () => this.updateContract(input.id));
+                    input.addEventListener('change', () => this.updateContract(input.id));
+                });
+            }
+
+            updateContractLabels(itemType) {
+                const config = itemConfigs[itemType];
+                
+                // 계약서 제목 업데이트
+                document.getElementById('contract-title').textContent = `${config.title} 매매계약서`;
+                
+                // 설명문 업데이트
+                const descriptions = document.querySelectorAll('#item-description, #item-description2, #item-description3');
+                descriptions.forEach(el => el.textContent = config.description);
+                
+                // 계약서 본문의 물품명 업데이트
+                const itemNames = document.querySelectorAll('#contract-item, #item-name-title, #item-name-content, #price-item-name, #price-item-name2, #delivery-item-name');
+                itemNames.forEach(el => el.textContent = config.description);
+                
+                // 목적 설명 업데이트
+                document.getElementById('contract-purpose').textContent = `해당 ${config.description}`;
+            }
+
+            showContract() {
+                document.getElementById('empty-state').style.display = 'none';
+                document.getElementById('contract-content').classList.add('show');
+                this.hasContent = true;
+            }
+
+            hideContract() {
+                document.getElementById('empty-state').style.display = 'flex';
+                document.getElementById('contract-content').classList.remove('show');
+                this.hasContent = false;
+            }
+
+            updateContract(changedFieldId) {
+                if (!this.currentItemType && changedFieldId !== 'item_type') return;
+                
+                this.updateFields();
+                this.highlightChangedField(changedFieldId);
+            }
+
+            updateFields() {
+                // 기본 필드 업데이트
+                const fieldMappings = {
+                    'seller_name': 'preview_seller_name',
+                    'seller_address': 'preview_seller_address', 
+                    'buyer_name': 'preview_buyer_name',
+                    'buyer_address': 'preview_buyer_address',
+                    'price_korean': 'preview_price_korean',
+                    'payment_method': 'preview_payment'
+                };
+
+                Object.entries(fieldMappings).forEach(([inputId, previewId]) => {
+                    const inputElement = document.getElementById(inputId);
+                    const previewElement = document.getElementById(previewId);
+                    
+                    if (inputElement && previewElement) {
+                        let value = inputElement.value.trim();
+                        previewElement.textContent = value || '-';
+                    }
+                });
+
+                // 동적 필드 업데이트
+                this.updateDynamicFields();
+                this.updateBankInfo();
+                this.updateDates();
+                this.updateSpecialTerms();
+                this.updateSellerRep();
+            }
+
+            updateDynamicFields() {
+                if (!this.currentItemType) return;
+                
+                const config = itemConfigs[this.currentItemType];
+                
+                // 물품명 업데이트
+                const itemNameElement = document.getElementById('item_name');
+                if (itemNameElement) {
+                    document.getElementById('preview_item_name').textContent = itemNameElement.value.trim() || '-';
+                }
+                
+                // 사양 정보 조합
+                let specsArray = [];
+                
+                config.fields.forEach(field => {
+                    if (field.id !== 'item_name' && field.id !== 'condition') {
+                        const element = document.getElementById(field.id);
+                        if (element && element.value.trim()) {
+                            specsArray.push(`${field.label}: ${element.value.trim()}`);
+                        }
+                    }
+                });
+                
+                document.getElementById('preview_specs').textContent = specsArray.length > 0 ? specsArray.join(' / ') : '-';
+                
+                // 상태 정보 업데이트
+                const conditionElement = document.getElementById('condition');
+                if (conditionElement) {
+                    document.getElementById('preview_condition').textContent = conditionElement.value || '-';
+                }
+            }
+
+            updateBankInfo() {
+                const account = document.getElementById('bank_account').value.trim();
+                const holder = document.getElementById('bank_holder').value.trim();
+                
+                let bankText = '';
+                if (account && holder) {
+                    bankText = `${account} ${holder}`;
+                } else if (account) {
+                    bankText = account;
+                } else if (holder) {
+                    bankText = holder;
+                } else {
+                    bankText = '-';
+                }
+                
+                document.getElementById('preview_bank').textContent = bankText;
+            }
+
+            updateDates() {
+                // 계약일자
+                const contractDate = document.getElementById('contract_date').value;
+                const contractPreview = document.getElementById('preview_contract_date');
+                if (contractDate) {
+                    contractPreview.textContent = this.formatDateToKorean(contractDate, false);
+                } else {
+                    contractPreview.textContent = '-';
+                }
+
+                // 인도일자  
+                const deliveryDate = document.getElementById('delivery_date').value;
+                const deliveryPreview = document.getElementById('preview_delivery_date');
+                if (deliveryDate) {
+                    deliveryPreview.textContent = this.formatDateToKorean(deliveryDate, true);
+                } else {
+                    deliveryPreview.textContent = '-';
+                }
+            }
+
+            updateSpecialTerms() {
+                const specialTerms = document.getElementById('special_terms').value.trim();
+                const previewElement = document.getElementById('preview_special_terms');
+                
+                previewElement.textContent = specialTerms || '-';
+            }
+
+            updateSellerRep() {
+                const sellerType = document.querySelector('input[name="seller_type"]:checked')?.value;
+                const previewElement = document.getElementById('preview_seller_rep');
+                
+                if (sellerType === '법인') {
+                    previewElement.textContent = '대표이사';
+                } else {
+                    previewElement.textContent = '';
+                }
+            }
+
+            formatDateToKorean(dateString, isFullFormat = false) {
+                if (!dateString) return '-';
+                
+                const date = new Date(dateString);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                return isFullFormat ? 
+                    `${year}년 ${month}월 ${day}일` : 
+                    `${year}. ${month}. ${day}.`;
+            }
+
+            highlightChangedField(fieldId) {
+                const mapping = {
+                    'seller_name': 'preview_seller_name',
+                    'seller_address': 'preview_seller_address',
+                    'buyer_name': 'preview_buyer_name', 
+                    'buyer_address': 'preview_buyer_address',
+                    'item_name': 'preview_item_name',
+                    'price_korean': 'preview_price_korean',
+                    'payment_method': 'preview_payment',
+                    'bank_account': 'preview_bank',
+                    'bank_holder': 'preview_bank',
+                    'contract_date': 'preview_contract_date',
+                    'delivery_date': 'preview_delivery_date',
+                    'special_terms': 'preview_special_terms',
+                    'condition': 'preview_condition'
+                };
+
+                // 동적 필드의 경우 사양으로 하이라이트
+                if (this.currentItemType) {
+                    const config = itemConfigs[this.currentItemType];
+                    const isDynamicField = config.fields.some(field => field.id === fieldId);
+                    if (isDynamicField && fieldId !== 'item_name' && fieldId !== 'condition') {
+                        mapping[fieldId] = 'preview_specs';
+                    }
+                }
+
+                const previewId = mapping[fieldId];
+                if (previewId) {
+                    const element = document.getElementById(previewId);
+                    if (element) {
+                        element.classList.add('highlight-update');
+                        setTimeout(() => {
+                            element.classList.remove('highlight-update');
+                        }, 1500);
+                    }
+                }
+            }
+
+            // 데이터 수집 메서드
+            collectFormData() {
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    itemType: this.currentItemType,
+                    staticFields: {},
+                    dynamicFields: {},
+                    radioFields: {}
+                };
+
+                // 정적 필드 수집
+                const staticFields = ['seller_name', 'seller_address', 'buyer_name', 'buyer_address', 'price_number', 'price_korean', 'payment_method', 'bank_account', 'bank_holder', 'contract_date', 'delivery_date', 'special_terms'];
+                staticFields.forEach(fieldId => {
+                    const element = document.getElementById(fieldId);
+                    if (element) {
+                        data.staticFields[fieldId] = element.value;
+                    }
+                });
+
+                // 라디오 버튼 수집
+                const radioGroups = ['seller_type', 'buyer_type'];
+                radioGroups.forEach(groupName => {
+                    const checkedRadio = document.querySelector(`input[name="${groupName}"]:checked`);
+                    if (checkedRadio) {
+                        data.radioFields[groupName] = checkedRadio.value;
+                    }
+                });
+
+                // 동적 필드 수집 (현재 물품 타입에 맞는 필드들)
+                if (this.currentItemType && itemConfigs[this.currentItemType]) {
+                    const config = itemConfigs[this.currentItemType];
+                    config.fields.forEach(field => {
+                        const element = document.getElementById(field.id);
+                        if (element) {
+                            data.dynamicFields[field.id] = element.value;
+                        }
+                    });
+                }
+
+                return data;
+            }
+
+            // 데이터 복원 메서드
+            restoreFormData(data) {
+                try {
+                    // 물품 타입 먼저 설정
+                    if (data.itemType) {
+                        document.getElementById('item_type').value = data.itemType;
+                        this.handleItemTypeChange(data.itemType);
+                        
+                        // 동적 필드가 생성될 때까지 대기
+                        setTimeout(() => {
+                            // 정적 필드 복원
+                            Object.entries(data.staticFields || {}).forEach(([fieldId, value]) => {
+                                const element = document.getElementById(fieldId);
+                                if (element) {
+                                    element.value = value;
+                                }
+                            });
+
+                            // 라디오 버튼 복원
+                            Object.entries(data.radioFields || {}).forEach(([groupName, value]) => {
+                                const radio = document.querySelector(`input[name="${groupName}"][value="${value}"]`);
+                                if (radio) {
+                                    radio.checked = true;
+                                }
+                            });
+
+                            // 동적 필드 복원
+                            Object.entries(data.dynamicFields || {}).forEach(([fieldId, value]) => {
+                                const element = document.getElementById(fieldId);
+                                if (element) {
+                                    element.value = value;
+                                }
+                            });
+
+                            // 계약서 업데이트
+                            this.updateContract('restore');
+                        }, 100);
+                    }
+                } catch (error) {
+                    console.error('데이터 복원 중 오류:', error);
+                    this.showNotification('파일을 불러오는 중 오류가 발생했습니다.', 'error');
+                }
+            }
+
+            // 파일 로드 핸들러
+            handleFileLoad = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                if (file.type !== 'application/json') {
+                    this.showNotification('JSON 파일만 불러올 수 있습니다.', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        this.restoreFormData(data);
+                        this.showNotification('계약서 정보를 성공적으로 불러왔습니다.');
+                    } catch (error) {
+                        this.showNotification('파일 형식이 올바르지 않습니다.', 'error');
+                    }
+                };
+                reader.readAsText(file);
+                
+                // 파일 입력 초기화
+                event.target.value = '';
+            }
+
+            // 알림 표시
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // 전역 함수들
+        let contractGenerator;
+
+        // 임시저장 기능
+        function saveContract() {
+            if (!contractGenerator.currentItemType) {
+                contractGenerator.showNotification('물품을 선택한 후 저장할 수 있습니다.', 'error');
+                return;
+            }
+
+            try {
+                const data = contractGenerator.collectFormData();
+                const config = itemConfigs[contractGenerator.currentItemType];
+                
+                // 파일 이름 생성
+                const now = new Date();
+                const dateStr = now.toISOString().split('T')[0];
+                const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '');
+                const itemName = document.getElementById('item_name')?.value.trim() || '물품';
+                const fileName = `${config.description}_${itemName}_${dateStr}_${timeStr}.json`;
+
+                // 파일 다운로드
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                contractGenerator.showNotification(`${config.title} 계약서가 임시저장되었습니다.`);
+            } catch (error) {
+                console.error('저장 중 오류:', error);
+                contractGenerator.showNotification('저장 중 오류가 발생했습니다.', 'error');
+            }
+        }
+
+        // 파일 불러오기 기능
+        function loadContract() {
+            document.getElementById('fileInput').click();
+        }
+
+        // 계약서 생성 및 인쇄 기능
+        function generateContract() {
+            const requiredFields = [
+                { id: 'seller_name', name: '매도인 이름' },
+                { id: 'buyer_name', name: '매수인 이름' },
+                { id: 'item_name', name: '물품명' },
+                { id: 'price_korean', name: '매매가격' },
+                { id: 'contract_date', name: '계약일자' }
+            ];
+
+            const missingFields = [];
+            
+            // 물품 종류 확인
+            if (!document.getElementById('item_type').value) {
+                missingFields.push('물품 종류');
+            }
+            
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field.id);
+                if (!element || !element.value.trim()) {
+                    missingFields.push(field.name);
+                }
+            });
+
+            if (missingFields.length > 0) {
+                contractGenerator.showNotification(`다음 필수 항목을 입력해주세요: ${missingFields.join(', ')}`, 'error');
+                return;
+            }
+
+            const itemType = document.getElementById('item_type').value;
+            const config = itemConfigs[itemType];
+            
+            // 인쇄 확인 대화상자
+            if (confirm(`${config.title} 매매계약서를 생성하고 인쇄하시겠습니까?`)) {
+                // 잠시 후 인쇄 다이얼로그 열기
+                setTimeout(() => {
+                    window.print();
+                }, 100);
+                
+                contractGenerator.showNotification(`${config.title} 매매계약서가 생성되었습니다. 인쇄해주세요.`);
+            }
+        }
+
+        // 가격 자동 변환 기능
+        function convertNumberToKorean(num) {
+            const units = ['', '십', '백', '천'];
+            const bigUnits = ['', '만', '억', '조'];
+            const koreanNumbers = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+            
+            if (num == 0) return '영';
+            
+            let result = '';
+            let unitIndex = 0;
+            
+            while (num > 0) {
+                let chunk = num % 10000;
+                if (chunk > 0) {
+                    let chunkResult = '';
+                    let chunkUnitIndex = 0;
+                    
+                    while (chunk > 0) {
+                        let digit = chunk % 10;
+                        if (digit > 0) {
+                            if (digit === 1 && chunkUnitIndex > 0) {
+                                chunkResult = units[chunkUnitIndex] + chunkResult;
+                            } else {
+                                chunkResult = koreanNumbers[digit] + units[chunkUnitIndex] + chunkResult;
+                            }
+                        }
+                        chunk = Math.floor(chunk / 10);
+                        chunkUnitIndex++;
+                    }
+                    
+                    result = chunkResult + bigUnits[unitIndex] + result;
+                }
+                
+                num = Math.floor(num / 10000);
+                unitIndex++;
+            }
+            
+            return result;
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            contractGenerator = new ContractGenerator();
+            
+            // 숫자 가격 입력 시 자동 변환
+            const priceNumberInput = document.getElementById('price_number');
+            priceNumberInput.addEventListener('input', function() {
+                let value = this.value.replace(/[^0-9]/g, '');
+                if (value) {
+                    this.value = Number(value).toLocaleString();
+                    
+                    const priceKoreanInput = document.getElementById('price_korean');
+                    priceKoreanInput.value = `일금 ${convertNumberToKorean(value)}원정 (₩ ${Number(value).toLocaleString()})`;
+                    
+                    // 한글 가격 필드도 업데이트 트리거
+                    contractGenerator.updateContract('price_korean');
+                } else {
+                    this.value = '';
+                    document.getElementById('price_korean').value = '';
+                    contractGenerator.updateContract('price_korean');
+                }
+            });
+
+            // 엔터키 입력 방지 (폼 제출 방지)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                }
+            });
+
+            // 인쇄 전/후 이벤트 처리
+            window.addEventListener('beforeprint', function() {
+                // 인쇄 전에 필요한 작업이 있다면 여기서 처리
+                console.log('인쇄 시작');
+            });
+
+            window.addEventListener('afterprint', function() {
+                // 인쇄 후에 필요한 작업이 있다면 여기서 처리
+                console.log('인쇄 완료');
+            });
+        });
+    </script>
+</body>
+</html>

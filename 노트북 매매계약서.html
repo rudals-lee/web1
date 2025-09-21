@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노트북 매매계약서 - 사이드바 입력</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #e8f4f8;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+        
+        .sidebar {
+            width: 350px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .main-content {
+            flex: 1;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .section-count {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 2px rgba(23, 162, 184, 0.2);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23666" d="M10.5 4L6 8.5 1.5 4z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .current-step {
+            background-color: #e8f4f8;
+            border-left: 3px solid #17a2b8;
+            padding: 10px;
+        }
+        
+        .help-text {
+            font-size: 11px;
+            color: #666;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        /* 메인 콘텐츠 스타일 */
+        .document-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .document-info {
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        .contract-terms {
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+        
+        .contract-terms h3 {
+            margin: 20px 0 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .contract-terms ol {
+            margin-left: 20px;
+        }
+        
+        .contract-terms li {
+            margin-bottom: 8px;
+        }
+        
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #000;
+            margin: 30px 0;
+        }
+        
+        .form-table th,
+        .form-table td {
+            border: 1px solid #000;
+            padding: 12px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .form-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            text-align: center;
+            width: 120px;
+        }
+        
+        .signature-box {
+            border: 1px solid #000;
+            height: 80px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fafafa;
+        }
+        
+        .date-signature {
+            text-align: center;
+            margin: 40px 0;
+            line-height: 2;
+            font-weight: bold;
+        }
+
+        /* 업데이트 하이라이트 */
+        .highlight-update {
+            background-color: #fff3cd;
+            transition: background-color 0.5s ease;
+        }
+
+        /* 빈 콘텐츠 상태 */
+        .empty-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* 콘텐츠 영역 */
+        .content-container {
+            display: none;
+        }
+
+        .content-container.show {
+            display: block;
+        }
+
+        /* 버튼 스타일 */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #333;
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn-save {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .btn-submit {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>노트북 매매계약서 입력</h1>
+    </div>
+    
+    <div class="container">
+        <!-- 사이드바: 입력 폼 -->
+        <div class="sidebar">
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-title">당사자 정보</span>
+                    <span class="section-count">1 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">매도인 (갑)</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="seller_person" name="seller_type" value="개인" checked>
+                            <label for="seller_person">개인</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="seller_corp" name="seller_type" value="법인" >
+                            <label for="seller_corp">법인</label>
+                        </div>
+                    </div>
+                    <input type="text" id="seller_name" class="form-control" placeholder="회사명 또는 이름" style="margin-top: 10px;">
+                    <input type="text" id="seller_address" class="form-control" placeholder="주소" style="margin-top: 5px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">매수인 (을)</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="buyer_person" name="buyer_type" value="개인" checked>
+                            <label for="buyer_person">개인</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="buyer_corp" name="buyer_type" value="법인">
+                            <label for="buyer_corp">법인</label>
+                        </div>
+                    </div>
+                    <input type="text" id="buyer_name" class="form-control" placeholder="이름 또는 회사명" style="margin-top: 10px;">
+                    <input type="text" id="buyer_address" class="form-control" placeholder="주소 (선택사항)" style="margin-top: 5px;">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-title">노트북 정보</span>
+                    <span class="section-count">2 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">모델명</label>
+                    <input type="text" id="laptop_model" class="form-control" placeholder="노트북 모델명">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">사양</label>
+                    <input type="text" id="laptop_cpu" class="form-control" placeholder="CPU">
+                    <input type="text" id="laptop_ram" class="form-control" placeholder="RAM" style="margin-top: 5px;">
+                    <input type="text" id="laptop_storage" class="form-control" placeholder="저장장치" style="margin-top: 5px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">상태</label>
+                    <select id="laptop_condition" class="form-control">
+                        <option value="">상태 선택</option>
+                        <option>중고</option>
+                        <option>새것</option>
+                        <option>리퍼비시</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-title">매매조건</span>
+                    <span class="section-count">3 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">매매가격</label>
+                    <input type="text" id="price_number" class="form-control" placeholder="숫자 (예: 500,000)">
+                    <input type="text" id="price_korean" class="form-control" placeholder="한글표기" style="margin-top: 5px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">결제방법</label>
+                    <select id="payment_method" class="form-control">
+                        <option value="">결제방법 선택</option>
+                        <option>계좌이체</option>
+                        <option>현금</option>
+                        <option>카드결제</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">계좌정보</label>
+                    <input type="text" id="bank_account" class="form-control" placeholder="은행 계좌번호">
+                    <input type="text" id="bank_holder" class="form-control" placeholder="예금주" style="margin-top: 5px;">
+                </div>
+            </div>
+            
+            <div class="form-section current-step">
+                <div class="section-header">
+                    <span class="section-title">계약정보</span>
+                    <span class="section-count">4 / 4</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">계약일자</label>
+                    <input type="date" id="contract_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">인도일자</label>
+                    <input type="date" id="delivery_date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">특약사항</label>
+                    <textarea id="special_terms" class="form-control" rows="3" placeholder="특별한 조건이나 약정사항"></textarea>
+                </div>
+            </div>
+            
+            <div class="help-text">
+                왼쪽에서 정보를 입력하면 오른쪽에 계약서가 자동으로 생성됩니다.
+            </div>
+        </div>
+        
+        <!-- 메인 콘텐츠: 계약서 미리보기 -->
+        <div class="main-content">
+            <!-- 빈 상태 -->
+            <div id="empty-state" class="empty-content">
+                <div>
+                    <h3>계약서 미리보기</h3>
+                    <p>왼쪽 사이드바에서 정보를 입력하면<br>여기에 계약서가 생성됩니다.</p>
+                </div>
+            </div>
+
+            <!-- 계약서 내용 -->
+            <div id="contract-content" class="content-container">
+                <div class="document-title">노트북 매매계약서</div>
+                
+                <div class="document-info">
+                    노트북 매도인 "<strong>갑</strong>"과 노트북 매수인 "<strong>을</strong>"은 다음과 같이 노트북 매매 계약을 체결한다.
+                </div>
+                
+                <div class="contract-terms">
+                    <h3>제1조 목적</h3>
+                    본 계약은 "을"이 사용하던 업무용 노트북 구매를 위하여 "갑"으로부터 해당 노트북을 구매하고 이와 관련된 사항을 규율함을 목적으로 한다.
+                    
+                    <h3>제2조 매매 노트북</h3>
+                    본 계약의 노트북은 다음 각호에 따른다.
+                    <ol>
+                        <li>노트북 모델명: <span id="preview_model">-</span></li>
+                        <li>노트북 사양: <span id="preview_specs">-</span></li>
+                    </ol>
+                    
+                    <h3>제3조 매매가격</h3>
+                    <ol>
+                        <li>본 계약의 노트북 매매가격은 <span id="preview_condition">-</span> 노트북 시세에 따라 <span id="preview_price_korean">-</span>으로 한다.</li>
+                        <li>매매 금액은 &lt;<span id="preview_bank">-</span>&gt; 계좌로 <span id="preview_payment">-</span>로 지불한다.</li>
+                    </ol>
+                    
+                    <h3>제4조 인도</h3>
+                    "갑"은 "을"에게 <span id="preview_delivery_date">-</span>에 노트북을 인도한다. <span id="preview_special_terms">-</span>
+                </div>
+                
+                <table class="form-table">
+                    <tr>
+                        <th>매도인 (갑)</th>
+                        <td>
+                            <strong><span id="preview_seller_name">-</span></strong><br>
+                            <span id="preview_seller_address">-</span><br>
+                            <span id="preview_seller_rep">-</span>
+                            <div class="signature-box">(서명 또는 인)</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>매수인 (을)</th>
+                        <td>
+                            <strong><span id="preview_buyer_name">-</span></strong><br>
+                            <span id="preview_buyer_address">-</span>
+                            <div class="signature-box">(서명 또는 인)</div>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="date-signature">
+                    <span id="preview_contract_date">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-bar">
+        <button class="btn-save" onclick="saveTemporary()">임시저장</button>
+        <button class="btn-submit" onclick="generateContract()">계약서 생성</button>
+    </div>
+    
+    <script>
+        class ContractGenerator {
+            constructor() {
+                this.hasContent = false;
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                const allInputs = document.querySelectorAll('input, select, textarea');
+                
+                allInputs.forEach(input => {
+                    input.addEventListener('input', () => this.updateContract(input.id));
+                    input.addEventListener('change', () => this.updateContract(input.id));
+                });
+            }
+
+            updateContract(changedFieldId) {
+                // 내용이 있는지 확인
+                if (!this.hasContent) {
+                    this.showContract();
+                }
+
+                this.updateFields();
+                this.highlightChangedField(changedFieldId);
+            }
+
+            showContract() {
+                document.getElementById('empty-state').style.display = 'none';
+                document.getElementById('contract-content').classList.add('show');
+                this.hasContent = true;
+            }
+
+            updateFields() {
+                // 기본 필드 업데이트
+                const fieldMappings = {
+                    'seller_name': 'preview_seller_name',
+                    'seller_address': 'preview_seller_address', 
+                    'buyer_name': 'preview_buyer_name',
+                    'buyer_address': 'preview_buyer_address',
+                    'laptop_model': 'preview_model',
+                    'laptop_condition': 'preview_condition',
+                    'price_korean': 'preview_price_korean',
+                    'payment_method': 'preview_payment'
+                };
+
+                Object.entries(fieldMappings).forEach(([inputId, previewId]) => {
+                    const inputElement = document.getElementById(inputId);
+                    const previewElement = document.getElementById(previewId);
+                    
+                    if (inputElement && previewElement) {
+                        let value = inputElement.value.trim();
+                        previewElement.textContent = value || '-';
+                    }
+                });
+
+                // 복합 필드 업데이트
+                this.updateLaptopSpecs();
+                this.updateBankInfo();
+                this.updateDates();
+                this.updateSpecialTerms();
+                this.updateSellerRep();
+            }
+
+            updateLaptopSpecs() {
+                const cpu = document.getElementById('laptop_cpu').value.trim();
+                const ram = document.getElementById('laptop_ram').value.trim(); 
+                const storage = document.getElementById('laptop_storage').value.trim();
+                
+                let specsText = '';
+                const specs = [cpu, ram, storage].filter(spec => spec);
+                
+                if (specs.length > 0) {
+                    specsText = specs.join(' / ');
+                } else {
+                    specsText = '-';
+                }
+                
+                document.getElementById('preview_specs').textContent = specsText;
+            }
+
+            updateBankInfo() {
+                const account = document.getElementById('bank_account').value.trim();
+                const holder = document.getElementById('bank_holder').value.trim();
+                
+                let bankText = '';
+                if (account && holder) {
+                    bankText = `${account} ${holder}`;
+                } else if (account) {
+                    bankText = account;
+                } else if (holder) {
+                    bankText = holder;
+                } else {
+                    bankText = '-';
+                }
+                
+                document.getElementById('preview_bank').textContent = bankText;
+            }
+
+            updateDates() {
+                // 계약일자
+                const contractDate = document.getElementById('contract_date').value;
+                const contractPreview = document.getElementById('preview_contract_date');
+                if (contractDate) {
+                    contractPreview.textContent = this.formatDateToKorean(contractDate, false);
+                } else {
+                    contractPreview.textContent = '-';
+                }
+
+                // 인도일자  
+                const deliveryDate = document.getElementById('delivery_date').value;
+                const deliveryPreview = document.getElementById('preview_delivery_date');
+                if (deliveryDate) {
+                    deliveryPreview.textContent = this.formatDateToKorean(deliveryDate, true);
+                } else {
+                    deliveryPreview.textContent = '-';
+                }
+            }
+
+            updateSpecialTerms() {
+                const specialTerms = document.getElementById('special_terms').value.trim();
+                const previewElement = document.getElementById('preview_special_terms');
+                
+                previewElement.textContent = specialTerms || '-';
+            }
+
+            updateSellerRep() {
+                const sellerType = document.querySelector('input[name="seller_type"]:checked')?.value;
+                const previewElement = document.getElementById('preview_seller_rep');
+                
+                if (sellerType === '법인') {
+                    previewElement.textContent = '대표이사';
+                } else {
+                    previewElement.textContent = '';
+                }
+            }
+
+            formatDateToKorean(dateString, isFullFormat = false) {
+                if (!dateString) return '-';
+                
+                const date = new Date(dateString);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                return isFullFormat ? 
+                    `${year}년 ${month}월 ${day}일` : 
+                    `${year}. ${month}. ${day}.`;
+            }
+
+            highlightChangedField(fieldId) {
+                const mapping = {
+                    'seller_name': 'preview_seller_name',
+                    'seller_address': 'preview_seller_address',
+                    'buyer_name': 'preview_buyer_name', 
+                    'buyer_address': 'preview_buyer_address',
+                    'laptop_model': 'preview_model',
+                    'laptop_cpu': 'preview_specs',
+                    'laptop_ram': 'preview_specs',
+                    'laptop_storage': 'preview_specs',
+                    'laptop_condition': 'preview_condition',
+                    'price_korean': 'preview_price_korean',
+                    'payment_method': 'preview_payment',
+                    'bank_account': 'preview_bank',
+                    'bank_holder': 'preview_bank',
+                    'contract_date': 'preview_contract_date',
+                    'delivery_date': 'preview_delivery_date',
+                    'special_terms': 'preview_special_terms'
+                };
+
+                const previewId = mapping[fieldId];
+                if (previewId) {
+                    const element = document.getElementById(previewId);
+                    if (element) {
+                        element.classList.add('highlight-update');
+                        setTimeout(() => {
+                            element.classList.remove('highlight-update');
+                        }, 1000);
+                    }
+                }
+            }
+        }
+
+        // 추가 기능들
+        function generateContract() {
+            const requiredFields = [
+                { id: 'seller_name', name: '매도인 이름' },
+                { id: 'buyer_name', name: '매수인 이름' },
+                { id: 'laptop_model', name: '노트북 모델' },
+                { id: 'price_korean', name: '매매가격' },
+                { id: 'contract_date', name: '계약일자' },
+                { id: 'delivery_date', name: '인도일자' }
+            ];
+
+            const missingFields = [];
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field.id);
+                if (!element.value.trim()) {
+                    missingFields.push(field.name);
+                }
+            });
+
+            if (missingFields.length > 0) {
+                alert(`다음 필수 항목을 입력해주세요:\n${missingFields.join(', ')}`);
+                return;
+            }
+
+            alert('노트북 매매계약서가 성공적으로 생성되었습니다!');
+        }
+
+        function saveTemporary() {
+            alert('계약서 정보가 임시저장되었습니다.');
+        }
+
+        // 가격 자동 변환 기능
+        function convertNumberToKorean(num) {
+            const units = ['', '십', '백', '천'];
+            const bigUnits = ['', '만', '억', '조'];
+            const koreanNumbers = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+            
+            if (num == 0) return '영';
+            
+            let result = '';
+            let unitIndex = 0;
+            
+            while (num > 0) {
+                let chunk = num % 10000;
+                if (chunk > 0) {
+                    let chunkResult = '';
+                    let chunkUnitIndex = 0;
+                    
+                    while (chunk > 0) {
+                        let digit = chunk % 10;
+                        if (digit > 0) {
+                            if (digit === 1 && chunkUnitIndex > 0) {
+                                chunkResult = units[chunkUnitIndex] + chunkResult;
+                            } else {
+                                chunkResult = koreanNumbers[digit] + units[chunkUnitIndex] + chunkResult;
+                            }
+                        }
+                        chunk = Math.floor(chunk / 10);
+                        chunkUnitIndex++;
+                    }
+                    
+                    result = chunkResult + bigUnits[unitIndex] + result;
+                }
+                
+                num = Math.floor(num / 10000);
+                unitIndex++;
+            }
+            
+            return result;
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            const generator = new ContractGenerator();
+            
+            // 숫자 가격 입력 시 자동 변환
+            const priceNumberInput = document.getElementById('price_number');
+            priceNumberInput.addEventListener('input', function() {
+                const value = this.value.replace(/,/g, '');
+                if (!isNaN(value) && value) {
+                    this.value = Number(value).toLocaleString();
+                    
+                    const priceKoreanInput = document.getElementById('price_korean');
+                    priceKoreanInput.value = `일금 ${convertNumberToKorean(value)}원정 (₩ ${Number(value).toLocaleString()})`;
+                    
+                    // 한글 가격 필드도 업데이트 트리거
+                    generator.updateContract('price_korean');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

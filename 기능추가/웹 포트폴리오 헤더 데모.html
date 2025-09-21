@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel 함수 & 단축키 치트시트</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "맑은 고딕", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1abc9c; /* 배경 청록색 */
+      color: #333;
+    }
+
+    /* 헤더 스타일 */
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      flex: 0 0 auto;
+      z-index: 1001;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* 햄버거 메뉴 버튼 */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1001;
+      position: relative;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+
+    /* 네비게이션 메뉴 컨테이너 */
+    .nav-menu {
+      display: flex;
+      gap: 0;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-item > li > a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+
+    .nav-item > li > a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .dropdown-icon {
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item:hover .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    /* 드롭다운 메뉴 스타일 */
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      min-width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-item:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      margin: 5px;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      transform: translateX(5px);
+    }
+
+    .dropdown-item.highlighted {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .dropdown-item.highlighted:hover {
+      background: linear-gradient(45deg, #5a67d8, #6b46c1);
+      transform: translateX(5px);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.1);
+      margin: 5px 15px;
+    }
+
+    /* Excel 치트시트 컨테이너 */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      background: #111;
+      border: 2px solid #2d2d2d;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      padding: 20px;
+      color: #fff;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    /* 상단 엑셀 헤더 */
+    .excel-header {
+      display: flex;
+      align-items: center;
+      background: #10793f;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    
+    .excel-header .logo-excel {
+      background: #1d6f42;
+      padding: 4px 8px;
+      margin-right: 10px;
+      border-radius: 3px;
+      font-size: 16px;
+    }
+    
+    .excel-header span {
+      margin-right: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      margin: 20px 0;
+      color: #00ff88;
+    }
+
+    /* 함수 테이블 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+    
+    table th {
+      background: #0d4027;
+      padding: 6px;
+      border: 1px solid #2d2d2d;
+      color: #fff;
+      text-align: center;
+    }
+    
+    table td {
+      border: 1px solid #2d2d2d;
+      padding: 6px 8px;
+      vertical-align: top;
+    }
+
+    /* 단축키 영역 */
+    .shortcut-table {
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .shortcut-table td {
+      width: 25%;
+      padding: 6px;
+      border: 1px solid #333;
+      vertical-align: top;
+    }
+
+    /* 하단 컨닝패드 */
+    .pad-title {
+      text-align: center;
+      font-size: 16px;
+      color: #00ff88;
+      margin: 20px 0 10px;
+    }
+    
+    .pad-section {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+    }
+    
+    .box {
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    
+    .box h3 {
+      font-size: 12px;
+      margin: 0 0 8px 0;
+      color: #00ff88;
+      border-bottom: 1px solid #333;
+      padding-bottom: 4px;
+    }
+
+    /* 반응형 디자인 */
+    /* 태블릿 크기 (1024px 이하) */
+    @media (max-width: 1024px) {
+      nav {
+        padding: 0 15px;
+      }
+
+      .nav-item > li > a {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      .dropdown {
+        min-width: 180px;
+      }
+
+      .pad-section {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* 모바일 크기 (768px 이하) */
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        justify-content: space-between;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(102, 126, 234, 0.95);
+        backdrop-filter: blur(15px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 20px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        gap: 0;
+      }
+
+      .nav-menu.active {
+        transform: translateX(0);
+      }
+
+      .nav-item {
+        width: 90%;
+        max-width: 300px;
+        margin-bottom: 10px;
+      }
+
+      .nav-item > li > a {
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        justify-content: space-between;
+      }
+
+      .nav-item > li > a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: none;
+      }
+
+      /* 모바일에서 드롭다운을 아코디언 스타일로 변경 */
+      .dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        border: none;
+        border-radius: 10px;
+        margin-top: 10px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .nav-item.active .dropdown {
+        max-height: 500px;
+      }
+
+      .nav-item.active .dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-item {
+        background: rgba(255, 255, 255, 0.1);
+        margin: 5px 10px;
+        color: white;
+        border-radius: 8px;
+        padding: 12px 15px;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: none;
+        color: white;
+      }
+
+      .dropdown-item.highlighted {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+      }
+
+      .dropdown-item.highlighted:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .dropdown-divider {
+        background: rgba(255, 255, 255, 0.3);
+        margin: 8px 20px;
+      }
+
+      .pad-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .excel-header span {
+        font-size: 12px;
+        margin-right: 10px;
+      }
+    }
+
+    /* 작은 모바일 크기 (480px 이하) */
+    @media (max-width: 480px) {
+      nav {
+        padding: 0 10px;
+      }
+
+      nav ul {
+        height: 60px;
+      }
+
+      .nav-menu {
+        top: 60px;
+        height: calc(100vh - 60px);
+      }
+
+      .container {
+        width: 95%;
+        padding: 15px;
+      }
+
+      .pad-section {
+        grid-template-columns: 1fr;
+      }
+
+      .excel-header {
+        flex-wrap: wrap;
+        gap: 5px;
+        font-size: 12px;
+      }
+
+      .excel-header span {
+        font-size: 10px;
+        margin-right: 5px;
+      }
+
+      table {
+        font-size: 10px;
+      }
+
+      .shortcut-table {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 메인 헤더 영역 -->
+  <header>
+    <nav>
+      <ul>
+        <!-- 로고 영역 -->
+        <div class="logo">
+          <a href="#home">Excel Tools</a>
+        </div>
+
+        <!-- 모바일 햄버거 메뉴 버튼 -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+          <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- 네비게이션 메뉴 -->
+        <div class="nav-menu" id="navMenu">
+          <!-- HOME 메뉴 항목 -->
+          <div class="nav-item">
+            <li><a href="#main">HOME</a></li>
+          </div>
+
+          <!-- ABOUT 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#about" onclick="toggleDropdown(this)">ABOUT <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item highlighted">
+                <i class="fas fa-user"></i>ABOUT-ME
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-id-card"></i>프로필
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-briefcase"></i>경력
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-envelope"></i>이력서
+              </a>
+            </div>
+          </div>
+
+          <!-- SKILL 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#skill" onclick="toggleDropdown(this)">SKILL <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#skill" class="dropdown-item highlighted">
+                <i class="fas fa-language"></i>Language
+              </a>
+              <a href="#skill" class="dropdown-item">
+                <i class="fas fa-database"></i>Library
+              </a>
+              <a href="#skill" class="dropdown-item">
+                <i class="fas fa-tools"></i>Tool
+              </a>
+              <a href="#skill" class="dropdown-item">
+                <i class="fas fa-robot"></i>AI
+              </a>
+              <a href="#skill" class="dropdown-item">
+                <i class="fas fa-laptop-code"></i>기타
+              </a>
+            </div>
+          </div>
+          
+          <!-- WORK 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#work" onclick="toggleDropdown(this)">WORK <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item highlighted">
+                <i class="fas fa-laptop-code"></i>WORK1
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-project-diagram"></i>프로젝트
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-folder-open"></i>포트폴리오
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-trophy"></i>성과
+              </a>
+            </div>
+          </div>
+          
+          <!-- CODING 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#coding" onclick="toggleDropdown(this)">CODING <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fab fa-html5"></i>Frontend
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fab fa-js-square"></i>JavaScript
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fab fa-react"></i>React
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fab fa-github"></i>GitHub
+              </a>
+            </div>
+          </div>
+          
+          <!-- RE-DESIGN 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#design" onclick="toggleDropdown(this)">RE-DESIGN <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-palette"></i>빅케이스 리디자인
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-paint-brush"></i>로폼 리디자인
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-cube"></i>LBOX 리디자인
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-mobile-alt"></i>UI/UX 디자인
+              </a>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- 상단 메뉴바 -->
+    <div class="excel-header">
+      <div class="logo-excel">Excel</div>
+      <span>Alt + F</span>
+      <span>Alt + E</span>
+      <span>Alt + I</span>
+      <span>Alt + O</span>
+      <span>Alt + T</span>
+      <span>Alt + D</span>
+      <span>Alt + W</span>
+    </div>
+
+    <h2>Excel 함수 & 단축키 치트시트</h2>
+
+    <!-- 함수 테이블 -->
+    <table>
+      <thead>
+        <tr>
+          <th>함수</th>
+          <th>사용법</th>
+          <th>설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>AVERAGE</td><td>=AVERAGE(A1:A5)</td><td>평균값</td></tr>
+        <tr><td>AVERAGEIF</td><td>=AVERAGEIF(A1:A10,">10")</td><td>조건에 맞는 평균</td></tr>
+        <tr><td>AVERAGEIFS</td><td>=AVERAGEIFS(B2:B10,A2:A10,"서울",C2:C10,"과일")</td><td>다중 조건 평균</td></tr>
+        <tr><td>MAX</td><td>=MAX(A1:A10)</td><td>최대값</td></tr>
+        <tr><td>MIN</td><td>=MIN(A1:A10)</td><td>최소값</td></tr>
+        <tr><td>COUNT</td><td>=COUNT(A1:A10)</td><td>숫자 개수</td></tr>
+        <tr><td>COUNTA</td><td>=COUNTA(A1:A10)</td><td>빈칸 제외 개수</td></tr>
+        <tr><td>COUNTIF</td><td>=COUNTIF(A1:A10,">10")</td><td>조건 만족 개수</td></tr>
+        <tr><td>COUNTIFS</td><td>=COUNTIFS(A1:A10,">10",B1:B10,"서울")</td><td>다중 조건 개수</td></tr>
+        <tr><td>LARGE</td><td>=LARGE(A1:A10,2)</td><td>2번째 큰 값</td></tr>
+        <tr><td>SMALL</td><td>=SMALL(A1:A10,3)</td><td>3번째 작은 값</td></tr>
+        <tr><td>HLOOKUP</td><td>=HLOOKUP(찾을값, 범위, 행번호, 옵션)</td><td>가로 검색</td></tr>
+        <tr><td>VLOOKUP</td><td>=VLOOKUP(찾을값, 범위, 열번호, 옵션)</td><td>세로 검색</td></tr>
+        <tr><td>IF</td><td>=IF(조건, 값1, 값2)</td><td>조건식</td></tr>
+        <tr><td>PV</td><td>=PV(이자율, 기간, 납입액, 미래가치)</td><td>현재가치</td></tr>
+        <tr><td>FV</td><td>=FV(이자율, 기간, 납입액, 현재가치)</td><td>미래가치</td></tr>
+        <tr><td>PMT</td><td>=PMT(이자율, 기간, 현재가치)</td><td>정기지급액</td></tr>
+        <tr><td>DAY</td><td>=DAY(A1)</td><td>일자 추출</td></tr>
+        <tr><td>NETWORKDAYS</td><td>=NETWORKDAYS(A1,B1)</td><td>근무일 계산</td></tr>
+        <tr><td>TODAY</td><td>=TODAY()</td><td>오늘 날짜</td></tr>
+        <tr><td>SUM</td><td>=SUM(A1:A10)</td><td>합계</td></tr>
+        <tr><td>SUMIF</td><td>=SUMIF(A1:A10,">10")</td><td>조건 합계</td></tr>
+        <tr><td>SUMIFS</td><td>=SUMIFS(B2:B10,A2:A10,"서울",C2:C10,"과일")</td><td>다중 조건 합계</td></tr>
+        <tr><td>ROUND</td><td>=ROUND(A1,2)</td><td>반올림</td></tr>
+        <tr><td>ROUNDUP</td><td>=ROUNDUP(A1,0)</td><td>올림</td></tr>
+        <tr><td>ROUNDDOWN</td><td>=ROUNDDOWN(A1,0)</td><td>내림</td></tr>
+        <tr><td>IFERROR</td><td>=IFERROR(수식,"에러")</td><td>에러 처리</td></tr>
+        <tr><td>AND</td><td>=AND(A1>10,B1<100)</td><td>AND 조건</td></tr>
+        <tr><td>OR</td><td>=OR(A1>10,B1<100)</td><td>OR 조건</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 단축키 -->
+    <table class="shortcut-table">
+      <tr>
+        <td>Ctrl + U : 밑줄<br>Ctrl + I : 기울임<br>Ctrl + B : 굵게<br>Ctrl + 1 : 셀 서식</td>
+        <td>Ctrl + C : 복사<br>Ctrl + V : 붙여넣기<br>Ctrl + X : 잘라내기<br>Ctrl + Z : 실행취소</td>
+        <td>Ctrl + Shift + "+" : 행 삽입<br>Ctrl + "-" : 행 삭제<br>Ctrl + D : 아래 채우기<br>Ctrl + R : 오른쪽 채우기</td>
+        <td>F2 : 편집<br>F4 : 절대참조<br>F7 : 맞춤법 검사<br>F12 : 다른 이름 저장</td>
+      </tr>
+    </table>
+
+    <!-- 하단 패드 -->
+    <div class="pad-title">컨닝 패드</div>
+    <div class="pad-section">
+      <div class="box">
+        <h3>가장 많이 쓰는 이동</h3>
+        Ctrl + → / ← / ↑ / ↓ : 끝 이동<br>
+        Shift + Alt + → / ← : 그룹 접기/펼치기<br>
+        Home : 행 처음<br>
+        Ctrl + Home : A1 이동<br>
+        Ctrl + End : 마지막 데이터<br>
+        PageUp / PageDown : 화면 이동
+      </div>
+      <div class="box">
+        <h3>복사 & 붙여넣기</h3>
+        Ctrl + C : 복사<br>
+        Ctrl + X : 잘라내기<br>
+        Ctrl + V : 붙여넣기<br>
+        Ctrl + Alt + V : 선택하여 붙여넣기<br>
+        Ctrl + Enter : 동일 입력
+      </div>
+      <div class="box">
+        <h3>Function Key</h3>
+        F2 : 셀 편집<br>
+        F4 : 절대참조<br>
+        F9 : 수식계산<br>
+        Alt + = : 자동합계
+      </div>
+      <div class="box">
+        <h3>셀 서식</h3>
+        Ctrl + 1 : 셀 서식<br>
+        Ctrl + Shift + $ : 통화<br>
+        Ctrl + Shift + % : 백분율<br>
+        Ctrl + Shift + ^ : 지수<br>
+        Ctrl + Shift + # : 날짜
+      </div>
+      <div class="box">
+        <h3>특수 기능</h3>
+        Ctrl + ; : 오늘 날짜<br>
+        Ctrl + Shift + ; : 현재 시간<br>
+        Ctrl + F : 찾기<br>
+        Ctrl + H : 바꾸기<br>
+        Ctrl + A : 전체 선택
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 모바일 메뉴 토글 기능
+    function toggleMobileMenu() {
+      const navMenu = document.getElementById('navMenu');
+      const menuIcon = document.getElementById('menu-icon');
+      
+      navMenu.classList.toggle('active');
+      
+      // 햄버거 아이콘 변경
+      if (navMenu.classList.contains('active')) {
+        menuIcon.className = 'fas fa-times';
+      } else {
+        menuIcon.className = 'fas fa-bars';
+        // 모든 드롭다운 닫기
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => item.classList.remove('active'));
+      }
+    }
+
+    // 모바일에서 드롭다운 토글
+    function toggleDropdown(element) {
+      // 모바일에서만 작동
+      if (window.innerWidth <= 768) {
+        const navItem = element.closest('.nav-item');
+        const wasActive = navItem.classList.contains('active');
+        
+        // 다른 모든 드롭다운 닫기
+        const allNavItems = document.querySelectorAll('.nav-item');
+        allNavItems.forEach(item => item.classList.remove('active'));
+        
+        // 현재 드롭다운 토글
+        if (!wasActive) {
+          navItem.classList.add('active');
+        }
+      }
+    }
+
+    // 화면 크기 변경 시 모바일 메뉴 상태 리셋
+    window.addEventListener('resize', function() {
+      const navMenu = document.getElementById('navMenu');
+      const menuIcon = document.getElementById('menu-icon');
+      
+      if (window.innerWidth > 768) {
+        navMenu.classList.remove('active');
+        menuIcon.className = 'fas fa-bars';
+        
+        // 모든 드롭다운 닫기
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => item.classList.remove('active'));
+      }
+    });
+
+    // 모바일 메뉴 외부 클릭 시 닫기
+    document.addEventListener('click', function(e) {
+      const navMenu = document.getElementById('navMenu');
+      const menuToggle = document.querySelector('.mobile-menu-toggle');
+      const nav = document.querySelector('nav');
+      
+      if (window.innerWidth <= 768 && 
+          navMenu.classList.contains('active') && 
+          !nav.contains(e.target)) {
+        toggleMobileMenu();
+      }
+    });
+
+    // ESC 키로 모바일 메뉴 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const navMenu = document.getElementById('navMenu');
+        if (navMenu.classList.contains('active')) {
+          toggleMobileMenu();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

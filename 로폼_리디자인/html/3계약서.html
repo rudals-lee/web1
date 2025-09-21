@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2196F3;
+        }
+
+        .logo::before {
+            content: "⚖";
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: #2196F3;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+            color: white;
+            padding: 80px 0 120px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards Section */
+        .cards-container {
+            max-width: 1500px;
+            margin: -60px auto 0;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-number {
+            display: inline-block;
+            background: #E3F2FD;
+            color: #1976D2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: #1976D2;
+        }
+
+        .card-link::after {
+            content: "📄";
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: white;
+            padding: 80px 0;
+            margin-top: 80px;
+        }
+
+        .faq-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .faq-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .faq-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .faq-description {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .faq-item {
+            margin-bottom: 30px;
+        }
+
+        .faq-question {
+            color: #2196F3;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .faq-question::before {
+            content: "Q. ";
+            font-weight: bold;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.6;
+            padding-left: 20px;
+            font-size: 15px;
+        }
+
+        .faq-answer::before {
+            content: "A. ";
+            color: #FF9800;
+            font-weight: bold;
+        }
+
+        /* Contract Section */
+        .contract-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+
+        .contract-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .contract-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contract-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .contract-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        /* Contract Grid */
+        .contract-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contract-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .contract-item {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .contract-item:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .contract-name {
+            color: #333;
+            font-weight: 500;
+            font-size: 15px;
+            flex: 1;
+        }
+
+        .info-icon {
+            color: #999;
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .bookmark-btn:hover {
+            color: #FFD700;
+        }
+
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .view-all {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+
+        .view-all:hover {
+            opacity: 0.7;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image.red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .card-image.orange {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+
+        .card-image.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card-tag.orange {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .card-tag.purple {
+            background: #faf5ff;
+            color: #7c3aed;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-date {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+                margin-top: -40px;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .contract-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .category-tabs {
+                gap: 10px;
+            }
+
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">Law Form</div>
+            <nav class="nav-menu">
+                <a href="#">홈</a>
+                <a href="#">서비스</a>
+                <a href="#">문의</a>
+                <a href="#">로그인</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>계약서</h1>
+        <p>부동산계약서, 근로계약서 등 우리 생활에 꼭 필요한 계약서 템플릿 및 문서를 편리하게 계약해보세요.</p>
+    </section>
+
+    <!-- Cards Section -->
+    <div class="cards-container">
+        <div class="card">
+            <span class="card-number">계약서 인기 TOP 1</span>
+            <h3>임대용 용역계약서</h3>
+            <a href="#" class="card-link">지금 작성하기</a>
+        </div>
+
+        <div class="card">
+            <span class="card-number">계약서 인기 TOP 2</span>
+            <h3>부동산 직거래<br>임대차계약서</h3>
+            <a href="#" class="card-link">지금 작성하기</a>
+        </div>
+
+        <div class="card">
+            <span class="card-number">계약서 인기 TOP 3</span>
+            <h3>유한근로·5인이상<br>근로계약서</h3>
+            <a href="#" class="card-link">지금 작성하기</a>
+        </div>
+
+        <div class="card">
+            <span class="card-number">계약서 인기 TOP 4</span>
+            <h3>가사도우미계약서</h3>
+            <a href="#" class="card-link">지금 작성하기</a>
+        </div>
+    </div>
+
+    <!-- Contract List Section -->
+    <section class="contract-section">
+        <div class="contract-container">
+            <div class="contract-header">
+                <div class="contract-subtitle">내 상황에 맞는는</div>
+                <h2 class="contract-title">손쉬운 계약서 작성</h2>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="tab-btn active">용역계약</button>
+                <button class="tab-btn">동업·사업계약</button>
+                <button class="tab-btn">투자·시설계약</button>
+                <button class="tab-btn">특허·상표·금전계약</button>
+                <button class="tab-btn">매매계약</button>
+                <button class="tab-btn">임대차계약</button>
+                <button class="tab-btn">영업양도계약</button>
+            </div>
+
+            <!-- Contract List -->
+            <div class="contract-grid">
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">용역계약서(일반)</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">용역계약서(IT 및 소프트웨어·컨설팅사업)</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">용역계약서(건설 및 기타 공사)</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">용역계약서(교과 및 홈스터링)</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">용역계약서(조사 및 학술연구)</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">가사도우미계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">유지도우미계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">표편화서 계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">프리랜서 계약서(웹업 총사업장)</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">SNS 홈스터팅렵무 계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">이벤트 대행 업무 계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">리뷰 업무서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+
+                <div class="contract-row">
+                    <div class="contract-item">
+                        <span class="contract-name">자문(고문)계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                    <div class="contract-item">
+                        <span class="contract-name">도급계약서</span>
+                        <span class="info-icon"></span>
+                        <button class="bookmark-btn">☆</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main">
+        <h1 class="page-title">도움되는 필수 콘텐츠</h1>
+
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">계약서 작성 가이드</h2>
+                <a href="#" class="view-all">전체보기</a>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-image red">
+                        📬
+                        <div class="illustration mail-icon">✉️</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">인기</span>
+                        <h3 class="card-title">계약서 작성 가이드</h3>
+                        <p class="card-description">
+                            2025 근로기준법 총정리<br>
+                            2025년 바뀌는 근로기준법은 무엇이 있을까요?<br>
+                            핵심만 정리를 한 번에 확인해 보세요.
+                        </p>
+                        
+                        <div class="card-date">2024-12-17</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-image orange">
+                        📄
+                        <div class="illustration document-icon">📋</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag orange">실용</span>
+                        <h3 class="card-title">용역계약서 작성하는 방법</h3>
+                        <p class="card-description">
+                            용역계약서는 언제 쓰는 것이고 <br>
+                            구체적으로 어떤 내용이 들어가야 할까요?<br>
+                            용역계약서 쓰기 전, 미리 확인해보세요.
+                        </p>
+                        <div class="card-date">2021-02-16</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-image purple">
+                        📝
+                        <div class="illustration guide-icon">📖</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag purple">가이드</span>
+                        <h3 class="card-title">용역계약서의 A부터 Z까지</h3>
+                        <p class="card-description">
+                            동업을 팔 용역계약서를 받드시 써야 하나요?<br>
+                            어떤 내용이 들어야 들어가야 하는지도 알려드려요.<br>
+                            2021-02-16
+                        </p>
+                        <div class="card-date">2021-02-16</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="faq-header">
+                <div class="faq-subtitle">계약서의 모든 것</div>
+                <h2 class="faq-title">로폼에서 궁금증 해결</h2>
+                <div class="faq-description">자주 묻는 질문</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">계약서 작성한 후에는 무엇을 해야 하나요?</div>
+                <div class="faq-answer">로폼의 템플릿 계약서명으로 임시 당사자가 서명할 수 있어야 수 있어요.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">로폼에서 계약서 작성하고 전자서명까지 위한 법적 효력이 발생하나요?</div>
+                <div class="faq-answer">전자문서 및 전자거래 기본법, 계약 및 「전자서명법」 제3조 제1항에 따라 동일 문서 계약의 동일하게 법적 효력이 발생하고.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">계약서 작성 후 법무사 검토도 받을 수 있나요?</div>
+                <div class="faq-answer">문서작성 위한 상단 작은 메이글을 > 법무사 검토/인증 메뉴에서 유료 전문을 받아보실 수 있어요.</div>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>

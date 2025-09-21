@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빅케이스 - 리디자인</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/빅케이스_리디자인/styles/bigcase.css">
+    <style>
+    </style>
+</head>
+<body>
+    <!-- Header Banner -->
+    <div class="header">
+        <div class="header-content">
+            <span class="new-badge">NEW</span>
+            <span>빅케이스 단독, 신규 콘텐츠 24건 입고!</span>
+            <button onclick="window.open('#', '_blank')" style="background:none;border:none;color:white;margin-left:10px;cursor:pointer;">보러가기 ></button>
+        </div>
+        <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="logo">
+            <a href="/HOME.html"><img src="/images/빅케이스리디자인3.png" alt="법률문서 로고" /></a>
+            </div>
+
+            <div class="nav-right">
+                <div class="points">
+                    <span>📋</span><a href="big_fren_.html">친구초대 30,000P</a>
+                </div>
+                <button class="btn-plus"><a href="big_Plus.html">빅케이스Plus</a>
+                </button>
+                <div class="auth-links">
+                    <a href="big_login.html">로그인/회원가입</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>국내 최다 판례 무료 검색, 빅케이스.</h1>
+            <div class="stats">
+                <div class="stat-item">
+                    <span>전체 판례 <strong>5,012,868 건</strong></span>
+                </div>
+                <div class="stat-item">
+                    <span>|</span>
+                </div>
+                <div class="stat-item">
+                    <span>하급심 판례 <strong>4,805,953 건</strong></span>
+                </div>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="키워드를 검색하세요">
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Tools Section -->
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">빅케이스 소식</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <div class="feature-title">신규 e-book 콘텐츠</div>
+                <div class="feature-desc">누구나 법률서적 온라인으로 손쉽게 열람</div>
+            </div>
+            
+            <div class="feature-card special-card">
+                <div class="feature-icon">💰</div>
+                <div class="feature-title">친구 초대하면 30,000 포인트</div>
+                <div class="feature-desc">내 초대코드로 친구가 구독시 적립</div>
+                <div style="margin-top: 15px; background: rgba(255,255,255,0.9); color: #ff6b35; padding: 5px 10px; border-radius: 15px; display: inline-block; font-weight: bold;">30,000P</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">판결문 핵심만 AI 자동요약</div>
+                <div class="feature-desc">쟁점을 AI로 빠르게 확인</div>
+            </div>
+        </div>
+
+        <div class="usage-guide">
+            <div class="guide-header">
+                <h2 class="section-title">빅케이스 활용하기</h2>
+                <button class="info-btn">
+                    <span>이용방법 안내</span>
+                    <span>ℹ️</span>
+                </button>
+            </div>
+            
+            <!-- Usage Features Grid -->
+            <div class="usage-grid">
+                <div class="usage-category">
+                    <div class="category-badge">인증회원 혜택</div>
+                    <div class="usage-cards">
+                        <div class="usage-card">
+                            <div class="usage-icon">📝</div>
+                            <div class="usage-title">판례 요청</div>
+                            <div class="usage-desc">원하는 판례 15분 내로 받기</div>
+                        </div>
+                        <div class="usage-card">
+                            <div class="usage-icon">🔍</div>
+                            <div class="usage-title">서면으로 검색</div>
+                            <div class="usage-desc">서면, 소장, 법률 문서로 검색</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="usage-category">
+                    <div class="category-badge">인증회원 혜택</div>
+                    <div class="usage-cards">
+                        <div class="usage-card highlighted">
+                            <div class="usage-icon">🤖</div>
+                            <div class="usage-title">AI 프리뷰/요약</div>
+                            <div class="usage-desc">판결문 핵심만 자동요약</div>
+                        </div>
+                        <div class="usage-card">
+                            <div class="usage-icon">#</div>
+                            <div class="usage-title">쟁점별 판례보기</div>
+                            <div class="usage-desc">쟁점 키워드별 판례 보기</div>
+                        </div>
+                        <div class="usage-card">
+                            <div class="usage-icon">📊</div>
+                            <div class="usage-title">보관함</div>
+                            <div class="usage-desc">사건별 판례 보관 및 관리</div>
+                        </div>
+                        <div class="usage-card">
+                            <div class="usage-icon">📄</div>
+                            <div class="usage-title">전문 서적 보기</div>
+                            <div class="usage-desc">법률 전문 서적 보기</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BigCase Plus Section -->
+        <div class="plus-section">
+            <h2 class="section-title">빅케이스Plus 하나로 충분합니다.</h2>
+            <div class="plus-features">
+                <div class="plus-card">
+                    <div class="plus-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📚</div>
+                    <div class="plus-content">
+                        <div class="plus-title">판례 무제한 열람요청</div>
+                        <div class="plus-desc">빅케이스의 모든 기능을 무제한으로</div>
+                    </div>
+                    <div class="arrow">></div>
+                </div>
+                
+                <div class="plus-card">
+                    <div class="plus-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">📋</div>
+                    <div class="plus-content">
+                        <div class="plus-title">주해/주석 <span class="new-badge-small">NEW</span></div>
+                        <div class="plus-desc">한국사법행정학회의 모든 주석</div>
+                    </div>
+                    <div class="arrow">></div>
+                </div>
+                
+                <div class="plus-card">
+                    <div class="plus-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">🎓</div>
+                    <div class="plus-content">
+                        <div class="plus-title">논문</div>
+                        <div class="plus-desc">법학 행정분야 14만건 이상 논문</div>
+                    </div>
+                    <div class="arrow">></div>
+                </div>
+                
+                <div class="plus-card">
+                    <div class="plus-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">📖</div>
+                    <div class="plus-content">
+                        <div class="plus-title">법률 전문 서적 <span class="new-badge-small">NEW</span></div>
+                        <div class="plus-desc">박영사 법무서 등 다양한 법률 전문서적</div>
+                    </div>
+                    <div class="arrow">></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <div class="cta-content">
+                <span class="cta-text">월 24,750원으로 빅케이스의 모든 기능 이용</span>
+                <button class="cta-button">빅케이스Plus 시작하기 ></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="search-tools">
+        <div class="search-tools-container">
+            <h2 class="search-tools-title">더 빠르고 정확한 검색</h2>
+            <p class="search-tools-desc">빅케이스의 검색 도구를 활용하여 필요한 판례를 빠르고 정확하게 찾아보세요.</p>
+            
+            <div class="advanced-search">
+                <div class="search-container-large">
+                    <input type="text" class="search-box-large" placeholder=" 키워드 검색">
+                    <button class="search-btn-large">🔍</button>
+                </div>
+            </div>
+
+            <div class="search-filters">
+                <div class="filter-item">
+                    <div class="filter-icon">""</div>
+                    <div class="filter-label">일치 검색</div>
+                </div>
+                <div class="filter-item">
+                    <div class="filter-icon">Aa</div>
+                    <div class="filter-label">유의어</div>
+                </div>
+                <div class="filter-item">
+                    <div class="filter-icon">Aa</div>
+                    <div class="filter-label">단축어</div>
+                </div>
+                <div class="filter-item">
+                    <div class="filter-icon">8042</div>
+                    <div class="filter-label">사건번호</div>
+                </div>
+                <div class="filter-item">
+                    <div class="filter-icon">⚖</div>
+                    <div class="filter-label">법령</div>
+                </div>
+                <div class="filter-item">
+                    <div class="filter-icon">📖</div>
+                    <div class="filter-label">논문</div>
+                </div>
+                <div class="filter-item new-filter">
+                    <div class="filter-icon">✓</div>
+                    <div class="filter-label">결정례</div>
+                    <span class="new-badge-filter">NEW</span>
+                </div>
+                <div class="filter-item new-filter">
+                    <div class="filter-icon">🔍</div>
+                    <div class="filter-label">유권해석</div>
+                    <span class="new-badge-filter">NEW</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+     <!-- Why Choose BigCase Section -->
+    <section class="why-choose" style="background: white; padding: 80px 20px;">
+        <div class="why-choose-container" style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="text-align: center; font-size: 36px; font-weight: bold; color: #333; margin-bottom: 60px;">빅케이스를 선택하는 이유</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; align-items: start;">
+                
+                <div style="text-align: left;">
+                    <div style="width: 60px; height: 60px; background: #f0f4ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 24px;">📝</div>
+                    <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 15px;">다른 판례 검색 서비스에서는 찾지 못한 판례를 찾을 수 있습니다.</h3>
+                    <p style="color: #666; font-size: 14px; line-height: 1.6;">빅케이스가 직접 수집한 하급심 판례 480만건, 기타 자료</p>
+                </div>
+               
+                <div style="text-align: left;">
+                    <div style="width: 60px; height: 60px; background: #f0f4ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 24px;">🤖</div>
+                    <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 15px;">판례 검색 시 자동으로 AI가 유사판례를 찾아주는 기능이 좋습니다.</h3>
+                    <p style="color: #666; font-size: 14px; line-height: 1.6;">빅케이스 AI가 내가 원하지 않은 판례까지 IT 서비스</p>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 40px;">
+                <button style="width: 40px; height: 40px; border: 1px solid #ddd; background: white; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #666;">‹</button>
+                <button style="width: 40px; height: 40px; border: 1px solid #4f46e5; background: #4f46e5; color: white; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience-section" style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 80px 20px; color: white; text-align: center;">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <h2 style="font-size: 36px; font-weight: bold; margin-bottom: 20px; line-height: 1.2;">법률 업무의 효율성을 높이는<br>최고의 선택, 빅케이스<br>지금 경험해 보세요.</h2>
+            <button style="background: white; color: #333; padding: 15px 30px; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 30px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(255,255,255,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">시작하기</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #f8f9fa; padding: 40px 20px 20px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h4 style="font-weight: bold; color: #333; margin-bottom: 15px;">회사소개</h4>
+                    <div style="font-size: 14px; color: #666; line-height: 1.8;">
+                        <div>공지사항</div>
+                        <div>이용약관</div>
+                        <div>개인정보처리방침</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-weight: bold; color: #333; margin-bottom: 15px;">문의하기</h4>
+                    <div style="font-size: 14px; color: #666; line-height: 1.8;">
+                        <div>문의하기</div>
+                        <div>서비스 이용문의</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="border-top: 1px solid #e9ecef; padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="font-size: 12px; color: #666;">
+                    <div>빅케이스 by포트 (주) LawCompany Co., Ltd. ALL RIGHTS RESERVED.</div>
+                    <div style="margin-top: 5px;">주소 : 서울시 강남구 테헤란로 420 KT타워 15층 빅케이스 15층  연락처 : bigcase@lawcompany.co.kr</div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                        <div style="width: 80px; height: 80px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; text-align: center; line-height: 1.2;">QR<br>CODE</div>
+                        <span style="font-size: 11px; color: #666;"></span>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="background: #333; color: white; padding: 8px 16px; border-radius: 6px; display: flex; align-items: center; gap: 8px; font-size: 12px;">
+                            <span style="width: 16px; height: 16px; background: #4285f4; border-radius: 2px;"></span>
+                            Google Play
+                        </div>
+                        <div style="background: #333; color: white; padding: 8px 16px; border-radius: 6px; display: flex; align-items: center; gap: 8px; font-size: 12px;">
+                            <span style="width: 16px; height: 16px; background: #fff; border-radius: 2px;"></span>
+                            App Store
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// 추가
+    const slides = document.querySelectorAll('.slide');
+    const track = document.querySelector('.slide-track');
+    const leftArrow = document.querySelector('.arrow.left');
+    const rightArrow = document.querySelector('.arrow.right');
+    let current = 0;
+    const total = slides.length;
+
+    function updateSlide() {
+      track.style.transform = `translateX(-${current * 100}%)`;
+    }
+
+    leftArrow.addEventListener('click', () => {
+      current = (current - 1 + total) % total;
+      updateSlide();
+      resetInterval();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      current = (current + 1) % total;
+      updateSlide();
+      resetInterval();
+    });
+
+    // 자동 슬라이드
+    let interval = setInterval(() => {
+      current = (current + 1) % total;
+      updateSlide();
+    }, 5000);
+
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(() => {
+        current = (current + 1) % total;
+        updateSlide();
+      }, 5000);
+    }
+
+        // Search functionality
+        document.querySelector('.search-box').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        document.querySelector('.search-btn').addEventListener('click', performSearch);
+
+        function performSearch() {
+            const query = document.querySelector('.search-box').value;
+            if (query.trim()) {
+                alert(`"${query}" 검색 결과를 표시합니다.`);
+                // Here you would typically redirect to search results page
+            }
+        }
+
+        // Feature card hover effects
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Usage card interactions
+        document.querySelectorAll('.usage-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.usage-title').textContent;
+                alert(`${title} 기능을 선택했습니다.`);
+            });
+        });
+
+        // Plus card interactions
+        document.querySelectorAll('.plus-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.plus-title').textContent;
+                alert(`${title} 상세 정보를 확인합니다.`);
+            });
+        });
+
+        // CTA button
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            alert('빅케이스Plus 구독 페이지로 이동합니다.');
+        });
+
+        // Search tools functionality
+        document.querySelector('.search-box-large').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performAdvancedSearch();
+            }
+        });
+
+        document.querySelector('.search-btn-large').addEventListener('click', performAdvancedSearch);
+
+        function performAdvancedSearch() {
+            const query = document.querySelector('.search-box-large').value;
+            if (query.trim()) {
+                alert(`고급 검색: "${query}" 결과를 표시합니다.`);
+            }
+        }
+
+        // Filter interactions
+        document.querySelectorAll('.filter-item').forEach(filter => {
+            filter.addEventListener('click', function() {
+                const filterType = this.querySelector('.filter-label').textContent;
+                const isActive = this.classList.contains('active');
+                
+                // Toggle active state
+                if (isActive) {
+                    this.classList.remove('active');
+                    this.style.background = 'white';
+                } else {
+                    this.classList.add('active');
+                    this.style.background = '#e8f2ff';
+                    this.style.borderColor = '#4f46e5';
+                }
+                
+                console.log(`${filterType} 필터가 ${isActive ? '비활성화' : '활성화'}되었습니다.`);
+            });
+        });
+    </script>
+</body>
+</html>

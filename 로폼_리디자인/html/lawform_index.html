@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LawForm - 쉽고, 편리한 법률문서의 완성</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/로폼_리디자인/css/index.css">
+  <style>
+       
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="header">
+    <div class="logo">
+            <a href="/HOME.html"><img src="/images/로폼리디자인3.png" alt="법률문서 로고" /></a>
+    </div>
+    <nav class="nav-menu">
+      <a href="/로폼_리디자인/html/이용요금.html" class="nav-item">요금 안내</a>
+      <a href="/로폼_리디자인/html/로그인.html" class="nav-item">로그인</a>
+      <a href="/로폼_리디자인/html/회원가입.html" onclick="showLoginPopup()" class="nav-item">회원가입</a>
+      <a href="/로폼_리디자인/html/더보기.html" class="nav-item">☰</a>
+    </nav>
+  </header>
+
+
+<!-- 회원가입 로그인 팝업 -->
+    <div class="popup-overlay" id="loginPopup">
+        <div class="popup">
+            <button class="close-btn" onclick="hideLoginPopup()">&times;</button>
+            
+            <div class="popup-title">
+                <h2>쉽고, 빠르게! 무료로 <span style="color: #667eea;">로그인하세요</span></h2>
+            </div>
+
+            <div class="social-logins">
+                <button class="social-btn kakao-btn" onclick="socialLogin('kakao')">
+                    💬
+                </button>
+                <button class="social-btn naver-btn" onclick="socialLogin('naver')">
+                    N
+                </button>
+                <button class="social-btn google-btn" onclick="socialLogin('google')">
+                    G
+                </button>
+            </div>
+
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <input type="email" class="form-input" placeholder="이메일" required>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="password" class="form-input" placeholder="비밀번호" id="passwordInput" required>
+                        <span class="password-toggle" onclick="togglePassword()">👁</span>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        이메일 기억하기
+                    </label>
+                    <a href="#" class="find-account">계정 찾기</a>
+                </div>
+
+                <button type="submit" class="login-btn">로그인</button>
+            </form>
+
+            <div class="signup-link">
+                <a href="#" onclick="handleSignup()">회원가입</a>
+            </div>
+
+            <p style="text-align: center; color: #999; font-size: 0.8rem; margin-top: 1rem;">
+                변호사 회원은 가입 후 마이로폼에서 변호사 인증해주세요.
+            </p>
+        </div>
+    </div>
+
+
+  <!-- 메인 콘텐츠 -->
+  <main class="main-container">
+    <h1 class="main-title">쉽고, 편리한 <span class="highlight">법률문서의 완성</span></h1>
+    <h2 class="brand-name">Law<span class="highlight">F</span>orm</h2>
+
+
+    <div class="search-container">
+      <div class="search-icon">🔍</div>
+      <input type="text" class="search-input" placeholder="문서명 또는 사례를 입력하세요" />
+      <button class="search-btn">🔍</button>
+    <button class="search-btn" onclick="openDocumentFinder()" style="background: #28a745; margin-left: 5px;">문서목록으로 찾기 →</button>
+    </div>
+    
+
+<!-- 문서 찾기 모달 -->
+    <div class="document-finder" id="documentFinder">
+        <div class="finder-content">
+            <button class="close-btn" onclick="closeDocumentFinder()">✕</button>
+            <h2 class="finder-title">어떤 법문서를 작성할까요?</h2>
+            
+            <div class="finder-search">
+                <input type="text" placeholder="찾으시는 문서명을 입력해주세요">
+            </div>
+            
+            <div class="finder-tabs">
+                <div class="finder-tab active" onclick="showCategory()">카테고리</div>
+                <div class="finder-tab" onclick="showBusiness()">기업법무</div>
+                <div class="finder-tab" onclick="showLawsuit()">소송법무</div>
+                <div class="finder-tab" onclick="showConsult()">즐겨찾기</div>
+            </div>
+            
+            <div class="finder-categories" id="categoryList">
+                <div class="finder-category" onclick="showDocuments('전체')">전체 ></div>
+                <div class="finder-category" onclick="showDocuments('내용증명')">내용증명</div>
+                <div class="finder-category" onclick="showDocuments('지급명령')">지급명령</div>
+                <div class="finder-category" onclick="showDocuments('계약서')">계약서</div>
+                <div class="finder-category" onclick="showDocuments('기타')">기타</div>
+                <div class="finder-category" onclick="showDocuments('고소장')">고소장</div>
+            </div>
+            
+            <div class="document-list" id="documentList">
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>가사도우미계약서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>가금법(가족급여)질문서에 대한 이의신청서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>가지급 영장서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>감사편견증거인신서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보수집동의서(온라인쇼핑몰)</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보처리동의서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보처리방침</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보처리금지 보안서약서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인자산에 표준 과다</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>감촉증서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>계약 해제(해지) 합의서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>고소장(강체소식)</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>고소장(명예훼손)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!-- 메인 1 -->
+        <div class="category-grid">
+            <a href="1내용증명.html" class="category-item">
+                <div class="category-icon">🔍</div>
+                <span class="category-name">내용증명</span>
+            </a>
+            <a href="2지급명령.html" class="category-item">
+                <div class="category-icon">⚖️</div>
+                <span class="category-name">지급명령</span>
+            </a>
+            <a href="3계약서.html" class="category-item">
+                <div class="category-icon">📝</div>
+                <span class="category-name">계약서</span>
+            </a>
+            <a href="4합의서.html" class="category-item">
+                <div class="category-icon">🏛️</div>
+                <span class="category-name">합의서</span>
+            </a>
+            <a href="5고소장.html" class="category-item">
+                <div class="category-icon">ℹ️</div>
+                <span class="category-name">고소장</span>
+            </a>
+            <a href="6근로계약.html" class="category-item">
+                <div class="category-icon">📋</div>
+                <span class="category-name">근로계약</span>
+            </a>
+            <a href="7차용증 작성.html" class="category-item">
+                <div class="category-icon">💼</div>
+                <span class="category-name">차용증</span>
+            </a>
+            <a href="/html/lawform.main.html" class="category-item">
+                <div class="category-icon">⋯</div>
+                <span class="category-name">더보기</span>
+            </a>
+        </div>
+
+        <!-- 메인2 -->
+        <section class="ai-section">
+            <h3 class="ai-title">
+                <span class="ai-icon">🤖</span>
+                AI 챗봇으로 간편 작성
+            </h3>
+            <div class="ai-tags">
+                <div class="ai-tag">🌟 핫 빈드 돈</div>
+                <div class="ai-tag">👥 근로・임대 계약서</div>
+                <div class="ai-tag">⚠️ 중고서지・온라인모욕</div>
+                <div class="ai-tag">📄 부동산・입대지</div>
+                <div class="ai-tag">🏢 서비스이용약관・개인정보처리</div>
+            </div>
+        </section>
+
+        <!-- 메인3 -->
+        <div class="bottom-section">
+            <div class="bottom-text">
+                <h3>AI 법무관리 솔루션</h3>
+                <p>로폼 비즈니스</p>
+            </div>
+            <div class="bottom-illustration"></div>
+        </div>
+
+    <!-- 메인4 -->
+    <section class="category-section">
+        <div class="category-container">
+            <p class="category-title">다른 사람들도 많이 찾는</p>
+            <h2 class="category-main-title">인기 카테고리</h2>
+            
+            <div class="category-grid">
+                <div class="category-item">
+                    <div class="category-icon">👥</div>
+                    <span class="category-name">근로/임금체계</span>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">📋</div>
+                    <span class="category-name">지급명령 신청하기</span>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🔍</div>
+                    <span class="category-name">사업등록 간편 확인</span>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">💼</div>
+                    <span class="category-name">고소장 내용물 확인</span>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">📊</div>
+                    <span class="category-name">민수출자</span>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">🏠</div>
+                    <span class="category-name">부동산</span>
+                </div>
+                <div class="category-item"></a>
+                    <div class="category-icon">📄</div>
+                    <span class="category-name"><a href="/로폼_리디자인/html/차용증.html">차용증</a></span>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">⚖</div>
+                    <span class="category-name">합의서</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA 섹션 -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">
+                지금 내용증명을 작성하면 <span class="cta-highlight">7일 무료 이용권</span> 제공
+            </h2>
+            <button class="cta-button">내용증명 작성하기</button>
+        </div>
+    </section>
+
+    <!-- 파트너 로고 섹션 -->
+    <section class="partners-section">
+        <div class="partners-container">
+            <div class="partners-grid">
+                <div class="partner-logo">
+                    <div class="partner-logo-img">벤처</div>
+                    <div class="partner-name">2022 중소벤처기업부<br>혁신제품 지정</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="partner-logo-img">이노비즈</div>
+                    <div class="partner-name">2022 중소벤처기업부<br>이노비즈 인증</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="partner-logo-img">메인</div>
+                    <div class="partner-name">2023 중소벤처기업부<br>메인비즈 인증</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="partner-logo-img">K-BIZ</div>
+                    <div class="partner-name">2020 중소벤처기업부 선정<br>우수기업혁신플랫폼</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="partner-logo-img">조달청</div>
+                    <div class="partner-name">2023 Best Top<br>7대 기관</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="partner-logo-img">법무부</div>
+                    <div class="partner-name">2021 법무부시차 인증<br>ISO 27001:2013<br>국제인증획득</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+<!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>회사소개</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">로펌 어뮤지컴</a></li>
+                        <li><a href="#">로펌소개</a></li>
+                        <li><a href="#">사업 소개</a></li>
+                        <li><a href="#">자주묻는 질문</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>콘텐츠</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">개인정보처리방침</a></li>
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">이벤트</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>마케팅</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">언론보도</a></li>
+                        <li><a href="#">블로그</a></li>
+                        <li><a href="#">유튜브 채널</a></li>
+                        <li><a href="#">카카오톡 채널</a></li>
+                        <li><a href="#">네이버 뉴스 출간</a></li>
+                        <li><a href="#">로펌 비즈니스 프로그램</a></li>
+                    </ul>
+                </div>
+
+                <div class="company-info">
+                    <div class="company-logo">AMICUS LEX</div>
+                    <div class="company-details">
+                        아뮤지컴주식회사<br>
+                        대표이사 : 김현오 | 주소 : 서울시 서초구 서초중앙로 123, 4층 1001호(서초동, 우신빌딩)<br>
+                        사업자등록번호 : 509-81-00111 | 통신판매업신고 : 2023-서울용산-2299 | 부가통신사업자신고번호 : 제호구<br>
+                        개인정보관리책임자 : 김현오
+                    </div>
+                    <div class="contact-info">고객센터 02-6925-0227</div>
+                    <div>
+                        이메일 : contact@amicuslex.net | 평일 10:00 ~ 18:00 (점심시간 12:30 ~ 13:30)
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="social-links">
+                    <a href="/" class="social-icon facebook-icon" title="페이스북">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+
+                <a href="#" class="social-icon" title="트위터">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                </a>
+                
+                <a href="#" class="social-icon" title="인스타그램">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                  <a href="#" class="social-icon youtube-icon" title="유튜브">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+
+                <a href="#" class="social-icon blog-icon" title="블로그">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21.71 8.71c1.25-1.25.68-2.71 0-3.42l-3-3c-1.26-1.25-2.71-.68-3.42 0L13.59 4H11C9.1 4 8 5 8 7v2.59l-2.29-2.3c-1.25-1.25-2.71-.68-3.42 0L2.71 8.71c-.68.68-.68 1.78 0 2.47L8 16.41V19c0 1.1.9 2 2 2h3.41l5.29-5.29c.68-.69.68-1.78 0-2.47l-1.71-1.71-.71-.71c-.39-.39-.39-1.02 0-1.41s1.02-.39 1.41 0l3 3c.7.7.7 1.78.01 2.47zM13.41 14H11c-.55 0-1-.45-1-1s.45-1 1-1h2.41l-1-1H11c-1.1 0-2-.9-2-2s.9-2 2-2h1.41l1.3 1.29c.39.39.39 1.02 0 1.41L12.3 10.7c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0L15.12 10.7c.78-.78.78-2.05-.01-2.83L14.41 7.29c-.78-.78-2.05-.78-2.83 0-.78.78-.78 2.05 0 2.83l.71.71c.39.39.39 1.02 0 1.41s-1.02.39-1.41 0l-.71-.71c-1.25-1.25-1.25-3.27 0-4.53 1.25-1.25 3.27-1.25 4.53 0l.71.71c1.56 1.56 1.56 4.09 0 5.65l-.71.71c-.39.39-1.02.39-1.41 0s-.39-1.02 0-1.41l.71-.71c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-.71.71c-.78.78-2.05.78-2.83 0-.78-.78-.78-2.05 0-2.83.78-.78 2.05-.78 2.83 0l.71.71c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-.71-.71c-1.56-1.56-4.09-1.56-5.65 0-1.56 1.56-1.56 4.09 0 5.65l.71.71c.78.78 2.05.78 2.83 0l.71-.71c.39-.39 1.02-.39 1.41 0s.39 1.02 0 1.41l-.71.71z"/>
+                    </svg>
+                </a>
+
+                <a href="#" class="social-icon kakao-icon" title="카카오톡">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3C6.486 3 2 6.727 2 11.238c0 2.881 1.896 5.41 4.741 6.838L5.955 21.3c-.137.274-.069.617.157.795.102.08.222.12.342.12.144 0 .287-.05.403-.147l3.85-2.658C10.896 19.463 11.44 19.5 12 19.5c5.514 0 10-3.727 10-8.262S17.514 3 12 3zm-4.5 9.75c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5zm3 0c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5zm3 0c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5zm3 0c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5z"/>
+                    </svg>
+                </a>
+
+                </div>
+                <div class="copyright">
+                    © 2020-2025 Amicus Lex Inc. all rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+  </main>
+
+<script>
+    
+ function openDocumentFinder() {
+            document.getElementById('documentFinder').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDocumentFinder() {
+            document.getElementById('documentFinder').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showCategory() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('categoryList').style.display = 'flex';
+            document.getElementById('documentList').style.display = 'none';
+        }
+        
+        function showBusiness() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // 기업법무 탭 내용
+        }
+        
+        function showLawsuit() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // 소송법무 탭 내용
+        }
+        
+        function showConsult() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // 즐겨찾기 탭 내용
+        }
+        
+        function showDocuments(category) {
+            document.getElementById('categoryList').style.display = 'none';
+            document.getElementById('documentList').style.display = 'flex';
+        }
+        
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDocumentFinder();
+            }
+        });
+        
+        // 모달 배경 클릭으로 닫기
+        document.getElementById('documentFinder').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDocumentFinder();
+            }
+        });
+
+         // 검색 기능
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') alert('검색 기능 실행: ' + this.value);
+    });
+    document.querySelector('.search-btn').addEventListener('click', function() {
+      const value = document.querySelector('.search-input').value;
+      alert('문서목록 검색: ' + value);
+    });
+
+     // 팝업 보이기
+        function showLoginPopup() {
+            const popup = document.getElementById('loginPopup');
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 팝업 숨기기
+        function hideLoginPopup() {
+            const popup = document.getElementById('loginPopup');
+            popup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 오버레이 클릭시 팝업 닫기
+        document.getElementById('loginPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideLoginPopup();
+            }
+        });
+
+        // ESC 키로 팝업 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideLoginPopup();
+            }
+        });
+
+        // 비밀번호 보기/숨기기
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggle = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggle.textContent = '👁';
+            }
+        }
+
+        // 소셜 로그인
+        function socialLogin(provider) {
+            alert(`${provider} 로그인이 선택되었습니다.`);
+            // 실제로는 각 소셜 로그인 API를 연동
+        }
+
+        // 로그인 폼 제출
+        function handleLogin(event) {
+            event.preventDefault();
+            alert('로그인이 처리됩니다.');
+            hideLoginPopup();
+        }
+
+        // 회원가입
+        function handleSignup() {
+            alert('회원가입 페이지로 이동합니다.');
+        }
+
+        // 페이지 로드시 애니메이션
+        window.addEventListener('load', function() {
+            document.querySelector('.header').style.animation = 'slideDown 0.8s ease';
+            document.querySelector('.main-content').style.animation = 'fadeInUp 1s ease 0.3s both';
+        });
+</script>
+
+
+<!-- <script>내용 추가</script> -->
+    <style>
+
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>

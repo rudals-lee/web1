@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    /* 문서 목록 페이지 스타일 */
+        .document-finder {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        
+        .document-finder.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .finder-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            border-radius: 10px;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .finder-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .finder-search {
+            margin-bottom: 2rem;
+        }
+        
+        .finder-search input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .finder-tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 2rem;
+        }
+        
+        .finder-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .finder-tab.active {
+            border-bottom-color: #0066cc;
+            color: #0066cc;
+        }
+        
+        .finder-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .finder-category {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        
+        .finder-category:hover {
+            color: #0066cc;
+        }
+        
+        .document-list {
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .document-item {
+            padding: 1rem;
+            border: 1px solid #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .document-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .document-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<button class="search-btn" onclick="openDocumentFinder()" style="background: #28a745; margin-left: 5px;">문서목록으로 찾기 →</button>
+
+<!-- 문서 찾기 모달 -->
+    <div class="document-finder" id="documentFinder">
+        <div class="finder-content">
+            <button class="close-btn" onclick="closeDocumentFinder()">✕</button>
+            <h2 class="finder-title">어떤 법문서를 작성할까요?</h2>
+            
+            <div class="finder-search">
+                <input type="text" placeholder="찾으시는 문서명을 입력해주세요">
+            </div>
+            
+            <div class="finder-tabs">
+                <div class="finder-tab active" onclick="showCategory()">카테고리</div>
+                <div class="finder-tab" onclick="showBusiness()">기업법무</div>
+                <div class="finder-tab" onclick="showLawsuit()">소송법무</div>
+                <div class="finder-tab" onclick="showConsult()">즐겨찾기</div>
+            </div>
+            
+            <div class="finder-categories" id="categoryList">
+                <div class="finder-category" onclick="showDocuments('전체')">전체 ></div>
+                <div class="finder-category" onclick="showDocuments('내용증명')">내용증명</div>
+                <div class="finder-category" onclick="showDocuments('지급명령')">지급명령</div>
+                <div class="finder-category" onclick="showDocuments('계약서')">계약서</div>
+                <div class="finder-category" onclick="showDocuments('기타')">기타</div>
+                <div class="finder-category" onclick="showDocuments('고소장')">고소장</div>
+            </div>
+            
+            <div class="document-list" id="documentList">
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>가사도우미계약서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>가금법(가족급여)질문서에 대한 이의신청서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>가지급 영장서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>감사편견증거인신서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보수집동의서(온라인쇼핑몰)</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보처리동의서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보처리방침</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인정보처리금지 보안서약서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>개인자산에 표준 과다</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>감촉증서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>계약 해제(해지) 합의서</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>고소장(강체소식)</div>
+                </div>
+                <div class="document-item">
+                    <div class="document-icon">⭐</div>
+                    <div>고소장(명예훼손)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openDocumentFinder() {
+            document.getElementById('documentFinder').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDocumentFinder() {
+            document.getElementById('documentFinder').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showCategory() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('categoryList').style.display = 'flex';
+            document.getElementById('documentList').style.display = 'none';
+        }
+        
+        function showBusiness() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // 기업법무 탭 내용
+        }
+        
+        function showLawsuit() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // 소송법무 탭 내용
+        }
+        
+        function showConsult() {
+            document.querySelectorAll('.finder-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // 즐겨찾기 탭 내용
+        }
+        
+        function showDocuments(category) {
+            document.getElementById('categoryList').style.display = 'none';
+            document.getElementById('documentList').style.display = 'flex';
+        }
+        
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDocumentFinder();
+            }
+        });
+        
+        // 모달 배경 클릭으로 닫기
+        document.getElementById('documentFinder').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDocumentFinder();
+            }
+        });
+    </script>
+</body>
+</html>

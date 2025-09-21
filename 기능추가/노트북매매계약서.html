@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노트북 매매계약서</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .contract {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .parties {
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 2;
+        }
+        .intro {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        .article {
+            margin-bottom: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .article-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .article-content {
+            margin-left: 0;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        .specs {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .account-info {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .date-signature {
+            margin-top: 50px;
+            border-top: 2px solid #333;
+            padding-top: 30px;
+        }
+        .date {
+            text-align: right;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .signature-box {
+            width: 45%;
+        }
+        .signature-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .signature-content {
+            line-height: 1.8;
+        }
+        .logo {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .page-number {
+            text-align: right;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        .price {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="contract">
+        <div class="header">
+            <div class="title">노트북 매매계약서</div>
+        </div>
+
+        <div class="parties">
+            <!-- <div><strong>"갑"</strong>: 법무법인(유한) 광장 (Lee & Ko)</div> -->
+            <div><strong>"갑"</strong>: 법무법인 **</div>
+            <div><strong>"을"</strong>: *** 변호사</div>
+        </div>
+
+        <div class="intro">
+            노트북 매도인 "갑"과 노트북 매수인 "을"은 다음과 같이 노트북 매매 계약을 체결한다.
+        </div>
+
+        <div class="article">
+            <div class="article-title">제1조 목적</div>
+            <div class="article-content">
+                본 계약은 "을"이 사용하던 업무용 노트북 구매를 위하여 "갑"으로부터 해당 노트북을 구매하고 이와 관련한 사항을 규율함을 목적으로 한다.
+            </div>
+        </div>
+
+        <div class="article">
+            <div class="article-title">제2조 매매 노트북</div>
+            <div class="article-content">
+                본 계약의 노트북은 각 다음 각호와 같다.
+                <div class="specs">
+                    1) 노트북 모델명: LG 14" 일렉그램(14Z95N)<br>
+                    2) 노트북 사양: CPU i7 1165 / RAM 16GB / SSD 256GB + SSD 1TB
+                </div>
+            </div>
+        </div>
+
+        <div class="article">
+            <div class="article-title">제3조 매매가격</div>
+            <div class="article-content">
+                1) 본 계약의 노트북 매매가격은 중고 노트북 시세에 따라 업무 <span class="price">오십만원정(₩ 500,000 )</span> 으로 한다.
+                <br><br>
+                2) 매매 급액은 &lt; **은행 123-45-678900 법무법인 *** &gt; 법인 계좌로 지급한다
+                
+                <div class="account-info">
+                    계좌번호: **은행 123-45-678900<br>
+                    예금주: 법무법인 **
+                </div>
+            </div>
+        </div>
+
+        <div class="article">
+            <div class="article-title">제4조 인도</div>
+            <div class="article-content">
+                "갑"은 "을"에게 노트북을 회수하여 법인과 관련된 자료들을 삭제하고, 해당 노트북은 포맷 후 OS 및 기본 문서프로그램을 설치 후 "을"에게 인도 한다.
+            </div>
+        </div>
+
+        <div class="date-signature">
+            <div class="date">
+                <strong>2024. 07. 03.</strong>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-box">
+                    <div class="signature-title">갑:</div>
+                    <div class="signature-content">
+                        <!-- 법무법인(유한) 광장 (Lee & Ko)<br>
+                        서울 중구 남대문로 63 한진빌딩<br>
+                        대표 변호사 김 상 곤 -->
+                        법무법인 ** <br>
+                        서울 중구 남대문로 63 한진빌딩<br>
+                        대표 변호사 * * *
+                    </div>
+                </div>
+                
+                <div class="signature-box">
+                    <div class="signature-title">을:</div>
+                    <div class="signature-content">
+                        변호사 * * *
+                    </div>
+                </div>
+            </div>
+
+            <div class="logo">
+                <!-- <div class="logo-text">Lee & Ko</div> -->
+                <div class="logo-text"> * * * &  * *</div>
+            </div>
+
+            <div class="page-number">
+                노트북 매매계약서 1
+            </div>
+        </div>
+    </div>
+</body>
+</html>

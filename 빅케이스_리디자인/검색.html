@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키워드 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-box:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: transparent;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 드롭다운 스타일 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            z-index: 1000;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 5px;
+            border: 2px solid #667eea;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .dropdown-content.show {
+            display: block;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .dropdown-item {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .dropdown-item.selected {
+            background-color: #667eea;
+            color: white;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .dropdown-item.selected::after {
+            content: '✓';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .results-container {
+            min-height: 300px;
+        }
+
+        .result-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .result-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .result-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .result-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #999;
+            font-size: 1.2em;
+            padding: 50px 0;
+        }
+
+        .stats {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .search-box {
+                font-size: 16px;
+                padding: 12px 45px 12px 15px;
+            }
+
+            .dropdown-content {
+                min-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 키워드 검색</h1>
+        
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="검색어를 입력하세요..." id="searchInput">
+            <button class="search-btn" onclick="performSearch()">검색</button>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-category="all">전체</button>
+            
+            <div class="dropdown">
+                <button class="filter-btn" data-category="사건종류" id="dropdownBtn">사건종류</button>
+                <div class="dropdown-content" id="dropdownContent">
+                    <div class="dropdown-item" data-value="형사">형사</div>
+                    <div class="dropdown-item" data-value="민사">민사</div>
+                    <div class="dropdown-item" data-value="행정">행정</div>
+                    <div class="dropdown-item" data-value="헌법">헌법</div>
+                    <div class="dropdown-item" data-value="특허">특허</div>
+                    <div class="dropdown-item" data-value="가사">가사</div>
+                    <div class="dropdown-item" data-value="집행">집행</div>
+                    <div class="dropdown-item" data-value="비송도산">비송도산</div>
+                    <div class="dropdown-item" data-value="전자약식">전자약식</div>
+                    <div class="dropdown-item" data-value="보호">보호</div>
+                    <div class="dropdown-item" data-value="신청">신청</div>
+                    <div class="dropdown-item" data-value="가족관계등록공탁">가족관계등록공탁</div>
+                    <div class="dropdown-item" data-value="감치">감치</div>
+                    <div class="dropdown-item" data-value="선거">선거</div>
+                    <div class="dropdown-item" data-value="특별">특별</div>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="filter-btn" data-category="법원" id="courtDropdownBtn">법원</button>
+                <div class="dropdown-content" id="courtDropdownContent">
+                    <div class="dropdown-item" data-value="대법원">대법원</div>
+                    <div class="dropdown-item" data-value="고등/특허/고등군사법원">고등/특허/고등군사법원</div>
+                    <div class="dropdown-item" data-value="지방법원">지방법원</div>
+                    <div class="dropdown-item" data-value="행정/가정/회생/보통군사법원">행정/가정/회생/보통군사법원</div>
+                    <div class="dropdown-item" data-value="헌법재판소">헌법재판소</div>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="filter-btn" data-category="주문유형" id="orderDropdownBtn">주문유형</button>
+                <div class="dropdown-content" id="orderDropdownContent">
+                    <div class="dropdown-item" data-value="원고승">원고승</div>
+                    <div class="dropdown-item" data-value="원고일부승">원고일부승</div>
+                    <div class="dropdown-item" data-value="원고패">원고패</div>
+                    <div class="dropdown-item" data-value="각하">각하</div>
+                    <div class="dropdown-item" data-value="항소인용">항소인용</div>
+                    <div class="dropdown-item" data-value="상고인용">상고인용</div>
+                    <div class="dropdown-item" data-value="징역">징역</div>
+                    <div class="dropdown-item" data-value="벌금">벌금</div>
+                    <div class="dropdown-item" data-value="무죄">무죄</div>
+                    <div class="dropdown-item" data-value="집행유예">집행유예</div>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="filter-btn" data-category="기간" id="periodDropdownBtn">기간</button>
+                <div class="dropdown-content" id="periodDropdownContent">
+                    <div class="dropdown-item selected" data-value="전체 기간">전체 기간</div>
+                    <div class="dropdown-item" data-value="최근 1년">최근 1년</div>
+                    <div class="dropdown-item" data-value="최근 3년">최근 3년</div>
+                    <div class="dropdown-item" data-value="최근 5년">최근 5년</div>
+                    <div class="dropdown-item" data-value="기간 직접 입력">기간 직접 입력</div>
+                </div>
+            </div>
+            
+            <button class="filter-btn" data-category="재판 유형">재판 유형</button>
+            <button class="filter-btn" data-category="결과 내 재검색">결과 내 재검색</button>
+            <button class="filter-btn" data-category="조건 검색">조건 검색</button>
+        </div>
+
+        <div class="stats" id="searchStats"></div>
+        
+        <div class="results-container" id="resultsContainer">
+            <div class="no-results">
+                검색어를 입력하여 결과를 확인하세요
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 샘플 데이터 (실제 프로젝트에서는 API나 데이터베이스에서 가져옴)
+        const sampleData = [
+            {
+                title: "형사사건 판례 분석",
+                category: "형사",
+                description: "최근 형사사건 판례들을 분석하고 법적 쟁점들을 정리한 자료입니다.",
+                keywords: ["형사", "판례", "법원", "재판", "사건"]
+            },
+            {
+                title: "민사소송 절차 안내",
+                category: "민사",
+                description: "민사소송의 기본 절차와 필요 서류에 대한 상세한 안내서입니다.",
+                keywords: ["민사", "소송", "절차", "법원", "서류"]
+            },
+            {
+                title: "행정소송 사례 연구",
+                category: "행정",
+                description: "행정기관의 처분에 대한 소송 사례와 승소 전략을 다룹니다.",
+                keywords: ["행정", "소송", "처분", "공법", "사례"]
+            },
+            {
+                title: "헌법재판소 결정례",
+                category: "헌법",
+                description: "헌법재판소의 주요 결정례와 헌법적 쟁점들을 분석합니다.",
+                keywords: ["헌법", "재판소", "결정", "위헌", "합헌"]
+            },
+            {
+                title: "특허권 침해 분쟁",
+                category: "특허",
+                description: "특허권 침해 관련 분쟁 사례와 법적 대응 방안을 제시합니다.",
+                keywords: ["특허", "침해", "지적재산권", "분쟁", "소송"]
+            },
+            {
+                title: "가사사건 처리 절차",
+                category: "가사",
+                description: "이혼, 상속 등 가사사건의 처리 절차와 유의사항을 설명합니다.",
+                keywords: ["가사", "이혼", "상속", "가정법원", "조정"]
+            },
+            {
+                title: "강제집행 절차",
+                category: "집행",
+                description: "채권자의 강제집행 신청부터 완료까지의 전 과정을 다룹니다.",
+                keywords: ["집행", "강제집행", "채권", "압류", "경매"]
+            },
+            {
+                title: "대법원 최신 판례",
+                category: "대법원",
+                description: "대법원에서 최근 선고된 중요 판례들과 법리 해석을 정리한 자료입니다.",
+                keywords: ["대법원", "판례", "최고법원", "법리", "선고"]
+            },
+            {
+                title: "고등법원 항소심 판결",
+                category: "고등/특허/고등군사법원",
+                description: "고등법원 항소심에서의 주요 판결례와 1심과의 차이점을 분석합니다.",
+                keywords: ["고등법원", "항소", "특허법원", "군사법원", "판결"]
+            },
+            {
+                title: "지방법원 1심 판결 동향",
+                category: "지방법원",
+                description: "전국 지방법원의 1심 판결 동향과 지역별 특성을 분석한 보고서입니다.",
+                keywords: ["지방법원", "1심", "판결", "동향", "지역"]
+            },
+            {
+                title: "가정법원 가사사건 현황",
+                category: "행정/가정/회생/보통군사법원",
+                description: "가정법원에서 처리되는 가사사건의 현황과 조정 절차를 설명합니다.",
+                keywords: ["가정법원", "행정법원", "회생법원", "군사법원", "가사"]
+            },
+            {
+                title: "헌법재판소 위헌심판",
+                category: "헌법재판소",
+                description: "헌법재판소의 위헌심판 절차와 최근 중요 결정례들을 다룹니다.",
+                keywords: ["헌법재판소", "위헌심판", "헌법소원", "결정", "합헌"]
+            },
+            {
+                title: "민사소송 원고승 판결례",
+                category: "원고승",
+                description: "민사소송에서 원고가 완전히 승소한 주요 판결례들을 분석합니다.",
+                keywords: ["원고승", "승소", "민사", "판결", "소송"]
+            },
+            {
+                title: "손해배상 원고일부승 사례",
+                category: "원고일부승",
+                description: "손해배상 청구에서 원고가 일부 승소한 판결의 특징을 살펴봅니다.",
+                keywords: ["원고일부승", "일부승소", "손해배상", "판결", "배상"]
+            },
+            {
+                title: "계약분쟁 원고패 판결 분석",
+                category: "원고패",
+                description: "계약 관련 분쟁에서 원고가 패소한 사건들의 공통적 특징을 분석합니다.",
+                keywords: ["원고패", "패소", "계약", "분쟁", "소송"]
+            },
+            {
+                title: "소 각하 결정의 요건",
+                category: "각하",
+                description: "법원이 소를 각하하는 경우의 법적 요건과 절차를 설명합니다.",
+                keywords: ["각하", "소각하", "절차", "요건", "법원"]
+            },
+            {
+                title: "항소심 인용 판결 동향",
+                category: "항소인용",
+                description: "항소심에서 1심 판결을 뒤집고 항소를 인용한 주요 사례들입니다.",
+                keywords: ["항소인용", "항소심", "인용", "판결", "뒤집기"]
+            },
+            {
+                title: "대법원 상고인용 판례",
+                category: "상고인용",
+                description: "대법원에서 상고를 인용하여 원심을 파기한 중요 판례들을 다룹니다.",
+                keywords: ["상고인용", "대법원", "파기", "원심", "판례"]
+            },
+            {
+                title: "형사사건 징역형 선고",
+                category: "징역",
+                description: "형사사건에서 징역형이 선고된 주요 판결례와 양형 기준을 분석합니다.",
+                keywords: ["징역", "형사", "양형", "선고", "판결"]
+            },
+            {
+                title: "경범죄 벌금형 현황",
+                category: "벌금",
+                description: "경범죄 및 벌금형이 선고되는 사건들의 현황과 기준을 정리합니다.",
+                keywords: ["벌금", "경범죄", "벌금형", "선고", "기준"]
+            },
+            {
+                title: "형사사건 무죄 판결례",
+                category: "무죄",
+                description: "형사사건에서 무죄가 선고된 주요 판결례와 무죄 인정 기준을 다룹니다.",
+                keywords: ["무죄", "형사", "판결", "인정기준", "선고"]
+            },
+            {
+                title: "집행유예 선고 기준",
+                category: "집행유예",
+                description: "집행유예가 선고되는 경우의 법적 기준과 주요 고려사항을 설명합니다.",
+                keywords: ["집행유예", "선고", "기준", "고려사항", "유예"]
+            },
+        ];
+
+        let currentFilter = 'all';
+        let currentResults = [];
+        let selectedCaseType = null;
+        let selectedCourt = null;
+        let selectedOrder = null;
+        let selectedPeriod = '전체 기간';
+
+        // 드롭다운 관련 변수
+        const dropdownBtn = document.getElementById('dropdownBtn');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const courtDropdownBtn = document.getElementById('courtDropdownBtn');
+        const courtDropdownContent = document.getElementById('courtDropdownContent');
+        const orderDropdownBtn = document.getElementById('orderDropdownBtn');
+        const orderDropdownContent = document.getElementById('orderDropdownContent');
+        const periodDropdownBtn = document.getElementById('periodDropdownBtn');
+        const periodDropdownContent = document.getElementById('periodDropdownContent');
+
+        // 사건종류 드롭다운 토글
+        dropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownContent.classList.toggle('show');
+            // 다른 드롭다운 닫기
+            courtDropdownContent.classList.remove('show');
+            orderDropdownContent.classList.remove('show');
+            periodDropdownContent.classList.remove('show');
+        });
+
+        // 법원 드롭다운 토글
+        courtDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            courtDropdownContent.classList.toggle('show');
+            // 다른 드롭다운 닫기
+            dropdownContent.classList.remove('show');
+            orderDropdownContent.classList.remove('show');
+            periodDropdownContent.classList.remove('show');
+        });
+
+        // 주문유형 드롭다운 토글
+        orderDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            orderDropdownContent.classList.toggle('show');
+            // 다른 드롭다운 닫기
+            dropdownContent.classList.remove('show');
+            courtDropdownContent.classList.remove('show');
+            periodDropdownContent.classList.remove('show');
+        });
+
+        // 기간 드롭다운 토글
+        periodDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            periodDropdownContent.classList.toggle('show');
+            // 다른 드롭다운 닫기
+            dropdownContent.classList.remove('show');
+            courtDropdownContent.classList.remove('show');
+            orderDropdownContent.classList.remove('show');
+        });
+
+        // 사건종류 드롭다운 아이템 클릭
+        document.querySelectorAll('#dropdownContent .dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // 이전 선택 제거
+                document.querySelectorAll('#dropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                
+                // 현재 선택 표시
+                this.classList.add('selected');
+                
+                // 선택된 값 저장
+                selectedCaseType = this.dataset.value;
+                
+                // 버튼 텍스트 변경
+                dropdownBtn.textContent = `사건종류: ${selectedCaseType}`;
+                dropdownBtn.classList.add('active');
+                
+                // 필터 적용
+                currentFilter = selectedCaseType;
+                
+                // 드롭다운 닫기
+                dropdownContent.classList.remove('show');
+                
+                // 검색어가 있으면 다시 검색
+                const query = document.getElementById('searchInput').value.trim();
+                if (query) {
+                    performSearch();
+                }
+            });
+        });
+
+        // 법원 드롭다운 아이템 클릭
+        document.querySelectorAll('#courtDropdownContent .dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // 이전 선택 제거
+                document.querySelectorAll('#courtDropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                
+                // 현재 선택 표시
+                this.classList.add('selected');
+                
+                // 선택된 값 저장
+                selectedCourt = this.dataset.value;
+                
+                // 버튼 텍스트 변경
+                courtDropdownBtn.textContent = `법원: ${selectedCourt}`;
+                courtDropdownBtn.classList.add('active');
+                
+                // 필터 적용
+                currentFilter = selectedCourt;
+                
+                // 드롭다운 닫기
+                courtDropdownContent.classList.remove('show');
+                
+                // 검색어가 있으면 다시 검색
+                const query = document.getElementById('searchInput').value.trim();
+                if (query) {
+                    performSearch();
+                }
+            });
+        });
+
+        // 주문유형 드롭다운 아이템 클릭
+        document.querySelectorAll('#orderDropdownContent .dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // 이전 선택 제거
+                document.querySelectorAll('#orderDropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                
+                // 현재 선택 표시
+                this.classList.add('selected');
+                
+                // 선택된 값 저장
+                selectedOrder = this.dataset.value;
+                
+                // 버튼 텍스트 변경
+                orderDropdownBtn.textContent = `주문유형: ${selectedOrder}`;
+                orderDropdownBtn.classList.add('active');
+                
+                // 필터 적용
+                currentFilter = selectedOrder;
+                
+                // 드롭다운 닫기
+                orderDropdownContent.classList.remove('show');
+                
+                // 검색어가 있으면 다시 검색
+                const query = document.getElementById('searchInput').value.trim();
+                if (query) {
+                    performSearch();
+                }
+            });
+        });
+
+        // 기간 드롭다운 아이템 클릭
+        document.querySelectorAll('#periodDropdownContent .dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // 이전 선택 제거
+                document.querySelectorAll('#periodDropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                
+                // 현재 선택 표시
+                this.classList.add('selected');
+                
+                // 선택된 값 저장
+                selectedPeriod = this.dataset.value;
+                
+                // 버튼 텍스트 변경 (전체 기간일 때는 기본 텍스트 유지)
+                if (selectedPeriod === '전체 기간') {
+                    periodDropdownBtn.textContent = '기간';
+                    periodDropdownBtn.classList.remove('active');
+                } else {
+                    periodDropdownBtn.textContent = `기간: ${selectedPeriod}`;
+                    periodDropdownBtn.classList.add('active');
+                }
+                
+                // 드롭다운 닫기
+                periodDropdownContent.classList.remove('show');
+                
+                // 검색어가 있으면 다시 검색
+                const query = document.getElementById('searchInput').value.trim();
+                if (query) {
+                    performSearch();
+                }
+            });
+        });
+
+        // 드롭다운 외부 클릭시 닫기
+        document.addEventListener('click', function() {
+            dropdownContent.classList.remove('show');
+            courtDropdownContent.classList.remove('show');
+            orderDropdownContent.classList.remove('show');
+            periodDropdownContent.classList.remove('show');
+        });
+
+        // 검색 실행
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsContainer = document.getElementById('resultsContainer');
+            const statsContainer = document.getElementById('searchStats');
+            
+            if (!query) {
+                resultsContainer.innerHTML = '<div class="no-results">검색어를 입력해주세요</div>';
+                statsContainer.innerHTML = '';
+                return;
+            }
+
+            // 검색 수행
+            currentResults = sampleData.filter(item => {
+                const matchesQuery = 
+                    item.title.toLowerCase().includes(query) ||
+                    item.description.toLowerCase().includes(query) ||
+                    item.keywords.some(keyword => keyword.toLowerCase().includes(query));
+                
+                const matchesFilter = currentFilter === 'all' || item.category === currentFilter;
+                
+                return matchesQuery && matchesFilter;
+            });
+
+            displayResults(currentResults, query);
+        }
+
+        // 결과 표시
+        function displayResults(results, query = '') {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const statsContainer = document.getElementById('searchStats');
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="no-results">검색 결과가 없습니다</div>';
+                statsContainer.innerHTML = '';
+                return;
+            }
+
+            let filterText = '';
+            if (currentFilter !== 'all') {
+                filterText = ` (${currentFilter} 필터 적용)`;
+            }
+            if (selectedPeriod !== '전체 기간') {
+                filterText += ` (${selectedPeriod})`;
+            }
+            
+            statsContainer.innerHTML = `검색 결과: ${results.length}개${filterText}`;
+            
+            const resultsHTML = results.map((item, index) => {
+                let highlightedTitle = item.title;
+                let highlightedDescription = item.description;
+                
+                if (query) {
+                    const regex = new RegExp(`(${query})`, 'gi');
+                    highlightedTitle = item.title.replace(regex, '<span class="highlight">$1</span>');
+                    highlightedDescription = item.description.replace(regex, '<span class="highlight">$1</span>');
+                }
+                
+                return `
+                    <div class="result-item" style="animation-delay: ${index * 0.1}s">
+                        <div class="result-category">${item.category}</div>
+                        <div class="result-title">${highlightedTitle}</div>
+                        <div class="result-description">${highlightedDescription}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            resultsContainer.innerHTML = resultsHTML;
+        }
+
+        // 기본 필터 버튼 이벤트 (드롭다운 버튼들 제외)
+        document.querySelectorAll('.filter-btn:not(#dropdownBtn):not(#courtDropdownBtn):not(#orderDropdownBtn):not(#periodDropdownBtn)').forEach(btn =>  {
+            btn.addEventListener('click', () => {
+                // 전체 버튼 클릭시 모든 드롭다운 초기화
+                if (btn.dataset.category === 'all') {
+                    // 사건종류 드롭다운 초기화
+                    dropdownBtn.textContent = '사건종류';
+                    dropdownBtn.classList.remove('active');
+                    document.querySelectorAll('#dropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                    selectedCaseType = null;
+                    
+                    // 법원 드롭다운 초기화
+                    courtDropdownBtn.textContent = '법원';
+                    courtDropdownBtn.classList.remove('active');
+                    document.querySelectorAll('#courtDropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                    selectedCourt = null;
+                    
+                    // 주문유형 드롭다운 초기화
+                    orderDropdownBtn.textContent = '주문유형';
+                    orderDropdownBtn.classList.remove('active');
+                    document.querySelectorAll('#orderDropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                    selectedOrder = null;
+                    
+                    // 기간 드롭다운 초기화
+                    periodDropdownBtn.textContent = '기간';
+                    periodDropdownBtn.classList.remove('active');
+                    document.querySelectorAll('#periodDropdownContent .dropdown-item').forEach(i => i.classList.remove('selected'));
+                    // 전체 기간을 다시 선택 상태로 만들기
+                    document.querySelector('#periodDropdownContent .dropdown-item[data-value="전체 기간"]').classList.add('selected');
+                    selectedPeriod = '전체 기간';
+                }
+                
+                // 활성 상태 변경
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                currentFilter = btn.dataset.category;
+                
+                // 검색어가 있으면 다시 검색
+                const query = document.getElementById('searchInput').value.trim();
+                if (query) {
+                    performSearch();
+                }
+            });
+        });
+
+        // 엔터키로 검색
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // 실시간 검색 (옵션)
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            if (query.length >= 2) {
+                performSearch();
+            } else if (query.length === 0) {
+                document.getElementById('resultsContainer').innerHTML = '<div class="no-results">검색어를 입력하여 결과를 확인하세요</div>';
+                document.getElementById('searchStats').innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

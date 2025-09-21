@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigCase - 법령 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .header-P {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 10px 0;
+        }
+
+        .header-container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo-P {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .search-container-P {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-input-P {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input-P:focus {
+            border-color: #007bff;
+        }
+
+        .user-info-P {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .points-P {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .plus-btn-P {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .login-P {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-P {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav-container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu-P {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item-P {
+            margin-right: 30px;
+        }
+
+        .nav-link-P {
+            display: block;
+            padding: 15px 0;
+            text-decoration: none;
+            color: #666;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .nav-link-P.active-P {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .nav-link-P.active-P::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ff6b35;
+        }
+
+        .new-badge-P {
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .main-container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .content-P {
+            flex: 1;
+        }
+
+        .filter-nav-P {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn-P {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .filter-btn-P.active-P {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .search-info-P {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .result-item-P {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-title-P {
+            font-size: 16px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .result-meta-P {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-P {
+            width: 280px;
+        }
+
+        .filter-section-P {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-header-P {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-content-P {
+            padding: 15px 20px;
+        }
+
+        .checkbox-group-P {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item-P {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item-P input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .checkbox-item-P label {
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .toggle-icon-P {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .hidden-P {
+            display: none;
+        }
+
+        .pagination-P {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .pagination-P button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination-P button.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination-P button:hover {
+            background: #f8f9fa;
+        }
+
+        .pagination-P span {
+            color: #999;
+        }
+
+        /* 필터 라디오 버튼 스타일 */
+        .radio-group-P {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-item-P {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-item-P input[type="radio"] {
+            margin: 0;
+        }
+
+        .radio-item-P label {
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .dropdown-P {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .search-field-P {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .yellow-highlight {
+            background-color: #ff6b35;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-P">
+        <div class="header-container-P">
+            <div class="logo-P">빅케이스</div>
+            <div class="search-container-P">
+                <input type="text" class="search-input-P" placeholder="형사" id="mainSearch" value="형사">
+            </div>
+            <div class="user-info-P">
+                <span class="points-P">🎁 친구초대 30,000P</span>
+                <button class="plus-btn-P">빅케이스Plus</button>
+                <a href="#" class="login-P">로그인/회원가입</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-P">
+        <div class="nav-container-P">
+            <ul class="nav-menu-P">
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">판례</a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P active-P">법령</a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">주해/주석서<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">논문<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">경정례<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">유권해석<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">e-book</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container-P">
+        <div class="content-P">
+            <div class="filter-nav-P">
+                <button class="filter-btn-P active-P">법령명</button>
+                <button class="filter-btn-P">조문제목</button>
+                <button class="filter-btn-P">조문내용</button>
+                <button class="filter-btn-P">별표서식</button>
+                <button class="filter-btn-P">부칙</button>
+            </div>
+
+            <div class="search-info-P">
+                🔍 30건의 검색 결과
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사 판결서 등의 열람 및 복사에 관한 규칙</div>
+                <div class="result-meta-P">대법원규칙 제0280호 2018. 12. 04. 일부개정, 시행일 2019. 01. 01., 공포일 2018. 12. 04.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사소송규칙</div>
+                <div class="result-meta-P">대법원규칙 제0302호 2025. 02. 28. 일부개정, 시행일 2025. 02. 28., 공포일 2025. 02. 28.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 지문등채취범령사피의자의법위에관한규칙</div>
+                <div class="result-meta-P">법무부령 제0559호 2006. 04. 24. 타법개정, 시행일 2006. 04. 24., 공포일 2006. 04. 24.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사소송규칙</div>
+                <div class="result-meta-P">대법원규칙 제0302호 2025. 02. 28. 일부개정, 시행일 2025. 02. 28., 공포일 2025. 02. 28.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 국제형사사범공조규칙</div>
+                <div class="result-meta-P">대법원규칙 제01166호 1991. 06. 14. 제정, 시행일 1991. 06. 14., 공포일 1991. 06. 14.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 국제형사사범 공조법</div>
+                <div class="result-meta-P">법률 제17825호 2021. 01. 05. 일부개정, 시행일 2021. 01. 05., 공포일 2021. 01. 05.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사사법절차 전자화 촉진법</div>
+                <div class="result-meta-P">법률 제18653호 2021. 12. 28. 일부개정, 시행일 2021. 12. 28., 공포일 2021. 12. 28.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사소송비용 등에 관한 규칙</div>
+                <div class="result-meta-P">대법원규칙 제0305호 2022. 06. 30. 일부개정, 시행일 2022. 07. 01, 공포일 2022. 06. 30.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사소송비용 등에 관한 규칙</div>
+                <div class="result-meta-P">대법원규칙 제0305호 2022. 06. 30. 일부개정, 시행일 2022. 07. 01, 공포일 2022. 06. 30.</div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P"><span class="yellow-highlight">현행</span> 형사사법절차 전자화 촉진법 시행령</div>
+                <div class="result-meta-P">대통령령 제32662호 2022. 04. 05. 일부개정, 시행일 2022. 04. 05., 공포일 2022. 04. 05.</div>
+            </div>
+
+            <div class="pagination-P">
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+            </div>
+        </div>
+
+        <aside class="sidebar-P">
+            <!-- 검색 법위 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>검색 법위</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="all" name="searchScope" checked>
+                            <label for="all">현행</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="historical" name="searchScope">
+                            <label for="historical">전체(역적 포함)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 법령 종류 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>법령 종류</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="checkbox-group-P">
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="law">
+                            <label for="law">법률</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="decree">
+                            <label for="decree">시행령</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="rule">
+                            <label for="rule">시행규칙</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 기간 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>기간</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <select class="dropdown-P">
+                        <option>전체 기간</option>
+                        <option>최근 1년</option>
+                        <option>최근 3년</option>
+                        <option>최근 5년</option>
+                        <option>직접 입력</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // 검색 기능
+        function performSearch(searchTerm) {
+            const results = document.querySelectorAll('.result-item-P');
+            const normalizedSearch = searchTerm.toLowerCase();
+            
+            results.forEach(result => {
+                const title = result.querySelector('.result-title-P').textContent.toLowerCase();
+                
+                if (title.includes(normalizedSearch)) {
+                    result.style.display = 'block';
+                } else {
+                    result.style.display = 'none';
+                }
+            });
+        }
+
+        // 메인 검색
+        document.getElementById('mainSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.trim();
+            if (searchTerm.length > 0) {
+                performSearch(searchTerm);
+                // 검색 결과 개수 업데이트
+                const visibleResults = document.querySelectorAll('.result-item-P[style="display: block;"], .result-item-P:not([style*="display: none"])').length;
+                document.querySelector('.search-info-P').textContent = `🔍 ${visibleResults}건의 검색 결과`;
+            } else {
+                // 검색어가 없으면 모든 결과 표시
+                document.querySelectorAll('.result-item-P').forEach(result => {
+                    result.style.display = 'block';
+                });
+                document.querySelector('.search-info-P').textContent = '🔍 30건의 검색 결과';
+            }
+        });
+
+        // 필터 토글 기능
+        document.querySelectorAll('.toggle-icon-P').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.parentElement.nextElementSibling;
+                if (content.classList.contains('hidden-P')) {
+                    content.classList.remove('hidden-P');
+                    this.textContent = '−';
+                } else {
+                    content.classList.add('hidden-P');
+                    this.textContent = '^';
+                }
+            });
+        });
+
+        // 필터 버튼 기능
+        document.querySelectorAll('.filter-btn-P').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn-P').forEach(b => b.classList.remove('active-P'));
+                this.classList.add('active-P');
+            });
+        });
+
+        // 네비게이션 메뉴 기능
+        document.querySelectorAll('.nav-link-P').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link-P').forEach(l => l.classList.remove('active-P'));
+                this.classList.add('active-P');
+            });
+        });
+
+        // 체크박스 필터 기능
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                applyFilters();
+            });
+        });
+
+        // 라디오 버튼 필터 기능
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                applyFilters();
+            });
+        });
+
+        // 필터 적용 함수
+        function applyFilters() {
+            const checkedFilters = {
+                searchScope: document.querySelector('input[name="searchScope"]:checked')?.nextElementSibling?.textContent || '',
+                checkboxFilters: []
+            };
+
+            // 체크된 필터들 수집
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                checkedFilters.checkboxFilters.push(checkbox.nextElementSibling.textContent);
+            });
+
+            // 필터 적용
+            document.querySelectorAll('.result-item-P').forEach(result => {
+                let shouldShow = true;
+                const title = result.querySelector('.result-title-P').textContent;
+                const meta = result.querySelector('.result-meta-P').textContent;
+
+                // 체크박스 필터 적용
+                if (checkedFilters.checkboxFilters.length > 0) {
+                    let matchesFilter = false;
+                    checkedFilters.checkboxFilters.forEach(filter => {
+                        if (title.includes(filter) || meta.includes(filter)) {
+                            matchesFilter = true;
+                        }
+                    });
+                    if (!matchesFilter) shouldShow = false;
+                }
+
+                result.style.display = shouldShow ? 'block' : 'none';
+            });
+
+            // 검색 결과 개수 업데이트
+            const visibleResults = document.querySelectorAll('.result-item-P[style="display: block;"], .result-item-P:not([style*="display: none"])').length;
+            document.querySelector('.search-info-P').textContent = `🔍 ${visibleResults}건의 검색 결과`;
+        }
+
+        // 페이지네이션 기능
+        document.querySelectorAll('.pagination-P button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.pagination-P button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Enter 키로 검색
+        document.getElementById('mainSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                if (searchTerm) {
+                    performSearch(searchTerm);
+                }
+            }
+        });
+
+        // 초기 로드 시 모든 결과 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.result-item-P').forEach(result => {
+                result.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

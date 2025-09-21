@@ -1,0 +1,180 @@
+<!-- 모바일 헤더 -->
+<div class="open_nav-D">
+  <ul class="subnav_menu-D">
+    <li><a href="#main">HOME</a></li>
+
+    <li class="dropdown-D">
+      <a href="#" class="dropdown-toggle-D">ABOUT<i class="fa-solid fa-caret-down"></i></a>
+      <ul class="dropdown-menu-D">
+        <li><a href="#">about-me</a></li>
+        <li><a href="#">profile</a></li>
+        <li><a href="#">career</a></li>
+        <li><a href="#">resume</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown-D">
+      <a href="#" class="dropdown-toggle-D">SKILL <i class="fa-solid fa-caret-down"></i></a>
+        <ul class="dropdown-menu-D">
+        <li><a href="#">language</a></li>
+        <li><a href="#">library</a></li>
+        <li><a href="#">tool</a></li>
+        <li><a href="#">ai</a></li>
+        <li><a href="#">etc</a></li>
+        </ul>
+    </li>
+
+    <li class="dropdown-D">
+      <a href="#" class="dropdown-toggle-D">WORK <i class="fa-solid fa-caret-down"></i></a>
+      <ul class="dropdown-menu-D">
+        <li><a href="#">work 1</a></li>
+        <li><a href="#">project</a></li>
+        <li><a href="#">portfolio</a></li>
+        <li><a href="#">performance</a></li>
+      </ul>
+    </li>
+
+
+    <li class="dropdown-D">
+    <a href="#" class="dropdown-toggle-D">CODING <i class="fa-solid fa-caret-down"></i></a>
+    <ul class="dropdown-menu-D">
+    <li><a href="#">front end</a></li>
+    <li><a href="#">javascript</a></li>
+    <li><a href="#">react</a></li>
+    <li><a href="#">github</a></li>
+    </ul>
+    </li>
+
+
+    <li class="dropdown-D">
+    <a href="#" class="dropdown-toggle-D">RE-DESIGN <i class="fa-solid fa-caret-down"></i></a>
+    <ul class="dropdown-menu-D">
+    <li><a href="#design">bigcace-re-design</a></li>
+    <li><a href="#">lofw-re-design1</a></li>
+    <li><a href="#">lbox-re-design2</a></li>
+    <li><a href="#">ui/ux-re-design3</a></li>
+    </ul>
+    </li>
+
+</div>
+
+<!-- 스타일 -->
+<style>
+/* 기본 초기화 */
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.open_nav-D {
+  background: var(--bg-color);
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.subnav_menu-D {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.subnav_menu-D > li {
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.subnav_menu-D a {
+  display: block;
+  padding: 12px 15px;
+  color: var(--text-color);
+  background: var(--item-bg);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.subnav_menu-D a:hover {
+  background: var(--hover-bg);
+}
+
+.dropdown-D .dropdown-menu-D {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding-left: 20px;
+  background: var(--dropdown-bg);
+  border-left: 3px solid var(--border-color);
+  margin-top: 6px;
+  border-radius: 0 0 8px 8px;
+}
+
+.dropdown-D.open-D .dropdown-menu-D {
+  max-height: 500px; /* 충분히 큰 값 */
+}
+
+.dropdown-menu-D li a {
+  font-size: 0.95rem;
+  padding: 10px 15px;
+  background: transparent;
+}
+
+.dropdown-toggle-D {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-toggle-D i {
+  margin-left: 8px;
+  font-size: 1rem;
+}
+
+/* 다크모드 대응 */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222;
+  --item-bg: #f0f0f0;
+  --hover-bg: #e0e0e0;
+  --dropdown-bg: #f9f9f9;
+  --border-color: #ccc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #1e1e1e;
+    --text-color: #f9f9f9;
+    --item-bg: #2c2c2c;
+    --hover-bg: #333;
+    --dropdown-bg: #262626;
+    --border-color: #444;
+  }
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .open_nav-D {
+    padding: 15px;
+  }
+
+  .subnav_menu-D a {
+    font-size: 0.95rem;
+  }
+}
+</style>
+
+<!-- JavaScript -->
+<script>
+  document.querySelectorAll('.dropdown-toggle-D').forEach(toggle => {
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      const parent = this.closest('.dropdown-D');
+      parent.classList.toggle('open-D');
+    });
+  });
+</script>
+
+<!-- Font Awesome 아이콘 사용 시 -->
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>

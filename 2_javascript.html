@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 문서 인코딩을 UTF-8로 설정하여 한글 문자 정상 표시 -->
+    <meta charset="UTF-8">
+    <!-- 반응형 웹을 위한 뷰포트 설정: 모바일 기기에서 적절한 크기로 표시 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 브라우저 탭에 표시될 페이지 제목 -->
+    <title>JavaScript 웹 개발자 포트폴리오</title>
+    <style>
+        /* 전역 CSS 리셋: 모든 요소의 기본 마진, 패딩 제거 및 박스 사이징 통일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 */
+        }
+
+        /* 기본 body 스타일: 폰트, 라인 높이, 색상 및 그라데이션 배경 설정 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 웹 안전 폰트 스택 */
+            line-height: 1.6; /* 읽기 쉬운 줄 간격 */
+            color: #333; /* 기본 텍스트 색상 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 대각선 보라색 그라데이션 배경 */
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+        }
+
+        /* 컨테이너: 콘텐츠 최대 너비 제한 및 중앙 정렬 */
+        .container {
+            max-width: 1200px; /* 큰 화면에서 콘텐츠 너비 제한 */
+            margin: 0 auto; /* 좌우 자동 마진으로 중앙 정렬 */
+            padding: 0 20px; /* 좌우 여백 */
+        }
+
+        /* 헤더 스타일: 고정 위치, 반투명 배경, 블러 효과 */
+        header {
+            background: rgba(255, 0, 0, 0.1); /* 반투명 빨간색 배경 */
+            backdrop-filter: blur(10px); /* 뒤 배경 블러 처리로 글래스모피즘 효과 */
+            position: fixed; /* 스크롤해도 고정 위치 */
+            width: 100%; /* 전체 너비 */
+            top: 0; /* 상단에 고정 */
+            z-index: 1000; /* 다른 요소보다 위에 표시 */
+            padding: 1rem 0; /* 상하 패딩 */
+            transition: all 0.3s ease; /* 부드러운 전환 효과 */
+        }
+
+        /* 네비게이션: 로고와 메뉴를 양쪽 끝에 배치 */
+        nav {
+            display: flex; /* 플렉스박스 레이아웃 */
+            justify-content: space-between; /* 양쪽 끝 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+        }
+
+        /* 로고 스타일 */
+        .logo {
+            font-size: 1.5rem; /* 큰 폰트 크기 */
+            font-weight: bold; /* 굵은 글씨 */
+            color: purple; /* 보라색 */
+        }
+
+        /* 네비게이션 링크 목록: 가로 배치 */
+        .nav-links {
+            display: flex; /* 플렉스박스 레이아웃 */
+            list-style: none; /* 목록 스타일 제거 */
+            gap: 2rem; /* 링크 간 간격 */
+        }
+
+        /* 네비게이션 링크 기본 스타일 */
+        .nav-links a {
+            color: purple; /* 보라색 텍스트 */
+            text-decoration: none; /* 밑줄 제거 */
+            transition: color 0.3s ease; /* 색상 변화 애니메이션 */
+            position: relative; /* 가상 요소 위치 기준 */
+        }
+
+        /* 네비게이션 링크 호버 효과 */
+        .nav-links a:hover {
+            color: #ffd700; /* 골드 색상으로 변경 */
+        }
+
+        /* 네비게이션 링크 밑줄 애니메이션용 가상 요소 */
+        .nav-links a::after {
+            content: ''; /* 빈 콘텐츠 */
+            position: absolute; /* 절대 위치 */
+            width: 0; /* 초기 너비 0 */
+            height: 2px; /* 높이 2px */
+            bottom: -5px; /* 텍스트 아래 5px */
+            left: 0; /* 왼쪽 정렬 */
+            background-color: #ffd700; /* 골드 색상 */
+            transition: width 0.3s ease; /* 너비 변화 애니메이션 */
+        }
+
+        /* 호버 시 밑줄 확장 */
+        .nav-links a:hover::after {
+            width: 100%; /* 전체 너비로 확장 */
+        }
+
+        /* 히어로 섹션: 전체 화면 높이, 중앙 정렬 */
+        .hero {
+            height: 100vh; /* 뷰포트 전체 높이 */
+            display: flex; /* 플렉스박스 레이아웃 */
+            align-items: center; /* 수직 중앙 정렬 */
+            justify-content: center; /* 수평 중앙 정렬 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            color: white; /* 흰색 텍스트 */
+            position: relative; /* 파티클 요소 위치 기준 */
+        }
+
+        /* 히어로 제목 애니메이션 */
+        .hero-content h1 {
+            font-size: 3.5rem; /* 큰 제목 크기 */
+            margin-bottom: 1rem; /* 아래 마진 */
+            opacity: 0; /* 초기 투명도 0 */
+            transform: translateY(30px); /* 초기 위치 30px 아래 */
+            animation: fadeInUp 1s ease 0.5s forwards; /* 페이드인 애니메이션, 0.5초 지연 */
+        }
+
+        /* 히어로 설명 텍스트 애니메이션 */
+        .hero-content p {
+            font-size: 1.2rem; /* 중간 크기 */
+            margin-bottom: 2rem; /* 아래 마진 */
+            opacity: 0; /* 초기 투명도 0 */
+            transform: translateY(30px); /* 초기 위치 30px 아래 */
+            animation: fadeInUp 1s ease 0.7s forwards; /* 페이드인 애니메이션, 0.7초 지연 */
+        }
+
+        /* CTA(Call To Action) 버튼 스타일 */
+        .cta-button {
+            display: inline-block; /* 인라인 블록 */
+            padding: 12px 30px; /* 내부 여백 */
+            background: linear-gradient(45deg, #ff6b6b, #feca57); /* 대각선 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            text-decoration: none; /* 밑줄 제거 */
+            border-radius: 50px; /* 둥근 모서리 */
+            transition: transform 0.3s ease; /* 변형 애니메이션 */
+            opacity: 0; /* 초기 투명도 0 */
+            animation: fadeInUp 1s ease 0.9s forwards; /* 페이드인 애니메이션, 0.9초 지연 */
+        }
+
+        /* CTA 버튼 호버 효과 */
+        .cta-button:hover {
+            transform: translateY(-3px); /* 위로 3px 이동 */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* 그림자 효과 */
+        }
+
+        /* 플로팅 파티클 기본 스타일 */
+        .particle {
+            position: absolute; /* 절대 위치 */
+            background: rgba(255, 255, 255, 0.1); /* 반투명 흰색 */
+            border-radius: 50%; /* 원형 */
+            animation: float 6s ease-in-out infinite; /* 무한 플로팅 애니메이션 */
+        }
+
+        /* 일반 섹션 스타일 */
+        section {
+            padding: 5rem 0; /* 상하 여백 */
+            margin-top: 2rem; /* 위쪽 마진 */
+        }
+
+        /* 흰색 배경 섹션 스타일 */
+        .section-white {
+            background: white; /* 흰색 배경 */
+            border-radius: 20px; /* 둥근 모서리 */
+            margin: 2rem 0; /* 상하 마진 */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); /* 부드러운 그림자 */
+        }
+
+        /* 섹션 제목 스타일 */
+        .section-title {
+            text-align: center; /* 중앙 정렬 */
+            font-size: 2.5rem; /* 큰 폰트 크기 */
+            margin-bottom: 3rem; /* 아래 마진 */
+            color: #333; /* 어두운 색상 */
+            position: relative; /* 가상 요소 위치 기준 */
+        }
+
+        /* 섹션 제목 밑줄 장식 */
+        .section-title::after {
+            content: ''; /* 빈 콘텐츠 */
+            position: absolute; /* 절대 위치 */
+            width: 50px; /* 너비 50px */
+            height: 3px; /* 높이 3px */
+            background: linear-gradient(45deg, #ff6b6b, #feca57); /* 그라데이션 배경 */
+            bottom: -10px; /* 텍스트 아래 10px */
+            left: 50%; /* 왼쪽에서 50% */
+            transform: translateX(-50%); /* 중앙 정렬 */
+        }
+
+        /* 스킬 그리드: 반응형 그리드 레이아웃 */
+        .skills-grid {
+            display: grid; /* CSS 그리드 */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 반응형 컬럼, 최소 300px */
+            gap: 2rem; /* 그리드 간격 */
+            margin-top: 3rem; /* 위쪽 마진 */
+        }
+
+        /* 개별 스킬 카드 스타일 */
+        .skill-card {
+            background: linear-gradient(135deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            padding: 2rem; /* 내부 여백 */
+            border-radius: 15px; /* 둥근 모서리 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            transition: transform 0.3s ease; /* 변형 애니메이션 */
+            cursor: pointer; /* 포인터 커서 */
+        }
+
+        /* 스킬 카드 호버 효과 */
+        .skill-card:hover {
+            transform: translateY(-10px); /* 위로 10px 이동 */
+        }
+
+        /* 스킬 아이콘 스타일 */
+        .skill-icon {
+            font-size: 3rem; /* 큰 아이콘 크기 */
+            margin-bottom: 1rem; /* 아래 마진 */
+        }
+
+        /* 프로젝트 그리드: 반응형 그리드 레이아웃 */
+        .projects-grid {
+            display: grid; /* CSS 그리드 */
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* 반응형 컬럼, 최소 350px */
+            gap: 2rem; /* 그리드 간격 */
+            margin-top: 3rem; /* 위쪽 마진 */
+        }
+
+        /* 개별 프로젝트 카드 스타일 */
+        .project-card {
+            background: white; /* 흰색 배경 */
+            border-radius: 15px; /* 둥근 모서리 */
+            overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* 부드러운 그림자 */
+            transition: transform 0.3s ease; /* 변형 애니메이션 */
+        }
+
+        /* 프로젝트 카드 호버 효과 */
+        .project-card:hover {
+            transform: translateY(-5px); /* 위로 5px 이동 */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); /* 더 큰 그림자 */
+        }
+
+        /* 프로젝트 이미지 영역 */
+        .project-image {
+            height: 200px; /* 고정 높이 */
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            display: flex; /* 플렉스박스 */
+            align-items: center; /* 수직 중앙 정렬 */
+            justify-content: center; /* 수평 중앙 정렬 */
+            color: white; /* 흰색 텍스트 */
+            font-size: 2rem; /* 큰 폰트 크기 */
+        }
+
+        /* 프로젝트 콘텐츠 영역 */
+        .project-content {
+            padding: 1.5rem; /* 내부 여백 */
+        }
+
+        /* 프로젝트 제목 */
+        .project-title {
+            font-size: 1.3rem; /* 중간 크기 */
+            margin-bottom: 0.5rem; /* 아래 마진 */
+            color: #333; /* 어두운 색상 */
+        }
+
+        /* 프로젝트 설명 */
+        .project-description {
+            color: #666; /* 회색 텍스트 */
+            margin-bottom: 1rem; /* 아래 마진 */
+        }
+
+        /* 기술 태그 컨테이너 */
+        .tech-tags {
+            display: flex; /* 플렉스박스 */
+            flex-wrap: wrap; /* 줄바꿈 허용 */
+            gap: 0.5rem; /* 태그 간 간격 */
+            margin-bottom: 1rem; /* 아래 마진 */
+        }
+
+        /* 개별 기술 태그 */
+        .tech-tag {
+            background: #f0f0f0; /* 연한 회색 배경 */
+            padding: 0.3rem 0.8rem; /* 내부 여백 */
+            border-radius: 20px; /* 둥근 모서리 */
+            font-size: 0.8rem; /* 작은 폰트 크기 */
+            color: #666; /* 회색 텍스트 */
+        }
+
+        /* 프로젝트 링크 컨테이너 */
+        .project-links {
+            display: flex; /* 플렉스박스 */
+            gap: 1rem; /* 링크 간 간격 */
+        }
+
+        /* 개별 프로젝트 링크 */
+        .project-link {
+            padding: 0.5rem 1rem; /* 내부 여백 */
+            background: linear-gradient(45deg, #ff6b6b, #feca57); /* 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            text-decoration: none; /* 밑줄 제거 */
+            border-radius: 5px; /* 둥근 모서리 */
+            font-size: 0.9rem; /* 작은 폰트 크기 */
+            transition: opacity 0.3s ease; /* 투명도 애니메이션 */
+        }
+
+        /* 프로젝트 링크 호버 효과 */
+        .project-link:hover {
+            opacity: 0.8; /* 약간 투명하게 */
+        }
+
+        /* 연락처 폼 컨테이너 */
+        .contact-form {
+            max-width: 600px; /* 최대 너비 제한 */
+            margin: 0 auto; /* 중앙 정렬 */
+        }
+
+        /* 폼 그룹 스타일 */
+        .form-group {
+            margin-bottom: 1.5rem; /* 아래 마진 */
+        }
+
+        /* 폼 라벨 스타일 */
+        .form-group label {
+            display: block; /* 블록 요소 */
+            margin-bottom: 0.5rem; /* 아래 마진 */
+            color: #333; /* 어두운 색상 */
+            font-weight: bold; /* 굵은 글씨 */
+        }
+
+        /* 입력 필드 및 텍스트 영역 스타일 */
+        .form-group input,
+        .form-group textarea {
+            width: 100%; /* 전체 너비 */
+            padding: 1rem; /* 내부 여백 */
+            border: 2px solid #e0e0e0; /* 연한 회색 테두리 */
+            border-radius: 10px; /* 둥근 모서리 */
+            font-size: 1rem; /* 기본 폰트 크기 */
+            transition: border-color 0.3s ease; /* 테두리 색상 애니메이션 */
+        }
+
+        /* 입력 필드 포커스 시 스타일 */
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none; /* 기본 아웃라인 제거 */
+            border-color: #667eea; /* 파란색 테두리 */
+        }
+
+        /* 제출 버튼 스타일 */
+        .submit-btn {
+            width: 100%; /* 전체 너비 */
+            padding: 1rem; /* 내부 여백 */
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            border: none; /* 테두리 없음 */
+            border-radius: 10px; /* 둥근 모서리 */
+            font-size: 1.1rem; /* 약간 큰 폰트 */
+            cursor: pointer; /* 포인터 커서 */
+            transition: transform 0.3s ease; /* 변형 애니메이션 */
+        }
+
+        /* 제출 버튼 호버 효과 */
+        .submit-btn:hover {
+            transform: translateY(-2px); /* 위로 2px 이동 */
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            background: #333; /* 어두운 배경 */
+            color: white; /* 흰색 텍스트 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            padding: 2rem 0; /* 상하 여백 */
+            margin-top: 3rem; /* 위쪽 마진 */
+        }
+
+        /* 페이드인 업 애니메이션 정의 */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1; /* 완전 불투명 */
+                transform: translateY(0); /* 원래 위치 */
+            }
+        }
+
+        /* 플로팅 애니메이션 정의 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); } /* 시작과 끝: 원래 위치 */
+            50% { transform: translateY(-20px); } /* 중간: 20px 위로 */
+        }
+
+        /* 태블릿 및 모바일 반응형 스타일 */
+        @media (max-width: 768px) {
+            /* 모바일에서 네비게이션 링크 숨김 */
+            .nav-links {
+                display: none;
+            }
+            
+            /* 모바일에서 히어로 제목 크기 축소 */
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            /* 모바일에서 그리드를 단일 컬럼으로 */
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 스크롤 진행률 표시기 */
+        .scroll-indicator {
+            position: fixed; /* 고정 위치 */
+            top: 0; /* 상단에 고정 */
+            left: 0; /* 왼쪽에 고정 */
+            width: 0%; /* 초기 너비 0% */
+            height: 3px; /* 높이 3px */
+            background: linear-gradient(45deg, #ff6b6b, #feca57); /* 그라데이션 배경 */
+            z-index: 1001; /* 헤더보다 위에 표시 */
+            transition: width 0.1s ease; /* 너비 변화 애니메이션 */
+        }
+
+        /* 인터랙티브 데모 섹션 */
+        .interactive-demo {
+            background: #f8f9fa; /* 연한 회색 배경 */
+            padding: 2rem; /* 내부 여백 */
+            border-radius: 15px; /* 둥근 모서리 */
+            margin: 2rem 0; /* 상하 마진 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+        }
+
+        /* 데모 버튼 스타일 */
+        .demo-button {
+            padding: 1rem 2rem; /* 내부 여백 */
+            margin: 0.5rem; /* 외부 마진 */
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            border: none; /* 테두리 없음 */
+            border-radius: 10px; /* 둥근 모서리 */
+            cursor: pointer; /* 포인터 커서 */
+            transition: all 0.3s ease; /* 모든 속성 애니메이션 */
+        }
+
+        /* 데모 버튼 호버 효과 */
+        .demo-button:hover {
+            transform: scale(1.05); /* 5% 확대 */
+        }
+
+        /* 데모 결과 표시 영역 */
+        .demo-result {
+            margin-top: 1rem; /* 위쪽 마진 */
+            padding: 1rem; /* 내부 여백 */
+            background: white; /* 흰색 배경 */
+            border-radius: 10px; /* 둥근 모서리 */
+            min-height: 50px; /* 최소 높이 */
+            display: flex; /* 플렉스박스 */
+            align-items: center; /* 수직 중앙 정렬 */
+            justify-content: center; /* 수평 중앙 정렬 */
+            font-weight: bold; /* 굵은 글씨 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 페이지 스크롤 진행률을 시각적으로 표시하는 바 -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <!-- 고정 헤더: 네비게이션 메뉴 포함 -->
+    <header id="header">
+        <nav class="container">
+            <!-- 사이트 로고 (홈 링크) -->
+            <div class="logo">
+                <a href="/HOME.html">JS Developer</a></div>
+            <!-- 메인 네비게이션 메뉴 -->
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#skills">기술스택</a></li>
+                <li><a href="#projects">프로젝트</a></li>
+                <li><a href="#contact">연락처</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션: 메인 타이틀과 CTA 버튼 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <!-- 메인 제목: 타이핑 효과로 표시됨 -->
+            <h1>JavaScript 웹 개발자</h1>
+            <!-- 부제목: 개발자 소개 -->
+            <p>사용자 경험을 중시하는 프론트엔드 개발자입니다</p>
+            <!-- 프로젝트 섹션으로 이동하는 CTA 버튼 -->
+            <a href="#projects" class="cta-button">프로젝트 보기</a>
+        </div>
+        <!-- 배경 장식용 플로팅 파티클들 -->
+        <div class="particle" style="width: 10px; height: 10px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="width: 6px; height: 6px; top: 40%; right: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="width: 8px; height: 8px; bottom: 30%; left: 30%; animation-delay: 4s;"></div>
+    </section>
+
+    <!-- 기술 스택 섹션: 인터랙티브 데모와 스킬 카드들 -->
+    <section id="skills" class="section-white">
+        <div class="container">
+            <!-- 섹션 제목 -->
+            <h2 class="section-title">기술 성과</h2>
+            
+            <!-- JavaScript 기능을 실시간으로 체험할 수 있는 인터랙티브 데모 -->
+            <div class="interactive-demo">
+                <h3>JavaScript 인터랙션 데모</h3>
+                <!-- 각각 다른 JavaScript 기능을 보여주는 버튼들 -->
+                <button class="demo-button" onclick="showSkillDemo('vanilla')">Vanilla JS</button>
+                <button class="demo-button" onclick="showSkillDemo('async')">비동기 처리</button>
+                <button class="demo-button" onclick="showSkillDemo('dom')">DOM 제어</button>
+                <!-- 데모 결과를 표시하는 영역 -->
+                <div class="demo-result" id="demoResult">버튼을 클릭해서 기능을 확인해보세요!</div>
+            </div>
+
+            <!-- 스킬 카드들을 반응형 그리드로 배치 -->
+            <div class="skills-grid">
+                <!-- 기능 구현 성과 카드 -->
+                <div class="skill-card" onclick="animateCard(this)">
+                    <div class="skill-icon">⚙️</div>
+                    <h3>기능 구현 성과</h3>
+                    <p>순수 JavaScript로 탭 메뉴, 모달, 이미지 슬라이더 등 인터랙션 기능 직접 구현</p>
+                    <p>Form 유효성 검사 구현으로 사용자 오류 입력률 50% 감소</p>
+                </div>
+                
+                <!-- 상태 관리 카드 -->
+                <div class="skill-card" onclick="animateCard(this)">
+                    <div class="skill-icon">🧠</div>
+                    <h3>상태 관리</h3>
+                    <p>JavaScript 모듈 시스템(ESM) 구조로 코드 분할 및 유지보수성 향상</p>
+                    <p>Observer 패턴을 직접 구현하여 컴포넌트 간 상태 동기화</p>
+                </div>
+                
+                <!-- API 연동 카드 -->
+                <div class="skill-card" onclick="animateCard(this)">
+                    <div class="skill-icon">📦</div>
+                    <h3>API 연동</h3>
+                    <p>Fetch API를 활용한 실시간 날씨 정보 앱 구현</p>
+                    <p>비동기 에러 핸들링으로 사용자 친화적 메시지 제공</p>
+                </div>
+                
+                <!-- 성능 최적화 카드 -->
+                <div class="skill-card" onclick="animateCard(this)">
+                    <div class="skill-icon">📈</div>
+                    <h3>성능 최적화</h3>
+                    <p>이벤트 위임 기법 적용으로 DOM 렌더링 성능 개선</p>
+                    <p>디바운싱/스로틀링 적용한 실시간 검색 UI 구현</p>
+                </div>
+                
+                <!-- 라이브러리 활용 카드 -->
+                <div class="skill-card" onclick="animateCard(this)">
+                    <div class="skill-icon">🛠️</div>
+                    <h3>라이브러리 활용</h3>
+                    <p>Chart.js 활용 대시보드 시각화 UI 구현</p>
+                    <p>Google Maps API + JS로 마커, 주소 검색 기능 구현</p>
+                </div>
+                
+                <!-- 데이터 관리 카드 -->
+                <div class="skill-card" onclick="animateCard(this)">
+                    <div class="skill-icon">💾</div>
+                    <h3>데이터 관리</h3>
+                    <p>localStorage 활용 사용자 설정 저장으로 환경 복원 지원</p>
+                    <p>JSON 데이터 파싱 및 동적 UI 렌더링 구현</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 섹션: 포트폴리오 프로젝트들을 카드 형태로 전시 -->
+    <section id="projects" class="section-white">
+        <div class="container">
+            <!-- 섹션 제목 -->
+            <h2 class="section-title">주요 프로젝트</h2>
+            <!-- 프로젝트 카드들을 반응형 그리드로 배치 -->
+            <div class="projects-grid">
+                <!-- 실시간 날씨 앱 프로젝트 -->
+                <div class="project-card">
+                    <!-- 프로젝트 대표 이미지 (이모지로 대체) -->
+                    <div class="project-image">🌤️</div>
+                    <div class="project-content">
+                        <!-- 프로젝트 제목 -->
+                        <h3 class="project-title">실시간 날씨 앱</h3>
+                        <!-- 프로젝트 설명 -->
+                        <p class="project-description">OpenWeather API 연동으로 실시간 날씨 정보 제공, 5일 예보 및 도시 검색 기능 구현</p>
+                        <!-- 사용된 기술 스택 태그들 -->
+                        <div class="tech-tags">
+                            <span class="tech-tag">Vanilla JS</span>
+                            <span class="tech-tag">Fetch API</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">LocalStorage</span>
+                        </div>
+                        <!-- 프로젝트 링크들 (데모, GitHub) -->
+                        <div class="project-links">
+                            <a href="/html/실시간 날씨 앱.html" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 할일 관리 앱 프로젝트 -->
+                <div class="project-card">
+                    <div class="project-image">📋</div>
+                    <div class="project-content">
+                        <h3 class="project-title">할일 관리 앱</h3>
+                        <p class="project-description">드래그 앤 드롭 기능, 카테고리 분류, 진행률 시각화가 포함된 고급 Todo 앱</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Drag & Drop API</span>
+                            <span class="tech-tag">Chart.js</span>
+                            <span class="tech-tag">PWA</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/html/할일 관리.html" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 영상 검색 플랫폼 프로젝트 -->
+                <div class="project-card">
+                    <div class="project-image">🎬</div>
+                    <div class="project-content">
+                        <h3 class="project-title">영상 검색 플랫폼</h3>
+                        <p class="project-description">YouTube API 연동 영상 검색, 플레이리스트 관리, 반응형 비디오 플레이어 구현</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">JavaScript ES6+</span>
+                            <span class="tech-tag">YouTube API</span>
+                            <span class="tech-tag">Responsive</span>
+                            <span class="tech-tag">SASS</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/html/영상 검색 플랫폼.html" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canvas 드로잉 툴 프로젝트 -->
+                <div class="project-card">
+                    <div class="project-image">🎨</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Canvas 드로잉 툴</h3>
+                        <p class="project-description">HTML5 Canvas API 활용 드로잉 앱, 브러시 크기/색상 조절, 이미지 저장 기능</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Canvas API</span>
+                            <span class="tech-tag">Touch Events</span>
+                            <span class="tech-tag">File API</span>
+                            <span class="tech-tag">Mobile First</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/html/드로잉 툴.html" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 데이터 시각화 대시보드 프로젝트 -->
+                <div class="project-card">
+                    <div class="project-image">📊</div>
+                    <div class="project-content">
+                        <h3 class="project-title">데이터 시각화 대시보드</h3>
+                        <p class="project-description">Chart.js와 D3.js 활용 인터랙티브 차트, 실시간 데이터 업데이트 및 필터링 기능</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Chart.js</span>
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">WebSocket</span>
+                            <span class="tech-tag">JSON</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/html/데이터 시각화.html" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 위치 기반 서비스 프로젝트 -->
+                <div class="project-card">
+                    <div class="project-image">🗺️</div>
+                    <div class="project-content">
+                        <h3 class="project-title">위치 기반 서비스</h3>
+                        <p class="project-description">Google Maps API 연동 맛집 찾기 앱, GPS 위치 기반 추천, 리뷰 시스템 구현</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Google Maps API</span>
+                            <span class="tech-tag">Geolocation API</span>
+                            <span class="tech-tag">AJAX</span>
+                            <span class="tech-tag">JSON</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/html/위치 기반 서비스.html" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 섹션: 문의 폼 -->
+    <section id="contact" class="section-white">
+        <div class="container">
+            <!-- 섹션 제목 -->
+            <h2 class="section-title">연락하기</h2>
+            <!-- 연락처 폼: JavaScript로 제출 처리 -->
+            <form class="contact-form" onsubmit="handleFormSubmit(event)">
+                <!-- 이름 입력 필드 -->
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <!-- 이메일 입력 필드 -->
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <!-- 메시지 입력 필드 -->
+                <div class="form-group">
+                    <label for="message">메시지</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <!-- 폼 제출 버튼 -->
+                <button type="submit" class="submit-btn">메시지 보내기</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 푸터: 저작권 정보 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 JavaScript 웹 개발자 포트폴리오. 모든 권리 보유.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================== 스크롤 관련 기능 ==================== */
+        
+        // 스크롤 진행률 표시기: 페이지 스크롤에 따라 상단 바의 너비 조절
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop; // 현재 스크롤 위치
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight; // 전체 스크롤 가능 거리
+            const scrollPercent = (scrollTop / scrollHeight) * 100; // 스크롤 진행률 계산
+            document.getElementById('scrollIndicator').style.width = scrollPercent + '%'; // 진행률 바 너비 설정
+        });
+
+        // 헤더 배경 변경: 스크롤 시 헤더 배경과 텍스트 색상 동적 변경
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) { // 100px 이상 스크롤 시
+                header.style.background = 'rgba(255, 255, 255, 0.95)'; // 흰색 반투명 배경
+                header.style.color = '#333'; // 어두운 텍스트 색상
+            } else { // 상단 근처일 때
+                header.style.background = 'rgba(255, 255, 255, 0.1)'; // 투명한 배경
+                header.style.color = 'white'; // 흰색 텍스트
+            }
+        });
+
+        // 부드러운 스크롤: 앵커 링크 클릭 시 해당 섹션으로 부드럽게 이동
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // 기본 앵커 동작 방지
+                const target = document.querySelector(this.getAttribute('href')); // 타겟 섹션 찾기
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth', // 부드러운 스크롤 애니메이션
+                        block: 'start' // 섹션 상단으로 스크롤
+                    });
+                }
+            });
+        });
+
+        /* ==================== 인터랙션 및 애니메이션 ==================== */
+
+        // 스킬 카드 클릭 애니메이션: 카드 클릭 시 스케일 효과
+        function animateCard(card) {
+            card.style.transform = 'scale(0.95)'; // 카드 축소
+            setTimeout(() => {
+                card.style.transform = 'scale(1)'; // 원래 크기로 복원
+            }, 150); // 150ms 후 복원
+        }
+
+        /* ==================== 인터랙티브 데모 기능들 ==================== */
+
+        // 스킬 데모 표시 함수: 각 버튼에 따라 다른 데모 실행
+        function showSkillDemo(type) {
+            const result = document.getElementById('demoResult'); // 결과 표시 영역
+            
+            switch(type) {
+                case 'vanilla': // Vanilla JS 성과 표시
+                    result.innerHTML = `
+                        <div style="text-align: left;">
+                            <strong>Vanilla JS 성과:</strong><br>
+                            • 순수 JavaScript로 SPA 라우터 구현<br>
+                            • ES6+ 문법 활용한 모듈화 구조<br>
+                            • 성능: 번들 크기 70% 감소
+                        </div>
+                    `;
+                    break;
+                case 'async': // 비동기 처리 데모 실행
+                    simulateAsyncDemo();
+                    break;
+                case 'dom': // DOM 제어 데모 실행
+                    showDOMDemo();
+                    break;
+            }
+        }
+
+        // 비동기 처리 시뮬레이션: API 호출을 모방한 로딩 및 결과 표시
+        function simulateAsyncDemo() {
+            const result = document.getElementById('demoResult');
+            result.innerHTML = '데이터를 가져오는 중...'; // 로딩 메시지 표시
+            
+            // 실제 API 호출 시뮬레이션 (1.5초 지연)
+            setTimeout(() => {
+                result.innerHTML = `
+                    <div style="text-align: left;">
+                        <strong>비동기 처리 성과:</strong><br>
+                        • fetch + async/await로 API 호출 구현<br>
+                        • Promise.all()로 다중 API 동시 처리<br>
+                        • 에러 핸들링: try-catch 구조 적용
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        // DOM 제어 데모: 실시간 카운터로 DOM 조작 시연
+        function showDOMDemo() {
+            const result = document.getElementById('demoResult');
+            let count = 0; // 카운터 변수
+            
+            // 100ms마다 카운터 증가 및 DOM 업데이트
+            const counter = setInterval(() => {
+                count++;
+                result.innerHTML = `
+                    DOM 조작 실시간 업데이트: ${count}
+                    ${count >= 10 ? '<br><strong>✅ DOM 제어 최적화 완료!</strong>' : ''}
+                `;
+                
+                // 10까지 카운트 후 중지
+                if (count >= 10) {
+                    clearInterval(counter);
+                    // 1초 후 최종 결과 표시
+                    setTimeout(() => {
+                        result.innerHTML = `
+                            <div style="text-align: left;">
+                                <strong>DOM 제어 성과:</strong><br>
+                                • 이벤트 위임으로 메모리 사용량 40% 감소<br>
+                                • requestAnimationFrame으로 부드러운 애니메이션<br>
+                                • Virtual DOM 개념 직접 구현 경험
+                            </div>
+                        `;
+                    }, 1000);
+                }
+            }, 100);
+        }
+
+        /* ==================== 폼 처리 ==================== */
+
+        // 연락처 폼 제출 처리: 실제 전송 없이 시뮬레이션
+        function handleFormSubmit(event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+            
+            // 폼 데이터 추출
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+            
+            // 제출 버튼 상태 변경 (로딩 표시)
+            const submitBtn = event.target.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent; // 원래 텍스트 저장
+            
+            submitBtn.textContent = '전송 중...'; // 로딩 텍스트
+            submitBtn.disabled = true; // 버튼 비활성화
+            
+            // 2초 후 전송 완료 처리
+            setTimeout(() => {
+                alert(`${name}님, 메시지가 성공적으로 전송되었습니다!`); // 성공 알림
+                event.target.reset(); // 폼 초기화
+                submitBtn.textContent = originalText; // 버튼 텍스트 복원
+                submitBtn.disabled = false; // 버튼 활성화
+            }, 2000);
+        }
+
+        /* ==================== 스크롤 애니메이션 ==================== */
+
+        // Intersection Observer 설정: 요소가 뷰포트에 들어올 때 애니메이션 트리거
+        const observerOptions = {
+            threshold: 0.1, // 요소의 10%가 보일 때 트리거
+            rootMargin: '0px 0px -50px 0px' // 하단 50px 마진
+        };
+
+        // Observer 콜백: 요소가 화면에 나타날 때 페이드인 효과
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { // 요소가 화면에 나타났을 때
+                    entry.target.style.opacity = '1'; // 완전 불투명
+                    entry.target.style.transform = 'translateY(0)'; // 원래 위치로 이동
+                }
+            });
+        }, observerOptions);
+
+        // DOM 로드 완료 시 애니메이션 요소들 관찰 시작
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.skill-card, .project-card'); // 애니메이션 적용할 요소들
+            animateElements.forEach(el => {
+                el.style.opacity = '0'; // 초기 투명도 0
+                el.style.transform = 'translateY(30px)'; // 초기 위치 30px 아래
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; // 부드러운 전환
+                observer.observe(el); // 요소 관찰 시작
+            });
+        });
+
+        /* ==================== 시각적 효과들 ==================== */
+
+        // 랜덤 파티클 생성 함수: 화면 상단에서 떨어지는 파티클 효과
+        function createParticle() {
+            const particle = document.createElement('div'); // 파티클 요소 생성
+            particle.className = 'particle';
+            particle.style.position = 'fixed'; // 고정 위치
+            particle.style.width = Math.random() * 10 + 5 + 'px'; // 랜덤 크기 (5-15px)
+            particle.style.height = particle.style.width; // 정사각형
+            particle.style.left = Math.random() * window.innerWidth + 'px'; // 랜덤 가로 위치
+            particle.style.top = '-10px'; // 화면 상단에서 시작
+            particle.style.background = 'rgba(255, 255, 255, 0.1)'; // 반투명 흰색
+            particle.style.borderRadius = '50%'; // 원형
+            particle.style.pointerEvents = 'none'; // 마우스 이벤트 무시
+            particle.style.zIndex = '999'; // 높은 z-index
+            
+            document.body.appendChild(particle); // DOM에 추가
+            
+            let position = -10; // 초기 위치
+            const speed = Math.random() * 2 + 1; // 랜덤 속도 (1-3px/frame)
+            
+            // 파티클 애니메이션 함수
+            const animate = () => {
+                position += speed; // 위치 업데이트
+                particle.style.top = position + 'px';
+                
+                // 화면 하단에 도달하기 전까지 애니메이션 계속
+                if (position < window.innerHeight + 10) {
+                    requestAnimationFrame(animate); // 다음 프레임 요청
+                } else {
+                    particle.remove(); // 파티클 제거
+                }
+            };
+            
+            animate(); // 애니메이션 시작
+        }
+
+        // 3초마다 새 파티클 생성
+        setInterval(createParticle, 3000);
+
+        /* ==================== 타이핑 효과 ==================== */
+
+        // 타이핑 효과 함수: 텍스트를 한 글자씩 타이핑하듯 표시
+        function typeWriter(element, text, speed = 100) {
+            let i = 0; // 현재 글자 인덱스
+            element.innerHTML = ''; // 요소 내용 초기화
+            
+            function type() {
+                if (i < text.length) { // 아직 타이핑할 글자가 남아있으면
+                    element.innerHTML += text.charAt(i); // 다음 글자 추가
+                    i++;
+                    setTimeout(type, speed); // 지정된 속도로 다음 글자 타이핑
+                }
+            }
+            
+            type(); // 타이핑 시작
+        }
+
+        // 페이지 로드 완료 시 히어로 섹션 타이핑 효과 시작
+        window.addEventListener('load', () => {
+            const heroTitle = document.querySelector('.hero-content h1'); // 제목 요소
+            const heroDesc = document.querySelector('.hero-content p'); // 설명 요소
+            
+            // 1초 후 제목 타이핑 시작
+            setTimeout(() => {
+                typeWriter(heroTitle, 'JavaScript 웹 개발자', 80);
+            }, 1000);
+            
+            // 3.5초 후 설명 타이핑 시작
+            setTimeout(() => {
+                typeWriter(heroDesc, '사용자 경험을 중시하는 프론트엔드 개발자입니다', 50);
+            }, 3500);
+        });
+
+        /* ==================== 마우스 트레일 효과 ==================== */
+
+        let mouseTrail = []; // 마우스 위치 기록 배열
+        
+        // 마우스 움직임 추적 및 트레일 효과 생성
+        document.addEventListener('mousemove', (e) => {
+            // 현재 마우스 위치를 배열에 추가
+            mouseTrail.push({
+                x: e.clientX,
+                y: e.clientY,
+                time: Date.now()
+            });
+            
+            // 1초 이상 된 트레일 포인트 제거
+            mouseTrail = mouseTrail.filter(point => Date.now() - point.time < 1000);
+            
+            // 트레일 요소 생성 (2개 이상의 포인트가 있을 때)
+            if (mouseTrail.length > 1) {
+                const trail = document.createElement('div'); // 트레일 요소 생성
+                trail.style.position = 'fixed';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                trail.style.width = '4px';
+                trail.style.height = '4px';
+                trail.style.background = 'rgba(255, 107, 107, 0.6)'; // 반투명 빨간색
+                trail.style.borderRadius = '50%'; // 원형
+                trail.style.pointerEvents = 'none'; // 마우스 이벤트 무시
+                trail.style.zIndex = '998';
+                trail.style.transition = 'opacity 0.5s ease'; // 페이드 아웃 전환
+                
+                document.body.appendChild(trail); // DOM에 추가
+                
+                // 50ms 후 페이드 아웃 시작
+                setTimeout(() => {
+                    trail.style.opacity = '0';
+                    setTimeout(() => trail.remove(), 500); // 500ms 후 완전 제거
+                }, 50);
+            }
+        });
+
+        /* ==================== 유틸리티 및 데모 함수들 ==================== */
+
+        // 성능 모니터링 데모: 연산 시간 측정
+        function performanceDemo() {
+            const start = performance.now(); // 시작 시간 기록
+            
+            // 무거운 연산 시뮬레이션
+            let result = 0;
+            for (let i = 0; i < 1000000; i++) {
+                result += Math.random();
+            }
+            
+            const end = performance.now(); // 종료 시간 기록
+            console.log(`연산 완료: ${(end - start).toFixed(2)}ms`); // 실행 시간 출력
+            
+            return {
+                duration: end - start,
+                result: result
+            };
+        }
+
+        // 로컬 스토리지 데모: 사용자 설정 저장 (실제로는 콘솔 출력만)
+        function saveUserPreference(key, value) {
+            try {
+                const data = {
+                    value: value,
+                    timestamp: Date.now()
+                };
+                // 주의: 실제 구현에서는 localStorage를 사용하지만 여기서는 콘솔 출력만
+                // localStorage.setItem(key, JSON.stringify(data));
+                console.log(`설정 저장됨: ${key} = ${value}`);
+                return true;
+            } catch (error) {
+                console.error('저장 실패:', error);
+                return false;
+            }
+        }
+
+        // API 시뮬레이션: 가짜 날씨 데이터 생성
+        async function fetchWeatherData(city = 'Seoul') {
+            try {
+                // API 호출 지연 시뮬레이션
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 모의 날씨 데이터 생성
+                const mockData = {
+                    city: city,
+                    temperature: Math.floor(Math.random() * 30) + 5, // 5-35도 랜덤 온도
+                    description: ['맑음', '흐림', '비', '눈'][Math.floor(Math.random() * 4)], // 랜덤 날씨 상태
+                    humidity: Math.floor(Math.random() * 100), // 0-100% 랜덤 습도
+                    timestamp: new Date().toISOString() // 현재 시간 ISO 형식
+                };
+                
+                return {
+                    success: true,
+                    data: mockData
+                };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
+
+        /* ==================== 성능 최적화 유틸리티 함수들 ==================== */
+
+        // 디바운스 함수: 연속된 함수 호출을 지연시켜 성능 최적화
+        function debounce(func, wait) {
+            let timeout; // 타이머 ID 저장 변수
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout); // 기존 타이머 제거
+                    func(...args); // 실제 함수 실행
+                };
+                clearTimeout(timeout); // 이전 타이머 취소
+                timeout = setTimeout(later, wait); // 새 타이머 설정
+            };
+        }
+
+        // 스로틀 함수: 함수 실행 빈도를 제한하여 성능 최적화
+        function throttle(func, limit) {
+            let inThrottle; // 스로틀 상태 플래그
+            return function() {
+                const args = arguments; // 함수 인자들
+                const context = this; // 컨텍스트 보존
+                if (!inThrottle) { // 스로틀 중이 아니면
+                    func.apply(context, args); // 함수 즉시 실행
+                    inThrottle = true; // 스로틀 상태로 변경
+                    setTimeout(() => inThrottle = false, limit); // 지정 시간 후 스로틀 해제
+                }
+            }
+        }
+
+        /* ==================== 이미지 지연 로딩 ==================== */
+
+        // 이미지 지연 로딩 구현: 뷰포트에 들어올 때만 이미지 로드
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('img[data-src]'); // data-src 속성을 가진 이미지들
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { // 이미지가 뷰포트에 들어왔을 때
+                        const img = entry.target;
+                        img.src = img.dataset.src; // data-src를 src로 설정하여 이미지 로드
+                        img.classList.remove('lazy'); // 지연 로딩 클래스 제거
+                        imageObserver.unobserve(img); // 더 이상 관찰하지 않음
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img)); // 모든 지연 로딩 이미지 관찰 시작
+        }
+
+        /* ==================== 동적 콘텐츠 로딩 ==================== */
+
+        // 추가 프로젝트 동적 로딩: 더보기 기능 구현
+        function loadMoreProjects() {
+            const projectsGrid = document.querySelector('.projects-grid'); // 프로젝트 그리드 컨테이너
+            
+            // 추가로 로드할 프로젝트 데이터 (모의 데이터)
+            const additionalProjects = [
+                {
+                    title: 'PWA 뉴스 앱',
+                    description: 'Service Worker 활용 오프라인 지원, Push 알림 기능 구현',
+                    icon: '📰',
+                    tech: ['PWA', 'Service Worker', 'IndexedDB', 'Push API']
+                },
+                {
+                    title: 'WebRTC 화상통화',
+                    description: 'P2P 화상통화 및 화면 공유 기능 구현',
+                    icon: '📹',
+                    tech: ['WebRTC', 'Socket.io', 'MediaStream API', 'PeerJS']
+                }
+            ];
+
+            // 각 추가 프로젝트에 대해 카드 생성 및 추가
+            additionalProjects.forEach(project => {
+                const projectCard = document.createElement('div'); // 새 프로젝트 카드 생성
+                projectCard.className = 'project-card';
+                // 프로젝트 카드 HTML 구조 생성
+                projectCard.innerHTML = `
+                    <div class="project-image">${project.icon}</div>
+                    <div class="project-content">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="tech-tags">
+                            ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                `;
+                
+                projectsGrid.appendChild(projectCard); // 그리드에 새 카드 추가
+                
+                // 새 카드에 페이드인 애니메이션 적용
+                projectCard.style.opacity = '0'; // 초기 투명도 0
+                projectCard.style.transform = 'translateY(30px)'; // 초기 위치 30px 아래
+                projectCard.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; // 부드러운 전환
+                
+                // 약간의 지연 후 애니메이션 시작
+                setTimeout(() => {
+                    projectCard.style.opacity = '1'; // 완전 불투명
+                    projectCard.style.transform = 'translateY(0)'; // 원래 위치로 이동
+                }, 100);
+            });
+        }
+
+        /* ==================== 다크 모드 토글 ==================== */
+
+        // 다크 모드 전환 기능 (보너스 기능)
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode'); // 다크 모드 클래스 토글
+            const isDark = document.body.classList.contains('dark-mode'); // 현재 다크 모드 상태 확인
+            
+            // 사용자 설정 저장
+            saveUserPreference('darkMode', isDark);
+            
+            // CSS 변수를 통한 색상 테마 업데이트
+            if (isDark) {
+                document.documentElement.style.setProperty('--bg-color', '#1a1a1a'); // 어두운 배경
+                document.documentElement.style.setProperty('--text-color', '#ffffff'); // 밝은 텍스트
+            } else {
+                document.documentElement.style.setProperty('--bg-color', '#ffffff'); // 밝은 배경
+                document.documentElement.style.setProperty('--text-color', '#333333'); // 어두운 텍스트
+            }
+        }
+
+        /* ==================== 초기화 및 이벤트 리스너 ==================== */
+
+        // DOM 로드 완료 시 초기화 작업들
+        document.addEventListener('DOMContentLoaded', () => {
+            lazyLoadImages(); // 지연 로딩 초기화
+            
+            // 스크롤 기반 애니메이션을 위한 요소들 설정
+            const scrollElements = document.querySelectorAll('.skill-card, .project-card'); // 애니메이션 적용할 요소들
+            
+            // 요소가 뷰포트에 들어왔는지 확인하는 함수
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top; // 요소의 상단 위치
+                return (
+                    elementTop <= 
+                    (window.innerHeight || document.documentElement.clientHeight) / dividend
+                );
+            };
+
+            // 스크롤 애니메이션 표시 함수
+            const displayScrollElement = (element) => {
+                element.classList.add('scrolled'); // 'scrolled' 클래스 추가
+            };
+
+            // 스크롤 애니메이션 숨김 함수
+            const hideScrollElement = (element) => {
+                element.classList.remove('scrolled'); // 'scrolled' 클래스 제거
+            };
+
+            // 스크롤 애니메이션 핸들러 (성능을 위해 스로틀링 적용)
+            const handleScrollAnimation = throttle(() => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) { // 요소가 뷰포트에 들어오면
+                        displayScrollElement(el); // 애니메이션 표시
+                    } else {
+                        hideScrollElement(el); // 애니메이션 숨김
+                    }
+                });
+            }, 100); // 100ms마다 최대 1번 실행
+
+            window.addEventListener('scroll', handleScrollAnimation); // 스크롤 이벤트 리스너 등록
+        });
+
+        /* ==================== 개발자를 위한 콘솔 메시지 ==================== */
+
+        // 개발자 도구 콘솔에 포트폴리오 정보 출력
+        console.log(`
+        🚀 JavaScript 포트폴리오에 오신 것을 환영합니다!
+        
+        이 포트폴리오에는 다음 기술들이 적용되어 있습니다:
+        • Intersection Observer API - 스크롤 기반 애니메이션
+        • Performance Monitoring - 성능 측정 및 최적화
+        • Debounce/Throttle 최적화 - 이벤트 핸들링 성능 향상
+        • CSS3 Animations & Transitions - 부드러운 UI 전환 효과
+        • ES6+ 최신 문법 - 모던 JavaScript 활용
+        • 반응형 웹 디자인 - 모든 기기에서 최적화된 경험
+        • 접근성(a11y) 고려사항 - 모든 사용자를 위한 웹 접근성
+        
+        더 많은 정보는 GitHub에서 확인하세요!
+        `);
+    </script>
+</body>
+</html>

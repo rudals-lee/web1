@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>텍스트 뒤 배경 이미지</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      font-family: Arial, sans-serif;
+    }
+
+    .background-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      opacity: 0.5; /* 배경처럼 보이게 투명도 조절 */
+      width: 300px;
+      height: auto;
+    }
+
+    .text {
+      position: relative;
+      z-index: 1;
+      font-size: 48px;
+      font-weight: bold;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <img src="/images/Chat GPT image 로고 (3)-1.png" alt="배경 로고" class="background-image">
+  <div class="text">세무사 TAX ADVISOR</div>
+</body>
+</html>

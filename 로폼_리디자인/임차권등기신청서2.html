@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>임차권 등기명령 신청서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container-P {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .left-panel-P {
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .right-panel-P {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        .header-P {
+            background: #4a90e2;
+            color: white;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 8px 8px 0 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .section-P {
+            margin-bottom: 30px;
+        }
+
+        .section-title-P {
+            background: #e8f4f8;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 14px;
+            border-left: 4px solid #4a90e2;
+            margin-bottom: 15px;
+        }
+
+        .form-group-P {
+            margin-bottom: 15px;
+        }
+
+        .form-label-P {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .form-input-P {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-input-P:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .radio-group-P {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-item-P {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .date-range-P {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-input-P {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .checkbox-P {
+            margin-right: 8px;
+        }
+
+        .document-title-P {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .applicant-info-P {
+            margin-bottom: 30px;
+        }
+
+        .info-row-P {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .info-label-P {
+            width: 100px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info-value-P {
+            flex: 1;
+            color: #666;
+        }
+
+        .blue-text-P {
+            color: #4a90e2;
+            font-weight: bold;
+        }
+
+        .address-section-P {
+            margin: 30px 0;
+        }
+
+        .address-title-P {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .address-value-P {
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .content-section-P {
+            margin: 30px 0;
+        }
+
+        .content-title-P {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content-list-P {
+            line-height: 1.8;
+        }
+
+        .content-list-P li {
+            margin-bottom: 10px;
+        }
+
+        .method-section-P {
+            margin: 30px 0;
+        }
+
+        .method-title-P {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .method-list-P {
+            line-height: 1.8;
+        }
+
+        .attachment-section-P {
+            margin: 30px 0;
+        }
+
+        .attachment-title-P {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .attachment-list-P {
+            line-height: 1.8;
+        }
+
+        .signature-section-P {
+            margin-top: 50px;
+            text-align: right;
+        }
+
+        .date-signature-P {
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .court-info-P {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-P">
+        <div class="left-panel-P">
+            <div class="header-P">
+                임차권 등기명령 신청서
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">당사자 1 / 6</div>
+                
+                <div class="form-group-P">
+                    <label class="form-label-P">등기명령을 신청한 사람(신청자)</label>
+                    <input type="text" class="form-input-P" placeholder="성명 김일차" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">등기명령을 받을 사람(집주인)</label>
+                    <input type="text" class="form-input-P" placeholder="성명 최임대" contenteditable="true">
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">임차권등기한 부동산의 주소 2 / 6</div>
+                
+                <div class="form-group-P">
+                    <label class="form-label-P">주소</label>
+                    <input type="text" class="form-input-P" placeholder="경기 안성시 일죽면 방곡리 6 (화룡리)" contenteditable="true">
+                    <input type="text" class="form-input-P" placeholder="423호 1390호" style="margin-top: 10px;" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">건물 전부에 대한 신청인가요? 일부에 대한 신청인가요?</label>
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="part-P" name="building_type" checked>
+                            <label for="part-P">건물 전부</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="whole-P" name="building_type">
+                            <label for="whole-P">건물 일부</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">임차권 내용 3 / 6</div>
+                
+                <div class="form-group-P">
+                    <label class="form-label-P">임대차계약 기간</label>
+                    <div class="date-range-P">
+                        <input type="date" class="date-input-P" value="2021-07-04" contenteditable="true">
+                        <span>~</span>
+                        <input type="date" class="date-input-P" value="2025-07-12" contenteditable="true">
+                    </div>
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">임대차 보증금</label>
+                    <input type="text" class="form-input-P" value="100,000,000 원" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">주민등록전기(전입신고일)</label>
+                    <input type="date" class="date-input-P" value="2021-07-05" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">점유를 시작한 날</label>
+                    <input type="date" class="date-input-P" value="2021-07-05" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">확정일자</label>
+                    <input type="date" class="date-input-P" value="2021-07-05" contenteditable="true">
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">임승방법 4 / 6</div>
+                
+                <div class="form-group-P">
+                    <label class="form-label-P">보증금을 못 받은 것을 증명할 첨부서류가 입니까?</label>
+                    <div style="margin-top: 10px;">
+                        <label style="display: flex; align-items: center;">
+                            <input type="checkbox" class="checkbox-P" checked>
+                            임대차계약 해지 및 임차보증금 반환 관련한 카카오톡 및 문자 내역
+                        </label>
+                        <label style="display: flex; align-items: center; margin-top: 8px;">
+                            <input type="checkbox" class="checkbox-P">
+                            임대차계약 해지 및 임차보증금 반환 관련한 기타자료
+                        </label>
+                        <label style="display: flex; align-items: center; margin-top: 8px;">
+                            <input type="checkbox" class="checkbox-P">
+                            기타 직접 입력
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">신청인(임차인) 상세정보 5 / 6</div>
+                
+                <div class="form-group-P">
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label class="form-label-P">성명</label>
+                            <input type="text" class="form-input-P" value="김일차" contenteditable="true">
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="form-label-P">주민등록번호</label>
+                            <input type="text" class="form-input-P" value="987654-1" contenteditable="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">주소</label>
+                    <input type="text" class="form-input-P" value="대전 동구 판교1길 3 (만동)" contenteditable="true">
+                    <input type="text" class="form-input-P" value="2434호 1134호" style="margin-top: 5px;" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">전화번호</label>
+                    <input type="text" class="form-input-P" value="010-1234-5678" contenteditable="true">
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-title-P">피신청인(임대인) 상세정보 6 / 6</div>
+                
+                <div class="form-group-P">
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label class="form-label-P">성명</label>
+                            <input type="text" class="form-input-P" value="최임대" contenteditable="true">
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="form-label-P">주민등록번호</label>
+                            <input type="text" class="form-input-P" value="912345-1" contenteditable="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">주소</label>
+                    <input type="text" class="form-input-P" value="대전 동구 판교2길 7 (만동)" contenteditable="true">
+                    <input type="text" class="form-input-P" value="1243호 1224호" style="margin-top: 5px;" contenteditable="true">
+                </div>
+
+                <div class="form-group-P">
+                    <label class="form-label-P">전화번호</label>
+                    <input type="text" class="form-input-P" value="010-9876-5432" contenteditable="true">
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel-P">
+            <div class="document-title-P">주택임차권등기명령 신청서</div>
+
+            <div class="applicant-info-P">
+                <div style="font-weight: bold; margin-bottom: 15px;">신청인(임차인)</div>
+                <div class="info-row-P">
+                    <span class="info-label-P">성명 :</span>
+                    <span class="info-value-P">김일차</span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">주민등록번호 :</span>
+                    <span class="info-value-P">987654-1</span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">주소 :</span>
+                    <span class="info-value-P">대전 동구 판교1길 3 (만동) 2434호 1134호</span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">전화번호 :</span>
+                    <span class="info-value-P">010-1234-5678</span>
+                </div>
+            </div>
+
+            <div class="applicant-info-P">
+                <div style="font-weight: bold; margin-bottom: 15px;">피신청인(임대인)</div>
+                <div class="info-row-P">
+                    <span class="info-label-P">성명 :</span>
+                    <span class="info-value-P blue-text-P">최임대</span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">주민등록번호 :</span>
+                    <span class="info-value-P">912345-1</span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">주소 :</span>
+                    <span class="info-value-P">대전 동구 판교2길 7 (만동) 1243호 1224호</span>
+                </div>
+                <div class="info-row-P">
+                    <span class="info-label-P">전화번호 :</span>
+                    <span class="info-value-P">010-9876-5432</span>
+                </div>
+            </div>
+
+            <div class="address-section-P">
+                <div class="address-title-P">임차권 등기할 부동산의 표시</div>
+                <div class="address-value-P">주소 : 경기 안성시 일죽면 방곡리 6 (화룡리) 423호 1390호</div>
+            </div>
+
+            <div class="content-section-P">
+                <div class="content-title-P">신청취지</div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    위의 부동산에 관하여 아래와 같은 주택임차권등기를 명한다는 결정을 구합니다.
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 20px;">- 아 래 -</div>
+                
+                <ol class="content-list-P">
+                    <li>임대차계약일 : <strong>2021.07.04.</strong></li>
+                    <li>임차보증금액 : <strong>100,000,000원</strong></li>
+                    <li>주민등록일자 : <strong>2021.07.05.</strong></li>
+                    <li>점유개시일자 : <strong>2021.07.05.</strong></li>
+                    <li>확정일자 : <strong>2021.07.05.</strong></li>
+                </ol>
+            </div>
+
+            <div class="content-section-P">
+                <div class="content-title-P">신청이유</div>
+                
+                <div class="content-list-P">
+                    <p>1. 신청인은 피신청인의 소유 부동산인 <strong>경기 안성시 일죽면 방곡리 6 (화룡리)423호 1390호</strong>에 대하여 <strong>2021.07.04.</strong>부터 <strong>2025.07.12.</strong>까지의 기간으로 <strong>100,000,000원</strong>의 전세 임대차계약을 하였으며, <strong>2021.07.05.</strong>일자로 전입신고를 하고 계약기간동안 점유·사용하고 있다 임대차계약의 만료이전에 임대차계약의 해지 통지를 하고 임차보증금의 반환을 요청하였습니다.</p>
+                    
+                    <p>2. 그러나 위 임내차기간이 종료되었음에도 불구하고 피신청인이 위 보증금을 반환하지 않아 전세, 문자, 내용증명 등으로 임대차계약해지 및 보증금 반환을 요청하였음에도 피신청인은 위 보증금을 반환하지 않고 있습니다.</p>
+                    
+                    <p>3. 신청인은 계약만료에 따라 다른 곳으로 이사를 하여야 할 처지에 있으므로 우선 임차인으로서 지위를 보전할 필요가 있습니다. 따라서 신청인은 제3자에 대한 대항력을 갖출 임차인으로서 주택임차권등기명령을 인하여 대항력 및 우선 변제권을 취득하고 본건의 신청에 이르게 되었습니다.</p>
+                </div>
+            </div>
+
+            <div class="method-section-P">
+                <div class="method-title-P">입증방법</div>
+                <ol class="method-list-P">
+                    <li>건물 등 일부 도면</li>
+                    <li>임대차계약 해지 및 임차보증금 반환 관련한 카카오톡 및 문자 내역</li>
+                </ol>
+            </div>
+
+            <div class="attachment-section-P">
+                <div class="attachment-title-P">첨부서류</div>
+                <ol class="attachment-list-P">
+                    <li>건물 등기사항증명서 1통</li>
+                    <li>주민등록등본 1통</li>
+                    <li>임대차계약서 사본 2통</li>
+                    <li>부동산혁독 5통</li>
+                </ol>
+            </div>
+
+            <div class="signature-section-P">
+                <div class="date-signature-P">2025.07.27.</div>
+                <div style="margin-bottom: 10px;"><strong>신청인(임차인)</strong></div>
+                <div style="margin-bottom: 30px;"><strong>김일차</strong> (서명 또는 인)</div>
+            </div>
+
+            <div class="court-info-P">수원지방법원 평택지원지방법원 귀중</div>
+        </div>
+    </div>
+
+    <script>
+        // 실시간 업데이트 기능
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('input, [contenteditable]')) {
+                updateRelatedFields(e.target);
+            }
+        });
+
+        function updateRelatedFields(changedElement) {
+            const value = changedElement.value || changedElement.textContent;
+            const placeholder = changedElement.placeholder;
+            
+            // 신청인 정보 동기화
+            if (placeholder === '성명 김일차' || changedElement.value === '김일차') {
+                updateTextContent('.info-value-P', value, '김일차');
+            }
+            
+            // 피신청인 정보 동기화
+            if (placeholder === '성명 최임대' || changedElement.value === '최임대') {
+                updateTextContent('.blue-text-P', value, '최임대');
+            }
+            
+            // 주소 정보 동기화
+            if (placeholder.includes('경기 안성시')) {
+                updateTextContent('.address-value-P', `주소 : ${value}`, 'address');
+            }
+        }
+
+        function updateTextContent(selector, newValue, oldValue) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                if (element.textContent.includes(oldValue) || selector === '.address-value-P') {
+                    if (selector === '.address-value-P') {
+                        element.textContent = newValue;
+                    } else {
+                        element.textContent = newValue;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

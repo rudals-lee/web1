@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>엘박스 슬라이드</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .swiper {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 0;
+    }
+
+    .slide-box {
+      padding: 40px 20px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+    }
+
+    .slide-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .slide-sub {
+      color: #007bff;
+    }
+
+    .slide-btn {
+      margin: 20px auto;
+      background-color: #007bff;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .search-box {
+      margin: 20px 0;
+    }
+
+    .search-box input {
+      width: 60%;
+      padding: 12px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .search-box button {
+      padding: 10px 16px;
+      margin-left: 10px;
+      border-radius: 25px;
+      border: none;
+      background: #ddd;
+      cursor: pointer;
+    }
+
+    .slide-bottom {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Swiper 슬라이드 -->
+  <div class="swiper">
+    <div class="swiper-wrapper">
+
+      <!-- Slide 1 -->
+      <div class="swiper-slide">
+        <div class="slide-box">
+          <!-- <div class="slide-title"><span class="slide-sub">변호사</span> 회원 수 1위</div> -->
+          <button class="slide-btn">가입하고 7일 무료 이용하기</button>
+          <div class="search-box">
+            <input type="text" placeholder="사건번호, 키워드를 입력하세요.">
+            <button>검색 가이드</button>
+          </div>
+          <div class="slide-bottom">
+            &lt;수사편람&gt; 독점 발간<br />
+            장준원 전문위원 LBOX Scholar
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="swiper-slide">
+        <div class="slide-box">
+          <!-- <div class="slide-title"><span class="slide-sub">판례</span> 보유 수 1위</div> -->
+          <button class="slide-btn">가입하고 7일 무료 이용하기</button>
+          <div class="search-box">
+            <input type="text" placeholder="사건번호, 키워드를 입력하세요.">
+            <button>검색 가이드</button>
+          </div>
+          <div class="slide-bottom">
+            제33회 공인노무사 연수교육생을 위한 이벤트<br />
+            엘박스를 6개월간 무료로 이용해 보세요
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="swiper-slide">
+        <div class="slide-box">
+          <!-- <div class="slide-title"><span class="slide-sub">100% 전문</span> 공개 판례</div> -->
+          <button class="slide-btn">가입하고 7일 무료 이용하기</button>
+          <div class="search-box">
+            <input type="text" placeholder="사건번호, 키워드를 입력하세요.">
+            <button>검색 가이드</button>
+          </div>
+          <div class="slide-bottom">
+            제33회 공인노무사 연수교육생을 위한 이벤트<br />
+            엘박스를 6개월간 무료로 이용해 보세요
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 네비게이션 버튼 -->
+    <!-- <div class="swiper-pagination"></div> -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script>
+   new Swiper(".swiper", {
+    loop: true,
+    autoplay: {
+      delay: 4000,
+    },
+  });
+  </script>
+
+</body>
+</html>

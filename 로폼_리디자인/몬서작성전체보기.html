@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어떤 법률문서를 작성할까요?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .header-T {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .close-btn-T {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .title-T {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            clear: both;
+        }
+
+        .search-container-T {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input-T {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #f8f8f8;
+        }
+
+        .search-icon-T {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .tabs-T {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .tab-T {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-T.active-T {
+            color: #333;
+            font-weight: 600;
+            border-bottom-color: #333;
+        }
+
+        .content-T {
+            background: white;
+            min-height: 400px;
+        }
+
+        .category-section-T {
+            display: none;
+        }
+
+        .category-section-T.active-T {
+            display: block;
+        }
+
+        .category-item-T {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .category-header-T {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .category-header-T:hover {
+            background: #f8f8f8;
+        }
+
+        .expand-icon-T {
+            font-size: 18px;
+            color: #999;
+            transition: transform 0.3s ease;
+        }
+
+        .category-item-T.expanded-T .expand-icon-T {
+            transform: rotate(45deg);
+        }
+
+        .subcategory-list-T {
+            display: none;
+            padding: 0 20px 16px;
+        }
+
+        .category-item-T.expanded-T .subcategory-list-T {
+            display: block;
+        }
+
+        .subcategory-item-T {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .star-icon-T {
+            margin-right: 8px;
+            color: #ddd;
+        }
+
+        .info-icon-T {
+            margin-left: 8px;
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .premium-badge-T {
+            background: #007bff;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-T">
+        <button class="close-btn-T">×</button>
+        <h1 class="title-T">어떤 법률문서를 작성할까요?</h1>
+        <div class="search-container-T">
+            <input type="text" class="search-input-T" placeholder="찾으시는 문서명을 입력해주세요">
+            <span class="search-icon-T">🔍</span>
+        </div>
+    </div>
+
+    <div class="tabs-T">
+        <button class="tab-T active-T" data-tab="category">카테고리</button>
+        <button class="tab-T" data-tab="company">기업법률</button>
+        <button class="tab-T" data-tab="life">생활법률</button>
+        <button class="tab-T" data-tab="bookmark">즐겨찾기</button>
+    </div>
+
+    <div class="content-T">
+        <!-- 카테고리 탭 -->
+        <div class="category-section-T active-T" id="category-T">
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>내용증명</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+                <div class="subcategory-list-T">
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(개인정보 수집·이용·제공동의서)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>손해배상, 계약이행</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+                <div class="subcategory-list-T">
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(계약이행 청구)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(계약해지 통지 답변서)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(계약해지 통지)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(권리청구)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(물건, 권리침해 손해배상 등)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(부당이득 반환)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(신체침해 손해배상 등)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(임금청구)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(정당철회)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(투자금 반환)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(파손, 이벤시 선물 반환 등 정상 요청)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>통지</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>임대차</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>명예훼손, 지식재산권</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>빚련주 등</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 기업법률 탭 -->
+        <div class="category-section-T" id="company-T">
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>법인설립</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>법인운영</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>인사, 노무</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>스톡옵션</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>기술, 지식재산권</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>주주, 지분, 투자</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>용역계약</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>매매, 권리이전</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>업무협약 및 동업</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>인터넷 비즈니스</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>분쟁, 손해배상</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 생활법률 탭 -->
+        <div class="category-section-T" id="life-T">
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>금전청구</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>매매대금</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+                <div class="subcategory-list-T">
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(매매대금 청구용)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(매매대금 청구 답변서)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        지급명령 신청서(매매대금 청구)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        내용증명(매매대금 반환 청구)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                    <div class="subcategory-item-T">
+                        <span class="star-icon-T">☆</span>
+                        지급명령 신청서(매매대금 반환 청구)
+                        <span class="info-icon-T">ⓘ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>용역대금</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>임금, 월급</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>기타</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>손해배상</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>임대차 및 부동산</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>빚련주 등</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>명예훼손, 모욕</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>지식재산권</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>가사사건</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>차량</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+
+            <div class="category-item-T">
+                <div class="category-header-T">
+                    <span>합의, 취하</span>
+                    <span class="expand-icon-T">+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 즐겨찾기 탭 -->
+        <div class="category-section-T" id="bookmark-T">
+            <div style="padding: 40px; text-align: center; color: #999;">
+                즐겨찾기한 문서가 없습니다.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 탭 전환 기능
+        document.querySelectorAll('.tab-T').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 모든 탭에서 active 클래스 제거
+                document.querySelectorAll('.tab-T').forEach(t => t.classList.remove('active-T'));
+                document.querySelectorAll('.category-section-T').forEach(s => s.classList.remove('active-T'));
+                
+                // 클릭된 탭에 active 클래스 추가
+                this.classList.add('active-T');
+                
+                // 해당 섹션 표시
+                const tabType = this.dataset.tab;
+                document.getElementById(tabType + '-T').classList.add('active-T');
+            });
+        });
+
+        // 카테고리 펼침/접힘 기능
+        document.querySelectorAll('.category-header-T').forEach(header => {
+            header.addEventListener('click', function() {
+                const categoryItem = this.closest('.category-item-T');
+                const isExpanded = categoryItem.classList.contains('expanded-T');
+                
+                // 모든 카테고리 접기
+                document.querySelectorAll('.category-item-T').forEach(item => {
+                    item.classList.remove('expanded-T');
+                });
+                
+                // 클릭된 카테고리만 펼치기 (이미 펼쳐져 있다면 접기)
+                if (!isExpanded) {
+                    categoryItem.classList.add('expanded-T');
+                }
+            });
+        });
+
+        // 검색 기능 (기본적인 필터링)
+        document.querySelector('.search-input-T').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const subcategoryItems = document.querySelectorAll('.subcategory-item-T');
+            
+            subcategoryItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    // 검색어가 있으면 해당 카테고리를 자동으로 펼침
+                    if (searchTerm) {
+                        item.closest('.category-item-T').classList.add('expanded-T');
+                    }
+                } else {
+                    item.style.display = searchTerm ? 'none' : 'flex';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

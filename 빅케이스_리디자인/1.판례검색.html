@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigCase - 판례 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .header-P {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 10px 0;
+        }
+
+        .header-container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo-P {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .search-container-P {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-input-P {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input-P:focus {
+            border-color: #007bff;
+        }
+
+        .user-info-P {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .points-P {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .plus-btn-P {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .login-P {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-P {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav-container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu-P {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item-P {
+            margin-right: 30px;
+        }
+
+        .nav-link-P {
+            display: block;
+            padding: 15px 0;
+            text-decoration: none;
+            color: #666;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .nav-link-P.active-P {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .nav-link-P.active-P::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ff6b35;
+        }
+
+        .new-badge-P {
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .main-container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .content-P {
+            flex: 1;
+        }
+
+        .filter-nav-P {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn-P {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .filter-btn-P.active-P {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .sort-dropdown-P {
+            float: right;
+            margin-bottom: 15px;
+        }
+
+        .sort-select-P {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .result-item-P {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-title-P {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .result-content-P {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .result-meta-P {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .court-info-P {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+
+        .lock-icon-P {
+            color: #999;
+        }
+
+        .sidebar-P {
+            width: 280px;
+        }
+
+        .filter-section-P {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-header-P {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-content-P {
+            padding: 15px 20px;
+        }
+
+        .checkbox-group-P {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item-P {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item-P input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .checkbox-item-P label {
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .more-btn-P {
+            color: #ff6b35;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .toggle-icon-P {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .hidden-P {
+            display: none;
+        }
+
+        .pagination-P {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .pagination-P button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination-P button.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination-P button:hover {
+            background: #f8f9fa;
+        }
+
+        .pagination-P span {
+            color: #999;
+        }
+
+        /* 필터 라디오 버튼 스타일 */
+        .radio-group-P {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-item-P {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-item-P input[type="radio"] {
+            margin: 0;
+        }
+
+        .radio-item-P label {
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* 검색 필터 섹션 */
+        .search-filter-P {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .date-input-P {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100px;
+        }
+
+        .search-field-P {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .dropdown-P {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .reset-btn-P {
+            background: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-P">
+        <div class="header-container-P">
+            <div class="logo-P">빅케이스</div>
+            <div class="search-container-P">
+                <input type="text" class="search-input-P" placeholder="검색" id="mainSearch">
+            </div>
+            <div class="user-info-P">
+                <span class="points-P">🎁 전구초대 30,000P</span>
+                <button class="plus-btn-P">빅케이스Plus</button>
+                <a href="#" class="login-P">로그인/회원가입</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-P">
+        <div class="nav-container-P">
+            <ul class="nav-menu-P">
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P active-P">판례</a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">법령</a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">주해/주석서<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">논문<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">경정례<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">유권해석<span class="new-badge-P">NEW</span></a>
+                </li>
+                <li class="nav-item-P">
+                    <a href="#" class="nav-link-P">e-book</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container-P">
+        <div class="content-P">
+            <div class="filter-nav-P">
+                <button class="filter-btn-P active-P">전문판례</button>
+                <button class="filter-btn-P">미리보기 판례</button>
+                <button class="filter-btn-P">전체</button>
+            </div>
+
+            <div class="sort-dropdown-P">
+                <select class="sort-select-P">
+                    <option>정확도순 판례보기</option>
+                    <option>최신순</option>
+                    <option>과거순</option>
+                </select>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P">서울남부지방법원 2021. 5. 27. 선고 2020가단290204 판결 형사합의금정구</div>
+                <div class="result-content-P">
+                    위 인정사실에 의하면 피고는 이 사건 각 합의에 따라 원고에게 이자로 형사합의금 전금 및 이에 대한 지연손해금을 지급할 의무가 있다. 나...피고 B와 사이에 형사합의금 명목으로 피고 B로부터 100,000,000원을 지급받는 합의를 하였는데, 그 규체적인 내용은 다음과 같다. 다. 관련 형사사건 계속 중 원고는 2019. 7. 1. 피고 C와 사이...
+                </div>
+                <div class="result-meta-P">
+                    <span class="court-info-P">원고승</span>
+                    <span class="lock-icon-P">🔒</span>
+                </div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P">서울중앙지방법원 2021. 6. 10. 선고 2020나78706 판결 손해배상(자)</div>
+                <div class="result-content-P">
+                    추가판단 1) 원고의 주장 원고가 C로부터 형사합의금 33,500,000원을 지급받은 사정을 이 사건 위자료 산정에서 고려하여서는 아니 된다. 2) 판단 통상 형사합의금은 재산상 손해배상에서 공제하여야 할 것이지만, 이 사건과 같이 원고가 C로부터 위 형사합의금의 지급으로 인한 보험금정구권까지 양수한 사건에서는 위 형사합의금에...
+                </div>
+                <div class="result-meta-P">
+                    <span class="court-info-P">원고항소일부인용</span>
+                    <span class="lock-icon-P">🔒</span>
+                </div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P">대구지방법원 2022. 9. 28. 선고 2021나317995 판결 악정금</div>
+                <div class="result-content-P">
+                    형사합의금에 대한 판단 1) 이 사안에 이르게 된 교통사고의 가해자가 형사합의금으로 3,000만 원을 지급하였고, 위 형사합의금을 피고가 수령한 사실은 앞서 인정한 바와 같다. 2) 따라서 피고는 원고에게 위 형사합의금 중 원고 지분에 해당하는 5,454,545원 (3,000만원 × 원고 상속지분 2/11)을 지급할 의무가 있다. 3) 피고는 위 ...
+                </div>
+                <div class="result-meta-P">
+                    <span class="court-info-P">피고항소기각</span>
+                    <span class="lock-icon-P">🔒</span>
+                </div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P">광주지방법원 2008. 3. 28. 선고 2007나7177 판결 형사합의금반환</div>
+                <div class="result-content-P">
+                    위 인정사실에 의하면 이 사건 사고는 스타터 운전자의 일부과실에 의하여 발생하였음에도 원고는 이 사건에서 형사합의금을 모두 지급받았으므로 원고는 이를 전액하고 민을 정당한 법률 원인 없이 취득한 것이라 할 것이므로, 그 후 무선전화로 통해 형사합의금을 지급하여서는 이를 무휴한 것 같다...
+                </div>
+                <div class="result-meta-P">
+                    <span class="court-info-P">1심취소, 원고승</span>
+                </div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P">서울중앙지방법원 2017. 5. 24. 선고 2016가단139283 판결 악정금</div>
+                <div class="result-content-P">
+                    "피고가 원고에게 형사합의금으로 4,250만 원을 지급하기로 2015. 11. 12.까지는 250만 원, 그 다음 달부터는 매월 60만 원씩을 지급하며, 만일 피고가 그 이행을 연체할 경우 연 15%의 지연손해금을 가산한 다는 내용의 형사합의서(이하 '이 사건 형사합의서'라 한다)를 작성하였다. 바. 피고는 이 사건 형사합의서에 따라 원고에게 2015....
+                </div>
+                <div class="result-meta-P">
+                    <span class="court-info-P">원고일부승</span>
+                    <span class="lock-icon-P">🔒</span>
+                </div>
+            </div>
+
+            <div class="result-item-P">
+                <div class="result-title-P">헌법재판소 2014. 10. 14. 선고 2014헌마701 결정 형사입건불고지위원장헌</div>
+                <div class="result-content-P">
+                    정구인은, 수사기관으로부터 형사입건된 사실을 통지받지 못하여 자신이 상해 혐의로 입건되지 아니한 것으로 오인하였는데, 컴퓨터으로부터 감작소령부 출석요구를 받고 출석한 사건을 확정하지 못한 채 피의자신문을 받아 피의자로서의 방어권을 제대로 행사하지 못하였다고 주장하며, 2014. 8. 22. 수사기관이 형사입건 사실을 알리지...
+                </div>
+                <div class="result-meta-P">
+                    <span class="court-info-P">각하</span>
+                    <span class="lock-icon-P">🔒</span>
+                </div>
+            </div>
+
+            <div class="pagination-P">
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+                <button>7</button>
+                <span>...30</span>
+                <button>→</button>
+            </div>
+        </div>
+
+        <aside class="sidebar-P">
+            <!-- 검색 범위 필터 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>검색 범위</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="all" name="searchScope" checked>
+                            <label for="all">전체</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="case" name="searchScope">
+                            <label for="case">판결</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="reason" name="searchScope">
+                            <label for="reason">결정</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 기간 필터 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>기간</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <select class="dropdown-P">
+                        <option>전체 기간</option>
+                        <option>최근 1년</option>
+                        <option>최근 3년</option>
+                        <option>최근 5년</option>
+                        <option>직접 입력</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 결과 내 재검색 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>결과 내 재검색</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="radio-group-P">
+                        <div class="radio-item-P">
+                            <input type="radio" id="include" name="searchType" checked>
+                            <label for="include">포함</label>
+                        </div>
+                        <div class="radio-item-P">
+                            <input type="radio" id="exclude" name="searchType">
+                            <label for="exclude">제외</label>
+                        </div>
+                    </div>
+                    <input type="text" class="search-field-P" placeholder="검색어 입력">
+                </div>
+            </div>
+
+            <!-- 조건 검색 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>조건 검색</span>
+                    <span class="toggle-icon-P">^</span>
+                </div>
+                <div class="filter-content-P hidden-P" id="conditionSearch">
+                    <button class="reset-btn-P">조건 추가하기</button>
+                </div>
+            </div>
+
+            <!-- 사건 종류 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>사건종류</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="checkbox-group-P">
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="civilCase">
+                            <label for="civilCase">형사기각</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="criminalCase">
+                            <label for="criminalCase">상고인용</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="adminCase">
+                            <label for="adminCase">상고기각</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 형소/재판 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>형소/재판</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="checkbox-group-P">
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="first-trial">
+                            <label for="first-trial">위헌</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional-court">
+                            <label for="constitutional-court">헌법불합치</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional-conform">
+                            <label for="constitutional-conform">한정위헌</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional-constitutional">
+                            <label for="constitutional-constitutional">한정합헌</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional-constitutional2">
+                            <label for="constitutional-constitutional2">합헌</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional-dismiss">
+                            <label for="constitutional-dismiss">위헌확인</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="public-interest">
+                            <label for="public-interest">(공권력행사)위헌</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 기타 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>기타</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="checkbox-group-P">
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="appeal">
+                            <label for="appeal">이송</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="procedure">
+                            <label for="procedure">소송요건선결</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional-procedure">
+                            <label for="constitutional-procedure">위헌심판제청</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 사건 종류 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>사건종류</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="checkbox-group-P">
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="civil">
+                            <label for="civil">형사</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="criminal">
+                            <label for="criminal">민사</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="admin">
+                            <label for="admin">선고유예</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="family">
+                            <label for="family">집행유예</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="special">
+                            <label for="special">벌금</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="others">
+                            <label for="others">금고</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="administrative">
+                            <label for="administrative">징역</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="rehabilitation">
+                            <label for="rehabilitation">무죄선어</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 법원/재판소 -->
+            <div class="filter-section-P">
+                <div class="filter-header-P">
+                    <span>법원/재판소</span>
+                    <span class="toggle-icon-P">−</span>
+                </div>
+                <div class="filter-content-P">
+                    <div class="checkbox-group-P">
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="supreme">
+                            <label for="supreme">공소기각</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="high">
+                            <label for="high">면소</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="district">
+                            <label for="district">선고유예</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="admin-court">
+                            <label for="admin-court">집행유예</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="constitutional">
+                            <label for="constitutional">벌금</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="other-court">
+                            <label for="other-court">금고</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="imprisonment">
+                            <label for="imprisonment">징역</label>
+                        </div>
+                        <div class="checkbox-item-P">
+                            <input type="checkbox" id="acquittal">
+                            <label for="acquittal">사형</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // 검색 기능
+        function performSearch(searchTerm) {
+            const results = document.querySelectorAll('.result-item-P');
+            const normalizedSearch = searchTerm.toLowerCase();
+            
+            results.forEach(result => {
+                const title = result.querySelector('.result-title-P').textContent.toLowerCase();
+                const content = result.querySelector('.result-content-P').textContent.toLowerCase();
+                
+                if (title.includes(normalizedSearch) || content.includes(normalizedSearch)) {
+                    result.style.display = 'block';
+                } else {
+                    result.style.display = 'none';
+                }
+            });
+        }
+
+        // 메인 검색
+        document.getElementById('mainSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.trim();
+            if (searchTerm.length > 0) {
+                performSearch(searchTerm);
+            } else {
+                // 검색어가 없으면 모든 결과 표시
+                document.querySelectorAll('.result-item-P').forEach(result => {
+                    result.style.display = 'block';
+                });
+            }
+        });
+
+        // 필터 토글 기능
+        document.querySelectorAll('.toggle-icon-P').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.parentElement.nextElementSibling;
+                if (content.classList.contains('hidden-P')) {
+                    content.classList.remove('hidden-P');
+                    this.textContent = '−';
+                } else {
+                    content.classList.add('hidden-P');
+                    this.textContent = '^';
+                }
+            });
+        });
+
+        // 필터 버튼 기능
+        document.querySelectorAll('.filter-btn-P').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn-P').forEach(b => b.classList.remove('active-P'));
+                this.classList.add('active-P');
+            });
+        });
+
+        // 네비게이션 메뉴 기능
+        document.querySelectorAll('.nav-link-P').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link-P').forEach(l => l.classList.remove('active-P'));
+                this.classList.add('active-P');
+            });
+        });
+
+        // 체크박스 필터 기능
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                applyFilters();
+            });
+        });
+
+        // 라디오 버튼 필터 기능
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                applyFilters();
+            });
+        });
+
+        // 정렬 기능
+        document.querySelector('.sort-select-P').addEventListener('change', function() {
+            const sortType = this.value;
+            const container = document.querySelector('.content-P');
+            const results = Array.from(document.querySelectorAll('.result-item-P'));
+            
+            results.sort((a, b) => {
+                const titleA = a.querySelector('.result-title-P').textContent;
+                const titleB = b.querySelector('.result-title-P').textContent;
+                
+                if (sortType === '최신순') {
+                    // 날짜 추출하여 정렬
+                    const dateA = titleA.match(/\d{4}\./);
+                    const dateB = titleB.match(/\d{4}\./);
+                    if (dateA && dateB) {
+                        return parseInt(dateB[0]) - parseInt(dateA[0]);
+                    }
+                } else if (sortType === '과거순') {
+                    const dateA = titleA.match(/\d{4}\./);
+                    const dateB = titleB.match(/\d{4}\./);
+                    if (dateA && dateB) {
+                        return parseInt(dateA[0]) - parseInt(dateB[0]);
+                    }
+                }
+                return 0;
+            });
+
+            // 정렬된 결과를 다시 DOM에 추가
+            const pagination = container.querySelector('.pagination-P');
+            results.forEach(result => {
+                container.insertBefore(result, pagination);
+            });
+        });
+
+        // 필터 적용 함수
+        function applyFilters() {
+            const checkedFilters = {
+                searchScope: document.querySelector('input[name="searchScope"]:checked')?.nextElementSibling?.textContent || '',
+                searchType: document.querySelector('input[name="searchType"]:checked')?.nextElementSibling?.textContent || '',
+                checkboxFilters: []
+            };
+
+            // 체크된 필터들 수집
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                checkedFilters.checkboxFilters.push(checkbox.nextElementSibling.textContent);
+            });
+
+            // 필터 적용
+            document.querySelectorAll('.result-item-P').forEach(result => {
+                let shouldShow = true;
+                const title = result.querySelector('.result-title-P').textContent;
+                const content = result.querySelector('.result-content-P').textContent;
+                const meta = result.querySelector('.result-meta-P').textContent;
+
+                // 체크박스 필터 적용
+                if (checkedFilters.checkboxFilters.length > 0) {
+                    let matchesFilter = false;
+                    checkedFilters.checkboxFilters.forEach(filter => {
+                        if (title.includes(filter) || content.includes(filter) || meta.includes(filter)) {
+                            matchesFilter = true;
+                        }
+                    });
+                    if (!matchesFilter) shouldShow = false;
+                }
+
+                result.style.display = shouldShow ? 'block' : 'none';
+            });
+        }
+
+        // 페이지네이션 기능
+        document.querySelectorAll('.pagination-P button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent !== '→') {
+                    document.querySelectorAll('.pagination-P button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Enter 키로 검색
+        document.getElementById('mainSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                if (searchTerm) {
+                    performSearch(searchTerm);
+                }
+            }
+        });
+
+        // 결과 내 재검색 기능
+        document.querySelector('.search-field-P').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                const searchType = document.querySelector('input[name="searchType"]:checked').nextElementSibling.textContent;
+                
+                if (searchTerm) {
+                    document.querySelectorAll('.result-item-P').forEach(result => {
+                        const title = result.querySelector('.result-title-P').textContent.toLowerCase();
+                        const content = result.querySelector('.result-content-P').textContent.toLowerCase();
+                        const normalizedSearch = searchTerm.toLowerCase();
+                        
+                        if (searchType === '포함') {
+                            if (title.includes(normalizedSearch) || content.includes(normalizedSearch)) {
+                                result.style.display = 'block';
+                            } else {
+                                result.style.display = 'none';
+                            }
+                        } else if (searchType === '제외') {
+                            if (title.includes(normalizedSearch) || content.includes(normalizedSearch)) {
+                                result.style.display = 'none';
+                            } else {
+                                result.style.display = 'block';
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        // 초기 로드 시 모든 결과 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.result-item-P').forEach(result => {
+                result.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빅케이스 - 형사 검색결과</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 10px 0;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 30px;
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 8px 40px 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .plus-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        
+        .nav-container {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            color: #666;
+            text-decoration: none;
+            position: relative;
+            font-size: 14px;
+        }
+        
+        .nav-item.active {
+            color: #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+        }
+        
+        .nav-item .new-badge {
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            position: absolute;
+            top: 8px;
+            right: 5px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 20px;
+            gap: 30px;
+        }
+        
+        .content {
+            flex: 1;
+        }
+        
+        .search-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .sort-dropdown {
+            margin-left: auto;
+            padding: 5px 20px 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .search-results {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .result-item {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-title {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            text-decoration: none;
+        }
+        
+        .result-title:hover {
+            color: #ff6b35;
+        }
+        
+        .result-meta {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .bookmark-icon {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        
+        .bookmark-icon:hover {
+            color: #ff6b35;
+        }
+        
+        .sidebar {
+            width: 250px;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .filter-dropdown {
+            width: 100%;
+            padding: 8px 30px 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .filter-options {
+            margin-top: 10px;
+        }
+        
+        .filter-option {
+            padding: 5px 0;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .filter-option:hover {
+            color: #333;
+        }
+        
+        .filter-option.selected {
+            color: #ff6b35;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+        
+        .page-num {
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #666;
+            border-radius: 4px;
+        }
+        
+        .page-num.active {
+            background: #ff6b35;
+            color: white;
+        }
+        
+        .page-num:hover:not(.active) {
+            background: #f0f0f0;
+        }
+        
+        .page-arrow {
+            padding: 8px 12px;
+            color: #999;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-container">
+            <div class="logo">빅케이스</div>
+            <div class="search-container">
+                <input type="text" class="search-box" value="형사" placeholder="검색어를 입력하세요">
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="header-right">
+                <span>전구조례 30,000P</span>
+                <a href="#" class="plus-btn">빅케이스Plus</a>
+                <span>로그인/회원가입</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="nav">
+            <a href="#" class="nav-item">판례</a>
+            <a href="#" class="nav-item">법령</a>
+            <a href="#" class="nav-item">주해/주석서</a>
+            <a href="#" class="nav-item active">
+                논문
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                경정례
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                유권해석
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                e-book
+                <span class="new-badge">NEW</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="content">
+            <div class="search-info">
+                🔍 <strong>3,768건의 검색 결과</strong>
+                <select class="sort-dropdown">
+                    <option>정확도순</option>
+                    <option>최신순</option>
+                    <option>인용순</option>
+                </select>
+            </div>
+            
+            <div class="search-results">
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사소송법-공명한 형사재판의 보장을 위한 현행 형사소송법의 제도</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>정진수</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>5(37)</span>
+                        <span>1992.4</span>
+                        <span>281-284 (4pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">[분야별 논점감사]형사소송법-'헌법적 형사소송'의 관점에서 본 형사절차상의 인권</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>조국</span>
+                        <span>고시연구사(현구)</span>
+                        <span>고시연구</span>
+                        <span>4(27)</span>
+                        <span>2000.4</span>
+                        <span>90-102 (13pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">왜 형사소송의 증명인가, 새로운 형사소송의 시작인가? - 독일 형사소송법의 협상규정 -</a>
+                    <div class="result-meta">
+                        <span>학술지</span>
+                        <span>손미숙</span>
+                        <span>성균관대학교 법학연구원</span>
+                        <span>성균관법학</span>
+                        <span>1(23)</span>
+                        <span>2011.4</span>
+                        <span>129-154 (26pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">[특집:형사소송법의] 중요논점 연구]'형사모의재판'에 의한 형사소송절차 분석</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>조용</span>
+                        <span>고시연구사(현구)</span>
+                        <span>고시연구</span>
+                        <span>5(26)</span>
+                        <span>1999.5</span>
+                        <span>53-61 (9pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사법 - 형사소송법</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>이창현</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>4(63)</span>
+                        <span>2018.3</span>
+                        <span>5-15 (11pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사법 - 형사소송법</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>이창현</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>12(65)</span>
+                        <span>2020.11</span>
+                        <span>5-16 (12pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사법-형사소송법</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>이창현</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>10(66)</span>
+                        <span>2021.9</span>
+                        <span>76-86 (11pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사법-형사소송법</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>이창현</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>8(67)</span>
+                        <span>2022.7</span>
+                        <span>59-69 (11pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사법-형사소송법</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>이창현</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>12(67)</span>
+                        <span>2022.11</span>
+                        <span>70-83 (14pages)</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="bookmark-icon">📌</div>
+                    <a href="#" class="result-title">형사법 - 형사소송법</a>
+                    <div class="result-meta">
+                        <span>전문학지</span>
+                        <span>이창현</span>
+                        <span>고사계사</span>
+                        <span>고사계</span>
+                        <span>8(68)</span>
+                        <span>2023.7</span>
+                        <span>225-242 (18pages)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="#" class="page-num active">1</a>
+                <a href="#" class="page-num">2</a>
+                <a href="#" class="page-num">3</a>
+                <a href="#" class="page-num">4</a>
+                <a href="#" class="page-num">5</a>
+                <a href="#" class="page-num">6</a>
+                <a href="#" class="page-num">7</a>
+                <span>...</span>
+                <a href="#" class="page-num">377</a>
+                <a href="#" class="page-arrow">→</a>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="filter-section">
+                <div class="filter-title">
+                    기간
+                    <span>−</span>
+                </div>
+                <select class="filter-dropdown">
+                    <option>전체 기간</option>
+                    <option>최근 1년</option>
+                    <option>최근 3년</option>
+                    <option>최근 5년</option>
+                </select>
+                
+                <div class="filter-options">
+                    <div class="filter-option selected">전체기간 ✓</div>
+                    <div class="filter-option">최근 1년</div>
+                    <div class="filter-option">최근 3년</div>
+                    <div class="filter-option">최근 5년</div>
+                    <div class="filter-option">기간 직접 입력</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 검색 기능
+        document.querySelector('.search-box').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert('검색 기능 실행: ' + this.value);
+            }
+        });
+        
+        // 북마크 기능
+        document.querySelectorAll('.bookmark-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                if (this.style.color === 'rgb(255, 107, 53)') {
+                    this.style.color = '#ccc';
+                } else {
+                    this.style.color = '#ff6b35';
+                }
+            });
+        });
+        
+        // 정렬 드롭다운
+        document.querySelector('.sort-dropdown').addEventListener('change', function() {
+            alert('정렬 기준 변경: ' + this.value);
+        });
+        
+        // 필터 옵션 선택
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // 페이지네이션
+        document.querySelectorAll('.page-num').forEach(pageNum => {
+            pageNum.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.page-num').forEach(num => num.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

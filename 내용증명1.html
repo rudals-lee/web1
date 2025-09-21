@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내용증명(보증금 반환 청구)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .main-content {
+            flex: 1;
+            background-color: #e8e8e8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+        
+        .document {
+            width: 700px;
+            background-color: white;
+            padding: 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-height: 800px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-number {
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .document-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .info-section {
+            margin-bottom: 40px;
+        }
+        
+        .info-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .info-item {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .content-section {
+            margin-bottom: 40px;
+        }
+        
+        .content-item {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+        
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .signature-section {
+            text-align: right;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+        }
+        
+        .date {
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .signature {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .amount {
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        
+        .phone-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <!-- 세입자 및 임주인 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">1</span>
+                세입자 및 임주인
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">부내측 사람(세입자)</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="tenant_type" value="법인" id="tenant_corp" checked>
+                        <label for="tenant_corp">법인</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="tenant_type" value="개인사업자" id="tenant_individual">
+                        <label for="tenant_individual">개인사업자</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="tenant_type" value="개인" id="tenant_person">
+                        <label for="tenant_person">개인</label>
+                    </div>
+                </div>
+                <input type="text" class="form-input" placeholder="성명" id="tenant_name" value="김희찬">
+                <input type="text" class="form-input" placeholder="김희태" style="margin-top: 8px;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">받은 사람(임주인)</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="landlord_type" value="법인" id="landlord_corp">
+                        <label for="landlord_corp">법인</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="landlord_type" value="개인사업자" id="landlord_individual" checked>
+                        <label for="landlord_individual">개인사업자</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="landlord_type" value="개인" id="landlord_person">
+                        <label for="landlord_person">개인</label>
+                    </div>
+                </div>
+                <input type="text" class="form-input" placeholder="성명" id="landlord_name" value="김희태">
+            </div>
+        </div>
+        
+        <!-- 임대차계약 내용 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">2</span>
+                임대차계약 내용
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">계약일 날짜</label>
+                <input type="date" class="form-input" id="contract_date" value="2024-12-31">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">임대차 계약기간</label>
+                <input type="date" class="form-input" id="lease_start" value="2024-12-31">
+                <input type="date" class="form-input" id="lease_end" value="2025-01-01" style="margin-top: 8px;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">임차한 대상</label>
+                <textarea class="form-input" rows="3" id="lease_subject" placeholder="서울 관남구 대학동로 1004 정서는 밑쪽 3층">서울 관남구 대학동로 1004 정서는 밑쪽 3층</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">임차료옥금</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="number" class="form-input" id="deposit" value="100000000" style="flex: 1;">
+                    <span>원</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 8px;">
+                    <input type="number" class="form-input" id="monthly_rent" value="2000000" style="flex: 1;">
+                    <span>원</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 보증금의 반환을 요구하는 이유 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">3</span>
+                보증금의 반환을 요구하는 이유
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">임대차 계약의 종료</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reason1" checked>
+                        <label for="reason1">이미 종료됨</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reason2">
+                        <label for="reason2">기간 만료시 종료하고자 함</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reason3">
+                        <label for="reason3">임대인으로 계약 연장의견이었으나, 종료하고자 함</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reason4">
+                        <label for="reason4">임차인이 원하기 않아 더 이상 추가가 불가능함</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">임대차계약이 종료된 이유</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="end_reason1" checked>
+                        <label for="end_reason1">계약기간 만료</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="end_reason2">
+                        <label for="end_reason2">당사자 간 합의한 임대차계약의 해지됨</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="end_reason3">
+                        <label for="end_reason3">세입자의 광포로써 임대차계약이 해지됨</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="end_reason4">
+                        <label for="end_reason4">임주인의 원방한 이유로 임대차계약이 해지됨</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">보증금의 일부를 돌려받고 싶나요?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="partial_return" value="전부" id="full_return" checked>
+                        <label for="full_return">전부</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="partial_return" value="일부" id="partial_return_option">
+                        <label for="partial_return_option">일부</label>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 15px;">
+                    <label class="form-label">물려받은 보증금의 액수</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" class="form-input" id="return_amount" value="2000000" style="flex: 1;">
+                        <span>원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 집주인의 이행 사항 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">4</span>
+                집주인의 이행 사항
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">보증금 지급 기한</label>
+                <input type="date" class="form-input" id="payment_deadline" value="2024-12-31">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">보증금을 돌려받을 계좌 정보를 입력하시오</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="account_type" value="입금함" id="deposit_account" checked>
+                        <label for="deposit_account">입금함</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="account_type" value="임대하지 않음" id="no_deposit">
+                        <label for="no_deposit">임대하지 않음</label>
+                    </div>
+                </div>
+                
+                <input type="text" class="form-input" placeholder="예금주 혹은 수취인명" id="account_holder" value="혹스 수취인명" style="margin-top: 10px;">
+                <input type="text" class="form-input" placeholder="월국울몸경 국민은행" id="bank_name" value="월국울몸경 국민은행" style="margin-top: 8px;">
+                <input type="text" class="form-input" placeholder="계좌번호 110-1234-5678" id="account_number" value="110-1234-5678" style="margin-top: 8px;">
+            </div>
+        </div>
+        
+        <!-- 추가사항 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">5</span>
+                추가사항
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">장기수선충당금 반환을 요구할 건가요?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="maintenance_fund" value="요구함" id="request_fund" checked>
+                        <label for="request_fund">요구함</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="maintenance_fund" value="요구하지 않음" id="no_request_fund">
+                        <label for="no_request_fund">요구하지 않음</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">장기수선충당금 액수</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="number" class="form-input" id="maintenance_amount" value="2000000" style="flex: 1;">
+                    <span>원</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">보증금을 돌려받지 못할 방식의 특별한 추력이 존재가 있나요?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="special_reason" value="있음" id="has_reason" checked>
+                        <label for="has_reason">있음</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="special_reason" value="없음" id="no_reason">
+                        <label for="no_reason">없음</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">이번 특별한 추력가 있었자기 초점</label>
+                <textarea class="form-input" rows="3" id="special_details" placeholder="보증금 미반환으로 세 긴장한 계약을 종료함">보증금 미반환으로 세 긴장한 계약을 종료함</textarea>
+            </div>
+        </div>
+        
+        <!-- 세입자 상세정보 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">6</span>
+                세입자 상세정보
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">성명</label>
+                <input type="text" class="form-input" id="tenant_detail_name" value="김희찬">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">주소</label>
+                <input type="text" class="form-input" id="tenant_address" value="대전 동구 판교로 3 (번영동)">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">나이지 주소 업택</label>
+                <input type="text" class="form-input" id="tenant_old_address" value="나이지 주소 업택">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">전화번호</label>
+                <input type="tel" class="form-input" id="tenant_phone" value="02-1234-5678">
+            </div>
+        </div>
+        
+        <!-- 집주인 상세정보 섹션 -->
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">7</span>
+                집주인 상세정보
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">성명</label>
+                <input type="text" class="form-input" id="landlord_detail_name" value="김희태">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">주소</label>
+                <input type="text" class="form-input" id="landlord_address" value="대전 동구 판교로 3 (번영동)">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">나이지 주소 업택</label>
+                <input type="text" class="form-input" id="landlord_old_address" value="나이지 주소 업택">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">전화번호</label>
+                <input type="tel" class="form-input" id="landlord_phone" value="02-4567-9872">
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="document">
+            <div class="document-title">내용증명</div>
+            
+            <div class="info-section">
+                <div class="info-title">■ 발신인</div>
+                <div class="info-item"><span class="info-label">성명 :</span> <span id="display_tenant_name">김희찬</span></div>
+                <div class="info-item"><span class="info-label">주소 :</span> <span id="display_tenant_address">대전 동구 판교로 3 (번영동) 나이지 주소 업택</span></div>
+                <div class="info-item"><span class="info-label">전화번호 :</span> <a href="tel:02-1234-5678" class="phone-link" id="display_tenant_phone">02-1234-5678</a></div>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-title">■ 수신인</div>
+                <div class="info-item"><span class="info-label">성명 :</span> <span id="display_landlord_name">김희태</span></div>
+                <div class="info-item"><span class="info-label">주소 :</span> <span id="display_landlord_address">대전 동구 판교로 3 (번영동) 나이지 주소 업택</span></div>
+                <div class="info-item"><span class="info-label">전화번호 :</span> <a href="tel:02-4567-9872" class="phone-link" id="display_landlord_phone">02-4567-9872</a></div>
+            </div>
+            
+            <div class="content-section">
+                <div class="info-title">제 　목 : 임대차 보증금 반환청구의 내용증명</div>
+                
+                <div class="content-item">
+                    1. 귀하(수신인, 이하 '귀하'라고 합니다.)의 무궁한 발전을 기원합니다.
+                </div>
+                
+                <div class="content-item">
+                    2. 이하와 같이 본 발신인은 귀하와 임대차계약을 체결하였으나, 이에 귀하는 본 발신인에게 임대차보증금 반환의무가 있는 바, 이에 대한 이행을 촉구합니다.
+                </div>
+                
+                <div class="content-item">
+                    가. 본 발신인은 귀하와 <span class="highlight" id="display_contract_date">2024.12.31.</span>, 서울 관남구 대학동로 <span class="highlight">1004 정서는 밑쪽 3층</span>에 관하여 <span class="highlight" id="display_lease_period">2024.12.31.부터 2025.01.01.</span>까지 다음과 같은 조건으로 임대차계약을 체결하였습니다.<br>
+                    1) 임대차 보증금 : <span class="amount" id="display_deposit">100,000,000원</span><br>
+                    2) 월세 : <span class="amount" id="display_monthly_rent">2,000,000원</span>
+                </div>
+                
+                <div class="content-item">
+                    나. 본 임대차계약은 기간이 만료되어 종료하였는 바, 귀하는 본 발신인에게 임대차보증금 <span class="amount">100,000,000원</span> 중 미반환 <span class="amount" id="display_return_amount">98,000,000원</span>을 반환할 의무가 있습니다.
+                </div>
+                
+                <div class="content-item">
+                    3. 본만 이나며, 공동주택관리법 시행령 제31조 제7항에서는 공동주택의 소유자가 장기수선충당금을 시행자가 대신하여 납부한 경우 그 금액을 반환하여야 한다고 정하고 있는 바, 귀하는 본 발신인의 임대차 계약기간 동안 본 적 입주인의 유지보수 시행하여서 납부한 <span class="amount">2,000,000원</span>의 장기수선충당금 반환하여야 할 의무가 있습니다.
+                </div>
+                
+                <div class="content-item">
+                    4. 이에 본 발신인에게 임대차보증금 잔 장기수선충당금 합계 <span class="amount">₩102,000,000원</span> 중 미반환 <span class="amount">100,000,000원</span>을 반환할 의무가 있습니다.
+                </div>
+                
+                <div class="content-item">
+                    5. 본 발신인은 귀하가 <span class="highlight" id="display_payment_deadline">2024.12.31.</span>까지 본 발신인에게(예금주: <span class="highlight">혹스 수취인명</span>, 입금은행: <span class="highlight">국민은행</span>, 계좌번호: <span class="highlight">110-1234-5678</span>) 임대차보증금 및 발신인이 기납부한 장기수선충당금을 반환하여 주시기 바란다 이에 그에 대한 피급 및 보전 처분 및 입차 등을 통하여 본 시차를 등기하여, 민사소송 등을 통해 피해 보증금반환청구 소송 등의 단계의 피해 환급, 이에 따 지연손해금률을 물음에 따라 응하는 등 모든 법적 조치를 시행하여서 납무한 법적 이익 및 경제적 손해를 보전시킬 계획이 본 발신인의 소송 제기하여 처인심해금을 소송원 동안 전민 특별의 제1조 제19 번의 법정이용에 따라 관리 12%까지 정하나다.
+                </div>
+                
+                <div class="content-item">
+                    6. 본만 이나며, 본 발신인은 이과와 간은 실행에 있는 바,귀하는 본 발신인에 대한 위와 같은 법적 조치를 취하시 정를 경우, 본 발신인은 귀하에게 다하여 간은 특별서송으로 인한 손해의 배상을 청구할 수도 있음을 양따드립니다.
+                </div>
+                
+                <div class="content-item">
+                    가. <span class="highlight">보증금 미반환으로 세 긴장한 계약을 종료함</span>
+                </div>
+                
+                <div class="content-item">
+                    7. 본 발신인이 귀하에게 위와 같은 법적 조치를 취하기 전에 귀하는 기한 내에 귀하의 명확한 임대차보증금 반환 의무를 이행하여서 본 건을 원만하게 해결하시기를 바라오로 말씀드립니다.
+                </div>
+            </div>
+            
+            <div class="signature-section">
+                <div class="date" id="display_current_date">2025.08.01.</div>
+                <div class="signature">
+                    <div>위 발신인</div>
+                    <div style="margin-top: 10px;"><span id="display_signature_name">김희찬</span> (인)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 실시간 연동 함수들
+        function updateDisplay() {
+            // 기본 정보 연동
+            document.getElementById('display_tenant_name').textContent = document.getElementById('tenant_name').value;
+            document.getElementById('display_landlord_name').textContent = document.getElementById('landlord_name').value;
+            document.getElementById('display_signature_name').textContent = document.getElementById('tenant_detail_name').value;
+            
+            // 주소 연동
+            const tenantAddress = document.getElementById('tenant_address').value;
+            const tenantOldAddress = document.getElementById('tenant_old_address').value;
+            document.getElementById('display_tenant_address').textContent = tenantAddress + ' ' + tenantOldAddress;
+            
+            const landlordAddress = document.getElementById('landlord_address').value;
+            const landlordOldAddress = document.getElementById('landlord_old_address').value;
+            document.getElementById('display_landlord_address').textContent = landlordAddress + ' ' + landlordOldAddress;
+            
+            // 전화번호 연동
+            document.getElementById('display_tenant_phone').textContent = document.getElementById('tenant_phone').value;
+            document.getElementById('display_tenant_phone').href = 'tel:' + document.getElementById('tenant_phone').value;
+            document.getElementById('display_landlord_phone').textContent = document.getElementById('landlord_phone').value;
+            document.getElementById('display_landlord_phone').href = 'tel:' + document.getElementById('landlord_phone').value;
+            
+            // 계약일 연동
+            const contractDate = new Date(document.getElementById('contract_date').value);
+            if (!isNaN(contractDate)) {
+                const year = contractDate.getFullYear();
+                const month = String(contractDate.getMonth() + 1).padStart(2, '0');
+                const day = String(contractDate.getDate()).padStart(2, '0');
+                document.getElementById('display_contract_date').textContent = `${year}.${month}.${day}.`;
+            }
+            
+            // 임대차 기간 연동
+            const leaseStart = new Date(document.getElementById('lease_start').value);
+            const leaseEnd = new Date(document.getElementById('lease_end').value);
+            if (!isNaN(leaseStart) && !isNaN(leaseEnd)) {
+                const startYear = leaseStart.getFullYear();
+                const startMonth = String(leaseStart.getMonth() + 1).padStart(2, '0');
+                const startDay = String(leaseStart.getDate()).padStart(2, '0');
+                const endYear = leaseEnd.getFullYear();
+                const endMonth = String(leaseEnd.getMonth() + 1).padStart(2, '0');
+                const endDay = String(leaseEnd.getDate()).padStart(2, '0');
+                document.getElementById('display_lease_period').textContent = `${startYear}.${startMonth}.${startDay}.부터 ${endYear}.${endMonth}.${endDay}.`;
+            }
+            
+            // 보증금 및 월세 연동
+            const deposit = parseInt(document.getElementById('deposit').value) || 0;
+            const monthlyRent = parseInt(document.getElementById('monthly_rent').value) || 0;
+            const returnAmount = parseInt(document.getElementById('return_amount').value) || 0;
+            
+            document.getElementById('display_deposit').textContent = deposit.toLocaleString() + '원';
+            document.getElementById('display_monthly_rent').textContent = monthlyRent.toLocaleString() + '원';
+            document.getElementById('display_return_amount').textContent = (deposit - returnAmount).toLocaleString() + '원';
+            
+            // 지급 기한 연동
+            const paymentDeadline = new Date(document.getElementById('payment_deadline').value);
+            if (!isNaN(paymentDeadline)) {
+                const year = paymentDeadline.getFullYear();
+                const month = String(paymentDeadline.getMonth() + 1).padStart(2, '0');
+                const day = String(paymentDeadline.getDate()).padStart(2, '0');
+                document.getElementById('display_payment_deadline').textContent = `${year}.${month}.${day}.`;
+            }
+            
+            // 현재 날짜 설정
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
+            const currentDay = String(today.getDate()).padStart(2, '0');
+            document.getElementById('display_current_date').textContent = `${currentYear}.${currentMonth}.${currentDay}.`;
+        }
+        
+        // 이벤트 리스너 등록
+        document.addEventListener('DOMContentLoaded', function() {
+            // 모든 입력 필드에 이벤트 리스너 추가
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateDisplay);
+                input.addEventListener('change', updateDisplay);
+            });
+            
+            // 초기 표시 업데이트
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>

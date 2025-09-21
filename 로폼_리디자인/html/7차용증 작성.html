@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law Form - 자동증 간편 작성</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .logo::before {
+            content: "⚖️";
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #0066cc;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0066cc, #0052a3);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,102,204,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,102,204,0.4);
+        }
+
+        .cta-button::after {
+            content: "→";
+            margin-left: 8px;
+            font-size: 18px;
+        }
+
+        .hero-illustration {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 400px;
+            height: 300px;
+        }
+
+        .lawyer-icon {
+            position: absolute;
+            right: 100px;
+            top: 20px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #0099ff, #0066cc);
+            border-radius: 50% 50% 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            right: 20px;
+            top: 80px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 250px;
+            border: 3px solid #0099ff;
+        }
+
+        .speech-bubble::before {
+            content: "";
+            position: absolute;
+            left: -15px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid #0099ff;
+        }
+
+        .speech-bubble::after {
+            content: "";
+            position: absolute;
+            left: -12px;
+            top: 33px;
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 12px solid white;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 60px 0;
+            font-size: 24px;
+            color: #ccc;
+        }
+
+        .service-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .service-intro h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .service-intro p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-image {
+            height: 200px;
+            background: linear-gradient(135deg, #666, #444);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .feature-card:nth-child(1) .feature-image {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+        }
+
+        .feature-card:nth-child(2) .feature-image {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+        }
+
+        .feature-card:nth-child(3) .feature-image {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+        }
+
+        .feature-content {
+            padding: 25px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-number {
+            background: #0066cc;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .document-preview {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 80px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .document-lines {
+            padding: 8px;
+        }
+
+        .line {
+            height: 2px;
+            background: #0066cc;
+            margin-bottom: 3px;
+            border-radius: 1px;
+        }
+
+        .line:nth-child(1) { width: 80%; }
+        .line:nth-child(2) { width: 60%; }
+        .line:nth-child(3) { width: 90%; }
+        .line:nth-child(4) { width: 70%; }
+
+        /* 문서탐기 섹션 스타일 */
+        .document-explorer {
+            margin: 80px 0;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .document-tabs {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tab-nav {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+
+        .tab-button {
+            padding: 15px 30px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: #0066cc;
+            border-bottom-color: #0066cc;
+        }
+
+        .tab-button:hover {
+            color: #0066cc;
+        }
+
+        .document-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 2px solid #0099ff;
+        }
+
+        .document-title {
+            color: #0099ff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .document-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .document-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .document-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .doc-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f9ff;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .doc-info h4 {
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .doc-info p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* 비디오 섹션 스타일 */
+        .video-section {
+            background: linear-gradient(135deg, #0099ff, #0066cc);
+            color: white;
+            padding: 80px 0;
+            margin-top: 80px;
+        }
+
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .video-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .video-description {
+            font-size: 16px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .video-player {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-preview {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 2;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #0066cc;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 3;
+        }
+
+        .play-button:hover {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: left;
+        }
+
+        .video-info h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .video-stats {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .video-stats span {
+            margin-right: 20px;
+        }
+
+        .video-mockup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .browser-bar {
+            height: 30px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            justify-content: space-between;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .browser-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .browser-url {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .form-preview {
+            padding: 20px;
+        }
+
+        .form-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .form-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-field {
+            height: 20px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .start-button {
+            background: white;
+            color: #0066cc;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-illustration {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .video-title {
+                font-size: 28px;
+            }
+
+            .video-mockup {
+                width: 250px;
+                height: 160px;
+            }
+
+            .tab-nav {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Law Form</div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item">요금 안내</a>
+                <a href="#" class="nav-item">마이 프로필</a>
+                <a href="#" class="nav-item">🔍</a>
+                <a href="#" class="nav-item">☰</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero-section">
+            <h1 class="hero-title">자동증 간편 작성</h1>
+            <p class="hero-subtitle">준비한 전자문서 업로드, 율근헌 변호사에게 달무</p>
+            <p class="hero-description">용종의 자동증을 제작해보세요. 간편한 종자를 합니다.</p>
+            
+            <a href="#" class="cta-button">무료로 차용증 제작하기</a>
+
+            <div class="hero-illustration">
+                <div class="lawyer-icon">👔</div>
+                <div class="speech-bubble">
+                    <p style="color: #0066cc; font-weight: bold; margin-bottom: 5px;">전문가 조언</p>
+                    <p style="font-size: 14px; color: #666;">법률 전문가가 도와드립니다</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider">—</div>
+
+        <section class="service-intro">
+            <h2>돈 벌려줄 때 무엇을 준비해야 될까요, 바로 로품의 차용증입니다.</h2>
+            <p>실제 문서 확인을 받아주시만 각 상황에서 자동증을 완성해주세요.</p>
+            <p>로폼의 차용증은 간편한 업무방법으로 빌린 내용부터 이자까지 자동으로 작성합니다.</p>
+        </section>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-image">📝</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">
+                        <span class="feature-number">1</span>
+                        문서담기
+                    </h3>
+                    <p class="feature-description">
+                        어떤쪽 제는 차용증 수 선택 안에셔<br>
+                        답아당시터때에 터건 자료 공개하기 할 성
+                    </p>
+                    <div class="document-preview">
+                        <div class="document-lines">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-image">📋</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">
+                        <span class="feature-number">2</span>
+                        간편작성
+                    </h3>
+                    <p class="feature-description">
+                        법무지차터업식 선생들 화원하 링과<br>
+                        간편하게 문서를 작성하여 보자꾸
+                    </p>
+                    <div class="document-preview">
+                        <div class="document-lines">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-image">📄</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">
+                        <span class="feature-number">3</span>
+                        전자서명
+                    </h3>
+                    <p class="feature-description">
+                        전자사인 째님추로 등식 지명마식<br>
+                        춘쓰대서 수 전자서명을 이용해 안전<br>
+                        중권대선 등 별만 궁궁지 완료가격
+                    </p>
+                    <div class="document-preview">
+                        <div class="document-lines">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 문서탐기 섹션 -->
+        <section class="document-explorer">
+            <div class="divider">—</div>
+            <h2 class="section-title">문서탐기</h2>
+            
+            <div class="document-tabs">
+                <div class="tab-nav">
+                    <button class="tab-button active">전체</button>
+                    <button class="tab-button">차용증</button>
+                    <button class="tab-button">소비대차계약</button>
+                </div>
+                
+                <div class="document-content">
+                    <div class="document-card active">
+                        <h3 class="document-title">전체</h3>
+                        <p class="document-subtitle">로폼으로 선택하여 찾고 차용증을 작성해보세요.</p>
+                        
+                        <div class="document-list">
+                            <div class="document-item">
+                                <div class="doc-icon">📝</div>
+                                <div class="doc-info">
+                                    <h4>금전차용증</h4>
+                                    <p>돈을 빌려주거나 빌린다면 금전차용 내용을 증명하기 위해서 작성하는 문서입니다. 금전거래에 대한 증표로서 분쟁예방과 법적 근거자료로 활용할 수 있습니다.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <h4>물품차용증</h4>
+                                    <p>금전이 아닌 물품을 빌려주거나 빌릴 때 작성하는 문서입니다. 빌린물품 종류, 빌린물품, 반납일과 사후처리 등 구체적으로 명시해야 합니다.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item">
+                                <div class="doc-icon">🏠</div>
+                                <div class="doc-info">
+                                    <h4>금전소비대차계약서(고액용)</h4>
+                                    <p>금전거래에 따른 내용을 구체적으로 어떤 조건하에 자전거를 빌리고 갚았일 때 보상하는 차용님별리가 된 내용을 보장하며 실무에서 활용하는 차용서입니다.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item">
+                                <div class="doc-icon">🏢</div>
+                                <div class="doc-info">
+                                    <h4>금전소비대차계약서(소액용)</h4>
+                                    <p>금전거래에 따른 소액 내용을 구체적으로 어떤 조건하에 자전거를 빌리고 갚았일 때 보상하는 계약거래에니 다음을 실무에 대한 진도과 작업에니 적고 있이 갚았버집니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 자동증 작성 안내 섹션 -->
+        <section class="video-section">
+            <div class="video-container">
+                <h2 class="video-title">이렇게 작성하기 쉬운데 자동증 안 쓰시나요?</h2>
+                <p class="video-description">볼 벤더 클릭만으로도 자동증을 쉽어나 혜주니되어 자동증을 작성하세요. 클릭한 정보는늘 마이 완료하세요.</p>
+                
+
+                <div class="video-player">
+                    <div class="video-thumbnail">
+<iframe width="800" height="500" 
+  src="https://www.youtube.com/embed/동영상ID" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen>
+</iframe>
+                        <!-- <div class="video-preview">
+                            <div class="play-button">▶</div>
+                            <div class="video-info">
+                                <h3>로폼 차용증 쓰는 방법 | 로폼(LAWFORM)</h3>
+                                <div class="video-stats">
+                                    <span>조회수 1.2만</span>
+                                    <span>좋아요 234</span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="video-mockup">
+                            <div class="browser-bar">
+                                <div class="browser-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <div class="browser-url">lawform.io</div>
+                            </div>
+                            <div class="form-preview">
+                                <div class="form-header">금전 차용증 작성</div>
+                                <div class="form-fields">
+                                    <div class="form-field"></div>
+                                    <div class="form-field"></div>
+                                    <div class="form-field"></div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                
+                <button class="start-button">문서작성 시작하기</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 부드러운 스크롤 애니메이션
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 카드 호버 효과
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // CTA 버튼 클릭 효과
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 클릭 효과
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+            
+            alert('무료 자동증 작성 서비스로 이동합니다!');
+        });
+
+        // 탭 기능
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // 모든 탭 버튼에서 active 클래스 제거
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                // 클릭된 버튼에 active 클래스 추가
+                this.classList.add('active');
+                
+                // 탭 내용은 현재 하나만 있으므로 그대로 유지
+            });
+        });
+
+        // 비디오 플레이 버튼
+        const playButton = document.querySelector('.play-button');
+        if (playButton) {
+            playButton.addEventListener('click', function() {
+                alert('비디오가 재생됩니다!');
+            });
+        }
+
+        // 문서작성 시작 버튼
+        const startButton = document.querySelector('.start-button');
+        if (startButton) {
+            startButton.addEventListener('click', function() {
+                alert('문서작성 페이지로 이동합니다!');
+            });
+        }
+
+        // 스크롤 시 헤더 그림자 효과
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 10) {
+                header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

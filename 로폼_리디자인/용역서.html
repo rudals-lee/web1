@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>용역계약서(일반)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container-P {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-P {
+            width: 350px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .main-content-P {
+            flex: 1;
+            padding: 40px;
+            background: white;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .header-P {
+            background: #4a90e2;
+            color: white;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .section-P {
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .section-header-P {
+            background: #f1f3f4;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .section-content-P {
+            padding: 15px;
+        }
+
+        .form-group-P {
+            margin-bottom: 15px;
+        }
+
+        .form-label-P {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .form-input-P {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .form-input-P:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        .radio-group-P {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-item-P {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .contract-title-P {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .contract-section-P {
+            margin-bottom: 30px;
+        }
+
+        .contract-section-title-P {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .contract-content-P {
+            line-height: 1.8;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .contract-list-P {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .contract-list-P li {
+            margin-bottom: 8px;
+        }
+
+        .editable-P {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border: 1px solid #ffeaa7;
+            border-radius: 3px;
+            cursor: text;
+        }
+
+        .editable-P:hover {
+            background-color: #fef9e7;
+        }
+
+        .step-indicator-P {
+            font-size: 12px;
+            color: #666;
+            float: right;
+        }
+
+        .info-icon-P {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #4a90e2;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        .amount-display-P {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .page-indicator-P {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-P">
+        <div class="sidebar-P">
+            <div class="header-P">
+                용역계약서(일반) <span class="info-icon-P">i</span>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    계약당사자 <span class="step-indicator-P">1 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">업무를 의뢰하는 사람(갑) <span class="info-icon-P">i</span></div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="client-type" id="individual" checked>
+                                <label for="individual">개인</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="client-type" id="company">
+                                <label for="company">법인</label>
+                            </div>
+                        </div>
+                        <input type="text" class="form-input-P" placeholder="성명" value="김개인">
+                    </div>
+
+                    <div class="form-group-P">
+                        <div class="form-label-P">업무를 수행하는 사람(을)</div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="contractor-type" id="individual2" checked>
+                                <label for="individual2">개인</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="contractor-type" id="company2">
+                                <label for="company2">법인</label>
+                            </div>
+                        </div>
+                        <input type="text" class="form-input-P" placeholder="성명" value="박개인">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    의뢰하는 업무의 내용 <span class="step-indicator-P">2 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">의뢰하는 업무의 이름</div>
+                        <input type="text" class="form-input-P" value="2025년 상반기 법무스토어 프로젝트">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">의뢰하는 업무의 특성</div>
+                        <input type="text" class="form-input-P" value="2025년 브랜드 홍시 신상품 홍보">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    의뢰하는 업무의 계약기간 <span class="step-indicator-P">3 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">본 계약 시작일</div>
+                        <input type="date" class="form-input-P" value="2024-10-01">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">본 계약 종료일</div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="end-type" id="specific-end" checked>
+                                <label for="specific-end">특정한 날짜</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="end-type" id="flexible-end">
+                                <label for="flexible-end">특정한 조건</label>
+                            </div>
+                        </div>
+                        <input type="date" class="form-input-P" value="2025-03-30">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    용역 대금, 성공보수 및 추가 비용의 지급 <span class="step-indicator-P">4 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">용역 대금 지급 방법</div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="payment-method" id="lump-sum" checked>
+                                <label for="lump-sum">매월 일정한 금액 지급</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">매월 지급할 용역 대금 <span class="info-icon-P">i</span></div>
+                        <input type="text" class="form-input-P" value="5,000,000" style="text-align: right;">
+                        <div class="amount-display-P">5,000,000 원</div>
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">지급 예정일</div>
+                        <input type="text" class="form-input-P" value="10일">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">지급 계좌 정보를 입력하십니까?</div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="account-info" id="yes" checked>
+                                <label for="yes">네</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="account-info" id="no">
+                                <label for="no">아니오</label>
+                            </div>
+                        </div>
+                        <input type="text" class="form-input-P" placeholder="은행/증권사명 국민행" value="국민행">
+                        <input type="text" class="form-input-P" placeholder="계좌번호" value="000-00-000000">
+                        <input type="text" class="form-input-P" placeholder="예금주" value="박예금">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    업무의뢰인(갑)의 권리와 의무 <span class="step-indicator-P">5 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">업무진행 중에 발생한 추가 비용의 부담은 누가할까요?</div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="cost-burden" id="client-burden" checked>
+                                <label for="client-burden">업무의뢰인(갑)이 부담</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="cost-burden" id="contractor-burden">
+                                <label for="contractor-burden">업무수행인(을)이 부담</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">업무수행인(을)의 업무를 시정하지 않을 경우 폐널티를 부과할까요?</div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="penalty" id="penalty-yes" checked>
+                                <label for="penalty-yes">패널티 있음</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="penalty" id="penalty-no">
+                                <label for="penalty-no">패널티 없음</label>
+                            </div>
+                        </div>
+                        <div class="form-group-P">
+                            <div class="form-label-P">첫번째 업무 보고 기한</div>
+                            <input type="text" class="form-input-P" value="계약일로부터 7 영업일 이내 보고">
+                        </div>
+                        <div class="form-group-P">
+                            <div class="form-label-P">위 기한을 지키지 않을 경우 부과할 위약벌</div>
+                            <input type="text" class="form-input-P" value="계약금 및 이에 대한 50 % 추가 발생">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    업무수행인(을)의 의무 <span class="step-indicator-P">6 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <input type="checkbox" id="duty1" checked>
+                        <label for="duty1">업무 담당자 변경시 사전동보의무</label>
+                    </div>
+                    <div class="form-group-P">
+                        <input type="checkbox" id="duty2" checked>
+                        <label for="duty2">비밀유지의무</label>
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">별도의 위약벌을 부과할까요? <span class="info-icon-P">i</span></div>
+                        <div class="radio-group-P">
+                            <div class="radio-item-P">
+                                <input type="radio" name="penalty-separate" id="penalty-sep-yes">
+                                <label for="penalty-sep-yes">네</label>
+                            </div>
+                            <div class="radio-item-P">
+                                <input type="radio" name="penalty-separate" id="penalty-sep-no" checked>
+                                <label for="penalty-sep-no">아니오</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">위약벌</div>
+                        <input type="text" class="form-input-P" value="1,000,000" style="text-align: right;">
+                        <span>원</span>
+                    </div>
+                    <div class="form-group-P">
+                        <input type="checkbox" id="duty3" checked>
+                        <label for="duty3">경업금지 및 영예와 신용 훼손의 금지 의무</label>
+                        <div class="form-label-P">경업금지 기간</div>
+                        <input type="text" class="form-input-P" value="1 년">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    업무를 의뢰하는 사람(갑) 상세정보 <span class="step-indicator-P">7 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">성명</div>
+                        <input type="text" class="form-input-P" value="김개인">
+                        <div class="form-label-P">주민등록번호 <span class="info-icon-P">i</span></div>
+                        <input type="text" class="form-input-P" value="123456-1">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">주소</div>
+                        <input type="text" class="form-input-P" value="광주 남구 판촌길 23-3 (양촌동)">
+                        <input type="text" class="form-input-P" value="103동 2344호">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">전화번호</div>
+                        <input type="text" class="form-input-P" value="010-1234-6789">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-P">
+                <div class="section-header-P">
+                    업무를 받는 사람(을) 상세정보 <span class="step-indicator-P">8 / 8</span>
+                </div>
+                <div class="section-content-P">
+                    <div class="form-group-P">
+                        <div class="form-label-P">성명</div>
+                        <input type="text" class="form-input-P" value="박개인">
+                        <div class="form-label-P">주민등록번호 <span class="info-icon-P">i</span></div>
+                        <input type="text" class="form-input-P" value="987655-1">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">주소</div>
+                        <input type="text" class="form-input-P" value="경기 안성시 일죽면 판곡길 6 (화폴리)">
+                        <input type="text" class="form-input-P" value="102동 2345호">
+                    </div>
+                    <div class="form-group-P">
+                        <div class="form-label-P">전화번호</div>
+                        <input type="text" class="form-input-P" value="010-9868-1234">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content-P">
+            <div class="page-indicator-P">1 / 8</div>
+            <h1 class="contract-title-P">용역계약서</h1>
+
+            <div class="contract-section-P">
+                <div class="contract-content-P">
+                    <strong>갑개인</strong>(이하 '<span class="editable-P" contenteditable="true">갑</span>'이라 한다)과 <strong>박개인</strong>(이하 '<span class="editable-P" contenteditable="true">을</span>'이라 한다)은 갑이 의뢰하는 업무를 을이 수행하고, 갑은 을에게 이에 대한 대가를 지급하기로 하는 내용의 계약을 아래와 같이 체결한다(이하 '<span class="editable-P" contenteditable="true">본 계약</span>'이라 한다).
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제1조(계약의 목적)</div>
+                <div class="contract-content-P">
+                    본 계약은 갑이 을에게 업무를 을이 수행하도록 함에 있어, 갑과 을 사이에 필요한 사항을 정하는 것을 목적으로 한다.
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제2조(갑계약당사의 준수)</div>
+                <div class="contract-content-P">
+                    양 당사자는 대등한 관계에서 독점규제및공정거래에관한법률 등 관계 법령을 준수하여 본 계약을 합리하고 이행한다.
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제3조(신의성실의 원칙)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>갑 당사자는 본 계약에 따른 권리의 의무를 신의성실 원칙에 따라 성실히 이행함으로써 상호간 공정한 관계를 창설하여 지속한다.</li>
+                        <li>을익을 제공함에 있어서 을은 그 축적된 지식 및 경험을 활용하여 갑이 본 계약을 통해 의뢰한 업무를 수행하여 가능한 최고 수준의 용역을 성실히 제공한다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제4조(용역의 내용)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>갑은 을에게 다음과 갑은 내용의 업무 수행을 의뢰한다(이하 '<span class="editable-P" contenteditable="true">본 건 용역</span>'이라 한다).
+                            <ul>
+                                <li>가. 의뢰하는 업무의 이름 : <span class="editable-P" contenteditable="true">2025년 상반기 법무스토어 프로젝트</span></li>
+                                <li>나. 의뢰하는 업무의 특성 : <span class="editable-P" contenteditable="true">2025년 브랜드 홍시 신상품 홍보</span></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제5조(계약기간)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>본 계약의 계약기간은 <span class="editable-P" contenteditable="true">2024.10.01.</span>부터 <span class="editable-P" contenteditable="true">2025.03.30.</span> 까지로 한다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제6조(용역 대금의 지급 방법)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>갑은 을에게 본 건 용역의 대가로 아래와 같이 지급하여, 부가세를 포함한 금액으로 한다.
+                            <ul>
+                                <li>가. 매월 지급할 용역 대금 : <span class="editable-P" contenteditable="true">5,000,000</span>원, 매월 <span class="editable-P" contenteditable="true">10</span>일 지급한다. 단, 지급 예정일이 영업일이 아닌 경우 지급일을 이룬 경우 해당 월의 다음 영업일에 지급한다.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제10조(비밀유지의무)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>을은 갑으로부터 제공받은 일체의 갑의 정보나 지득한 사실(이하 '비밀정보'라 한다)을 본 계약의 목적범위 내에서 제한적으로 사용할 수 있으며, 갑의 사전 서면 동의 없이 을이 본 건 용역 업무를 수행하는 관리 용역 외의 외부로 반출하거나 제3자에게 공개 또는 제공 등을 할 수 없다.</li>
+                        <li>을은 갑의 업무상 정보, 노하우, 기타 정책 및 신규사업, 특허, 저작권 등의 지식재산, 주요 거래, 임직원의 개인정보, 회계정보 등을 업무로 반출하거나 제3자에게 제공, 누설할 수 없다.</li>
+                        <li>제1항 및 제2항의 의무는 업무수행이나 계약기간 중은 물론, 계약기간이나 업무 중료후 1년간 그 효력을 갖는다.</li>
+                        <li>비밀준수의무를 위반할 경우, 의무위반 당사자는 <span class="editable-P" contenteditable="true">1,000,000</span>원을 위약벌 금액으로 상대방에게 지급하여야 한다. 위약벌은 손해배상액구에 영향이 없다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제11조(경업금지 및 영예와 신용 훼손의 금지 의무)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>을은 본 계약기간은 물론, 계약기간 중료 등의 사유로 본 계약이 종료된 경우, 본 계약기간 중 을이 계약 종료일로부터 <span class="editable-P" contenteditable="true">1</span>년간 동을 업무의 종료일로부터 1년간 동을 및 경합 업체를 위해 업무에 종사할 수 없다.</li>
+                        <li>을은 본 계약기간 및 만료 이후에도 갑의 대내외적 명예와 신용을 훼손할 하는 일체의 행위를 하여서는 아니 한다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제12조(제3자의 지적재산권 등 권리 침해 금지)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>을은 본 건 용역 수행 과정에서 제3자의 지식재산권, 소유권 등을 침해하지 않도록 적극 노력하여야 한다.</li>
+                        <li>을의 본 건 용역 수행과 관련한 사태를 등에 관하여 갑이 제3자로부터 지식재산권의 침해 등 권리 침해를 이유로 법적 조치를 들한 경우 을은 갑에게 갑이 위 법적 조치를 방어하기 위하여 소요한 비용(제3자에 대한 손해배상액, 소송비용이나 법정 자료를 포함) 및 손해(갑이 본 건 용역을 목적에 따라 사용 수익할 수 없으므로 인한 손해 포함)를 배상하여야 한다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제13조(양도 금지)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>양 당사자는 상호 간의 서면 승인 없이 본 계약의 내용 및 본 계약으로 인하여 발생하는 권리의무를 제3자에게 양도할 수 없다.</li>
+                        <li>전 항을 위반하여 제3자에게 본 계약상의 권리 의무가 이전됨으로 인하여 발생한 손해에 대하여, 위반 당사자는 그 배상책임을 진다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제14조(계약의 해제, 해지)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>양 당사자는 다음 각호에 해당하는 사유가 발생한 경우에 서면 통지로써 본 계약을 해제 또는 해지할 수 있다.
+                            <ul>
+                                <li>가. 천재지변, 법적 규제의 변경 등으로 본 건 용역을 통해 달성하고자 하는 목적을 달성할 수 없게 된 때</li>
+                                <li>나. 양당사자 중 일방이 본 계약상 의무를 이행하지 아니하거나 본 계약을 위반하고, 계약 위반이 없는 일방으로부터 서면 통지에 의한 이행 최고 또는 시정 요구를 받고도 10일 이내에 본 계약상 의무를 이행하지 아니하거나 위반 사항을 시정하지 아니 한 경우</li>
+                            </ul>
+                        </li>
+                        <li>양 당사자 중 일방에게 아래의 사유가 발생한 경우, 기한의 이익을 상실하고, 즉시 상대방은 본 계약의 해지나 해제할 정구할 수 있고, 이미 발생된 제무를 변제하는 등 정산하여야 한다.
+                            <ul>
+                                <li>가. 파레은옴으로부터 당좌 거래정지 등 그에 상응하는 사유가 발생하는 경우</li>
+                                <li>나. 조세 체납으로 압류 처분을 받은 때</li>
+                                <li>다. 양 당사자 중 일방에 대하여 회사정리 또는 파산, 회생개시가 신청된 때</li>
+                                <li>라. 양 당사자 중 일방의 재산에 대하여 그 일방의 과실사유에 의해 보전처분(가압류, 가처분)이나 장체압류이 개시되고 이로 인해 본 계약의 이행을 기대하기 어려운 객관적인 사정이 발생한 경우</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제15조(계약해석의 원칙)</div>
+                <div class="contract-content-P">
+                    계약의 해석상 의문이나 이견이 있을 시 상호 합의 하에 결정하며, 합의되지 않는 경우 및 기타 본 계약서에 명시되지 아니한 사항에 대하여서는 일반 상관례에 준하여 처리한다.
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제16조(관할법원)</div>
+                <div class="contract-content-P">
+                    본 계약과 관련한 분쟁이 발생할 경우 '<span class="editable-P" contenteditable="true">갑</span>'의 주소지를 관할하는 법원을 관할법원으로 한다.
+                </div>
+            </div>
+
+            <div class="contract-section-P">
+                <div class="contract-section-title-P">제17조(계약의 효력)</div>
+                <div class="contract-content-P">
+                    <ol class="contract-list-P">
+                        <li>양 당사자는 본 계약의 성립을 증명하기 위하여 본 계약서를 작성하고, 서명 또는 기명날인하여 각 1통씩 보관한다.</li>
+                        <li>전자서명을 통해 본 계약을 체결할 경우 계약서의 작성, 서명, 교부에 대한 전자적 방법의 효력을 인정하고 그 진정에 동의한 것으로 본다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 60px 0 40px 0; font-size: 16px; font-weight: bold;">
+                2025.07.26.
+            </div>
+
+            <div class="contract-section-P">
+                <div style="margin-bottom: 30px;">
+                    <div style="font-weight: bold; margin-bottom: 10px;">업무의뢰인(갑)</div>
+                    <div>성명 : <span class="editable-P" contenteditable="true">김개인</span> (서명 또는 인)</div>
+                    <div>주민등록번호 : <span class="editable-P" contenteditable="true">123456-1</span></div>
+                    <div>주소 : <span class="editable-P" contenteditable="true">광주 남구 판촌길 23-3 (양촌동) 103동 2344호</span></div>
+                    <div>전화번호 : <span class="editable-P" contenteditable="true">010-1234-6789</span></div>
+                </div>
+
+                <div>
+                    <div style="font-weight: bold; margin-bottom: 10px;">업무수행인(을)</div>
+                    <div>성명 : <span class="editable-P" contenteditable="true">박개인</span> (서명 또는 인)</div>
+                    <div>주민등록번호 : <span class="editable-P" contenteditable="true">987655-1</span></div>
+                    <div>주소 : <span class="editable-P" contenteditable="true">경기 안성시 일죽면 판곡길 6 (화폴리) 102동 2345호</span></div>
+                    <div>전화번호 : <span style="color: #4a90e2; text-decoration: underline;" class="editable-P" contenteditable="true">010-9868-1234</span></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 20px; background-color: #f8f9fa; border-radius: 5px; font-size: 12px; color: #666;">
+                본문에 제공하는 자동작성 프로그램, UI/UX, 콘텐츠, 디자인 등은 특허(등록 등 번호 10-2018-0993456), 저작권법, 부정경쟁방지법상 등에 의해 보호 받고 있습니다. 무단 복제·유포사용, 영리 목적 가공·재편집 등에 대하여 특허침 침해 등을 받지 째일이 있음을 알려드립니다. <span style="color: #4a90e2; cursor: pointer;">자세한 보기 ></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 편집 가능한 요소들의 자동 저장 기능
+        document.querySelectorAll('.editable-P').forEach(element => {
+            element.addEventListener('input', function() {
+                // 실시간으로 내용이 변경됨을 표시
+                this.style.backgroundColor = '#d4edda';
+                setTimeout(() => {
+                    this.style.backgroundColor = '#fff3cd';
+                }, 500);
+            });
+        });
+
+        // 입력 필드 변경 시 계약서 내용 자동 업데이트
+        document.querySelectorAll('.form-input-P').forEach(input => {
+            input.addEventListener('input', function() {
+                updateContractContent();
+            });
+        });
+
+        function updateContractContent() {
+            // 입력값들을 계약서 본문에 자동 반영
+            const inputs = document.querySelectorAll('.form-input-P');
+            const editables = document.querySelectorAll('.editable-P');
+            
+            // 예시: 금액 필드 업데이트
+            const amountInput = document.querySelector('input[value="5,000,000"]');
+            const amountDisplay = document.querySelector('.amount-display-P');
+            
+            if (amountInput && amountDisplay) {
+                amountInput.addEventListener('input', function() {
+                    amountDisplay.textContent = this.value + ' 원';
+                });
+            }
+        }
+
+        // 초기 로드 시 함수 실행
+        updateContractContent();
+    </script>
+</body>
+</html>

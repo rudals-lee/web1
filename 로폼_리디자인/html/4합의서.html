@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LawForm - 합의서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        
+        .logo::before {
+            content: "⚖️";
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-item {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background-color: #f1f5f9;
+            color: #2563eb;
+        }
+        
+        /* Main Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 80px 30px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+        
+        /* Cards Container */
+        .cards-container {
+            max-width: 1500px;
+            margin: -30px auto 0;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #1e40af);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-rank {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        
+        .card-link {
+            color: #3b82f6;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .card-link:hover {
+            color: #1e40af;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-radius: 12px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 30px;
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .faq-subtitle {
+            color: #3b82f6;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .faq-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+        
+        .faq-item {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            font-weight: 600;
+            color: #3b82f6;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .faq-question::before {
+            content: "Q.";
+            font-weight: 700;
+            color: #1e40af;
+        }
+        
+        .faq-answer {
+            padding: 20px 30px 25px;
+            color: #64748b;
+            line-height: 1.6;
+            border-left: 4px solid #e2e8f0;
+            margin-left: 30px;
+            background: #f8fafc;
+        }
+        
+        .faq-answer::before {
+            content: "A.";
+            font-weight: 600;
+            color: #3b82f6;
+            margin-right: 8px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+            
+            .faq-section {
+                margin: 80px auto;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .filter-tabs {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .review-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .review-card {
+                flex: none;
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .slider-btn {
+                display: none;
+            }
+            
+            .faq-title {
+                font-size: 28px;
+            }
+        }
+        
+        /* Easy Creation Section */
+        .easy-creation-section {
+            background: #f8fafc;
+            padding: 80px 0;
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-subtitle {
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .tab-btn.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: #f1f5f9;
+            color: #3b82f6;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .doc-item {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .doc-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .doc-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .bookmark-icon {
+            font-size: 20px;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        
+        .doc-item:hover .bookmark-icon {
+            opacity: 1;
+        }
+        
+        /* Content Guide Section */
+        .content-guide-section {
+            background: white;
+            padding: 80px 0;
+        }
+        
+        .guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .guide-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .more-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .more-link:hover {
+            color: #1e40af;
+        }
+        
+        .content-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .card-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .image-placeholder.blue {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        }
+        
+        .image-placeholder.pink {
+            background: linear-gradient(135deg, #fce7f3, #f9a8d4);
+        }
+        
+        .image-placeholder.purple {
+            background: linear-gradient(135deg, #e9d5ff, #c084fc);
+        }
+        
+        .crash-illustration {
+            font-size: 60px;
+            opacity: 0.8;
+        }
+        
+        .car-illustration {
+            font-size: 60px;
+            opacity: 0.8;
+        }
+        
+        .doc-illustration {
+            font-size: 60px;
+            opacity: 0.8;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .content-badge {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .content-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .content-desc {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .content-date {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Review Section */
+        .review-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 80px 0;
+        }
+        
+        .review-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .review-subtitle {
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .review-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .review-slider {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 18px;
+            color: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .slider-btn:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev-btn {
+            left: -25px;
+        }
+        
+        .next-btn {
+            right: -25px;
+        }
+        
+        .review-cards {
+            display: flex;
+            gap: 30px;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+        
+        .review-card {
+            background: white;
+            padding: 40px 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            flex: 0 0 300px;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+        
+        .review-card.active {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .review-category {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .review-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+        
+        .review-text {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            min-height: 100px;
+        }
+        
+        .reviewer {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 25px;
+            text-align: right;
+        }
+        
+        .review-btn-container {
+            text-align: center;
+        }
+        
+        .review-action-btn {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .review-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+        .card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">LawForm</div>
+        <nav class="nav-right">
+            <a href="#" class="nav-item">문의 전화</a>
+            <a href="#" class="nav-item">마이 페이지</a>
+            <a href="#" class="nav-item">🔍</a>
+            <a href="#" class="nav-item">☰</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">합의서</h1>
+        <p class="hero-subtitle">민사, 이혼, 교통사고 합의서부터 취업에서의 프록시 간편하게 작성하세요</p>
+        
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-rank">합의서 인기 TOP 1</div>
+                <div class="card-icon">📋</div>
+                <h3 class="card-title">합의서 기본 양식</h3>
+                <a href="#" class="card-link">지금 작성하기 →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-rank">합의서 인기 TOP 2</div>
+                <div class="card-icon">📄</div>
+                <h3 class="card-title">폭행 합의서</h3>
+                <a href="#" class="card-link">지금 작성하기 →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-rank">합의서 인기 TOP 3</div>
+                <div class="card-icon">🏠</div>
+                <h3 class="card-title">계약 해제 합의서</h3>
+                <a href="#" class="card-link">지금 작성하기 →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-rank">합의서 인기 TOP 4</div>
+                <div class="card-icon">💼</div>
+                <h3 class="card-title">경미한 사고용<br>교통사고 합의서</h3>
+                <a href="#" class="card-link">지금 작성하기 →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Easy Creation Section -->
+    <section class="easy-creation-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-subtitle">내 상황에 딱 맞는</div>
+                <h2 class="section-title">손쉬운 합의서 작성</h2>
+            </div>
+            
+            <div class="filter-tabs">
+                <button class="tab-btn active">교통사고</button>
+                <button class="tab-btn">폭행・명예훼손・이혼</button>
+                <button class="tab-btn">계약해제・금전문제</button>
+                <button class="tab-btn">기타일반・취업서</button>
+            </div>
+            
+            <div class="documents-grid">
+                <div class="doc-item">
+                    <div class="doc-title">교통사고 합의서 (일반) ℹ️</div>
+                    <div class="bookmark-icon">⭐</div>
+                </div>
+                
+                <div class="doc-item">
+                    <div class="doc-title">교통사고 합의서 (형사) ℹ️</div>
+                    <div class="bookmark-icon">⭐</div>
+                </div>
+                
+                <div class="doc-item">
+                    <div class="doc-title">교통사고 합의서(경미한 사고용) ℹ️</div>
+                    <div class="bookmark-icon">⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Guide Section -->
+    <section class="content-guide-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-subtitle">미리 읽어보면</div>
+                <h2 class="section-title">도움되는 필수 콘텐츠</h2>
+            </div>
+            
+            <div class="guide-header">
+                <h3 class="guide-title">합의서 작성 가이드</h3>
+                <a href="#" class="more-link">전체보기</a>
+            </div>
+            
+            <div class="content-cards">
+                <div class="content-card">
+                    <div class="card-image">
+                        <div class="image-placeholder blue">
+                            <div class="car-illustration">🚗</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-badge">실제 운무 답변을 해 대처하는 법</div>
+                        <h4 class="content-title">운무, 합의금 주면 합의하나요?</h4>
+                        <p class="content-desc">산보되는 무방, 보상 절차, 합의서 쓰는 법 미리 읽어두세요.</p>
+                        <div class="content-date">2022-06-28</div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-image">
+                        <div class="image-placeholder pink">
+                            <div class="doc-illustration">📋</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="content-title">폭행 합의서 쓰는 법원</h4>
+                        <p class="content-desc">누구나 예기치 못하게 폭행 사건에 연루될 수 있어요.<br>폭행 합의서에 꼭 들어가야 할 내용을 알려드려요.</p>
+                        <div class="content-date">2024-10-30</div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-image">
+                        <div class="image-placeholder purple">
+                            <div class="crash-illustration">💥</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="content-title">교통사고 합의할 때 꼭 기억해야 하는 것</h4>
+                        <p class="content-desc">교통사고 순간을 놓치면 보험회사 못하는 점수가 많도록,<br>합의서에 들어가야 하는 내용을 미리 읽어보세요.</p>
+                        <div class="content-date">2024-10-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 100% Review Section -->
+    <section class="review-section">
+        <div class="section-container">
+            <div class="review-header">
+                <div class="review-subtitle">로폼 서비스를 직접 이용한</div>
+                <h2 class="review-title">100% 리얼 후기</h2>
+            </div>
+            
+            <div class="review-slider">
+                <button class="slider-btn prev-btn">❮</button>
+                <div class="review-cards">
+                    <div class="review-card active">
+                        <div class="review-category">합의서</div>
+                        <h3 class="review-card-title">합의서</h3>
+                        <p class="review-text">합의서를 작성하여 바로와 믿어가 하는 상황이 있었는데, 감사로도 막막했었습니다. 아무 이해 없이 뜸 찾 재로드 장딧 마음 충격없이 않어 알거서고. 시간 절약이 너무 좋 있었어요.</p>
+                        <div class="reviewer">김○○</div>
+                        <div class="review-btn-container">
+                            <button class="review-action-btn">합의서(기타) 작성하기</button>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-category">계약 해제 합의서</div>
+                        <h3 class="review-card-title">계약 해제 합의서</h3>
+                        <p class="review-text">계약해제에 대한 합의서를 작성해야 할 상황이 있었는데 나라 혼란면드와 충돌 활 상어 있어 같은 순부한가!</p>
+                        <div class="reviewer">송○○</div>
+                        <div class="review-btn-container">
+                            <button class="review-action-btn">계약 해제 합의서 작성하기</button>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-category">교통사고 합의서 - 민사</div>
+                        <h3 class="review-card-title">교통사고 합의서 - 민사</h3>
+                        <p class="review-text">미약한 교통사고가 나서 취해서가 처를 할 맘 있는 상황에서, 고결이 저동직 민사 합의서를 토대로 합해서어 아까가 할 경우 곧 함께에 어휘 예배합니다.</p>
+                        <div class="reviewer">최○○</div>
+                        <div class="review-btn-container">
+                            <button class="review-action-btn">교통사고 합의서(민사) 작성</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-btn next-btn">❯</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-header">
+            <div class="faq-subtitle">합의서의 모든 것</div>
+            <h2 class="faq-title">로폼에서 궁금증 해결</h2>
+        </div>
+        
+        <div class="faq-content">
+            <div class="faq-item">
+                <div class="faq-question">합의서란 무엇인가요?</div>
+                <div class="faq-answer">합의서란 당사자 간의 약정 내용 내용을 정리하고, 민사와 형사의 분쟁을 합리적 해결 쓰는 문서예요.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">합의서의 정확한 용어인가요?</div>
+                <div class="faq-answer">법적 절차를 밟는 것보다 시간과 비용을 절약할 수 있어요.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">합의서를 작성할 다른 장점은 어떤게 있나요?</div>
+                <div class="faq-answer">합의서를 작성하고나면 당사자간에 합의서의 내용대로 바로 이행을 하는 것이 중요해요.</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 탭 클릭 기능
+        document.querySelectorAll('.tab-btn').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // 리뷰 슬라이더 기능
+        let currentSlide = 0;
+        const reviewCards = document.querySelectorAll('.review-card');
+        const totalSlides = reviewCards.length;
+        
+        function showSlide(index) {
+            reviewCards.forEach(card => card.classList.remove('active'));
+            reviewCards[index].classList.add('active');
+            
+            const slider = document.querySelector('.review-cards');
+            const translateX = -index * (320); // 카드 너비 + 간격
+            slider.style.transform = `translateX(${translateX}px)`;
+        }
+        
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        });
+        
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        });
+        
+        // 자동 슬라이드 (선택사항)
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // FAQ 토글 기능
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                
+                if (answer.style.display === 'none' || !answer.style.display) {
+                    answer.style.display = 'block';
+                    answer.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    answer.style.display = 'none';
+                }
+            });
+        });
+
+        // 카드 클릭 효과
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

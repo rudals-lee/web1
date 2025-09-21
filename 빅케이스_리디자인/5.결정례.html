@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빅케이스 - 법률 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 30px;
+        }
+        
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #ff6b35;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: auto;
+        }
+        
+        .points {
+            color: #666;
+        }
+        
+        .plus-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .auth-links {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .nav {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            color: #666;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+        
+        .nav-item.active {
+            color: #ff6b35;
+            border-bottom-color: #ff6b35;
+        }
+        
+        .nav-item .new-badge {
+            position: absolute;
+            top: 8px;
+            right: 5px;
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 20px;
+            gap: 30px;
+        }
+        
+        .content {
+            flex: 1;
+        }
+        
+        .result-item {
+            background: white;
+            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .result-content {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .result-meta {
+            display: flex;
+            gap: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .sidebar {
+            width: 280px;
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .filter-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .filter-checkbox {
+            margin-right: 8px;
+        }
+        
+        .filter-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .time-filter {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .result-type-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .result-type-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-type-radio {
+            margin-right: 5px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input-small {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .page-number {
+            padding: 8px 12px;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        
+        .page-number.active {
+            background: #ff6b35;
+            color: white;
+        }
+        
+        .page-number:hover:not(.active) {
+            background: #f8f9fa;
+        }
+        
+        .page-arrow {
+            padding: 8px;
+            color: #666;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">빅케이스</div>
+            <div class="search-container">
+                <input type="text" class="search-input" value="형사" placeholder="검색어를 입력하세요">
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="header-right">
+                <span class="points">💎 전구조례 30,000P</span>
+                <a href="#" class="plus-btn">빅케이스Plus</a>
+                <a href="#" class="auth-links">로그인/회원가입</a>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="#" class="nav-item">판례</a>
+            <a href="#" class="nav-item">법령</a>
+            <a href="#" class="nav-item">주해/주석서</a>
+            <a href="#" class="nav-item">
+                논문
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item active">
+                결정례
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                유권해석
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                e-book
+                <span class="new-badge">NEW</span>
+            </a>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <main class="content">
+            <article class="result-item">
+                <h2 class="result-title">국가인권위원회 18-정책-0035 형사미성년자 기준 연령 등에 관한 의견표명</h2>
+                <div class="result-content">
+                    「국가인권위원회, 18-정책-0035, 형사미성년자 기준 연령등에 관한 의견표명, 18-정책-0035」형사책임
+                    처지 연령의 시작을 너무 낮은 연 령대로 정하지 말 것을 규정하고, 각 국의 형사책임 연령은 다양한데, 독일, 일
+                    본, 이탈리아는 우리와 같이 14세이고, 미국은 7세를 형사처벌 연령 기준으로 보는 주(州)도 있는 등 대 체로 7...
+                </div>
+                <div class="result-meta">
+                    <span>2018. 11. 26.</span>
+                    <span>국가인권위원회</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">금융분쟁조정위원회 64499 형사합의금지원금의 지급책임 여부</h2>
+                <div class="result-content">
+                    「금융분쟁조정위원회, 64499, 형사합의금지원금의 지급책임 여부, 64499」형사합의금을 지급하였을 것을
+                    보험금 지급건으로 규정하고 있지 아니함에도 피신청인이 보험금 지급을,거절함을 부당 (2) 피신청인 주장 ○
+                    '형사합의지원금'은 피보험자(신청인)가 가해자로서 피해자측과 부득이 형사합의를 하여 손해가 발생한 경우 ...
+                </div>
+                <div class="result-meta">
+                    <span>2010. 01. 25.</span>
+                    <span>금융분쟁조정위원회</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">소청심사위원회 2016-708 품위손상</h2>
+                <div class="result-content">
+                    「소청심사위원회, 2016-708, 품위손상, 3360983」쟁파견대, 1) 인정사실 ○ 형사사건법원 전지화 축진법
+                    제6조(경보의 공동 활동을 위한 법화 의무),제3항에는 '형사사건법원'처리기관은 형사사건법원 처리 의의 목적
+                    으로 형사사법정보를 수집·저장 또는 이용할 수 없다,'라고 규정하고 있는 바면, 제7조(대국인 포털서비스)에...
+                </div>
+                <div class="result-meta">
+                    <span>2016. 12. 29.</span>
+                    <span>소청심사위원회</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">국가인권위원회 11-정책-0012 형법과 형사소송법 일부개정 법률안에 대한 의견표명</h2>
+                <div class="result-content">
+                    형법 일부 개정 법률안,및 「형사소송법 일부 개정 법률안」에 대한 의견표명 주 문 국가인권위원회는 국회의장에
+                    게, 정부가 2011. 7. 14.,국회에 제출한 「형법 일부 개정 법률안」(의안번호 12629호) 및 「형사소송법 일부 개정
+                    법률안」(의안번호 12633호)에 대하여 아래와 같이 의견을 표명한다, 아 래 「형사소송법」제221조 제2항~제...
+                </div>
+                <div class="result-meta">
+                    <span>2011. 08. 04.</span>
+                    <span>국가인권위원회</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">국가인권위원회 12-직권-0000400 수원 20대여성 살해사건 직권조사</h2>
+                <div class="result-content">
+                    「국가인권위원회, 12-직권-0000400, 수원 20대여성 살해사건 직권조사, 12-직권-0000400」추소지물요
+                    청)를하라고한튀형사과장덕 명사정장이계로고하였다. 01:36경피해자의언니덕화처을막보하여피해자의추자지
+                    을확인,귀가한 지위을등확인하였다.이후,경기청에피해자늑취괄권을옹정하였으나 로필지툿하고,다2.01:11...
+                </div>
+                <div class="result-meta">
+                    <span>2012. 09. 18.</span>
+                    <span>국가인권위원회</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">국가인권위원회 11-정책-0005 형법 일부 개정 법률안 및 형사소송법 일부 개정 법률안에 대한 의견표명</h2>
+                <div class="result-content">
+                    회 검 정 제 목 「형법 일부 개정 법률안」및 「형사소송법 일부 개정 법률안」에 대한 의견표명 주 문 국가인권위원
+                    회는 법무부장관에게, 법무부가 2010. 12. 20.,입법예고한 「형법 일부 개정 법률안」및 「형사소송법 일부 개정
+                    법률안」에 대하여 아래와 같이 의견을 표명한다,아 래 「형사소송법」제221조 제2항~제5항(종요참고인 출석...
+                </div>
+                <div class="result-meta">
+                    <span>2011. 03. 31.</span>
+                    <span>국가인권위원회</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">조세심판원 조심2022서0041 형사판결에 근거한 이 건 처분이 실질과세 및 근거과세를 위반한 처분이라는 청구주장의 당부</h2>
+                <div class="result-content">
+                    「조세심판원, 조심 2022서0041, 형사판결에 근거한 이 건 처분이 실질과세 및 근거과세를 위반한 처분이라는
+                    청구주장의 당부, 193805」행정소송에서는 형사재판에서 인정된,사실에 구속받는 것은 아니라 할지라도 동일
+                    한 사실관계에 관하여 이미 확정된 형사판결이 우리로 인정한 사실은 행정소송에서 유력한 증거자료가 되는 것...
+                </div>
+                <div class="result-meta">
+                    <span>2022. 11. 10.</span>
+                    <span>조세심판원</span>
+                </div>
+            </article>
+            
+            <article class="result-item">
+                <h2 class="result-title">조세심판원 조심2023중9257 쟁점주식은 아버지가 명의신탁한 주식이므로 납세 간 저가양도에 대하여 과세한 이 건 처분이 부당하다는 청구주장의 당부</h2>
+                <div class="result-content">
+                    (ㄴ) O에 대한 형사확정판결[000, 이하 "쟁점형사판결"이라 한다]에서도 C이 쟁점법인을 포함한 B 관련 회사
+                    들을 실질적으로 지배·관리하고 있다는 사실이 인정되었다.쟁점형사판결에서 법원은 쟁점인들이 형식적으로 쟁
+                    점법인의 지분을 보유하고 있을 뿐, 쟁점법인의 설립경위 등에 비추어 보면 쟁점인들을 자연주주로 쟁점법인은...
+                </div>
+                <div class="result-meta">
+                    <span>2024. 03. 25.</span>
+                    <span>조세심판원</span>
+                </div>
+            </article>
+            
+            <div class="pagination">
+                <span class="page-number active">1</span>
+                <a href="#" class="page-number">2</a>
+                <a href="#" class="page-number">3</a>
+                <a href="#" class="page-number">4</a>
+                <a href="#" class="page-number">5</a>
+                <a href="#" class="page-number">6</a>
+                <a href="#" class="page-number">7</a>
+                <span class="page-number">...30</span>
+                <a href="#" class="page-arrow">〉</a>
+            </div>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="filter-section">
+                <div class="filter-title">• 기관</div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="court">
+                    <label for="court" class="filter-label">감사원</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="privacy">
+                    <label for="privacy" class="filter-label">개인정보보호위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="education">
+                    <label for="education" class="filter-label">고등부정심사위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="broadcast">
+                    <label for="broadcast" class="filter-label">공정거래위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="human-rights">
+                    <label for="human-rights" class="filter-label">국가인권위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="intelli">
+                    <label for="intelli" class="filter-label">국민권익위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="tax">
+                    <label for="tax" class="filter-label">국세청</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="military">
+                    <label for="military" class="filter-label">군부대지휘관</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="financial">
+                    <label for="financial" class="filter-label">금융분쟁조정위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="finance">
+                    <label for="finance" class="filter-label">금융위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="labor">
+                    <label for="labor" class="filter-label">노동위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="broadcast2">
+                    <label for="broadcast2" class="filter-label">방송통신위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="patent">
+                    <label for="patent" class="filter-label">산업재산권보호법위원회지위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="appeal">
+                    <label for="appeal" class="filter-label">소청심사위원회</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" class="filter-checkbox" id="tax-tribunal">
+                    <label for="tax-tribunal" class="filter-label">조세심판원</label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">• 기간</div>
+                <select class="time-filter">
+                    <option>전체 기간</option>
+                    <option>최근 1년</option>
+                    <option>최근 3년</option>
+                    <option>최근 5년</option>
+                </select>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">• 결과 내 재검색</div>
+                <div class="result-type-filter">
+                    <div class="result-type-option">
+                        <input type="radio" class="result-type-radio" name="search-type" id="include" checked>
+                        <label for="include">포함</label>
+                    </div>
+                    <div class="result-type-option">
+                        <input type="radio" class="result-type-radio" name="search-type" id="exclude">
+                        <label for="exclude">제외</label>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="search-input-small" placeholder="검색어 입력">
+                    <button class="search-btn">검색</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

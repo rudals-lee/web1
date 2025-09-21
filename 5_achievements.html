@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 문서 타입 선언: HTML5 표준 사용, 언어는 한국어로 설정 -->
+    <meta charset="UTF-8">
+    <!-- 문자 인코딩: UTF-8 사용하여 한글 및 특수문자 정상 표시 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 반응형 웹을 위한 뷰포트 설정: 디바이스 너비에 맞춰 초기 확대비율 1.0 -->
+    <title>개발자 성장 여정 - 포트폴리오</title>
+    <!-- 브라우저 탭에 표시될 제목 -->
+    <style>
+        /* CSS 리셋: 모든 요소의 기본 마진, 패딩 제거 및 박스 사이징 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 패딩과 보더를 포함한 전체 너비/높이 계산 */
+        }
+
+        /* 전체 페이지 기본 스타일 설정 */
+        body {
+            font-family: 'Arial', sans-serif; /* 기본 폰트: Arial, 없으면 sans-serif */
+            line-height: 1.6; /* 줄 간격 1.6배로 가독성 향상 */
+            color: #333; /* 기본 텍스트 색상: 진한 회색 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 대각선 그라데이션 배경 */
+            min-height: 100vh; /* 최소 높이를 뷰포트 높이로 설정 */
+        }
+
+        /* 메인 컨테이너: 콘텐츠 최대 너비 제한 및 중앙 정렬 */
+        .container {
+            max-width: 1200px; /* 최대 너비 1200px로 제한 */
+            margin: 0 auto; /* 좌우 마진 auto로 중앙 정렬 */
+            padding: 20px; /* 내부 여백 20px */
+        }
+
+        /* 헤더 섹션 스타일 */
+        .header {
+            text-align: center; /* 텍스트 중앙 정렬 */
+            color: white; /* 흰색 텍스트 */
+            margin-bottom: 50px; /* 하단 마진 50px */
+            animation: fadeInDown 1s ease; /* 페이드인 애니메이션 적용 */
+        }
+
+        /* 헤더 메인 타이틀 스타일 */
+        .header h1 {
+            font-size: 3rem; /* 폰트 크기 3rem (약 48px) */
+            margin-bottom: 10px; /* 하단 마진 10px */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* 텍스트 그림자로 입체감 연출 */
+        }
+
+        /* 헤더 부제목 스타일 */
+        .header p {
+            font-size: 1.2rem; /* 폰트 크기 1.2rem (약 19.2px) */
+            opacity: 0.9; /* 약간 투명하게 설정 */
+        }
+
+        /* 타임라인 컨테이너 스타일 */
+        .timeline {
+            position: relative; /* 자식 요소의 절대 위치 기준점 */
+            padding: 20px 0; /* 상하 패딩 20px */
+        }
+
+        /* 타임라인 중앙 라인 생성 (가상 요소 사용) */
+        .timeline::before {
+            content: ''; /* 가상 요소 내용 없음 */
+            position: absolute; /* 절대 위치 */
+            left: 50%; /* 왼쪽에서 50% 위치 */
+            top: 0; /* 상단부터 시작 */
+            bottom: 0; /* 하단까지 */
+            width: 4px; /* 너비 4px */
+            background: rgba(255,255,255,0.3); /* 반투명 흰색 배경 */
+            transform: translateX(-50%); /* X축으로 -50% 이동하여 정확히 중앙 배치 */
+        }
+
+        /* 개별 마일스톤 컨테이너 */
+        .milestone {
+            position: relative; /* 자식 요소의 절대 위치 기준점 */
+            margin: 50px 0; /* 상하 마진 50px */
+            opacity: 0; /* 초기에 투명하게 설정 (애니메이션용) */
+            animation: slideInUp 0.8s ease forwards; /* 슬라이드업 애니메이션 */
+        }
+
+        /* 각 마일스톤별 애니메이션 지연 시간 설정 */
+        .milestone:nth-child(1) { animation-delay: 0.3s; } /* 첫 번째: 0.3초 지연 */
+        .milestone:nth-child(2) { animation-delay: 0.6s; } /* 두 번째: 0.6초 지연 */
+        .milestone:nth-child(3) { animation-delay: 0.9s; } /* 세 번째: 0.9초 지연 */
+
+        /* 마일스톤 내용 카드 스타일 */
+        .milestone-content {
+            background: white; /* 흰색 배경 */
+            padding: 30px; /* 내부 여백 30px */
+            border-radius: 15px; /* 모서리 둥글게 15px */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* 그림자 효과로 입체감 */
+            width: 45%; /* 너비 45% (타임라인 양쪽 배치용) */
+            position: relative; /* 상대 위치 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 전환 */
+        }
+
+        /* 마일스톤 카드 호버 효과 */
+        .milestone-content:hover {
+            transform: translateY(-5px); /* Y축으로 -5px 이동 (위로 살짝 올라감) */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); /* 그림자 더 진하게 */
+        }
+
+        /* 홀수 번째 마일스톤: 왼쪽 배치 */
+        .milestone:nth-child(odd) .milestone-content {
+            margin-left: 0; /* 왼쪽 마진 0 */
+        }
+
+        /* 짝수 번째 마일스톤: 오른쪽 배치 */
+        .milestone:nth-child(even) .milestone-content {
+            margin-left: 55%; /* 왼쪽 마진 55%로 오른쪽 배치 */
+        }
+
+        /* 타임라인 중앙의 점(도트) 스타일 */
+        .milestone-dot {
+            position: absolute; /* 절대 위치 */
+            left: 50%; /* 왼쪽에서 50% */
+            top: 50px; /* 상단에서 50px */
+            width: 20px; /* 너비 20px */
+            height: 20px; /* 높이 20px */
+            background: #fff; /* 흰색 배경 */
+            border: 4px solid #667eea; /* 파란색 테두리 4px */
+            border-radius: 50%; /* 원형으로 만들기 */
+            transform: translateX(-50%); /* X축 -50% 이동으로 중앙 정렬 */
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); /* 글로우 효과 */
+        }
+
+        /* 마일스톤 날짜 태그 스타일 */
+        .milestone-date {
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 대각선 그라데이션 */
+            color: white; /* 흰색 텍스트 */
+            padding: 5px 15px; /* 내부 여백 */
+            border-radius: 20px; /* 둥근 모서리 */
+            font-size: 0.9rem; /* 폰트 크기 */
+            font-weight: bold; /* 굵은 글씨 */
+            display: inline-block; /* 인라인 블록으로 표시 */
+            margin-bottom: 15px; /* 하단 마진 */
+        }
+
+        /* 마일스톤 제목 스타일 */
+        .milestone h3 {
+            color: #333; /* 진한 회색 텍스트 */
+            margin-bottom: 15px; /* 하단 마진 */
+            font-size: 1.5rem; /* 폰트 크기 */
+        }
+
+        /* 기술 스택 섹션 스타일 */
+        .tech-stack {
+            margin: 20px 0; /* 상하 마진 20px */
+        }
+
+        /* 기술 태그 컨테이너 */
+        .tech-tags {
+            display: flex; /* 플렉스 레이아웃 */
+            flex-wrap: wrap; /* 줄바꿈 허용 */
+            gap: 8px; /* 태그 간 간격 8px */
+            margin-top: 10px; /* 상단 마진 */
+        }
+
+        /* 개별 기술 태그 스타일 */
+        .tech-tag {
+            background: #f8f9fa; /* 연한 회색 배경 */
+            border: 2px solid #667eea; /* 파란색 테두리 */
+            color: #667eea; /* 파란색 텍스트 */
+            padding: 5px 12px; /* 내부 여백 */
+            border-radius: 20px; /* 둥근 모서리 */
+            font-size: 0.8rem; /* 작은 폰트 크기 */
+            font-weight: bold; /* 굵은 글씨 */
+            transition: all 0.3s ease; /* 모든 속성에 전환 효과 */
+        }
+
+        /* 기술 태그 호버 효과 */
+        .tech-tag:hover {
+            background: #667eea; /* 파란색 배경으로 변경 */
+            color: white; /* 흰색 텍스트로 변경 */
+            transform: scale(1.05); /* 5% 확대 */
+        }
+
+        /* 성취 섹션 스타일 */
+        .achievement {
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            padding: 15px; /* 내부 여백 */
+            border-radius: 10px; /* 둥근 모서리 */
+            margin-top: 15px; /* 상단 마진 */
+        }
+
+        /* 성취 섹션 제목 스타일 */
+        .achievement h4 {
+            margin-bottom: 8px; /* 하단 마진 */
+            font-size: 1.1rem; /* 폰트 크기 */
+        }
+
+        /* 기술 역량 진행도 섹션 */
+        .progress-section {
+            background: white; /* 흰색 배경 */
+            padding: 40px; /* 내부 여백 */
+            border-radius: 15px; /* 둥근 모서리 */
+            margin: 50px 0; /* 상하 마진 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* 그림자 효과 */
+        }
+
+        /* 진행도 섹션 제목 */
+        .progress-section h2 {
+            text-align: center; /* 중앙 정렬 */
+            margin-bottom: 30px; /* 하단 마진 */
+            color: #333; /* 진한 회색 텍스트 */
+            font-size: 2rem; /* 큰 폰트 크기 */
+        }
+
+        /* 개별 스킬 아이템 */
+        .skill-item {
+            margin-bottom: 25px; /* 하단 마진 */
+        }
+
+        /* 스킬 이름과 퍼센트 표시 */
+        .skill-name {
+            display: flex; /* 플렉스 레이아웃 */
+            justify-content: space-between; /* 양 끝 정렬 */
+            margin-bottom: 8px; /* 하단 마진 */
+            font-weight: bold; /* 굵은 글씨 */
+            color: #333; /* 진한 회색 텍스트 */
+        }
+
+        /* 진행도 바 컨테이너 */
+        .progress-bar {
+            height: 10px; /* 높이 10px */
+            background: #e9ecef; /* 연한 회색 배경 */
+            border-radius: 10px; /* 둥근 모서리 */
+            overflow: hidden; /* 넘치는 부분 숨김 */
+        }
+
+        /* 진행도 바 채우는 부분 */
+        .progress-fill {
+            height: 100%; /* 부모 높이에 맞춤 */
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            border-radius: 10px; /* 둥근 모서리 */
+            transition: width 2s ease; /* 너비 변화에 2초 전환 효과 */
+            animation: fillProgress 2s ease forwards; /* 진행바 채우기 애니메이션 */
+        }
+
+        /* 푸터 섹션 스타일 */
+        .footer {
+            text-align: center; /* 중앙 정렬 */
+            color: white; /* 흰색 텍스트 */
+            margin-top: 50px; /* 상단 마진 */
+            padding: 30px; /* 내부 여백 */
+            background: rgba(255,255,255,0.1); /* 반투명 흰색 배경 */
+            border-radius: 15px; /* 둥근 모서리 */
+            backdrop-filter: blur(10px); /* 배경 블러 효과 */
+        }
+
+        /* CTA(Call To Action) 버튼 스타일 */
+        .cta-button {
+            display: inline-block; /* 인라인 블록 */
+            background: white; /* 흰색 배경 */
+            color: #667eea; /* 파란색 텍스트 */
+            padding: 15px 30px; /* 내부 여백 */
+            border-radius: 25px; /* 둥근 모서리 */
+            text-decoration: none; /* 밑줄 제거 */
+            font-weight: bold; /* 굵은 글씨 */
+            margin-top: 20px; /* 상단 마진 */
+            transition: all 0.3s ease; /* 모든 속성에 전환 효과 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* 그림자 효과 */
+        }
+
+        /* CTA 버튼 호버 효과 */
+        .cta-button:hover {
+            transform: translateY(-2px); /* Y축으로 -2px 이동 */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); /* 더 진한 그림자 */
+            background: #f8f9fa; /* 약간 다른 배경색 */
+        }
+
+        /* 페이드인 다운 애니메이션 정의 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0; /* 시작: 투명 */
+                transform: translateY(-50px); /* 시작: Y축 -50px 위치 */
+            }
+            to {
+                opacity: 1; /* 끝: 불투명 */
+                transform: translateY(0); /* 끝: 원래 위치 */
+            }
+        }
+
+        /* 슬라이드 업 애니메이션 정의 */
+        @keyframes slideInUp {
+            from {
+                opacity: 0; /* 시작: 투명 */
+                transform: translateY(50px); /* 시작: Y축 +50px 위치 */
+            }
+            to {
+                opacity: 1; /* 끝: 불투명 */
+                transform: translateY(0); /* 끝: 원래 위치 */
+            }
+        }
+
+        /* 진행바 채우기 애니메이션 */
+        @keyframes fillProgress {
+            from { width: 0%; } /* 시작: 너비 0% */
+            /* 끝: 인라인 스타일의 width 값으로 */
+        }
+
+        /* 모바일 반응형 디자인 (768px 이하) */
+        @media (max-width: 768px) {
+            /* 타임라인 중앙선을 왼쪽으로 이동 */
+            .timeline::before {
+                left: 20px; /* 왼쪽에서 20px 위치 */
+            }
+
+            /* 마일스톤 카드를 세로 배치로 변경 */
+            .milestone-content {
+                width: calc(100% - 50px); /* 전체 너비에서 50px 뺀 만큼 */
+                margin-left: 50px !important; /* 모든 카드를 오른쪽으로 50px 이동 */
+            }
+
+            /* 타임라인 점을 왼쪽으로 이동 */
+            .milestone-dot {
+                left: 20px; /* 왼쪽에서 20px */
+            }
+
+            /* 모바일에서 헤더 제목 크기 축소 */
+            .header h1 {
+                font-size: 2rem; /* 3rem에서 2rem으로 축소 */
+            }
+
+            /* 기술 태그를 중앙 정렬 */
+            .tech-tags {
+                justify-content: center; /* 중앙 정렬 */
+            }
+        }
+
+        /* 고정 네비게이션 헤더 스타일 */
+        .nav-header {
+            position: fixed; /* 스크롤해도 고정 위치 */
+            top: 0; /* 최상단 고정 */
+            left: 0; /* 왼쪽 끝부터 */
+            right: 0; /* 오른쪽 끝까지 */
+            background: rgba(255, 255, 255, 0.95); /* 반투명 흰색 배경 */
+            backdrop-filter: blur(10px); /* 배경 블러 효과 */
+            padding: 15px 30px; /* 내부 여백 */
+            display: flex; /* 플렉스 레이아웃 */
+            justify-content: space-between; /* 양 끝 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            z-index: 1000; /* 다른 요소 위에 표시 */
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        }
+
+        /* 네비게이션 로고 스타일 */
+        .nav-logo {
+            font-size: 1.2rem; /* 폰트 크기 */
+            font-weight: bold; /* 굵은 글씨 */
+            color: #2c3e50; /* 진한 파란회색 */
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            -webkit-background-clip: text; /* 웹킷 브라우저용 텍스트 클립 */
+            -webkit-text-fill-color: transparent; /* 웹킷 브라우저용 텍스트 투명 */
+            background-clip: text; /* 표준 텍스트 클립 */
+        }
+
+        /* 메뉴 버튼 스타일 */
+        .menu-btn {
+            background: none; /* 배경 없음 */
+            border: none; /* 테두리 없음 */
+            font-size: 1.5rem; /* 폰트 크기 */
+            cursor: pointer; /* 포인터 커서 */
+            padding: 10px; /* 내부 여백 */
+            border-radius: 8px; /* 둥근 모서리 */
+            transition: all 0.3s ease; /* 모든 속성에 전환 효과 */
+            color: #2c3e50; /* 텍스트 색상 */
+        }
+
+        /* 메뉴 버튼 호버 효과 */
+        .menu-btn:hover {
+            background: rgba(102, 126, 234, 0.1); /* 연한 파란색 배경 */
+            transform: scale(1.1); /* 10% 확대 */
+        }
+
+        /* 사이드 메뉴 스타일 */
+        .side-menu {
+            position: fixed; /* 고정 위치 */
+            top: 0; /* 최상단부터 */
+            right: -350px; /* 초기에 오른쪽 밖으로 숨김 */
+            width: 350px; /* 너비 350px */
+            height: 100vh; /* 뷰포트 높이만큼 */
+            background: rgba(255, 255, 255, 0.95); /* 반투명 흰색 배경 */
+            backdrop-filter: blur(15px); /* 배경 블러 효과 */
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15); /* 왼쪽 그림자 */
+            transition: right 0.4s ease; /* 오른쪽 위치 변화에 전환 효과 */
+            z-index: 1001; /* 네비게이션 헤더보다 위에 */
+            padding: 20px; /* 내부 여백 */
+            overflow-y: auto; /* 세로 스크롤 허용 */
+        }
+
+        /* 사이드 메뉴 활성화 상태 */
+        .side-menu.active {
+            right: 0; /* 오른쪽 끝으로 이동하여 표시 */
+        }
+
+        /* 메뉴 헤더 영역 */
+        .menu-header {
+            display: flex; /* 플렉스 레이아웃 */
+            justify-content: space-between; /* 양 끝 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            margin-bottom: 30px; /* 하단 마진 */
+            padding-bottom: 20px; /* 하단 패딩 */
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2); /* 하단 테두리 */
+        }
+
+        /* 메뉴 제목 스타일 */
+        .menu-title {
+            font-size: 1.3rem; /* 폰트 크기 */
+            font-weight: bold; /* 굵은 글씨 */
+            color: #2c3e50; /* 진한 파란회색 */
+            background: linear-gradient(45deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            -webkit-background-clip: text; /* 웹킷 브라우저용 텍스트 클립 */
+            -webkit-text-fill-color: transparent; /* 웹킷 브라우저용 텍스트 투명 */
+            background-clip: text; /* 표준 텍스트 클립 */
+        }
+
+        /* 메뉴 닫기 버튼 스타일 */
+        .close-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            border: none; /* 테두리 없음 */
+            color: white; /* 흰색 텍스트 */
+            width: 40px; /* 너비 40px */
+            height: 40px; /* 높이 40px */
+            border-radius: 50%; /* 원형 */
+            cursor: pointer; /* 포인터 커서 */
+            font-size: 1.2rem; /* 폰트 크기 */
+            display: flex; /* 플렉스 레이아웃 */
+            align-items: center; /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            transition: all 0.3s ease; /* 모든 속성에 전환 효과 */
+        }
+
+        /* 닫기 버튼 호버 효과 */
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1); /* 90도 회전 + 10% 확대 */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+        }
+
+        /* 메뉴 섹션 스타일 */
+        .menu-section {
+            margin-bottom: 25px; /* 하단 마진 */
+        }
+
+        /* 메뉴 섹션 제목 */
+        .menu-section h3 {
+            color: #34495e; /* 진한 회색 */
+            margin-bottom: 15px; /* 하단 마진 */
+            font-size: 1.1rem; /* 폰트 크기 */
+            padding-left: 10px; /* 왼쪽 패딩 */
+            border-left: 4px solid #764ba2; /* 왼쪽 보라색 테두리 */
+        }
+
+        /* 메뉴 아이템 목록 */
+        .menu-items {
+            list-style: none; /* 리스트 스타일 제거 */
+        }
+
+        /* 메뉴 아이템 간격 */
+        .menu-items li {
+            margin-bottom: 8px; /* 하단 마진 */
+        }
+
+        /* 메뉴 링크 스타일 */
+        .menu-items a {
+            display: block; /* 블록 레벨 요소 */
+            padding: 12px 15px; /* 내부 여백 */
+            color: #555; /* 회색 텍스트 */
+            text-decoration: none; /* 밑줄 제거 */
+            border-radius: 10px; /* 둥근 모서리 */
+            transition: all 0.3s ease; /* 모든 속성에 전환 효과 */
+            font-size: 0.95rem; /* 폰트 크기 */
+        }
+
+        /* 메뉴 링크 호버 효과 */
+        .menu-items a:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2); /* 그라데이션 배경 */
+            color: white; /* 흰색 텍스트 */
+            transform: translateX(5px); /* X축으로 5px 이동 */
+        }
+
+        /* 네비게이션 로고 이미지 크기 설정 */
+        .nav-logo img { 
+            height: 60px; /* 높이 60px */
+            width: 60px; /* 너비 60px */
+        }
+    </style>
+</head>
+<body>
+    <!-- 메인 콘텐츠 컨테이너 -->
+    <div class="container" id="p1">
+        <!-- 고정 네비게이션 헤더 -->
+        <div class="nav-header">
+            <!-- 로고 링크 -->
+            <div class="nav-logo">
+                <a href="/HOME.html"><img src="/images/LEGALWEB-2.png" alt="법률문서 로고"/></a>
+            </div>
+            <!-- 햄버거 메뉴 버튼 -->
+            <button class="menu-btn" id="menuBtn">☰</button>
+        </div>
+
+        <!-- 오버레이 (메뉴 열렸을 때 배경) -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- 사이드 슬라이딩 메뉴 -->
+        <div class="side-menu" id="sideMenu">
+            <!-- 메뉴 상단 헤더 영역 -->
+            <div class="menu-header">
+                <!-- 메뉴 제목 -->
+                <div class="menu-title">메뉴</div>
+                <!-- X 버튼으로 메뉴 닫기 -->
+                <button class="close-btn" id="closeBtn">✕</button>
+            </div>
+
+            <!-- 주요 섹션 메뉴 그룹 -->
+            <div class="menu-section">
+                <h3>📚 주요 섹션</h3>
+                <ul class="menu-items">
+                    <!-- 각 섹션으로 이동하는 앵커 링크들 -->
+                    <li><a href="#p1">개발 여정</a></li>
+                    <li><a href="#p2">첫 완성</a></li>
+                    <li><a href="#p3">기술 스택 전환</a></li>
+                </ul>
+            </div>
+
+            <!-- 현재 기술 역량 메뉴 그룹 -->
+            <div class="menu-section">
+                <h3>🎯 현재 기술 역량</h3>
+                <ul class="menu-items">
+                    <!-- 각 기술별 섹션으로 이동하는 링크들 -->
+                    <li><a href="#problem1">1번 - React.js</a></li>
+                    <li><a href="#problem2">2번 - JavaScript (ES6+)</a></li>
+                    <li><a href="#problem3">3번 - HTML5 & CSS3</a></li>
+                    <li><a href="#problem4">4번 - Tailwind CSS</a></li>
+                    <li><a href="#problem5">5번 - Git & GitHub</a></li>
+                </ul>
+            </div>
+
+            <!-- 미래 목표 메뉴 그룹 -->
+            <div class="menu-section">
+                <h3>🏆 다음 목표 : 세무사 되기</h3>
+                <ul class="menu-items">
+                    <!-- 세무사 시험 과목별 링크들 (현재는 placeholder) -->
+                    <li><a href="#problem">1번 - 1차 재정학</a></li>
+                    <li><a href="#problem">2번 - 1차 세법</a></li>
+                </ul>
+            </div>
+
+            <!-- 외부 링크 메뉴 그룹 -->
+            <div class="menu-section">
+                <h3>🔗 외부 링크</h3>
+                <ul class="menu-items">
+                    <!-- 외부 사이트로 연결되는 링크들 -->
+                    <li><a href="https://www.hackers.co.kr" target="_blank">해커스 세무사</a></li>
+                    <!-- 페이지 인쇄 기능 -->
+                    <li><a href="#" onclick="window.print()">페이지 인쇄</a></li>
+                </ul>
+            </div>
+
+            <!-- 연락하기 CTA 버튼 -->
+            <a href="#" class="cta-button" onclick="showContact()">연락하기</a>
+        </div>
+
+        <!-- 페이지 헤더 (현재 비어있음, fade-in 클래스만 적용) -->
+        <div class="header fade-in"></div>
+        
+        <!-- 타임라인 섹션 시작 -->
+        <div class="timeline">
+            <!-- 첫 번째 마일스톤: 개발 여정 시작 -->
+            <div class="milestone">
+                <!-- 타임라인 중앙 점 -->
+                <div class="milestone-dot" id="header-section1"></div>
+                <!-- 마일스톤 내용 카드 -->
+                <div class="milestone-content">
+                    <!-- 날짜 태그 -->
+                    <div class="milestone-date">2025년 2월 - 시작</div>
+                    <!-- 마일스톤 제목 -->
+                    <h3>🌱 개발 여정의 첫 걸음</h3>
+                    <!-- 마일스톤 설명 -->
+                    <p>6개월 간의 국비지원으로 시작한 웹 개발 교육. HTML의 기본 태그부터 차근차근 배우며 첫 번째 웹페이지를 만들었습니다.</p>
+                    
+                    <!-- 기술 스택 섹션 -->
+                    <div class="tech-stack">
+                        <strong>학습 기술:</strong>
+                        <div class="tech-tags">
+                            <!-- 각 기술별 태그들 -->
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">기본 JavaScript</span>
+                        </div>
+                    </div>
+
+                    <!-- 성취 내용 강조 박스 -->
+                    <div class="achievement">
+                        <h4>🎯 첫 달성</h4>
+                        <p>• 정적 웹페이지 3개 제작<br>
+                        • CSS Flexbox & Grid 마스터<br>
+                        • JavaScript 기본 문법 습득</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 두 번째 마일스톤: 첫 완성작 (id="p2"로 메뉴에서 접근 가능) -->
+            <div class="milestone" id="p2">
+                <!-- 타임라인 중앙 점 -->
+                <div class="milestone-dot" id="header-section2"></div>
+                <!-- 마일스톤 내용 카드 -->
+                <div class="milestone-content">
+                    <!-- 날짜 태그 -->
+                    <div class="milestone-date">2025년 6월 - 첫 완성작</div>
+                    <!-- 마일스톤 제목 -->
+                    <h3>🎨 HTML/CSS/JavaScript 기반 첫 완성 프로젝트</h3>
+                    <!-- 마일스톤 설명 -->
+                    <p>3개월간의 교육의 결과물로 완전한 기능을 가진 인터랙티브 웹 애플리케이션을 완성했습니다. 반응형 디자인과 동적 기능을 모두 구현한 의미있는 첫 프로젝트입니다.</p>
+                    
+                    <!-- 기술 스택 섹션 -->
+                    <div class="tech-stack">
+                        <strong>사용 기술:</strong>
+                        <div class="tech-tags">
+                            <!-- 사용한 기술들의 태그 -->
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Vanilla JavaScript</span>
+                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">jQuery</span>
+                        </div>
+                    </div>
+
+                    <!-- 성취 내용 강조 박스 -->
+                    <div class="achievement">
+                        <h4>🏆 3개월 성과물</h4>
+                        <p>• 완전한 반응형 웹 애플리케이션 구현<br>
+                        • 사용자 인터랙션 및 애니메이션 추가<br>
+                        • 크로스 브라우저 호환성 확보<br>
+                        • 깔끔한 UI/UX 디자인 완성</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 세 번째 마일스톤: 기술스택 전환 (id="p3"으로 메뉴에서 접근 가능) -->
+            <div class="milestone" id="p3">
+                <!-- 타임라인 중앙 점 -->
+                <div class="milestone-dot" id="header-section3"></div>
+                <!-- 마일스톤 내용 카드 -->
+                <div class="milestone-content" >
+                    <!-- 날짜 태그 -->
+                    <div class="milestone-date">2025년 7월 - 기술스택 전환</div>
+                    <!-- 마일스톤 제목 -->
+                    <h3>⚛️ Bootstrap + jQuery → React + Tailwind로 기술스택 전환</h3>
+                    <!-- 마일스톤 설명 -->
+                    <p>현대적인 개발 트렌드에 맞춰 기술스택을 전면 업그레이드했습니다. 컴포넌트 기반 개발과 최신 CSS 프레임워크를 도입하여 포트폴리오를 완전히 새롭게 구축했습니다.</p>
+                    
+                    <!-- 기술 스택 섹션 -->
+                    <div class="tech-stack">
+                        <strong>업그레이드된 기술:</strong>
+                        <div class="tech-tags">
+                            <!-- 새로 도입한 기술들의 태그 -->
+                            <span class="tech-tag">React.js</span>
+                            <span class="tech-tag">Tailwind CSS</span>
+                            <span class="tech-tag">ES6+</span>
+                            <span class="tech-tag">Webpack</span>
+                            <span class="tech-tag">Git/GitHub</span>
+                        </div>
+                    </div>
+
+                    <!-- 성취 내용 강조 박스 -->
+                    <div class="achievement">
+                        <h4>🔄 포트폴리오 전면 개선</h4>
+                        <p>• 기존 프로젝트 React로 마이그레이션<br>
+                        • Tailwind로 디자인 시스템 구축<br>
+                        • 컴포넌트 재사용성 극대화<br>
+                        • 성능 최적화 및 번들 사이즈 개선</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 기술 역량 진행도 섹션 -->
+        <div class="progress-section">
+            <!-- 섹션 제목 -->
+            <h2>📊 현재 기술 역량</h2>
+            
+            <!-- React.js 스킬 (id="problem1"로 메뉴에서 접근 가능) -->
+            <div class="skill-item">
+                <div class="skill-name" id="problem1">
+                    <span>React.js</span>
+                    <span>85%</span> <!-- 숙련도 퍼센트 표시 -->
+                </div>
+                <div class="progress-bar">
+                    <!-- 실제 진행도를 보여주는 바 (CSS width로 조절) -->
+                    <div class="progress-fill" style="width: 85%"></div>
+                </div>
+            </div>
+
+            <!-- JavaScript (ES6+) 스킬 (id="problem2"로 메뉴에서 접근 가능) -->
+            <div class="skill-item">
+                <div class="skill-name" id="problem2">
+                    <span>JavaScript (ES6+)</span>
+                    <span>90%</span> <!-- 숙련도 퍼센트 표시 -->
+                </div>
+                <div class="progress-bar">
+                    <!-- 실제 진행도를 보여주는 바 (CSS width로 조절) -->
+                    <div class="progress-fill" style="width: 90%"></div>
+                </div>
+            </div>
+
+            <!-- HTML5 & CSS3 스킬 (id="problem3"으로 메뉴에서 접근 가능) -->
+            <div class="skill-item">
+                <div class="skill-name" id="problem3">
+                    <span>HTML5 & CSS3</span>
+                    <span>95%</span> <!-- 숙련도 퍼센트 표시 -->
+                </div>
+                <div class="progress-bar">
+                    <!-- 실제 진행도를 보여주는 바 (CSS width로 조절) -->
+                    <div class="progress-fill" style="width: 95%"></div>
+                </div>
+            </div>
+
+            <!-- Tailwind CSS 스킬 (id="problem4"로 메뉴에서 접근 가능) -->
+            <div class="skill-item">
+                <div class="skill-name" id="problem4"> 
+                    <span>Tailwind CSS</span>
+                    <span>80%</span> <!-- 숙련도 퍼센트 표시 -->
+                </div>
+                <div class="progress-bar">
+                    <!-- 실제 진행도를 보여주는 바 (CSS width로 조절) -->
+                    <div class="progress-fill" style="width: 80%"></div>
+                </div>
+            </div>
+
+            <!-- Git & GitHub 스킬 (id="problem5"로 메뉴에서 접근 가능) -->
+            <div class="skill-item">
+                <div class="skill-name" id="problem5">
+                    <span>Git & GitHub</span>
+                    <span>75%</span> <!-- 숙련도 퍼센트 표시 -->
+                </div>
+                <div class="progress-bar">
+                    <!-- 실제 진행도를 보여주는 바 (CSS width로 조절) -->
+                    <div class="progress-fill" style="width: 75%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 푸터 섹션: 미래 목표 -->
+        <div class="footer">
+            <h2>🎯 지속적인 성장을 위한 다음 목표</h2>
+            <p>1차 재정학, 세법 지식의 심화 학습, 회계 이론의 체계적 정리, 실무 경험 확장을 통해<br>
+            전문성과 신뢰를 갖춘 세무사로 성장하겠습니다.</p>
+            <!-- CTA 버튼 주석처리됨: <a href="#" class="cta-button" onclick="showContact()">연락하기</a> -->
+        </div>
+
+    </div>
+
+    <script>
+        // 스크롤 기반 애니메이션 함수
+        function animateOnScroll() {
+            // DOM에서 마일스톤과 진행바 요소들 선택
+            const milestones = document.querySelectorAll('.milestone');
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            // Intersection Observer 생성: 요소가 뷰포트에 들어올 때 감지
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { // 요소가 화면에 보일 때
+                        // 투명도와 변형을 초기값으로 되돌려 애니메이션 실행
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 }); // 10% 보일 때 트리거
+
+            // 모든 마일스톤에 옵저버 적용
+            milestones.forEach(milestone => {
+                observer.observe(milestone);
+            });
+
+            // 진행바 전용 옵저버 생성
+            const progressObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { // 요소가 화면에 보일 때
+                        const progressFill = entry.target.querySelector('.progress-fill');
+                        if (progressFill) {
+                            // 현재 width 값을 저장
+                            const width = progressFill.style.width;
+                            // 0%로 초기화
+                            progressFill.style.width = '0%';
+                            // 100ms 후 원래 width로 애니메이션
+                            setTimeout(() => {
+                                progressFill.style.width = width;
+                            }, 100);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 }); // 50% 보일 때 트리거
+
+            // 모든 스킬 아이템에 진행바 옵저버 적용
+            document.querySelectorAll('.skill-item').forEach(item => {
+                progressObserver.observe(item);
+            });
+        }
+
+        // 연락처 정보를 표시하는 모달 함수
+        function showContact() {
+            // JavaScript alert으로 간단한 연락처 정보 표시
+            alert('📧 연락처: developer@example.com\n📱 GitHub: github.com/developer\n💼 LinkedIn: linkedin.com/in/developer');
+        }
+
+        // 기술 태그에 호버 효과를 추가하는 함수
+        function addHoverEffects() {
+            const techTags = document.querySelectorAll('.tech-tag');
+            techTags.forEach(tag => {
+                // 마우스 진입 시 효과
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05) rotate(2deg)'; // 확대 + 회전
+                });
+                
+                // 마우스 나갈 시 원래 상태
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotate(0deg)'; // 원래 크기와 각도
+                });
+            });
+        }
+
+        // 페이지 로드 완료 시 초기화 함수들 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            animateOnScroll(); // 스크롤 애니메이션 초기화
+            addHoverEffects(); // 호버 효과 초기화
+            
+            // 헤더 타이핑 효과 (현재는 헤더가 비어있어서 실제 동작 안함)
+            const headerText = document.querySelector('.header h1');
+            if (headerText) { // 헤더 텍스트가 존재할 경우에만 실행
+                headerText.style.opacity = '0';
+                setTimeout(() => {
+                    headerText.style.opacity = '1';
+                    headerText.style.animation = 'fadeInDown 1s ease';
+                }, 200);
+            }
+        });
+
+        // 전체 페이지에 부드러운 스크롤 효과 적용
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // === 메뉴 기능 관련 JavaScript ===
+        
+        // DOM 요소들 선택
+        const menuBtn = document.getElementById('menuBtn'); // 햄버거 메뉴 버튼
+        const closeBtn = document.getElementById('closeBtn'); // X 닫기 버튼
+        const sideMenu = document.getElementById('sideMenu'); // 사이드 메뉴
+        const overlay = document.getElementById('overlay'); // 배경 오버레이
+
+        // 사이드 메뉴 열기 함수
+        function openMenu() {
+            sideMenu.classList.add('active'); // 메뉴에 active 클래스 추가
+            overlay.classList.add('active'); // 오버레이에 active 클래스 추가
+            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+        }
+
+        // 사이드 메뉴 닫기 함수
+        function closeMenu() {
+            sideMenu.classList.remove('active'); // 메뉴에서 active 클래스 제거
+            overlay.classList.remove('active'); // 오버레이에서 active 클래스 제거
+            document.body.style.overflow = 'auto'; // 배경 스크롤 복원
+        }
+
+        // 이벤트 리스너 등록
+        menuBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // 기본 동작 방지
+            openMenu(); // 메뉴 열기
+        });
+
+        closeBtn.addEventListener('click', closeMenu); // 닫기 버튼 클릭 시 메뉴 닫기
+        overlay.addEventListener('click', closeMenu); // 오버레이 클릭 시 메뉴 닫기
+
+        // 메뉴 항목 클릭 시 메뉴 닫기
+        const menuItems = document.querySelectorAll('.menu-items a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // 내부 링크(#로 시작)인 경우에만 메뉴 닫기
+                if (this.getAttribute('href').startsWith('#')) {
+                    closeMenu();
+                }
+            });
+        });
+
+        // ESC 키로 메뉴 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { // ESC 키 감지
+                closeMenu();
+            }
+        });
+
+        // 부드러운 스크롤 (내부 앵커 링크용)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // 기본 점프 동작 방지
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { // 대상 요소가 존재할 경우
+                    target.scrollIntoView({
+                        behavior: 'smooth', // 부드러운 스크롤
+                        block: 'start' // 요소 상단으로 스크롤
+                    });
+                }
+            });
+        });
+
+        // 스크롤 애니메이션을 위한 옵저버 옵션
+        const observerOptions = {
+            threshold: 0.1, // 10% 보일 때 트리거
+            rootMargin: '0px 0px -50px 0px' // 하단 50px 마진
+        };
+
+        // 범용 스크롤 애니메이션 옵저버
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 요소가 보일 때 애니메이션 실행
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 모든 애니메이션 대상 섹션에 초기 스타일 설정 및 옵저버 적용
+        document.querySelectorAll('.section, .problem-section, .study-tips, .quiz-section').forEach(el => {
+            el.style.opacity = '0'; // 초기에 투명
+            el.style.transform = 'translateY(30px)'; // 아래로 30px 이동된 상태
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; // 전환 효과
+            observer.observe(el); // 옵저버 적용
+        });
+
+        // 문제 아이템에 호버 효과 추가
+        document.querySelectorAll('.problem-item').forEach(item => {
+            // 마우스 진입 시
+            item.addEventListener('mouseenter', () => {
+                item.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                item.style.color = 'white';
+                item.style.transform = 'translateX(10px) scale(1.02)';
+            });
+            
+            // 마우스 나갈 시
+            item.addEventListener('mouseleave', () => {
+                item.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+                item.style.color = '#333';
+                item.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+
+        // 현재 보이는 섹션에 따라 메뉴 아이템 활성화 표시
+        function updateActiveMenuItem() {
+            const sections = document.querySelectorAll('[id]'); // ID가 있는 모든 요소
+            const menuLinks = document.querySelectorAll('.menu-items a[href^="#"]'); // 내부 링크들
+            
+            let currentSection = ''; // 현재 활성 섹션 ID
+            
+            // 각 섹션의 위치 확인
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                // 요소가 뷰포트 상단 100px 영역에 있으면 현재 섹션으로 간주
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            // 모든 메뉴 링크의 스타일 초기화 후 현재 섹션 링크만 하이라이트
+            menuLinks.forEach(link => {
+                link.style.background = ''; // 배경 초기화
+                link.style.color = ''; // 색상 초기화
+                
+                // 현재 섹션과 일치하는 링크에 활성 스타일 적용
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    link.style.color = 'white';
+                }
+            });
+        }
+
+        // 스크롤 시 활성 메뉴 아이템 업데이트
+        window.addEventListener('scroll', updateActiveMenuItem);
+        
+        // 페이지 로드 시 초기 활성 아이템 설정
+        window.addEventListener('load', updateActiveMenuItem);
+    </script>
+</body>
+</html>

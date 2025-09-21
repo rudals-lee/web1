@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빅케이스 - 법률 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0 20px;
+        }
+        
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 40px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #007bff;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+        
+        .balance {
+            color: #666;
+        }
+        
+        .btn-plus {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            height: 50px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .nav-item.active {
+            color: #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+        }
+        
+        .nav-item .new-badge {
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            position: absolute;
+            top: 8px;
+            right: 5px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .search-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #1976d2;
+        }
+        
+        .results-count {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .result-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .result-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .result-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .result-tags {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .sidebar {
+            width: 280px;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .filter-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-item {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+        
+        .filter-item input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+        
+        .page-btn {
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            color: #666;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .page-btn.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .page-btn:hover:not(.active) {
+            background: #f8f9fa;
+        }
+        
+        .new-badge-small {
+            background: #ff6b35;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">빅케이스</div>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="검색">
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="header-right">
+                <span class="balance">💳 전구조체 30,000P</span>
+                <a href="#" class="btn-plus">빅케이스Plus</a>
+                <span>로그인/회원가입</span>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item">판례</a>
+            <a href="#" class="nav-item">법령</a>
+            <a href="#" class="nav-item active">
+                주해/주석서
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                논문
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                컬정례
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">
+                유권해석
+                <span class="new-badge">NEW</span>
+            </a>
+            <a href="#" class="nav-item">e-book</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <div class="search-info">
+                <strong>NEW</strong> 빅케이스 단독! 법무사 콘텐츠를 확인하세요.
+            </div>
+            
+            <div class="results-count">
+                🔍 1,884건의 검색 결과
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">민법 체권각칙 I [전문III : 민사책임과 형사책임]</div>
+                <div class="result-meta">김봉덕 • 한국사법행정학회 • 2021. 8. • 제5판</div>
+                <div class="result-content">
+                    민사책임과 형사책임의 분화과정38 1. 로마법39 2. 게르만법40 3. 중세40 4. 민사책임과 형사책임의 분화40 III. 민사책임과 형사책임의 차이41 1.고대사회에서는 형사책임과 민사책임이 분리되지 않은 채 저촉되었고 군대에 와서 비로소 민사책임이 형사책임과 분리되었다.민사책임과 형사책임의 차이 1.또한 민·형사책임의 분화...
+                </div>
+                <div class="result-tags">민법 체권각칙 • 제5장 불법행위</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">형법 총칙 | 제9조 [형사미성년자]</div>
+                <div class="result-meta">박상욱, 김대휘 • 한국사법행정학회 • 2020. 2. • 제3판</div>
+                <div class="result-content">
+                    [참고문헌] 주요로, "소년의 형사책임에 관한 연구 - 형사책임능력을 중심으로-", 법조(651호); 조지만/김대휘, "조선시대 형사책임능력에 관한 연구", 법조(715호); 이승현형사미성년의 판단143 2. 형사미성년과 형사소송능력144]. 서설 1. 본조의 의의 가.형사미성년의 판단 학원능력은 행위시에 존재하여야 한다. 따라서 범행 당시에...
+                </div>
+                <div class="result-tags">형법 총칙 • 제2장 죄</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">형법 각칙 | 제3조 [법인·단체 등의 형사책임]</div>
+                <div class="result-meta">김대휘, 김신 • 한국사법행정학회 • 2017. 10. • 제5판</div>
+                <div class="result-content">
+                    O 제2조의 경우에 발행인이 법인이나 그 밖의 단체일 때에는 그 수표에 적격 있는 대표자 또는 작성자를 처벌하며, 그 법인 또는 그 밖의 단체에도 해당 조문의 벌금형을 과한다. 다만, 법인 또는 그 밖의 단체가 그 위반행위를 방지하기 위하여 해당 업무에 관하여 상당한 주의와 감독을 게을리하지 아니한 경우에는 그러하지 아니하...
+                </div>
+                <div class="result-tags">형법 각칙 • 제19장 유가증권, 우표와 인지에 관한 죄</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">형법 각칙 | 제5조 [위조·변조자의 형사책임]</div>
+                <div class="result-meta">김대휘, 김신 • 한국사법행정학회 • 2017. 10. • 제5판</div>
+                <div class="result-content">
+                    수표를 위조하거나 변조한 자는 1년 이상의 유기징역과 수표금액의 10배 이하의 벌금에 처한다. [전문개정 2010.3.24]. 의의 및 구성요건 1. 본조의 수표의 위조는 법져위없을 형법차에 위져한 가증 처벌하는 규정이다. 본죄에서의 위조·변조의 의미는 기본적으로 유가증권위조·변조죄에서의 위조·변조와 동...
+                </div>
+                <div class="result-tags">형법 각칙 • 제19장 유가증권, 우표와 인지에 관한 죄</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">형법 각칙 | 제6조 [형사소송법의 특례]</div>
+                <div class="result-meta">김대휘, 김신 • 한국사법행정학회 • 2017. 10. • 제5판</div>
+                <div class="result-content">
+                    이 법에 따라 벌금을 선고하는 경우 「형사소송법」 제334조 제1항에 따른 가납판결(假納判決)을 허여하여, 구속된 피고인에 대하여는 같은 법 제331조에도형사소송법은 법인은 벌금, 과료, 또는 추징의 선고를 하는 경우에 판결확정 후에는집행유예 수가 있는데, 현실적으로 이는 법인...
+                </div>
+                <div class="result-tags">형법 각칙 • 제19장 유가증권, 우표와 인지에 관한 죄</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">형법 각칙 | 제5조(위조·변조자의 형사책임)</div>
+                <div class="result-meta">조군석 • 박영사 • 2023. 1. • 제1판</div>
+                <div class="result-content">
+                    제5조(위조·변조자의 형사책임) 수표를 위조하거나 변조한 자는 1년 이상의 유기징역과 수표금액의 10배 이하의 벌금에 처한다. [전문개정 2010. 3. 24.] I.연구, 연세대학교 석사학위논문(1996), 72 참조│주석법 각칙(2) (5판), 510(박영준)에서 재인용]. 20 이주열, 특별형법(8판), 679. 21 김정한·김승기, 형사특별법단속법 제5...
+                </div>
+                <div class="result-tags">형법 각칙 • 제19장 유가증권, 우표와 인지에 관한 죄 - 부정수표 단속법</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-title">형법 각칙 | 제6조(「형사소송법」의 특례)</div>
+                <div class="result-meta">조군석 • 박영사 • 2023. 1. • 제1판</div>
+                <div class="result-content">
+                    제6조(「형사소송법」의 특례) 이 법에 따라 벌금을 선고하는 경우 「형사소송법」 제334조 제1항에 따른 가납판결(假納判決)을 허여하여, 구속된 피고인에 대하여는 같은 법 제331조에도형사소송법은 법인은 벌금, 과료, 또한 추징의 선고를 하는 경우에 판결의 확정 후에는 집행할 수 없거나 집행하기 곤란한 염려가 있다고 인정한 때...
+                </div>
+                <div class="result-tags">형법 각칙 • 제19장 유가증권, 우표와 인지에 관한 죄 - 부정수표 단속법</div>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn">6</button>
+                <button class="page-btn">7</button>
+                <span>...30</span>
+                <button class="page-btn">></button>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="filter-section">
+                <div style="background: #ff6b35; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
+                    주석서 전체보기<br>
+                    모든 주석서를 한눈에 확인하세요.
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    출판사
+                    <button class="expand-btn">−</button>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <input type="checkbox" id="pub1">
+                        <label for="pub1">한국사법행정학회</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="pub2">
+                        <label for="pub2">박영사 <span class="new-badge-small">new</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    법령
+                    <button class="expand-btn">−</button>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <input type="checkbox" id="law1">
+                        <label for="law1">민법 <span style="color: #999;">^</span></label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="law2">
+                        <label for="law2">민법 총칙</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="law3">
+                        <label for="law3">민법 물권</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="law4">
+                        <label for="law4">민법 체권총칙</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="law5">
+                        <label for="law5">민법 체권각칙</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="law6">
+                        <label for="law6">민법 친족</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="law7">
+                        <label for="law7">민법 상속</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    상법
+                    <button class="expand-btn">^</button>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <input type="checkbox" id="com1">
+                        <label for="com1">상법 총칙상행위</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="com2">
+                        <label for="com2">상법 보험</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="com3">
+                        <label for="com3">상법 해상</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="com4">
+                        <label for="com4">상법 회사법</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    형법
+                    <button class="expand-btn">^</button>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <input type="checkbox" id="crim1">
+                        <label for="crim1">형법 총칙</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="crim2">
+                        <label for="crim2">형법 각칙</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    형사소송법
+                    <button class="expand-btn">^</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    근로기준법
+                    <button class="expand-btn">^</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    노동조합 및 노동관계조정법
+                    <button class="expand-btn">^</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    부정경쟁방지법
+                    <button class="expand-btn">^</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">
+                    재무치정법
+                    <button class="expand-btn">^</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>
