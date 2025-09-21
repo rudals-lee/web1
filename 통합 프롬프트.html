@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합 프롬프터 & 음성 인식 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            display: flex;
+            flex-direction: column;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            color: white;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-group label {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-button, .control-input, .control-select {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .control-button.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .control-input, .control-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .control-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .left-panel {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .editor-panel, .voice-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .panel-title {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .editor-textarea, .voice-textarea {
+            width: 100%;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .voice-textarea {
+            height: 200px;
+        }
+
+        .editor-textarea::placeholder, .voice-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voice-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .voice-btn-start {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+
+        .voice-btn-stop {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .voice-btn-clear {
+            background: linear-gradient(45deg, #feca57, #ff9ff3);
+            color: white;
+        }
+
+        .voice-btn-transfer {
+            background: linear-gradient(45deg, #5f27cd, #341f97);
+            color: white;
+        }
+
+        .voice-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .voice-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .voice-status {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .voice-status.listening {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .voice-status.stopped {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .word-count {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .prompter-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .prompter-screen {
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 40px;
+        }
+
+        .prompter-text {
+            color: white;
+            font-size: 32px;
+            line-height: 1.8;
+            text-align: left;
+            white-space: pre-line;
+            transition: transform 0.1s linear;
+            font-weight: 300;
+        }
+
+        .mirror-mode .prompter-text {
+            transform: scaleX(-1);
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.3);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .status-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff4444;
+            animation: pulse 1s infinite;
+        }
+
+        .sync-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4CAF50;
+        }
+
+        .remote-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .remote-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .remote-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .wave-bar {
+            width: 3px;
+            height: 20px;
+            background: #4CAF50;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .age-quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            max-width: 200px;
+        }
+
+        .age-btn {
+            padding: 6px 8px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 11px;
+            font-weight: 500;
+            min-width: 35px;
+            height: 28px;
+            position: relative;
+        }
+
+        .age-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .age-btn.active {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            transform: scale(1.05);
+        }
+
+        .situation-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            justify-content: center;
+            max-width: 280px;
+        }
+
+        .situation-btn {
+            padding: 4px 6px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 9px;
+            font-weight: 500;
+            min-width: 28px;
+            height: 22px;
+            flex: 1;
+            min-width: calc(33.333% - 2px);
+        }
+
+        .situation-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .situation-btn.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            box-shadow: 0 2px 10px rgba(76, 175, 80, 0.4);
+        }
+
+        .chat-dropdown-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .chat-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .chat-dropdown optgroup {
+            font-weight: bold;
+            color: #555;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .chat-dropdown option {
+            padding: 8px 12px;
+            color: #333;
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-dropdown option:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .field-scenario-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .field-scenario-buttons .control-button {
+            flex: 1;
+            min-width: 120px;
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        /* 모바일 및 태블릿 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                padding: 10px;
+                gap: 15px;
+            }
+            
+            .left-panel {
+                width: 100%;
+                order: 2;
+                flex-direction: row;
+            }
+            
+            .editor-panel, .voice-panel {
+                flex: 1;
+            }
+            
+            .prompter-container {
+                order: 1;
+                min-height: 60vh;
+            }
+            
+            .controls {
+                gap: 8px;
+                justify-content: space-around;
+                padding: 0 10px;
+            }
+            
+            .control-group {
+                flex: 1;
+                min-width: 80px;
+            }
+            
+            .control-button, .control-input, .control-select {
+                width: 100%;
+                padding: 12px 8px;
+                font-size: 12px;
+                min-height: 44px;
+            }
+            
+            .control-group label {
+                font-size: 12px;
+            }
+            
+            .prompter-text {
+                font-size: 28px;
+                padding: 20px;
+            }
+            
+            .editor-textarea, .voice-textarea {
+                height: 150px;
+                font-size: 16px;
+            }
+            
+            .status-bar {
+                padding: 8px 15px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .remote-controls {
+                bottom: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+            
+            .remote-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .title {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+            
+            .left-panel {
+                flex-direction: column;
+            }
+            
+            .voice-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .voice-btn {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .control-group {
+                min-width: 70px;
+                margin-bottom: 10px;
+            }
+            
+            .chat-dropdown-container {
+                position: static;
+            }
+            
+            .chat-dropdown {
+                position: fixed;
+                top: auto;
+                bottom: 120px;
+                left: 10px;
+                right: 10px;
+                max-height: 250px;
+            }
+            
+            .control-button, .control-input, .control-select {
+                padding: 10px 6px;
+                font-size: 11px;
+                border-radius: 20px;
+            }
+            
+            .control-group label {
+                font-size: 11px;
+                text-align: center;
+            }
+            
+            .prompter-container {
+                min-height: 50vh;
+                border-radius: 15px;
+            }
+            
+            .prompter-text {
+                font-size: 24px;
+                padding: 15px;
+                line-height: 1.6;
+            }
+            
+            .editor-panel, .voice-panel {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
+            .editor-textarea, .voice-textarea {
+                height: 120px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+            
+            .status-bar {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            
+            .recording-indicator, .sync-indicator {
+                font-size: 11px;
+            }
+            
+            .remote-controls {
+                bottom: 80px;
+                right: 8px;
+            }
+            
+            .remote-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
+            }
+        }
+
+        /* 터치 디바이스 최적화 */
+        @media (hover: none) and (pointer: coarse) {
+            .control-button, .control-input, .control-select, .remote-btn, .age-btn, .situation-btn, .voice-btn {
+                -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+                touch-action: manipulation;
+            }
+            
+            .control-button:active, .remote-btn:active, .age-btn:active, .situation-btn:active, .voice-btn:active {
+                transform: scale(0.95);
+                transition: transform 0.1s;
+            }
+            
+            .prompter-screen::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .prompter-screen {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">통합 프롬프터 & 음성 인식 시스템</h1>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>자동 스크롤</label>
+                <button id="autoScrollBtn" class="control-button">시작</button>
+            </div>
+            
+            <div class="control-group">
+                <label>스크롤 속도</label>
+                <input type="range" id="speedSlider" class="control-input" min="1" max="10" value="5" style="width: 100px;">
+            </div>
+            
+            <div class="control-group">
+                <label>글자 크기</label>
+                <select id="fontSizeSelect" class="control-select">
+                    <option value="24">24px</option>
+                    <option value="32" selected>32px</option>
+                    <option value="40">40px</option>
+                    <option value="48">48px</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>미러 모드</label>
+                <button id="mirrorBtn" class="control-button">OFF</button>
+            </div>
+            
+            <div class="control-group">
+                <label>음성 동기화</label>
+                <button id="voiceBtn" class="control-button">시작</button>
+            </div>
+            
+            <div class="control-group">
+                <label>연령대 선택</label>
+                <select id="ageGroupSelect" class="control-select">
+                    <option value="basic">기본 스크립트</option>
+                    <option value="20s">20대 버전</option>
+                    <option value="30s">30대 버전</option>
+                    <option value="40s">40대 버전</option>
+                    <option value="50s">50대 버전</option>
+                    <option value="60s">60대 버전</option>
+                    <option value="70s">70대+ 버전</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>연령대 바로가기</label>
+                <div class="age-quick-buttons">
+                    <button id="age20Btn" class="age-btn" title="키보드: Ctrl+2">20대</button>
+                    <button id="age30Btn" class="age-btn" title="키보드: Ctrl+3">30대</button>
+                    <button id="age40Btn" class="age-btn" title="키보드: Ctrl+4">40대</button>
+                    <button id="age50Btn" class="age-btn" title="키보드: Ctrl+5">50대</button>
+                    <button id="age60Btn" class="age-btn" title="키보드: Ctrl+6">60대</button>
+                    <button id="age70Btn" class="age-btn" title="키보드: Ctrl+7">70+</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>투자금액 설정</label>
+                <input type="text" id="investmentInput" class="control-input" placeholder="3000만원" value="3000만원" style="width: 80px;">
+            </div>
+            
+            <div class="control-group">
+                <label>월세금액 설정</label>
+                <input type="text" id="monthlyRentInput" class="control-input" placeholder="60만원" value="60만원" style="width: 80px;">
+            </div>
+            
+            <div class="control-group">
+                <label>상황별 대응</label>
+                <div class="situation-buttons">
+                    <button id="busyBtn" class="situation-btn" title="키보드: B">바빠요</button>
+                    <button id="okayBtn" class="situation-btn" title="키보드: O">괜찮아요</button>
+                    <button id="textBtn" class="situation-btn" title="키보드: T">문자주세요</button>
+                    <button id="unknownBtn" class="situation-btn" title="키보드: U">모르겠어요</button>
+                    <button id="moneyBtn" class="situation-btn" title="키보드: M">돈없어요</button>
+                    <button id="noBtn" class="situation-btn" title="키보드: N">안해요</button>
+                    <button id="decidedBtn" class="situation-btn" title="키보드: D">안하기로했어요</button>
+                    <button id="interestBtn" class="situation-btn" title="키보드: I">관심없어요</button>
+                    <button id="drivingBtn" class="situation-btn" title="키보드: R">운전중이에요</button>
+                    <button id="ageBtn" class="situation-btn" title="키보드: A">나이많아요</button>
+                    <button id="phoneBtn" class="situation-btn" title="키보드: P">번호어떻게</button>
+                    <button id="stopBtn" class="situation-btn" title="키보드: S">전화하지마세요</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>사담 질문</label>
+                <div class="chat-dropdown-container">
+                    <button id="chatBtn" class="control-button">👥 사담</button>
+                    <select id="chatQuestionSelect" class="control-select chat-dropdown" style="display: none;">
+                        <option value="">질문 선택하기</option>
+                        <optgroup label="☀️ 날씨 & 계절">
+                            <option value="weather1">요즘 아침저녁으로 확 쌀쌀해졌죠? 저는 아직 반팔 입다가 후회했어요. (상대방)은 옷 빨리 바꾸시는 편이에요?</option>
+                            <option value="weather2">오늘 햇살이 따뜻하더라고요. 저는 이런 날엔 산책하고 싶던데, (상대방)은 날씨 좋을 때 뭐 하고 싶으세요?</option>
+                        </optgroup>
+                        <optgroup label="🚗 이동 & 교통">
+                            <option value="transport1">오시는 길 괜찮으셨어요? 저는 오다가 차가 좀 막혔거든요. (상대방)은 주로 대중교통 이용하세요, 아니면 차로 다니세요?</option>
+                            <option value="transport2">요즘 출퇴근길에 사람들이 많아서 정신없더라고요. (상대방)은 보통 몇 시쯤 다니세요?</option>
+                        </optgroup>
+                        <optgroup label="🍽️ 식사 & 음료">
+                            <option value="food1">식사 하셨어요? 저는 오늘 고민하다가 그냥 평소 먹는 걸로 먹었어요. (상대방)은 자주 드시는 메뉴 있으세요?</option>
+                            <option value="food2">혹시 커피 좋아하세요? 저는 하루에 한두 잔은 꼭 마셔야 하거든요. (상대방)은 커피 대신 다른 음료 즐겨 드세요?</option>
+                            <option value="food3">단 음식 좋아하세요? 저는 요즘 빵이나 디저트가 자꾸 당기더라고요. (상대방)은 어떤 간식 자주 드세요?</option>
+                        </optgroup>
+                        <optgroup label="🏖️ 주말 & 휴식">
+                            <option value="weekend1">주말엔 어떻게 보내셨어요? 저는 그냥 집에서 뒹굴거리다 끝났어요. (상대방)은 주말에 보통 뭐 하세요?</option>
+                            <option value="weekend2">하루가 금방 지나가서 저녁엔 꼭 뭐라도 하려고 해요. (상대방)은 하루 마무리할 때 주로 뭐 하세요?</option>
+                            <option value="weekend3">바쁜 날엔 저는 그냥 쉬는 게 제일이더라고요. (상대방)은 피곤할 때 어떻게 푸세요?</option>
+                        </optgroup>
+                        <optgroup label="🎮 취미 & 여가">
+                            <option value="hobby1">요즘 재밌게 보시는 드라마나 유튜브 있으세요? 저는 집에 오면 습관처럼 틀어놓거든요.</option>
+                            <option value="hobby2">혹시 운동 자주 하세요? 저는 요즘 가볍게 걷기만 하고 있어요. (상대방)은 어떤 운동 좋아하세요?</option>
+                            <option value="hobby3">책 읽는 거 좋아하세요? 저는 최근에 자기계발서 한 권 보다가 중간에 덮었어요. (상대방)은 어떤 책 좋아하세요?</option>
+                        </optgroup>
+                        <optgroup label="💪 건강 & 생활">
+                            <option value="health1">환절기라 감기 걸린 분들이 많더라고요. 저는 요즘 목이 좀 칼칼해요. (상대방)은 건강관리 어떻게 하세요?</option>
+                            <option value="health2">요즘 다들 스트레스가 많다던데, 저는 가끔 맛있는 걸로 풀어요. (상대방)은 어떻게 스트레스 푸세요?</option>
+                            <option value="health3">저는 요즘 잠이 부족해서 힘들더라고요. (상대방)은 잠 잘 주무시는 편이세요?</option>
+                        </optgroup>
+                        <optgroup label="📍 공간 & 상황">
+                            <option value="place1">여기 분위기 괜찮으시죠? 저는 조용해서 마음이 편하더라고요. (상대방)은 활기찬 분위기 좋아하세요, 아니면 이런 차분한 게 좋으세요?</option>
+                            <option value="place2">기다리는 시간이 길죠? 저는 이런 시간에 괜히 휴대폰만 보게 되네요. (상대방)은 보통 기다릴 때 뭐 하세요?</option>
+                            <option value="place3">이 근처 자주 오세요? 저는 처음 와봤는데 괜찮더라고요. (상대방)은 단골로 가는 곳 있으세요?</option>
+                        </optgroup>
+                        <optgroup label="💭 가벼운 공감/일상">
+                            <option value="daily1">요즘 하루가 정말 빨리 가지 않으세요? 저는 정신 차리면 밤이더라고요. (상대방)은 보통 하루 마무리를 어떻게 하세요?</option>
+                            <option value="daily2">사람들이 요즘 다 바쁘게 사는 것 같아요. 저는 주말에라도 쉬려고 하는데, (상대방)은 시간 날 때 뭐 하세요?</option>
+                            <option value="daily3">저는 새로운 사람 만나면 긴장이 되더라고요. (상대방)은 처음 만날 때 어색함 빨리 푸는 편이세요?</option>
+                            <option value="daily4">요즘 뉴스 보면 재미있는 얘기 많더라고요. 저는 스포츠 소식 자주 보는데, (상대방)은 주로 어떤 분야 관심 있으세요?</option>
+                            <option value="daily5">저는 아침보단 저녁형 인간이에요. (상대방)은 아침형이세요, 아니면 밤에 더 활동적인 편이세요?</option>
+                            <option value="daily6">저는 음악을 틀어놔야 집중이 잘 돼요. (상대방)은 조용할 때 집중 잘 되세요, 아니면 음악 들으면서 하세요?</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>필드 시나리오</label>
+                <div class="field-scenario-buttons">
+                    <button id="fieldScenario2Btn" class="control-button" title="키보드: F1">연습2 팀장님</button>
+                    <button id="fieldScenario3Btn" class="control-button" title="키보드: F2">연습3 차장님</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>리셋</label>
+                <button id="resetBtn" class="control-button">↻</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="editor-panel">
+                <h3 class="panel-title">대본 편집</h3>
+                <textarea id="scriptEditor" class="editor-textarea" placeholder="여기에 대본을 입력하세요..."></textarea>
+            </div>
+
+            <div class="voice-panel">
+                <h3 class="panel-title">음성 인식</h3>
+                
+                <div class="voice-controls">
+                    <button id="voiceStartBtn" class="voice-btn voice-btn-start">
+                        🎤 시작
+                    </button>
+                    <button id="voiceStopBtn" class="voice-btn voice-btn-stop" disabled>
+                        ⏹️ 중지
+                    </button>
+                    <button id="voiceClearBtn" class="voice-btn voice-btn-clear">
+                        🗑️ 지우기
+                    </button>
+                    <button id="voiceTransferBtn" class="voice-btn voice-btn-transfer">
+                        📝 프롬프터로
+                    </button>
+                </div>
+
+                <div id="voiceStatus" class="voice-status stopped">
+                    음성 인식을 시작하려면 "시작" 버튼을 클릭하세요
+                </div>
+
+                <textarea id="voiceTextArea" class="voice-textarea" placeholder="여기에 음성으로 변환된 텍스트가 나타납니다..." readonly></textarea>
+                
+                <div class="word-count">
+                    글자 수: <span id="voiceCharCount">0</span>자 | 단어 수: <span id="voiceWordCount">0</span>개
+                </div>
+            </div>
+        </div>
+
+        <div class="prompter-container" id="prompterContainer">
+            <div class="prompter-screen">
+                <div id="prompterText" class="prompter-text">
+안녕하세요. 대우건설에서 전화드렸는데요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받아보시라고 연락드렸는데요.
+
+제 말처럼 3000만원대로 매달 60만원씩 월세 나온다고 하시면 좋으신 거 알고 계시죠?
+
+이런 거 한번 알아보시라고 연락드렸는데요.
+
+왜냐하면 지금 목소리 들어보니까 나이대가 [연령대] 정도 같으신데 맞으시죠?
+
+그럼 따로 월세 받는것도 있으시죠?
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <div class="recording-indicator" id="recordingIndicator" style="display: none;">
+                    <div class="recording-dot"></div>
+                    <span>음성 인식 중...</span>
+                    <div class="voice-wave">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="sync-indicator" id="syncIndicator">
+                    <span>동기화 준비</span>
+                </div>
+                
+                <div>속도: <span id="currentSpeed">5</span>/10</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="remote-controls">
+        <button class="remote-btn" id="remoteUp" title="위로 스크롤">↑</button>
+        <button class="remote-btn" id="remotePause" title="일시정지">⏸</button>
+        <button class="remote-btn" id="remoteDown" title="아래로 스크롤">↓</button>
+    </div>
+
+    <script>
+        // 전역 변수
+        let isAutoScrolling = false;
+        let scrollSpeed = 5;
+        let currentPosition = 0;
+        let animationId = null;
+        let isMirrorMode = false;
+        let isVoiceRecognition = false;
+        let recognition = null;
+        let recognizedText = '';
+        let currentWordIndex = 0;
+        let scriptWords = [];
+        let lastSpeechTime = Date.now();
+        let speechRate = 0;
+
+        // 음성 인식 관련 변수
+        let isRecognizing = false;
+        let finalTranscript = '';
+        let voiceRecognition = null;
+
+        // DOM 요소 가져오기
+        const autoScrollBtn = document.getElementById('autoScrollBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const fontSizeSelect = document.getElementById('fontSizeSelect');
+        const mirrorBtn = document.getElementById('mirrorBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const ageGroupSelect = document.getElementById('ageGroupSelect');
+        const age20Btn = document.getElementById('age20Btn');
+        const age30Btn = document.getElementById('age30Btn');
+        const age40Btn = document.getElementById('age40Btn');
+        const age50Btn = document.getElementById('age50Btn');
+        const age60Btn = document.getElementById('age60Btn');
+        const age70Btn = document.getElementById('age70Btn');
+        const investmentInput = document.getElementById('investmentInput');
+        const monthlyRentInput = document.getElementById('monthlyRentInput');
+        const busyBtn = document.getElementById('busyBtn');
+        const okayBtn = document.getElementById('okayBtn');
+        const textBtn = document.getElementById('textBtn');
+        const unknownBtn = document.getElementById('unknownBtn');
+        const moneyBtn = document.getElementById('moneyBtn');
+        const noBtn = document.getElementById('noBtn');
+        const decidedBtn = document.getElementById('decidedBtn');
+        const interestBtn = document.getElementById('interestBtn');
+        const drivingBtn = document.getElementById('drivingBtn');
+        const ageBtn = document.getElementById('ageBtn');
+        const phoneBtn = document.getElementById('phoneBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const fieldScenario2Btn = document.getElementById('fieldScenario2Btn');
+        const fieldScenario3Btn = document.getElementById('fieldScenario3Btn');
+        const chatBtn = document.getElementById('chatBtn');
+        const chatQuestionSelect = document.getElementById('chatQuestionSelect');
+        const scriptEditor = document.getElementById('scriptEditor');
+        const prompterText = document.getElementById('prompterText');
+        const prompterContainer = document.getElementById('prompterContainer');
+        const currentSpeedDisplay = document.getElementById('currentSpeed');
+        const recordingIndicator = document.getElementById('recordingIndicator');
+        const syncIndicator = document.getElementById('syncIndicator');
+        const remoteUp = document.getElementById('remoteUp');
+        const remotePause = document.getElementById('remotePause');
+        const remoteDown = document.getElementById('remoteDown');
+
+        // 음성 인식 패널 요소
+        const voiceStartBtn = document.getElementById('voiceStartBtn');
+        const voiceStopBtn = document.getElementById('voiceStopBtn');
+        const voiceClearBtn = document.getElementById('voiceClearBtn');
+        const voiceTransferBtn = document.getElementById('voiceTransferBtn');
+        const voiceStatus = document.getElementById('voiceStatus');
+        const voiceTextArea = document.getElementById('voiceTextArea');
+        const voiceCharCount = document.getElementById('voiceCharCount');
+        const voiceWordCount = document.getElementById('voiceWordCount');
+
+        // 연령대별 스크립트 데이터
+        const ageScripts = {
+            basic: `안녕하세요. 대우건설에서 전화드렸는데요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받아보시라고 연락드렸는데요.
+
+제 말처럼 3000만원대로 매달 60만원씩 월세 나온다고 하시면 좋으신 거 알고 계시죠?
+
+이런 거 한번 알아보시라고 연락드렸는데요.
+
+왜냐하면 지금 목소리 들어보니까 나이대가 [연령대] 정도 같으신데 맞으시죠?
+
+그럼 따로 월세 받는것도 있으시죠?`,
+
+            '20s': `안녕하세요! 대우건설에서 연락드렸어요.
+
+젊은 분들이 요즘 부동산 투자에 관심 많으시잖아요.
+
+실투자금 3000만원대로 사무실 한 채 소유해서 매달 60만원씩 월세 받는 투자상품이 있어서 소개해드리려고요.
+
+3000만원 투자로 매월 60만원 수익이면 괜찮은 투자 수익률이라고 생각하시죠?
+
+목소리 들어보니까 20대 중후반 정도 같으신데 맞나요?
+
+지금 따로 투자하고 계신 게 있으시죠?`,
+
+            '30s': `안녕하세요. 대우건설에서 전화드렸습니다.
+
+30대 분들께서 안정적인 수익형 부동산에 많이 관심 가져주시는데요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받아보시라고 연락드렸어요.
+
+이 정도 수익률이면 괜찮다고 생각하시죠?
+
+목소리 들어보니까 30대 정도 되신 것 같은데 맞으신가요?
+
+결혼하셔서 가정이 있으시니까 안정적인 투자에 관심 많으실 것 같은데요.`,
+
+            '40s': `안녕하세요. 대우건설에서 전화드렸습니다.
+
+40대 분들이 가장 많이 문의해주시는 상품이 있어서 연락드렸는데요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받는 상품입니다.
+
+이런 안정적인 수익형 부동산 투자에 관심 있으실 것 같아서요.
+
+목소리 들어보니까 40대 정도 되신 것 같은데 맞으신지요?
+
+아무래도 자녀 교육비나 노후 준비 때문에 투자에 관심 많으실 텐데요.`,
+
+            '50s': `안녕하세요. 대우건설에서 연락드렸습니다.
+
+50대 분들께서 안정적인 수익 창출에 관심이 많으실 텐데요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받는 상품 소개해드리려고요.
+
+노후 준비도 하시면서 안정적인 수익도 낼 수 있는 상품이거든요.
+
+목소리 들어보니까 50대 정도 되신 것 같은데 맞으신가요?
+
+은퇴 준비하시면서 안정적인 투자처 찾고 계시죠?`,
+
+            '60s': `안녕하세요. 대우건설에서 전화드렸습니다.
+
+60대 어르신들께서 많이 선호하시는 안정적인 투자상품이 있어서 연락드렸어요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받는 상품입니다.
+
+은퇴하신 후에 안정적인 수입원이 필요하실 텐데 어떠세요?
+
+목소리 들어보니까 60대 정도 되신 것 같은데 맞으신지요?
+
+연금 외에 추가 수입원이 있으면 좋으시죠?`,
+
+            '70s': `안녕하세요. 대우건설에서 전화드렸습니다.
+
+어르신께서 안전하고 확실한 투자에 관심 있으실 것 같아서 연락드렸어요.
+
+실투자금 3000만원대로 사무실 한 채 소유하셔서 매달 60만원씩 월세 받는 상품입니다.
+
+복잡한 투자가 아니고 단순하고 안전한 부동산 투자거든요.
+
+목소리 들어보니까 연세가 좀 있으신 것 같은데요.
+
+자녀분들께도 도움이 되는 좋은 투자라고 생각하시죠?`
+        };
+
+        // 상황별 응답 스크립트
+        const situationResponses = {
+            busy: `많이 바쁘시죠? 그래서 저도 길게 말씀드릴 건 아닌데요.
+
+아마 일하시는 중이시다 보니까 바쁘실텐데 제가 말씀드리고 싶은 건 열심히 일하셔서 버시는 돈도 물론 중요하지만, 요즘에는 번 돈을 불리는 게 훨씬 더 중요한 시대인 건 잘 알고 계실거에요.
+
+특히나 지금 목소리 들어보니까 나이대가 [연령대] 정도 같으신데 맞으시죠?`,
+
+            okay: `괜찮다고만 하시기 보다는 한번 들어보세요.
+
+다른 걸 다 떠나서 만약에 돈이 3000만원대 밖에 안 들어가시는데 매달 60만원씩 월세도 잘 나오고 만약에 이 물건이 단기간안에 가격까지 올라서 나중에 비싸게 팔 수 있다고만 하면 좋으신 건 아시잖아요?
+
+아직 저희 물건에 대해서 잘 모르시기 때문에 괜찮다 하실 수 있는데, 저희 물건은 수익률이 20%가 넘습니다. 심지어 대우건설 브랜드에, 주변시세보다 저렴한 금액대이다 보니까 오히려 프리미엄까지 받아서 비싸게 팔 수 있는 물건이기 때문에 돈을 버는 내용이니까 알아보시라고 말씀을 드리는 거에요.`,
+
+            text: `네 알겠습니다. 문자로 자료 보내드릴게요.
+
+핸드폰 번호가 맞나요?
+
+자료 보시고 궁금한 거 있으시면 언제든 연락주세요.
+
+투자 상담은 무료로 해드리고 있습니다.`,
+
+            unknown: `그러시구나. 예를 들어 길 가다보면 약국이나 편의점이나 커피숍이나 음식점이나 이런 것들이 되게 많은데, 그게 다 부동산이잖아요?
+
+점포 하나를 구입해서 장사하는 자영업자들 상대로 월세를 받는건데, 저희 물건은 빌딩 건물이고, 빌딩 안에 들어가는 사무실 한 채를 본인 이름으로 구입하시면, 사무실에 들어와서 일하는 회사들, 기업들을 대상으로 월세를 받으시는거에요.
+
+사무실 한 채의 주인이 되시는건데, 이 사무실을 구입하는데 들어가는 돈이 3000만원대 밖에 안 들어가는거고, 매달매달 월세를 신경쓸거 없이 60만원씩 받을 수가 있는건데, 만약에 이렇게 매달 월세를 받으실 수 있다고 하면 어떠실 것 같으세요?`,
+
+            money: `모델하우스 오셔서 알아보시는건 돈이 들어가지 않아요. 알아보시고 나서 만약에 저희 물건이 돈 될 것 같고 마음에 드신다면, 그때 가서 자금 맞춰보시면 되는거고, 어차피 마음에 안 드시면 안 하실거니까 돈 들어갈 일도 없죠.
+
+만약에 저희 모델하우스 나오셔서 상담 받아보셨는데 저희 물건이 정말 돈 될 것 같고 마음에 든다고 하면, 솔직히 말씀드려서 3천만원 정도는 만들려면 만드실 수 있으시잖아요?
+
+다만 제가보기에 아직 저희물건에 대해서 잘 모르시고, 전화상으로 전달 드리고 있다 보니까 괜히 했다가 잘못될까봐 아니면 신경쓸 거 많을까봐 그냥 돈 없다고 말씀하시는거 아니세요? 그쵸.
+
+단순히 돈 없다고만 하시기 보다는 돈 벌 수 있는 정보를 알아보시는 건 돈 드는 게 아니기 때문에 제대로 한번 들어보세요.`,
+
+            no: `안한다고만 하시기 보다는 한번 들어보세요.
+
+다른 걸 다 떠나서 만약에 돈이 3000만원대 밖에 안 들어가시는데 매달 60만원씩 월세도 잘 나오고 만약에 이 물건이 단기간안에 가격까지 올라서 나중에 비싸게 팔 수 있다고만 하면 좋으신 건 아시잖아요?
+
+아직 저희 물건에 대해서 잘 모르시기 때문에 그렇게 말씀하실 수 있는데, 저희 물건은 수익률이 20%가 넘습니다. 심지어 대우건설 브랜드에, 주변시세보다 저렴한 금액대이다 보니까 오히려 프리미엄까지 받아서 비싸게 팔 수 있는 물건이기 때문에 알아보시라고 말씀을 드리는 거에요.`,
+
+            decided: `그러시구나, 그런데 제가 말씀 드리는 건 물론 저희 물건이 좋아서 하시라고 말씀드렸던 건 맞지만 전화상으로 계약을 하시라고 말씀 드린게 아니고 모델하우스 나오셔서 알아보시라고 말씀드린거거든요?
+
+왜냐하면 부동산이라는게 집에서 전화상으로 들은 몇가지 내용이나 자료 몇장 가지고 할지 말지를 결정할 수 있는 부분이 아니다 보니 모델하우스 오셔서 방 꾸며 놓은거나 여러 가지 내용들을 하나부터 열까지 꼼꼼하게 따져보시고 알아보신 후에 그때가서 마음에 들면 하시는 거고 마음에 안 들면 안 하시면 되는거거든요.
+
+그래서 나오셔서 알아보시라고 말씀드린거였고, 알아 보시는데에는 돈 드는게 아니기 때문에 모델하우스 오셔서 알아보시는 건 문제 없으시잖아요? 그러니까 오셔서 상담 받아보세요.`,
+
+            interest: `관심없다고만 하시기 보다는 한번 들어보세요.
+
+다른 걸 다 떠나서 만약에 돈이 3000만원대 밖에 안 들어가시는데 매달 60만원씩 월세도 잘 나오고 만약에 이 물건이 단기간안에 가격까지 올라서 나중에 비싸게 팔 수 있다고만 하면 좋으신 건 아시잖아요?
+
+아직 저희 물건에 대해서 잘 모르시기 때문에 관심 없으실 수 있는데, 저희 물건은 수익률이 20%가 넘습니다. 심지어 대우건설 브랜드에, 주변시세보다 저렴한 금액대이다 보니까 오히려 프리미엄까지 받아서 비싸게 팔 수 있는 물건이기 때문에 알아보시라고 말씀을 드리는 거에요.`,
+
+            driving: `운전중이시구나. 그래서 저도 길게 말씀드릴 건 아닌데요.
+
+운전 하시느라 연락받기 힘드시죠 바쁘실텐데 제가 말씀드리고 싶은 건 열심히 일하셔서 버시는 돈도 물론 중요하지만, 요즘에는 번 돈을 불리는 게 훨씬 더 중요한 시대인 건 잘 알고 계실거에요.
+
+특히나 지금 목소리 들어보니까 나이대가 [연령대] 정도 같으신데 맞으시죠?`,
+
+            age: `지금 목소리 들어보니까 나이대가 한 [연령대] 정도 되신 것 같으신데 맞으시죠?
+
+어떻게 보면 내 나이에 이런 건 필요없다 생각하실 수 있는데 사실은 이런 부동산으로 월세 받는 게 오히려 엄청 필요한 나이대이시거든요?
+
+왜냐하면 은퇴 준비도 하시면서 안정적인 수입원도 필요하시잖아요?`,
+
+            phone: `번호를 알고 전화드린 건 아니고요. 지금 쓰시고 있는 번호가 010-****-**** 이시잖아요.
+
+저희가 가운데 번호 하나를 지정을 하고 뒤에 4자리를 순차적으로 랜덤 돌리고 있습니다.
+
+그래서 연락이 닿은 거고요. 어쨌든 연락이 닿았으니까 좋은 정보 한번 들어보시는 건 어때요?`,
+
+            stop: `알겠습니다, 그럼 저도 이것까지만 말씀드릴게요.
+
+다만 이런 투자 기회가 자주 오는 건 아니라서 나중에 후회하지 마시고, 혹시 생각이 바뀌시면 언제든 연락주세요.`,
+
+            fieldScenario2: `어머니 안녕하세요.
+저희 강남역에 있는 모델하우스에서 나왔는데요.
+
+"안 해. 안 해. 안 해."
+
+어머니 안 하셔도 되는데 저희 이번에 일반 분양 완판 기념으로 홍삼 이벤트 한다고.
+
+"홍삼 필요 없어."
+
+그러면 어머니 노후 준비하는 거 한번 알아보시려고... "됐어. 됐어."
+
+왜냐하면, 어머니 지금 뵈니까 50대 같으신데, 맞으시죠?
+
+50대라는 나이에 어머니 저희 것 아니더라도 매달매달 어머니가 앞으로 60대 때가 되고 70대가 되고 80대가 되셔도 매달매달 고정적인 지출이 나가기 때문에 그만큼의 고정적인 수입은 만들어 놓으셔야 되는데 지금이야 어머님이나 아버님이 일을 하고 계시니까 월급 받고 계시니까 그럴 수 있겠지만, 언제까지 일을 할 수는 없어요.
+
+그런데 어머니 잘하셔야 되는 게 뭐냐 하면 요즘에도 친구분들이 "우리 아들 곧 있으면 결혼해. 우리 딸 곧 있으면 결혼해." 그런 얘기하지. 나중 가서 경조사비가 한두 푼이 아니에요.
+
+무엇보다 중요한 거는 어머니도 만약에 자녀분들 아직까지 결혼을 안 하셨다고 하면 자녀분들 결혼하는 데 있어서 결혼 자금 얼마나 많이 들어가? 앞으로 돈 들어갈 때가 되게 많은데 이런 돈 버는 노후 준비는 저희 것 아니더라도 반드시 준비하시면 돼요.`,
+
+            fieldScenario3: `안녕하세요. 어디 가시는 길이세요?
+오늘 날씨가 너무 시원하죠.
+이제 진짜 날씨가 많이 풀렸다고...
+
+다른 건 아니고 저희 강남역에 모델하우스에서 나와 있어요.
+여기 대우건설의 이경민 주임이라고 합니다.
+
+이번 대우건설에서 이번에 이런 빌딩 건물을 짓고 있는데,
+여기 들어간 사무실 한 채 소유하시는데 7천만 원대 들어가셔서 회사들 상대로 매달 130만 원씩 월세 받는 거 한번 알아보시라고 나와 있어요.
+
+사장님도 만약에 진짜 제 말처럼 내 돈 7천만 원대 들어갔는데 매달매달 130만 원씩 월세도 잘 나오는 게 가격까지 프리미엄까지도 확실하게 올라간다고 하면 좋으신 건 아시죠?
+
+그렇죠? 그래서 이런 부분들을 당장에 뭔가를 하시라고 말씀드린 건 아니고 다른 시간 괜찮으실 때 저희 모델하우스 강남역에 있다고 말씀드렸잖아요.
+
+오셔서 한번 제대로 알아보시라고 제가 보실 수 있는 자료랑 간단한 약도 한번 넣어드릴게요.
+
+010 몇 번 쓰세요.
+
+그런데 사장님 이거 그냥 됐다고만 하실 게 아니라 알아보시는 건 무조건 해보셔야 한다고 말씀드린 이유가 지금 나이대가 이 정도 같으신데, 맞으시죠?
+
+이거 혹은 저희 건물 들어간 게 서평택인데 여기 지금 대박이에요.
+왜냐하면, 내년 3월에 없던 지하철역이 생기거든요.`
+        };
+
+        // 자동 스크롤 기능
+        function startAutoScroll() {
+            if (animationId) cancelAnimationFrame(animationId);
+            
+            function scroll() {
+                currentPosition += scrollSpeed * 0.5;
+                prompterText.style.transform = `translateY(-${currentPosition}px)`;
+                
+                if (isAutoScrolling) {
+                    animationId = requestAnimationFrame(scroll);
+                }
+            }
+            
+            if (isAutoScrolling) {
+                animationId = requestAnimationFrame(scroll);
+            }
+        }
+
+        // 음성 인식 텍스트 변환기 글자 수 및 단어 수 업데이트 함수
+        function updateVoiceCounts() {
+            const text = voiceTextArea.value;
+            voiceCharCount.textContent = text.length;
+            voiceWordCount.textContent = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        }
+
+        // 텍스트 업데이트 함수
+        function updatePrompterText() {
+            const investment = investmentInput.value || '3000만원';
+            const monthlyRent = monthlyRentInput.value || '60만원';
+            const selectedAge = ageGroupSelect.value;
+            
+            let script = ageScripts[selectedAge] || ageScripts.basic;
+            
+            // 투자금액과 월세금액 치환
+            script = script.replace(/3000만원/g, investment);
+            script = script.replace(/60만원/g, monthlyRent);
+            
+            // 대본 편집기에 내용이 있으면 그것을 우선 사용
+            if (scriptEditor.value.trim()) {
+                script = scriptEditor.value;
+            }
+            
+            prompterText.textContent = script;
+            scriptWords = script.split(/\s+/);
+        }
+
+        // 상황별 응답 함수
+        function showSituationResponse(situation) {
+            const response = situationResponses[situation];
+            if (response) {
+                prompterText.textContent = response;
+                // 상황별 버튼 활성화 표시
+                document.querySelectorAll('.situation-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById(situation + 'Btn').classList.add('active');
+            }
+        }
+
+        // 음성 인식 초기화
+        function initVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                voiceRecognition = new SpeechRecognition();
+                
+                voiceRecognition.continuous = true;
+                voiceRecognition.interimResults = true;
+                voiceRecognition.lang = 'ko-KR';
+                
+                voiceRecognition.onstart = function() {
+                    isRecognizing = true;
+                    voiceStatus.textContent = '음성 인식 중... 말씀해주세요.';
+                    voiceStatus.className = 'voice-status listening';
+                    voiceStartBtn.disabled = true;
+                    voiceStopBtn.disabled = false;
+                    recordingIndicator.style.display = 'flex';
+                };
+                
+                voiceRecognition.onresult = function(event) {
+                    let interimTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    
+                    voiceTextArea.value = finalTranscript + interimTranscript;
+                    updateVoiceCounts();
+                };
+                
+                voiceRecognition.onerror = function(event) {
+                    console.error('음성 인식 오류:', event.error);
+                    voiceStatus.textContent = '음성 인식 오류가 발생했습니다: ' + event.error;
+                    voiceStatus.className = 'voice-status stopped';
+                };
+                
+                voiceRecognition.onend = function() {
+                    isRecognizing = false;
+                    voiceStatus.textContent = '음성 인식이 중지되었습니다.';
+                    voiceStatus.className = 'voice-status stopped';
+                    voiceStartBtn.disabled = false;
+                    voiceStopBtn.disabled = true;
+                    recordingIndicator.style.display = 'none';
+                };
+            } else {
+                voiceStatus.textContent = '이 브라우저는 음성 인식을 지원하지 않습니다.';
+                voiceStartBtn.disabled = true;
+            }
+        }
+
+        // 이벤트 리스너 설정
+        function setupEventListeners() {
+            // 자동 스크롤 버튼
+            autoScrollBtn.addEventListener('click', () => {
+                isAutoScrolling = !isAutoScrolling;
+                autoScrollBtn.textContent = isAutoScrolling ? '중지' : '시작';
+                autoScrollBtn.classList.toggle('active', isAutoScrolling);
+                
+                if (isAutoScrolling) {
+                    startAutoScroll();
+                } else {
+                    if (animationId) cancelAnimationFrame(animationId);
+                }
+            });
+
+            // 속도 슬라이더
+            speedSlider.addEventListener('input', (e) => {
+                scrollSpeed = parseInt(e.target.value);
+                currentSpeedDisplay.textContent = scrollSpeed;
+            });
+
+            // 글자 크기 선택
+            fontSizeSelect.addEventListener('change', (e) => {
+                prompterText.style.fontSize = e.target.value + 'px';
+            });
+
+            // 미러 모드 버튼
+            mirrorBtn.addEventListener('click', () => {
+                isMirrorMode = !isMirrorMode;
+                mirrorBtn.textContent = isMirrorMode ? 'ON' : 'OFF';
+                mirrorBtn.classList.toggle('active', isMirrorMode);
+                prompterContainer.classList.toggle('mirror-mode', isMirrorMode);
+            });
+
+            // 리셋 버튼
+            resetBtn.addEventListener('click', () => {
+                currentPosition = 0;
+                prompterText.style.transform = 'translateY(0px)';
+                updatePrompterText();
+            });
+
+            // 연령대 선택
+            ageGroupSelect.addEventListener('change', () => {
+                updatePrompterText();
+                // 연령대 바로가기 버튼 업데이트
+                document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
+                const selectedAge = ageGroupSelect.value;
+                if (selectedAge !== 'basic') {
+                    const ageBtn = document.getElementById('age' + selectedAge.replace('s', '') + 'Btn');
+                    if (ageBtn) ageBtn.classList.add('active');
+                }
+            });
+
+            // 연령대 바로가기 버튼들
+            const ageButtons = [
+                {btn: age20Btn, value: '20s'},
+                {btn: age30Btn, value: '30s'},
+                {btn: age40Btn, value: '40s'},
+                {btn: age50Btn, value: '50s'},
+                {btn: age60Btn, value: '60s'},
+                {btn: age70Btn, value: '70s'}
+            ];
+
+            ageButtons.forEach(({btn, value}) => {
+                btn.addEventListener('click', () => {
+                    ageGroupSelect.value = value;
+                    document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updatePrompterText();
+                });
+            });
+
+            // 투자금액, 월세금액 입력
+            investmentInput.addEventListener('input', updatePrompterText);
+            monthlyRentInput.addEventListener('input', updatePrompterText);
+
+            // 상황별 대응 버튼들
+            busyBtn.addEventListener('click', () => showSituationResponse('busy'));
+            okayBtn.addEventListener('click', () => showSituationResponse('okay'));
+            textBtn.addEventListener('click', () => showSituationResponse('text'));
+            unknownBtn.addEventListener('click', () => showSituationResponse('unknown'));
+            moneyBtn.addEventListener('click', () => showSituationResponse('money'));
+            noBtn.addEventListener('click', () => showSituationResponse('no'));
+            decidedBtn.addEventListener('click', () => showSituationResponse('decided'));
+            interestBtn.addEventListener('click', () => showSituationResponse('interest'));
+            drivingBtn.addEventListener('click', () => showSituationResponse('driving'));
+            ageBtn.addEventListener('click', () => showSituationResponse('age'));
+            phoneBtn.addEventListener('click', () => showSituationResponse('phone'));
+            stopBtn.addEventListener('click', () => showSituationResponse('stop'));
+
+            // 필드 시나리오 버튼들
+            fieldScenario2Btn.addEventListener('click', () => showSituationResponse('fieldScenario2'));
+            fieldScenario3Btn.addEventListener('click', () => showSituationResponse('fieldScenario3'));
+
+            // 사담 버튼과 드롭다운
+            chatBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dropdown = chatQuestionSelect;
+                const isVisible = dropdown.style.display === 'block';
+                
+                if (isVisible) {
+                    dropdown.style.display = 'none';
+                    chatBtn.classList.remove('active');
+                } else {
+                    dropdown.style.display = 'block';
+                    chatBtn.classList.add('active');
+                }
+            });
+
+            // 사담 질문 선택
+            chatQuestionSelect.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    prompterText.textContent = e.target.options[e.target.selectedIndex].text;
+                    chatQuestionSelect.style.display = 'none';
+                    chatBtn.classList.remove('active');
+                    // 선택 후 초기화
+                    setTimeout(() => {
+                        e.target.value = '';
+                    }, 100);
+                }
+            });
+
+            // 외부 클릭시 드롭다운 닫기
+            document.addEventListener('click', (e) => {
+                if (!chatBtn.contains(e.target) && !chatQuestionSelect.contains(e.target)) {
+                    chatQuestionSelect.style.display = 'none';
+                    chatBtn.classList.remove('active');
+                }
+            });
+
+            // 대본 편집기
+            scriptEditor.addEventListener('input', () => {
+                if (scriptEditor.value.trim()) {
+                    prompterText.textContent = scriptEditor.value;
+                } else {
+                    updatePrompterText();
+                }
+            });
+
+            // 원격 제어 버튼들
+            remoteUp.addEventListener('click', () => {
+                currentPosition = Math.max(0, currentPosition - 50);
+                prompterText.style.transform = `translateY(-${currentPosition}px)`;
+            });
+
+            remoteDown.addEventListener('click', () => {
+                currentPosition += 50;
+                prompterText.style.transform = `translateY(-${currentPosition}px)`;
+            });
+
+            remotePause.addEventListener('click', () => {
+                autoScrollBtn.click();
+            });
+
+            // 음성 인식 버튼들
+            voiceStartBtn.addEventListener('click', () => {
+                if (voiceRecognition && !isRecognizing) {
+                    finalTranscript = '';
+                    voiceRecognition.start();
+                }
+            });
+
+            voiceStopBtn.addEventListener('click', () => {
+                if (voiceRecognition && isRecognizing) {
+                    voiceRecognition.stop();
+                }
+            });
+
+            voiceClearBtn.addEventListener('click', () => {
+                finalTranscript = '';
+                voiceTextArea.value = '';
+                updateVoiceCounts();
+            });
+
+            voiceTransferBtn.addEventListener('click', () => {
+                if (voiceTextArea.value.trim()) {
+                    scriptEditor.value = voiceTextArea.value;
+                    prompterText.textContent = voiceTextArea.value;
+                }
+            });
+
+            // 음성 인식 텍스트 영역 변경 감지
+            voiceTextArea.addEventListener('input', updateVoiceCounts);
+        }
+
+        // 키보드 단축키 설정
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Ctrl + 숫자키로 연령대 바로가기
+                if (e.ctrlKey) {
+                    switch(e.key) {
+                        case '2':
+                            e.preventDefault();
+                            age20Btn.click();
+                            break;
+                        case '3':
+                            e.preventDefault();
+                            age30Btn.click();
+                            break;
+                        case '4':
+                            e.preventDefault();
+                            age40Btn.click();
+                            break;
+                        case '5':
+                            e.preventDefault();
+                            age50Btn.click();
+                            break;
+                        case '6':
+                            e.preventDefault();
+                            age60Btn.click();
+                            break;
+                        case '7':
+                            e.preventDefault();
+                            age70Btn.click();
+                            break;
+                    }
+                } else {
+                    // 일반 키보드 단축키
+                    switch(e.key.toLowerCase()) {
+                        case 'b':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                busyBtn.click();
+                            }
+                            break;
+                        case 'o':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                okayBtn.click();
+                            }
+                            break;
+                        case 't':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                textBtn.click();
+                            }
+                            break;
+                        case 'u':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                unknownBtn.click();
+                            }
+                            break;
+                        case 'm':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                moneyBtn.click();
+                            }
+                            break;
+                        case 'n':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                noBtn.click();
+                            }
+                            break;
+                        case 'd':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                decidedBtn.click();
+                            }
+                            break;
+                        case 'i':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                interestBtn.click();
+                            }
+                            break;
+                        case 'r':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                drivingBtn.click();
+                            }
+                            break;
+                        case 'a':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                ageBtn.click();
+                            }
+                            break;
+                        case 'p':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                phoneBtn.click();
+                            }
+                            break;
+                        case 's':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                stopBtn.click();
+                            }
+                            break;
+                        case 'c':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                chatBtn.click();
+                            }
+                            break;
+                        case ' ':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                autoScrollBtn.click();
+                            }
+                            break;
+                        case 'arrowup':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                remoteUp.click();
+                            }
+                            break;
+                        case 'arrowdown':
+                            if (!e.target.matches('input, textarea')) {
+                                e.preventDefault();
+                                remoteDown.click();
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+
+        // 모바일 뷰포트 높이 조정
+        function setViewportHeight() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // 초기화
+        function init() {
+            updatePrompterText();
+            updateVoiceCounts();
+            initVoiceRecognition();
+            setupEventListeners();
+            setupKeyboardShortcuts();
+            setViewportHeight();
+            
+            // 윈도우 리사이즈 이벤트
+            window.addEventListener('resize', setViewportHeight);
+            
+            console.log('통합 프롬프터 & 음성 인식 시스템이 초기화되었습니다.');
+        }
+
+        // DOM이 로드되면 초기화 실행
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>

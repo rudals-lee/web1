@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생산성 도구 단축키 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #43acfe 75%, #4facfe 100%);
+            padding: 20px;
+            min-height: 100vh;
+            animation: gradientShift 10s ease infinite;
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #43acfe 75%, #4facfe 100%); }
+            25% { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 25%, #667eea 50%, #764ba2 75%, #f093fb 100%); }
+            50% { background: linear-gradient(135deg, #f093fb 0%, #43acfe 25%, #4facfe 50%, #00f2fe 75%, #667eea 100%); }
+            75% { background: linear-gradient(135deg, #764ba2 0%, #667eea 25%, #4facfe 50%, #f093fb 75%, #43acfe 100%); }
+        }
+
+        /* 상단 네비게이션 바 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 10px 20px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transform: translateY(-100%);
+            animation: slideInFromTop 0.8s ease 0.5s forwards;
+        }
+
+        @keyframes slideInFromTop {
+            to { transform: translateY(0); }
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .navbar-item {
+            position: relative;
+        }
+
+        .navbar-link {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            padding: 10px 0;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .navbar-link:hover {
+            color: #3498db;
+        }
+
+        /* 드롭다운 메뉴 */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            z-index: 1001;
+        }
+
+        .navbar-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* 햄버거 메뉴 (모바일) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* 슬라이드 메뉴 (모바일) */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1002;
+            padding: 80px 20px 20px;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .slide-menu.active {
+            right: 0;
+        }
+
+        .slide-menu-item {
+            display: block;
+            padding: 15px 0;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .slide-menu-item:hover {
+            color: #3498db;
+        }
+
+        /* 메뉴 오버레이 */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideInUp 0.8s ease 0.3s forwards;
+        }
+
+        @keyframes slideInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 이미지 슬라이드 배너 */
+        .hero-slider {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(52, 73, 94, 0.8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .slide p {
+            font-size: 20px;
+            animation: fadeInUp 0.8s ease 0.7s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 슬라이드 컨트롤 */
+        .slider-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .slider-prev {
+            left: 20px;
+        }
+
+        .slider-next {
+            right: 20px;
+        }
+        
+        .floating-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 32px;
+        }
+        
+        .floating-icon.excel {
+            background: #107C41;
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            right: 15%;
+            animation-delay: 0s;
+        }
+        
+        .floating-icon.powerpoint {
+            background: #43acfe;
+            width: 70px;
+            height: 70px;
+            top: 60%;
+            right: 8%;
+            animation-delay: -5s;
+        }
+        
+        .floating-icon.word {
+            background: #2B579A;
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            left: 5%;
+            animation-delay: -10s;
+        }
+        
+        .floating-icon.aftereffects {
+            background: #9999FF;
+            width: 65px;
+            height: 65px;
+            top: 80%;
+            left: 20%;
+            animation-delay: -3s;
+        }
+        
+        .floating-icon.premiere {
+            background: #9999FF;
+            width: 75px;
+            height: 75px;
+            top: 15%;
+            left: 60%;
+            animation-delay: -8s;
+        }
+        
+        .floating-icon.hangul {
+            background: #43acfe;
+            width: 55px;
+            height: 55px;
+            top: 45%;
+            right: 25%;
+            animation-delay: -12s;
+        }
+
+        .floating-icon.google {
+            background: #34A853;
+            width: 65px;
+            height: 65px;
+            top: 25%;
+            right: 35%;
+            animation-delay: -7s;
+            font-size: 24px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(-40px) rotate(180deg); }
+            75% { transform: translateY(-20px) rotate(270deg); }
+        }
+        
+        .nav-section {
+            background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+        }
+
+        /* 검색 기능 */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-input:focus {
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-card:hover::before {
+            left: 100%;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .nav-card.excel {
+            border-color: #107C41;
+        }
+        
+        .nav-card.excel:hover {
+            background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+            box-shadow: 0 20px 40px rgba(16, 124, 65, 0.2);
+        }
+        
+        .nav-card.powerpoint {
+            border-color: #D04423;
+        }
+        
+        .nav-card.powerpoint:hover {
+            background: linear-gradient(135deg, #fff8f8 0%, #ffe8e8 100%);
+            box-shadow: 0 20px 40px rgba(208, 68, 35, 0.2);
+        }
+        
+        .nav-card.word {
+            border-color: #2B579A;
+        }
+        
+        .nav-card.word:hover {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            box-shadow: 0 20px 40px rgba(43, 87, 154, 0.2);
+        }
+        
+        .nav-card.aftereffects {
+            border-color: #9999FF;
+        }
+        
+        .nav-card.aftereffects:hover {
+            background: linear-gradient(135deg, #f5f5ff 0%, #ebebff 100%);
+            box-shadow: 0 20px 40px rgba(153, 153, 255, 0.2);
+        }
+        
+        .nav-card.premiere {
+            border-color: #9999FF;
+        }
+        
+        .nav-card.premiere:hover {
+            background: linear-gradient(135deg, #f5f5ff 0%, #ebebff 100%);
+            box-shadow: 0 20px 40px rgba(153, 153, 255, 0.2);
+        }
+        
+        .nav-card.hangul {
+            border-color: #43acfe;
+        }
+        
+        .nav-card.hangul:hover {
+            background: linear-gradient(135deg, #f8fcff 0%, #e6f5ff 100%);
+            box-shadow: 0 20px 40px rgba(67, 172, 254, 0.2);
+        }
+
+        .nav-card.google {
+            border-color: #34A853;
+        }
+        
+        .nav-card.google:hover {
+            background: linear-gradient(135deg, #f0fff4 0%, #e8f5e8 100%);
+            box-shadow: 0 20px 40px rgba(52, 168, 83, 0.2);
+        }
+        
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            line-height: 1;
+            text-align: center;
+        }
+        
+        .card-icon.excel { background: linear-gradient(135deg, #107C41, #0e6b38); }
+        .card-icon.powerpoint { background: linear-gradient(135deg, #D04423, #b73b1e); }
+        .card-icon.word { background: linear-gradient(135deg, #2B579A, #234a85); }
+        .card-icon.aftereffects { background: linear-gradient(135deg, #d594fe, #b876e3); }
+        .card-icon.premiere { background: linear-gradient(135deg, #9c9cff, #7d7dff); }
+        .card-icon.hangul { background: linear-gradient(135deg, #43acfe, #2d8ce8); }
+        .card-icon.google { background: linear-gradient(135deg, #34A853, #2d8f47); }
+        
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #2c3e50;
+        }
+        
+        .card-description {
+            color: #7f8c8d;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #95a5a6;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            background: linear-gradient(135deg, #f1f2f6, #e9ecef);
+            color: #2f3640;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .feature-tag:hover {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .section-divider {
+            text-align: center;
+            margin: 40px 0 30px;
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #3498db, transparent);
+        }
+
+        .section-divider::before {
+            right: calc(100% + 20px);
+        }
+
+        .section-divider::after {
+            left: calc(100% + 20px);
+        }
+
+        /* 푸터 */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #3498db;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-slider {
+                height: 300px;
+            }
+
+            .slide h2 {
+                font-size: 32px;
+            }
+
+            .slide p {
+                font-size: 16px;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-divider::before,
+            .section-divider::after {
+                width: 50px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* 로딩 애니메이션 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 스크롤 진행률 바 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            z-index: 1003;
+            transition: width 0.1s ease;
+        }
+
+        /* 툴팁 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 1004;
+        }
+
+        /* 스크롤 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 통계 섹션 스타일 */
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 900;
+            color: #3498db;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        /* 반응형 디자인 개선 */
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 20px 15px;
+            }
+            
+            .stat-number {
+                font-size: 28px;
+            }
+            
+            .stat-label {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 스크롤 진행률 바 -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 상단 네비게이션 바 -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">
+                <a href="/HOME.html">UI/UX 디자인 생산성 도구</a>
+            </div>
+            <ul class="navbar-menu">
+                <li class="navbar-item">
+                    <a href="/키보드 단축키/키보드 단축키 홈.html" class="navbar-link">홈 🏠</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link">Office 도구 📊 ▼</a>
+                    <div class="dropdown-menu">
+                        <a href="/키보드 단축키/1_엑셀단축키.html" class="dropdown-item">📗 Excel 단축키</a>
+                        <a href="/키보드 단축키/1_파워포인트단축키.html" class="dropdown-item">📙 PowerPoint 단축키</a>
+                        <a href="/키보드 단축키/1_워드단축키.html" class="dropdown-item">📘 Word 단축키</a>
+                    </div>
+                </li>
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link">Adobe 도구 🎨 ▼</a>
+                    <div class="dropdown-menu">
+                        <a href="/키보드 단축키/1.에프터 이펙트_단축키헤더.html" class="dropdown-item">🎬 After Effects</a>
+                        <a href="/키보드 단축키/1.프리미어 프로_단축키헤더.html" class="dropdown-item">🎥 Premiere Pro</a>
+                    </div>
+                </li>
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link">한컴 오피스 도구 📝 ▼</a>
+                    <div class="dropdown-menu">
+                        <a href="/키보드 단축키/1.한글_단축키헤더.html" class="dropdown-item">📘 한글 단축키</a>
+                    </div>
+                </li>
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link">구글 애플리케이션 📝 ▼</a>
+                    <div class="dropdown-menu">
+                        <a href="/키보드 단축키/구글 스프레드 홈.html" class="dropdown-item">📊 구글 스프레드시트</a>
+                    </div>
+                </li>
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link">문의하기 📞</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 모바일 슬라이드 메뉴 -->
+    <div class="slide-menu" id="slideMenu">
+        <a href="#" class="slide-menu-item">🏠 홈</a>
+        <a href="#" class="slide-menu-item">📗 Excel 단축키</a>
+        <a href="#" class="slide-menu-item">📙 PowerPoint 단축키</a>
+        <a href="#" class="slide-menu-item">📘 Word 단축키</a>
+        <a href="#" class="slide-menu-item">🎬 After Effects</a>
+        <a href="#" class="slide-menu-item">🎥 Premiere Pro</a>
+        <a href="#" class="slide-menu-item">📝 한글 단축키</a>
+        <a href="#" class="slide-menu-item">📊 구글 스프레드시트</a>
+        <a href="#" class="slide-menu-item">📞 문의하기</a>
+    </div>
+
+    <!-- 메뉴 오버레이 -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
+    <div class="header-container">
+        <!-- 이미지 슬라이드 배너 -->
+        <div class="hero-slider">
+            <div class="slide active">
+                <div class="floating-icons">
+                    <div class="floating-icon excel">E</div>
+                    <div class="floating-icon powerpoint">P</div>
+                    <div class="floating-icon word">W</div>
+                </div>
+                <h2>생산성 도구 마스터</h2>
+                <p>업무 효율성을 극대화하는 단축키의 모든 것</p>
+            </div>
+            <div class="slide">
+                <div class="floating-icons">
+                    <div class="floating-icon aftereffects">Ae</div>
+                    <div class="floating-icon premiere">Pr</div>
+                </div>
+                <h2>크리에이티브 전문가</h2>
+                <p>Adobe Creative Suite 완전 정복 가이드</p>
+            </div>
+            <div class="slide">
+                <div class="floating-icons">
+                    <div class="floating-icon hangul">한</div>
+                    <div class="floating-icon google">G</div>
+                </div>
+                <h2>문서 작성 & 클라우드</h2>
+                <p>한글과 구글 도구를 활용한 완벽한 솔루션</p>
+            </div>
+            
+            <!-- 슬라이드 컨트롤 -->
+            <div class="slider-controls">
+                <div class="slider-dot active" data-slide="0"></div>
+                <div class="slider-dot" data-slide="1"></div>
+                <div class="slider-dot" data-slide="2"></div>
+            </div>
+            
+            <button class="slider-arrow slider-prev">❮</button>
+            <button class="slider-arrow slider-next">❯</button>
+        </div>
+        
+        <nav class="nav-section">
+            <!-- 검색 기능 -->
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="원하는 도구나 단축키를 검색해보세요..." id="searchInput">
+                <div class="search-icon">🔍</div>
+            </div>
+
+            <div class="section-divider fade-in">📊 Microsoft Office Suite</div>
+            <div class="nav-grid">
+                <div class="nav-card excel fade-in" data-category="office" data-keywords="excel 엑셀 스프레드시트 표">
+                    <h3 class="card-title">Excel 단축키</h3>
+                    <p class="card-description">데이터 분석가를 위한 필수 단축키 모음</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.9/5</div>
+                        <div class="stat-item">👥 12,450명 학습</div>
+                        <div class="stat-item">📚 85개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">셀 편집</span>
+                        <span class="feature-tag">서식 지정</span>
+                        <span class="feature-tag">데이터 조작</span>
+                        <span class="feature-tag">수식 입력</span>
+                        <span class="feature-tag">피벗 테이블</span>
+                        <span class="feature-tag">차트 생성</span>
+                    </div>
+                </div>
+                
+                <div class="nav-card powerpoint fade-in" data-category="office" data-keywords="powerpoint 파워포인트 프레젠테이션 ppt">
+                    <h3 class="card-title">PowerPoint 단축키</h3>
+                    <p class="card-description">프레젠테이션 디자이너를 위한 핵심 단축키</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.8/5</div>
+                        <div class="stat-item">👥 9,821명 학습</div>
+                        <div class="stat-item">📚 72개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">슬라이드 편집</span>
+                        <span class="feature-tag">객체 조작</span>
+                        <span class="feature-tag">텍스트 서식</span>
+                        <span class="feature-tag">애니메이션</span>
+                        <span class="feature-tag">마스터 슬라이드</span>
+                        <span class="feature-tag">발표 모드</span>
+                    </div>
+                </div>
+                
+                <div class="nav-card word fade-in" data-category="office" data-keywords="word 워드 문서 작성">
+                    <h3 class="card-title">Word 단축키</h3>
+                    <p class="card-description">문서 작성 전문가를 위한 완벽 가이드</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.7/5</div>
+                        <div class="stat-item">👥 15,632명 학습</div>
+                        <div class="stat-item">📚 93개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">문서 편집</span>
+                        <span class="feature-tag">서식 지정</span>
+                        <span class="feature-tag">표 작성</span>
+                        <span class="feature-tag">검토 도구</span>
+                        <span class="feature-tag">목차 생성</span>
+                        <span class="feature-tag">메일 병합</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider fade-in">🎨 Adobe Creative Suite</div>
+            <div class="nav-grid">
+                <div class="nav-card aftereffects fade-in" data-category="creative" data-keywords="after effects 애프터이펙트 모션그래픽 ae">
+                    <h3 class="card-title">After Effects 단축키</h3>
+                    <p class="card-description">모션 그래픽 아티스트를 위한 고급 단축키</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.9/5</div>
+                        <div class="stat-item">👥 6,789명 학습</div>
+                        <div class="stat-item">📚 156개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">애니메이션</span>
+                        <span class="feature-tag">키프레임</span>
+                        <span class="feature-tag">이펙트</span>
+                        <span class="feature-tag">컴포지션</span>
+                        <span class="feature-tag">렌더링</span>
+                        <span class="feature-tag">3D 레이어</span>
+                        <span class="feature-tag">모션 블러</span>
+                        <span class="feature-tag">파티클</span>
+                    </div>
+                </div>
+                
+                <div class="nav-card premiere fade-in" data-category="creative" data-keywords="premiere pro 프리미어 프로 영상편집">
+                    <h3 class="card-title">Premiere Pro 단축키</h3>
+                    <p class="card-description">영상 편집자를 위한 전문가 단축키</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.8/5</div>
+                        <div class="stat-item">👥 8,543명 학습</div>
+                        <div class="stat-item">📚 134개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">편집 도구</span>
+                        <span class="feature-tag">타임라인</span>
+                        <span class="feature-tag">컬러 보정</span>
+                        <span class="feature-tag">오디오 믹싱</span>
+                        <span class="feature-tag">익스포트</span>
+                        <span class="feature-tag">트랜지션</span>
+                        <span class="feature-tag">마커 설정</span>
+                        <span class="feature-tag">멀티캠</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider fade-in">📝 한컴 오피스 도구</div>
+            <div class="nav-grid">
+                <div class="nav-card hangul fade-in" data-category="document" data-keywords="한글 hwp 아래한글 문서작성">
+                    <h3 class="card-title">한글 단축키</h3>
+                    <p class="card-description">한국어 문서 작성의 모든 것을 담은 완벽 가이드</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.6/5</div>
+                        <div class="stat-item">👥 11,234명 학습</div>
+                        <div class="stat-item">📚 78개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">문서 편집</span>
+                        <span class="feature-tag">한자 변환</span>
+                        <span class="feature-tag">표 편집</span>
+                        <span class="feature-tag">그림 삽입</span>
+                        <span class="feature-tag">맞춤법 검사</span>
+                        <span class="feature-tag">문서 보안</span>
+                        <span class="feature-tag">PDF 변환</span>
+                        <span class="feature-tag">양식 작성</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider fade-in">📊 구글 애플리케이션</div>
+            <div class="nav-grid">
+                <div class="nav-card google fade-in" data-category="cloud" data-keywords="구글 google 스프레드시트 sheets 클라우드 온라인">
+                    <h3 class="card-title">구글 스프레드시트 단축키</h3>
+                    <p class="card-description">클라우드 기반 데이터 관리의 완벽한 솔루션</p>
+                    <div class="card-stats">
+                        <div class="stat-item">⭐ 4.7/5</div>
+                        <div class="stat-item">👥 8,945명 학습</div>
+                        <div class="stat-item">📚 95개 단축키</div>
+                    </div>
+                    <div class="features-grid">
+                        <span class="feature-tag">웹 기반</span>
+                        <span class="feature-tag">실시간 협업</span>
+                        <span class="feature-tag">구글 드라이브 연동</span>
+                        <span class="feature-tag">공유 및 권한</span>
+                        <span class="feature-tag">자동 저장</span>
+                        <span class="feature-tag">Apps Script</span>
+                        <span class="feature-tag">차트 생성</span>
+                        <span class="feature-tag">함수 활용</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 추가 정보 섹션 -->
+            <div class="section-divider fade-in">📈 학습 통계 & 추천</div>
+            <div class="stats-container fade-in">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">50,000+</div>
+                        <div class="stat-label">총 학습자 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">만족도</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">600+</div>
+                        <div class="stat-label">단축키 총 개수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">언제든 학습</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer fade-in">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">이용약관</a>
+                <a href="#" class="footer-link">개인정보처리방침</a>
+                <a href="#" class="footer-link">고객지원</a>
+                <a href="#" class="footer-link">사이트맵</a>
+                <a href="#" class="footer-link">피드백</a>
+            </div>
+            <p>&copy; 2025 생산성 도구 단축키 가이드. All rights reserved. Made with ❤️</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 스크롤 진행률 바
+            function updateProgressBar() {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('progressBar').style.width = scrollPercent + '%';
+            }
+
+            window.addEventListener('scroll', updateProgressBar);
+
+            // 햄버거 메뉴 토글
+            const hamburger = document.getElementById('hamburger');
+            const slideMenu = document.getElementById('slideMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+
+            function toggleMenu() {
+                hamburger.classList.toggle('active');
+                slideMenu.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
+                document.body.style.overflow = slideMenu.classList.contains('active') ? 'hidden' : '';
+            }
+
+            hamburger.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+
+            // 슬라이드 기능
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const prevBtn = document.querySelector('.slider-prev');
+            const nextBtn = document.querySelector('.slider-next');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopSlideShow() {
+                clearInterval(slideInterval);
+            }
+
+            // 슬라이드 이벤트 리스너
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                stopSlideShow();
+                startSlideShow();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                stopSlideShow();
+                startSlideShow();
+            });
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    stopSlideShow();
+                    startSlideShow();
+                });
+            });
+
+            // 슬라이드쇼 시작
+            startSlideShow();
+
+            // 검색 기능
+            const searchInput = document.getElementById('searchInput');
+            const navCards = document.querySelectorAll('.nav-card');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                navCards.forEach(card => {
+                    const keywords = card.getAttribute('data-keywords').toLowerCase();
+                    const title = card.querySelector('.card-title').textContent.toLowerCase();
+                    const description = card.querySelector('.card-description').textContent.toLowerCase();
+                    
+                    const isMatch = keywords.includes(searchTerm) || 
+                                   title.includes(searchTerm) || 
+                                   description.includes(searchTerm);
+                    
+                    if (isMatch || searchTerm === '') {
+                        card.style.display = 'block';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    } else {
+                        card.style.opacity = '0.3';
+                        card.style.transform = 'translateY(10px)';
+                    }
+                });
+            });
+
+            // 카드 클릭 이벤트
+            navCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const cardClasses = this.classList;
+                    let cardType = '';
+                    let targetUrl = '';
+
+                    // 카드 타입별 이동 페이지 설정
+                    if (cardClasses.contains('excel')) {
+                        cardType = 'Excel';
+                        targetUrl = '1_엑셀단축키.html';
+                    } else if (cardClasses.contains('powerpoint')) {
+                        cardType = 'PowerPoint';
+                        targetUrl = '1_파워포인트단축키.html';
+                    } else if (cardClasses.contains('word')) {
+                        cardType = 'Word';
+                        targetUrl = '1_워드단축키.html';
+                    } else if (cardClasses.contains('aftereffects')) {
+                        cardType = 'After Effects';
+                        targetUrl = '1.에프터 이펙트_단축키헤더.html';
+                    } else if (cardClasses.contains('premiere')) {
+                        cardType = 'Premiere Pro';
+                        targetUrl = '1.프리미어 프로_단축키헤더.html';
+                    } else if (cardClasses.contains('hangul')) {
+                        cardType = '한글(HWP)';
+                        targetUrl = '1.한글_단축키헤더.html';
+                    } else if (cardClasses.contains('google')) {
+                        cardType = '구글 스프레드시트';
+                        targetUrl = '구글 스프레드 홈.html';
+                    }
+
+                    // 클릭 효과
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        if (targetUrl) {
+                            window.location.href = targetUrl;
+                        }
+                    }, 150);
+                });
+
+                // 카드 호버 이벤트
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.card-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1) rotate(5deg)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.card-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1) rotate(0deg)';
+                    }
+                });
+            });
+
+            // 스크롤 애니메이션을 위한 Intersection Observer 사용
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // 부드러운 스크롤
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

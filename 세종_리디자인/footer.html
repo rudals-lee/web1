@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Footer Hover JS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <footer style="background-color: #4a4644; color: #fff; padding: 30px 20px 50px;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #666;">
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 16px;">
+        <span>사무소</span>
+        <span>서울</span>
+        <span>판교</span>
+        <span>북경</span>
+        <span>상해</span>
+        <span>호치민</span>
+        <span>하노이</span>
+        <span>자카르타</span>
+        <span>싱가포르</span>
+        <span>지적재산권부</span>
+        <span>사단법인 나눔과이음</span>
+        <span>업무제휴</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding-top: 20px; font-size: 14px; color: #ddd;">
+      <div>
+        <a href="#" style="color: #ddd; margin-right: 15px; text-decoration: none;">개인정보처리방침</a>
+        <a href="#" style="color: #ddd; margin-right: 15px; text-decoration: none;">면책공고</a>
+        <a href="#" style="color: #ddd; margin-right: 15px; text-decoration: none;">웹접근성</a>
+        <a href="#" style="color: #ddd; margin-right: 15px; text-decoration: none;">국제정보보호인증</a>
+        <a href="#" style="color: #ddd; margin-right: 15px; text-decoration: none;">사이트맵</a>
+      </div>
+      <div>Copyright SHIN & KIM LLC. All rights reserved.</div>
+      <div>
+        <div style="font-weight: bold;">Follow us</div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <a href="#" class="social-icon" style="width: 30px; height: 30px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 14px;">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon" style="width: 30px; height: 30px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 14px;">
+            <i class="fab fa-blogger-b"></i>
+          </a>
+          <a href="#" class="social-icon" style="width: 30px; height: 30px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 14px;">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="#" class="social-icon" style="width: 30px; height: 30px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 14px;">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="#" class="social-icon" style="width: 30px; height: 30px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 14px;">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // hover 색상 변경 처리
+    const icons = document.querySelectorAll('.social-icon');
+
+    icons.forEach(icon => {
+      icon.addEventListener('mouseenter', () => {
+        icon.style.backgroundColor = '#8b4f8c';
+      });
+      icon.addEventListener('mouseleave', () => {
+        icon.style.backgroundColor = '#666';
+      });
+    });
+  </script>
+</body>
+</html>

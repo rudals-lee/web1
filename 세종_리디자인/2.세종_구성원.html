@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIN&KIM - 구성원 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 0;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            color: #8b4f9f;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .logo .subtitle {
+            color: #8b4f9f;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .header-links a {
+            text-decoration: none;
+            color: #666;
+        }
+
+        .language-selector {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            padding: 20px 0;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: #8b4f9f;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #8b4f9f;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6b8dd6 0%, #8b4f9f 100%);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,20 L20,0 L40,20 L60,0 L80,20 L100,0 L100,100 L0,100 Z" fill="rgba(0,0,0,0.1)"/></svg>');
+            background-size: 200px 200px;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .search-description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .search-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #8b4f9f;
+            background: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b4f9f"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+        }
+
+        .form-input::placeholder {
+            color: #999;
+        }
+
+        .search-btn {
+            background: #8b4f9f;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #7a4590;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            margin-top: 20px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-nav a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-link {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .korean-bar {
+            background: #8b4f9f;
+            color: white;
+            padding: 5px 0;
+            text-align: right;
+        }
+
+        .korean-bar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 12px;
+        }
+
+        .up-arrow {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container, .nav-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div>
+                    <h1>SHIN&KIM</h1>
+                    <div class="subtitle">법무법인(유)세종</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-links">
+                    <a href="#">사무실장</a>
+                    <a href="#">세미나</a>
+                    <a href="#">판례집</a>
+                    <a href="#">오시는 길</a>
+                </div>
+                <select class="language-selector">
+                    <option>Language</option>
+                    <option>한국어</option>
+                    <option>English</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-item">업무분야</a>
+            <a href="#" class="nav-item active">구성원</a>
+            <a href="#" class="nav-item">미디어센터</a>
+            <a href="#" class="nav-item">인재영입</a>
+            <a href="#" class="nav-item">법무소개</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="breadcrumb">
+                <a href="#">HOME</a> > 구성원
+            </div>
+            <h1>구성원 검색</h1>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <p class="search-description">
+            최고 수준의 전문성을 갖춘 법률전문가들이 함께 합니다.
+        </p>
+        
+        <form class="search-form">
+            <div class="form-group">
+                <select class="form-select">
+                    <option>업무분야 전체</option>
+                    <option>기업법무</option>
+                    <option>금융</option>
+                    <option>부동산/건설</option>
+                    <option>세무</option>
+                    <option>노동</option>
+                    <option>IP/IT</option>
+                    <option>국제통상</option>
+                    <option>형사</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-input" placeholder="이름 검색">
+            </div>
+            <button type="submit" class="search-btn">검색</button>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#">서무소</a>
+                <a href="#">서울</a>
+                <a href="#">판교</a>
+                <a href="#">부산</a>
+                <a href="#">실무</a>
+                <a href="#">호치민</a>
+                <a href="#">하노이</a>
+                <a href="#">사업자정보</a>
+                <a href="#">상경조직</a>
+                <a href="#">자격면허경력</a>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-nav">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이메일수집</a>
+                    <a href="#">클렌진설</a>
+                    <a href="#">국제업무보고정보</a>
+                    <a href="#">사이트맵</a>
+                </div>
+                
+                <div class="social-section">
+                    <span style="margin-right: 20px;">Follow us</span>
+                    <div class="social-links">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">▶</a>
+                        <a href="#" class="social-link">📷</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #555; font-size: 12px; color: #999;">
+                Copyright SHIN & KIM LLC. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Korean Bar -->
+    <div class="korean-bar">
+        <div class="korean-bar-container">
+            <span style="margin-right: 20px;">사무한면 나능해이용</span>
+            <span>업무취득 🏃‍♀️ KOREANA 자료제공</span>
+        </div>
+    </div>
+
+    <!-- Up Arrow -->
+    <button class="up-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        ↑
+    </button>
+
+    <script>
+        // Simple form interaction
+        document.querySelector('.search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('검색 기능은 데모용입니다.');
+        });
+
+        // Smooth scrolling for up arrow
+        document.querySelector('.up-arrow').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

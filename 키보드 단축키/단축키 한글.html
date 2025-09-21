@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <!-- 반응형 웹을 위한 뷰포트 설정 - 모바일에서 올바른 크기로 표시 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>확대샷 - 한글 단축키 가이드</title>
+    <style>
+        /* 전체 페이지의 기본 스타일 설정 */
+        body {
+            margin: 0; /* 브라우저 기본 마진 제거 */
+            padding: 20px; /* 페이지 전체에 20px 안쪽 여백 */
+            /* 대각선 그라데이션 배경 - 터콰이즈에서 다크 터콰이즈로 */
+            background: linear-gradient(135deg, #40e0d0, #20b2aa);
+            font-family: 'Malgun Gothic', sans-serif; /* 한국어에 최적화된 폰트 */
+            min-height: 100vh; /* 최소 높이를 화면 전체 높이로 설정 */
+            color: white; /* 기본 텍스트 색상을 흰색으로 */
+        }
+
+        /* 상단 헤더 섹션 스타일 */
+        .header {
+            text-align: center; /* 텍스트 가운데 정렬 */
+            background: #000; /* 검은색 배경 */
+            color: #00ffff; /* 시안(cyan) 색상 텍스트 */
+            font-size: 24px; /* 큰 폰트 크기 */
+            font-weight: bold; /* 굵은 글씨 */
+            padding: 15px; /* 상하좌우 15px 안쪽 여백 */
+            margin-bottom: 20px; /* 아래쪽 바깥 여백 20px */
+            border-radius: 8px; /* 모서리 둥글게 처리 */
+        }
+
+        /* 메인 컨텐츠를 담는 그리드 컨테이너 */
+        .container {
+            display: grid; /* CSS 그리드 레이아웃 사용 */
+            grid-template-columns: 1fr 1fr; /* 2개 컬럼을 동일한 크기로 분할 */
+            gap: 20px; /* 그리드 아이템 간 간격 20px */
+            max-width: 1200px; /* 최대 너비 제한 */
+            margin: 0 auto; /* 가로 가운데 정렬 */
+        }
+
+        /* 개별 단축키 섹션의 공통 스타일 */
+        .section {
+            background: rgba(0, 0, 0, 0.7); /* 반투명 검은색 배경 (70% 불투명) */
+            border: 2px solid #00ffff; /* 시안색 2px 테두리 */
+            border-radius: 8px; /* 모서리 둥글게 처리 */
+            overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+        }
+
+        /* 각 섹션의 헤더 스타일 */
+        .section-header {
+            background: #00ffff; /* 시안색 배경 */
+            color: black; /* 검은색 텍스트 */
+            padding: 8px 15px; /* 상하 8px, 좌우 15px 안쪽 여백 */
+            font-weight: bold; /* 굵은 글씨 */
+            font-size: 14px; /* 폰트 크기 */
+        }
+
+        /* 개별 단축키 항목의 스타일 */
+        .shortcut-item {
+            display: flex; /* 플렉스박스 레이아웃 */
+            justify-content: space-between; /* 양 끝으로 정렬 (좌측: 기능명, 우측: 단축키) */
+            align-items: center; /* 세로 가운데 정렬 */
+            padding: 8px 15px; /* 상하 8px, 좌우 15px 안쪽 여백 */
+            border-bottom: 1px solid #333; /* 아래쪽에 어두운 회색 테두리 */
+            background: rgba(0, 100, 150, 0.3); /* 반투명 파란색 배경 */
+        }
+
+        /* 짝수 번째 단축키 항목에 다른 배경색 적용 (zebra striping) */
+        .shortcut-item:nth-child(even) {
+            background: rgba(0, 150, 200, 0.3); /* 조금 더 밝은 파란색 배경 */
+        }
+
+        /* 마지막 단축키 항목의 하단 테두리 제거 */
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        /* 단축키 기능 이름 스타일 */
+        .shortcut-name {
+            font-size: 13px; /* 폰트 크기 */
+            flex: 1; /* 남은 공간을 모두 차지 */
+        }
+
+        /* 단축키 키 조합 표시 스타일 */
+        .shortcut-key {
+            font-size: 12px; /* 작은 폰트 크기 */
+            color: #00ffff; /* 시안색 텍스트 */
+            font-weight: bold; /* 굵은 글씨 */
+            background: rgba(0, 0, 0, 0.5); /* 반투명 검은색 배경 */
+            padding: 2px 8px; /* 상하 2px, 좌우 8px 안쪽 여백 */
+            border-radius: 4px; /* 작은 둥근 모서리 */
+        }
+
+        /* 편집 단축키 섹션 (하단의 큰 섹션) */
+        .editor-shortcuts {
+            grid-column: 1 / -1; /* 그리드의 첫 번째 컬럼부터 마지막까지 전체 차지 */
+            margin-top: 20px; /* 위쪽 바깥 여백 */
+        }
+
+        /* 편집 단축키 내부의 그리드 컨테이너 */
+        .editor-container {
+            display: grid; /* 그리드 레이아웃 */
+            grid-template-columns: 1fr 1fr; /* 2개 컬럼 동일 크기 */
+            gap: 20px; /* 간격 20px */
+        }
+
+        /* 상단의 화살표가 있는 특별한 섹션 */
+        .arrow-section {
+            grid-column: 1 / -1; /* 전체 그리드 너비 차지 */
+            background: rgba(0, 0, 0, 0.5); /* 반투명 검은색 배경 */
+            border: 2px solid #00ffff; /* 시안색 테두리 */
+            border-radius: 15px; /* 큰 둥근 모서리 */
+            padding: 20px; /* 안쪽 여백 */
+            margin-top: 20px; /* 위쪽 바깥 여백 */
+            text-align: center; /* 텍스트 가운데 정렬 */
+            position: relative; /* 상대 위치 지정 (필요시 절대 위치 요소의 기준점) */
+        }
+
+        /* 화살표 아이콘 스타일 */
+        .arrow {
+            font-size: 24px; /* 큰 폰트 크기 */
+            color: #00ffff; /* 시안색 */
+            margin-bottom: 10px; /* 아래쪽 여백 */
+        }
+
+        /* 편집기 제목 스타일 */
+        .editor-title {
+            font-size: 18px; /* 폰트 크기 */
+            margin-bottom: 10px; /* 아래쪽 여백 */
+        }
+
+        /* 파일명 표시 영역 스타일 */
+        .filename {
+            background: rgba(0, 0, 0, 0.7); /* 반투명 검은색 배경 */
+            padding: 15px; /* 안쪽 여백 */
+            border-radius: 10px; /* 둥근 모서리 */
+            font-size: 16px; /* 폰트 크기 */
+            color: #00ffff; /* 시안색 텍스트 */
+            margin-bottom: 20px; /* 아래쪽 바깥 여백 */
+        }
+
+        /* 기본 단축키 안내 텍스트 스타일 */
+        .basic-shortcuts {
+            text-align: right; /* 오른쪽 정렬 */
+            font-size: 14px; /* 폰트 크기 */
+            color: #00ffff; /* 시안색 텍스트 */
+        }
+
+        /* 데이터 관련 섹션의 배경색 (다른 섹션과 구별) */
+        .data-section {
+            background: rgba(0, 100, 150, 0.2); /* 연한 파란색 반투명 배경 */
+        }
+
+        /* 데이터 섹션 헤더의 배경색 */
+        .data-header {
+            background: #4a90e2; /* 밝은 파란색 배경 */
+            color: white; /* 흰색 텍스트 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 최상단 안내 섹션: 편집 단축키와 기본 단축키를 가리키는 화살표 -->
+    <div class="arrow-section">
+        <div class="arrow">↖ 편집 단축키</div> <!-- 왼쪽 위 화살표로 편집 단축키 섹션 가리킴 -->
+        <div class="editor-title">유용한 단축키 한글편.zip</div> <!-- 파일명 형태의 제목 -->
+        <div class="basic-shortcuts">기본 단축키 ↘</div> <!-- 오른쪽 아래 화살표로 기본 단축키 섹션 가리킴 -->
+    </div>
+    
+    <!-- 메인 헤더: 페이지 제목 -->
+    <div class="header">확대샷</div>
+    
+    <!-- 메인 컨텐츠 그리드 컨테이너 -->
+    <div class="container">
+        <!-- 첫 번째 섹션: 테크 단축키 -->
+        <div class="section">
+            <div class="section-header">테크 단축키</div>
+            <!-- 각 단축키 항목: 기능명과 키 조합을 좌우로 배치 -->
+            <div class="shortcut-item">
+                <span class="shortcut-name">다시 실행</span>
+                <span class="shortcut-key">Ctrl + Y</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">음성하기</span>
+                <span class="shortcut-key">Ctrl + Shift + Z</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">돌리기</span>
+                <span class="shortcut-key">Ctrl + V</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">자닫날짜 특이 저장하지 특례삽입</span>
+                <span class="shortcut-key">Shift + Home</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">자닫날짜 맞춤 줄까지 특례삽입</span>
+                <span class="shortcut-key">Shift + End</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">모든 선택</span>
+                <span class="shortcut-key">Ctrl + A</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">찾기</span>
+                <span class="shortcut-key">Ctrl + F</span>
+            </div>
+        </div>
+
+        <!-- 두 번째 섹션: 싱어 바꾸기 (데이터 섹션 스타일 적용) -->
+        <div class="section data-section">
+            <div class="data-header section-header">싱어 바꾸기</div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">참고하기</span>
+                <span class="shortcut-key">Ctrl + H / Ctrl + F2</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">한국말 한글로 바꾸기</span>
+                <span class="shortcut-key">Alt + F9</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글 닫기</span>
+                <span class="shortcut-key">Ctrl + N.T</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">쪽문 모양</span>
+                <span class="shortcut-key">Alt + T</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">쪽문 특기/조사</span>
+                <span class="shortcut-key">Presenter/Back Space</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">Function Key</span>
+                <span class="shortcut-key">Function Key</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">들고 스타일 설정</span>
+                <span class="shortcut-key">F5/F5+F5</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">취소 시작</span>
+                <span class="shortcut-key">F6</span>
+            </div>
+        </div>
+
+        <!-- 세 번째 섹션: 현단말 걸기 -->
+        <div class="section">
+            <div class="section-header">현단말 걸기</div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">한자로 바꾸기</span>
+                <span class="shortcut-key">F9</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">어려운 한자찾기(초성과 자획 등)</span>
+                <span class="shortcut-key">Alt + F2</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">현길 한글찾기</span>
+                <span class="shortcut-key">Shift + Alt + C</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글자 크기 크게</span>
+                <span class="shortcut-key">Shift + Alt + R</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글자 크기 작게</span>
+                <span class="shortcut-key">Shift + Alt + R</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글자 바꾸기</span>
+                <span class="shortcut-key">Shift + Alt + S</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글자 읽음</span>
+                <span class="shortcut-key">Ctrl + U</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글줄 정리하기</span>
+                <span class="shortcut-key">Ctrl + B</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글자 굵게</span>
+                <span class="shortcut-key">Ctrl + B</span>
+            </div>
+        </div>
+
+        <!-- 네 번째 섹션: 개인 개인기/돌어기 (데이터 섹션 스타일 적용) -->
+        <div class="section data-section">
+            <div class="data-header section-header">개인 개인기/돌어기</div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">표 만들 위치내리기(씨 페이지 우 차인)</span>
+                <span class="shortcut-key">Alt + Shift + A/Z</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">문어 줄 넣기 줄고</span>
+                <span class="shortcut-key">Shift + 방향키</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">문어엮임 말 줄기 집중</span>
+                <span class="shortcut-key">Alt + 방향키</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글 맞히</span>
+                <span class="shortcut-key">S</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">글 나누기</span>
+                <span class="shortcut-key">S</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">공 도연간계</span>
+                <span class="shortcut-key">T</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">공 높이 간격 맞추기</span>
+                <span class="shortcut-key">H</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">표 세우기</span>
+                <span class="shortcut-key">T</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-name">자동 계키</span>
+                <span class="shortcut-key">A</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단의 편집 단축키 섹션 (전체 너비 차지) -->
+    <div class="editor-shortcuts">
+        <!-- 편집 단축키 내부 그리드 컨테이너 -->
+        <div class="editor-container">
+            <!-- 기본 단축키 섹션 -->
+            <div class="section">
+                <div class="section-header">기본 단축키</div>
+                <!-- 커서 이동 관련 단축키들 -->
+                <div class="shortcut-item">
+                    <span class="shortcut-name">한 단어 전영/오른쪽으로</span>
+                    <span class="shortcut-key">Ctrl + ←/→</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">맨 왼쪽 들어/오른 끝으로</span>
+                    <span class="shortcut-key">Shift + Alt + ←/→</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">문단 위/아래로 이동</span>
+                    <span class="shortcut-key">Shift + Alt + ↑/↓</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">맨 줄만/오른족 저르는</span>
+                    <span class="shortcut-key">Ctrl + ↑/↓</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">위져/아래지 체전</span>
+                    <span class="shortcut-key">Ctrl + Alt + ←/→</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">톨 처음으로</span>
+                    <span class="shortcut-key">Home</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">톨 끝으로</span>
+                    <span class="shortcut-key">End</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">문단 처음/끝으로</span>
+                    <span class="shortcut-key">Alt + Home/End</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">바로 처음/끝으로</span>
+                    <span class="shortcut-key">Ctrl + Home/End</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">네쪽 선닝</span>
+                    <span class="shortcut-key">Shift + ←/→</span>
+                </div>
+                <!-- 페이지 이동 관련 단축키들 -->
+                <div class="shortcut-item">
+                    <span class="shortcut-name">한 와이드 위로</span>
+                    <span class="shortcut-key">Page Up</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">한 와이드 바르로</span>
+                    <span class="shortcut-key">Page Down</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">한쪽 위로</span>
+                    <span class="shortcut-key">Alt + Page Up</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">한쪽 바르로</span>
+                    <span class="shortcut-key">Alt + Page Down</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">문서이 처음으로</span>
+                    <span class="shortcut-key">Ctrl + Page Up</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">문서이 끝으로</span>
+                    <span class="shortcut-key">Ctrl + Down</span>
+                </div>
+            </div>
+
+            <!-- 파일 관련 단축키 섹션 -->
+            <div class="section">
+                <div class="section-header">파일 단축키</div>
+                <!-- 파일 생성 및 관리 단축키들 -->
+                <div class="shortcut-item">
+                    <span class="shortcut-name">새 문서</span>
+                    <span class="shortcut-key">Alt + N</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">새 탭</span>
+                    <span class="shortcut-key">Ctrl + Alt + T</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">응시하맂</span>
+                    <span class="shortcut-key">Ctrl + Alt + N</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">탐자리</span>
+                    <span class="shortcut-key">Ctrl + O</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">유는 열어 특석</span>
+                    <span class="shortcut-key">Alt + F3</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">저장하기</span>
+                    <span class="shortcut-key">Alt + S / Ctrl + S</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">다한미호로좋 저흉</span>
+                    <span class="shortcut-key">Alt + V</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">인현 문서</span>
+                    <span class="shortcut-key">Ctrl + N, D</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">파일 빛성</span>
+                    <span class="shortcut-key">Alt + I</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">동기 달기</span>
+                    <span class="shortcut-key">Ctrl + F4</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">동두 그룹 원학하기</span>
+                    <span class="shortcut-key">Ctrl + Q, R</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-name">동두 그룹 정년하기</span>
+                    <span class="shortcut-key">Ctrl + Q, D</span>
+                </div>
+
+                <!-- 데이터 추출 단축키 서브섹션 (인라인 스타일로 특별 처리) -->
+                <div style="margin-top: 20px; background: rgba(0, 150, 200, 0.4); padding: 10px; border-radius: 8px;">
+                    <!-- 서브섹션 헤더 (음수 마진으로 부모 패딩을 덮어씀) -->
+                    <div style="background: #4a90e2; color: white; padding: 8px 15px; margin: -10px -10px 10px -10px; font-weight: bold;">데이터 추출 단축키(표 집의)</div>
+                    <!-- 데이터 관련 단축키 항목들 -->
+                    <div class="shortcut-item">
+                        <span class="shortcut-name">데이터 둘러</span>
+                        <span class="shortcut-key">Ctrl + Shift + A</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-name">데이터 다삭기</span>
+                        <span class="shortcut-key">Ctrl + Shift + S</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-name">데이터 검하기</span>
+                        <span class="shortcut-key">Ctrl + Shift + P</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

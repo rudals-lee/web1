@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>해커스 세무사 재정학 | 2025년 제62회 시험 대비</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: purple;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: purple;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff08" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: slideUp 1s ease forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideUp 1s ease 0.3s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: slideUp 1s ease 0.6s forwards;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 4rem 0;
+            margin-top: -50px;
+            position: relative;
+            z-index: 3;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .stat-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            counter-reset: stat-counter;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border-radius: 2px;
+        }
+
+        /* Overview Cards */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .overview-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .overview-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffa500;
+        }
+
+        .overview-card ul {
+            list-style: none;
+        }
+
+        .overview-card li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .overview-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Interactive Quiz */
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quiz-option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .quiz-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .quiz-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .quiz-result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .quiz-result.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            color: white;
+        }
+
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffa500;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ffa500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .quiz-container {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* Animation utilities */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .slide-in-left {
+            transform: translateX(-50px);
+            opacity: 0;
+            animation: slideInLeft 0.6s ease forwards;
+        }
+
+        @keyframes slideInLeft {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .bounce-in {
+            transform: scale(0.3);
+            opacity: 0;
+            animation: bounceIn 0.6s ease forwards;
+        }
+
+        @keyframes bounceIn {
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            80% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav class="container">
+            <a href="#" class="logo">해커스 세무사</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#overview">시험 개요</a></li>
+                <li><a href="#strategies">학습 전략</a></li>
+                <li><a href="#practice">문제 연습</a></li>
+                <li><a href="#progress">학습 진도</a></li>
+                <li><a href="#contact">문의</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobileMenu">☰</div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>2025년 제62회 세무사 시험</h1>
+                <p>재정학 완벽 대비 • 서호성 강사와 함께하는 스마트 학습</p>
+                <a href="#overview" class="cta-button">학습 시작하기</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card" data-count="85">
+                    <h3 class="stat-number">0</h3>
+                    <p>평균 점수</p>
+                </div>
+                <div class="stat-card" data-count="1200">
+                    <h3 class="stat-number">0</h3>
+                    <p>수강생 수</p>
+                </div>
+                <div class="stat-card" data-count="98">
+                    <h3 class="stat-number">0</h3>
+                    <p>만족도 (%)</p>
+                </div>
+                <div class="stat-card" data-count="15">
+                    <h3 class="stat-number">0</h3>
+                    <p>목표 학습 시간 (분)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">2025년 시험 총평</h2>
+            <div class="overview-grid">
+                <div class="overview-card fade-in">
+                    <h3>전반적 난이도</h3>
+                    <ul>
+                        <li>중하 수준으로 평가</li>
+                        <li>만점 방지용 문제 부재</li>
+                        <li>8회 토일성 문제 출제되지 않음</li>
+                        <li>체감 난이도 하락</li>
+                    </ul>
+                </div>
+                <div class="overview-card fade-in">
+                    <h3>출제 경향</h3>
+                    <ul>
+                        <li>수업 강조 핵심 내용 다수 출제</li>
+                        <li>조세파트 등 뒷부분 비중 높음</li>
+                        <li>계산 문제 4개, 매우 평이한 수준</li>
+                        <li>신유형 문제 출제되지 않음</li>
+                        <li>1일 특강 내용 다수 출제</li>
+                    </ul>
+                </div>
+                <div class="overview-card fade-in">
+                    <h3>강사 소개</h3>
+                    <ul>
+                        <li>서호성 해커스 세무사 재정학 강사</li>
+                        <li>최소 노력으로 최대 점수 추구</li>
+                        <li>시험 핵심 내용 위주 학습 강조</li>
+                        <li>학문적 깊이보다 실전 중심</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="strategies" class="section">
+        <div class="container">
+            <h2 class="section-title">학습 전략</h2>
+            <div class="overview-grid">
+                <div class="overview-card slide-in-left">
+                    <h3>시간 관리 전략</h3>
+                    <ul>
+                        <li>15분 내 80점 득점 목표</li>
+                        <li>1번 선지 정답시 다음 문제로</li>
+                        <li>난이도 조절 문제 대비</li>
+                        <li>5문제 정도는 어려울 수 있음</li>
+                    </ul>
+                </div>
+                <div class="overview-card slide-in-left">
+                    <h3>학습 방법</h3>
+                    <ul>
+                        <li>이론에 깊이 빠지지 않기</li>
+                        <li>기출 문제 및 모의고사 반복</li>
+                        <li>해커스 커리큘럼 충실히 따르기</li>
+                        <li>통계적 기출 중심 학습</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="practice" class="section">
+        <div class="container">
+            <h2 class="section-title">실전 문제 연습</h2>
+            <div class="quiz-container">
+                <div class="quiz-question" id="quizQuestion">
+                    조세납부 방법, 시기, 금액 등이 법률 규정에 따라 명확히 제시되어야 하는 조세의 원칙은?
+                </div>
+                <div class="quiz-options" id="quizOptions">
+                    <div class="quiz-option" data-answer="correct">① 확실성의 원칙</div>
+                    <div class="quiz-option" data-answer="wrong">② 공평성의 원칙</div>
+                    <div class="quiz-option" data-answer="wrong">③ 편의성의 원칙</div>
+                    <div class="quiz-option" data-answer="wrong">④ 경제성의 원칙</div>
+                </div>
+                <button class="quiz-button" id="submitQuiz">정답 확인</button>
+                <div class="quiz-result" id="quizResult" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="progress" class="section">
+        <div class="container">
+            <h2 class="section-title">학습 진도 체크</h2>
+            <div class="progress-tracker">
+                <div class="progress-item">
+                    <span>조세의 원칙</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%;"></div>
+                    </div>
+                    <span>90%</span>
+                </div>
+                <div class="progress-item">
+                    <span>초과 부담</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                    <span>75%</span>
+                </div>
+                <div class="progress-item">
+                    <span>조세 귀착</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                    <span>60%</span>
+                </div>
+                <div class="progress-item">
+                    <span>소득세</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%;"></div>
+                    </div>
+                    <span>85%</span>
+                </div>
+                <div class="progress-item">
+                    <span>공공재</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 70%;"></div>
+                    </div>
+                    <span>70%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>해커스 세무사</h3>
+                    <p>최고의 세무사 시험 대비 플랫폼</p>
+                    <p>서호성 강사와 함께하는 스마트 학습</p>
+                </div>
+                <div class="footer-section">
+                    <h3>학습 과정</h3>
+                    <ul>
+                        <li><a href="#">기본 강의</a></li>
+                        <li><a href="#">객관식 문제</a></li>
+                        <li><a href="#">1일 특강</a></li>
+                        <li><a href="#">모의고사</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>고객 지원</h3>
+                    <ul>
+                        <li><a href="#">자주 묻는 질문</a></li>
+                        <li><a href="#">학습 가이드</a></li>
+                        <li><a href="#">문의하기</a></li>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>&copy; 2025 해커스 세무사. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="fab" id="scrollToTop">↑</div>
+
+    <!-- Modal -->
+    <div id="studyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>학습 팁</h2>
+            <p>재정학 고득점을 위한 핵심 전략:</p>
+            <ul>
+                <li>기출 문제 패턴 분석</li>
+                <li>핵심 개념 암기</li>
+                <li>계산 문제 반복 연습</li>
+                <li>시간 관리 훈련</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Header scroll effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) {
+                    $('#header').addClass('scrolled');
+                } else {
+                    $('#header').removeClass('scrolled');
+                }
+            });
+
+            // Mobile menu toggle
+            $('#mobileMenu').click(function() {
+                $('#navLinks').toggleClass('active');
+            });
+
+            // Smooth scrolling
+            $('a[href^="#"]').click(function(e) {
+                e.preventDefault();
+                var target = $($(this).attr('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 80
+                    }, 800);
+                }
+            });
+
+            // Stats counter animation
+            function animateCounter() {
+                $('.stat-card').each(function() {
+                    var $this = $(this);
+                    var countTo = $this.data('count');
+                    var $counter = $this.find('.stat-number');
+                    
+                    $({ countNum: 0 }).animate({
+                        countNum: countTo
+                    }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $counter.text(Math.floor(this.countNum));
+                        },
+                        complete: function() {
+                            $counter.text(this.countNum);
+                        }
+                    });
+                });
+            }
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Trigger counter animation when stats section is visible
+                        if (entry.target.classList.contains('stats')) {
+                            animateCounter();
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements
+            $('.stat-card, .fade-in, .slide-in-left, .bounce-in').each(function() {
+                observer.observe(this);
+            });
+
+            // Quiz functionality
+            let selectedOption = null;
+            let answered = false;
+
+            $('.quiz-option').click(function() {
+                if (answered) return;
+                
+                $('.quiz-option').removeClass('selected');
+                $(this).addClass('selected');
+                selectedOption = $(this).data('answer');
+            });
+
+            $('#submitQuiz').click(function() {
+                if (!selectedOption) {
+                    alert('답을 선택해주세요!');
+                    return;
+                }
+
+                if (answered) {
+                    // Reset quiz
+                    answered = false;
+                    selectedOption = null;
+                    $('.quiz-option').removeClass('selected correct incorrect');
+                    $('#quizResult').hide();
+                    $(this).text('정답 확인');
+                    return;
+                }
+
+                answered = true;
+                $('.quiz-option').each(function() {
+                    const answer = $(this).data('answer');
+                    if (answer === 'correct') {
+                        $(this).addClass('correct');
+                    } else if ($(this).hasClass('selected')) {
+                        $(this).addClass('incorrect');
+                    }
+                });
+
+                const $result = $('#quizResult');
+                if (selectedOption === 'correct') {
+                    $result.removeClass('incorrect').addClass('correct');
+                    $result.html('🎉 정답입니다! <br>조세납부 방법, 시기, 금액 등이 법률 규정에 따라 명확히 제시되어야 하는 것은 확실성의 원칙입니다.');
+                } else {
+                    $result.removeClass('correct').addClass('incorrect');
+                    $result.html('❌ 틀렸습니다. <br>정답은 ① 확실성의 원칙입니다. 조세납부와 관련된 모든 사항이 명확해야 한다는 원칙입니다.');
+                }
+                
+                $result.show();
+                $(this).text('다시 풀기');
+
+                // Update progress
+                updateProgress();
+            });
+
+            // Progress update function
+            function updateProgress() {
+                const progressBars = $('.progress-fill');
+                progressBars.each(function(index) {
+                    const currentWidth = parseInt($(this).css('width'));
+                    const newWidth = Math.min(currentWidth + 5, 100);
+                    $(this).animate({ width: newWidth + '%' }, 500);
+                    $(this).parent().next('span').text(newWidth + '%');
+                });
+            }
+
+            // Floating Action Button
+            $('#scrollToTop').click(function() {
+                $('html, body').animate({ scrollTop: 0 }, 800);
+            });
+
+            // Show/hide FAB based on scroll position
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('#scrollToTop').fadeIn();
+                } else {
+                    $('#scrollToTop').fadeOut();
+                }
+            });
+
+            // Modal functionality
+            $('.cta-button').click(function(e) {
+                if ($(this).attr('href') !== '#overview') {
+                    e.preventDefault();
+                    $('#studyModal').fadeIn();
+                }
+            });
+
+            $('.close, .modal').click(function(e) {
+                if (e.target === this) {
+                    $('#studyModal').fadeOut();
+                }
+            });
+
+            // Additional quiz questions
+            const quizQuestions = [
+                {
+                    question: "조세납부 방법, 시기, 금액 등이 법률 규정에 따라 명확히 제시되어야 하는 조세의 원칙은?",
+                    options: [
+                        { text: "① 확실성의 원칙", answer: "correct" },
+                        { text: "② 공평성의 원칙", answer: "wrong" },
+                        { text: "③ 편의성의 원칙", answer: "wrong" },
+                        { text: "④ 경제성의 원칙", answer: "wrong" }
+                    ],
+                    explanation: "조세납부와 관련된 모든 사항이 명확해야 한다는 확실성의 원칙입니다."
+                },
+                {
+                    question: "아파트 가격 상승 시 재산세 부담이 증가하는 것은 어떤 과세 원칙에 해당하는가?",
+                    options: [
+                        { text: "① 편익 원칙", answer: "wrong" },
+                        { text: "② 능력 원칙", answer: "correct" },
+                        { text: "③ 확실성 원칙", answer: "wrong" },
+                        { text: "④ 편의성 원칙", answer: "wrong" }
+                    ],
+                    explanation: "소득이나 재산에 따라 세금을 부과하는 능력 원칙에 해당합니다."
+                },
+                {
+                    question: "초과 부담이 발생하는 주요 원인은?",
+                    options: [
+                        { text: "① 소득 효과", answer: "wrong" },
+                        { text: "② 대체 효과", answer: "correct" },
+                        { text: "③ 규모 효과", answer: "wrong" },
+                        { text: "④ 네트워크 효과", answer: "wrong" }
+                    ],
+                    explanation: "초과 부담은 대체 효과가 있을 때 발생합니다."
+                }
+            ];
+
+            let currentQuizIndex = 0;
+
+            // Function to load next quiz question
+            function loadQuiz(index) {
+                const quiz = quizQuestions[index];
+                $('#quizQuestion').text(quiz.question);
+                
+                const $options = $('#quizOptions');
+                $options.empty();
+                
+                quiz.options.forEach(option => {
+                    $options.append(`<div class="quiz-option" data-answer="${option.answer}">${option.text}</div>`);
+                });
+
+                // Re-bind click events
+                $('.quiz-option').click(function() {
+                    if (answered) return;
+                    
+                    $('.quiz-option').removeClass('selected');
+                    $(this).addClass('selected');
+                    selectedOption = $(this).data('answer');
+                });
+
+                answered = false;
+                selectedOption = null;
+                $('#submitQuiz').text('정답 확인');
+                $('#quizResult').hide();
+            }
+
+            // Update submit button to cycle through questions
+            $('#submitQuiz').click(function() {
+                if (!selectedOption && !answered) {
+                    alert('답을 선택해주세요!');
+                    return;
+                }
+
+                if (!answered) {
+                    // Show answer
+                    answered = true;
+                    $('.quiz-option').each(function() {
+                        const answer = $(this).data('answer');
+                        if (answer === 'correct') {
+                            $(this).addClass('correct');
+                        } else if ($(this).hasClass('selected')) {
+                            $(this).addClass('incorrect');
+                        }
+                    });
+
+                    const currentQuiz = quizQuestions[currentQuizIndex];
+                    const $result = $('#quizResult');
+                    
+                    if (selectedOption === 'correct') {
+                        $result.removeClass('incorrect').addClass('correct');
+                        $result.html(`🎉 정답입니다! <br>${currentQuiz.explanation}`);
+                    } else {
+                        $result.removeClass('correct').addClass('incorrect');
+                        $result.html(`❌ 틀렸습니다. <br>${currentQuiz.explanation}`);
+                    }
+                    
+                    $result.show();
+                    $(this).text('다음 문제');
+                    updateProgress();
+                } else {
+                    // Load next question
+                    currentQuizIndex = (currentQuizIndex + 1) % quizQuestions.length;
+                    loadQuiz(currentQuizIndex);
+                }
+            });
+
+            // Keyboard shortcuts
+            $(document).keydown(function(e) {
+                // Press 'S' to scroll to top
+                if (e.key === 's' || e.key === 'S') {
+                    $('html, body').animate({ scrollTop: 0 }, 800);
+                }
+                
+                // Press 'Q' to focus quiz
+                if (e.key === 'q' || e.key === 'Q') {
+                    $('html, body').animate({
+                        scrollTop: $('#practice').offset().top - 80
+                    }, 800);
+                }
+            });
+
+            // Dynamic background particles
+            function createParticle() {
+                const particle = $('<div>').css({
+                    position: 'absolute',
+                    width: Math.random() * 4 + 2 + 'px',
+                    height: Math.random() * 4 + 2 + 'px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '50%',
+                    left: Math.random() * 100 + '%',
+                    top: '100%',
+                    pointerEvents: 'none',
+                    zIndex: 1
+                });
+
+                $('.hero').append(particle);
+
+                particle.animate({
+                    top: '-50px',
+                    opacity: 0
+                }, {
+                    duration: Math.random() * 3000 + 2000,
+                    complete: function() {
+                        particle.remove();
+                    }
+                });
+            }
+
+            // Create particles periodically
+            setInterval(createParticle, 500);
+
+            // Enhanced scroll animations
+            $(window).scroll(function() {
+                const scrolled = $(this).scrollTop();
+                const rate = scrolled * -0.5;
+                
+                $('.hero::before').css('transform', `translateY(${rate}px)`);
+            });
+
+            // Interactive progress bars
+            $('.progress-item').hover(
+                function() {
+                    $(this).find('.progress-fill').animate({ opacity: 0.8 }, 200);
+                },
+                function() {
+                    $(this).find('.progress-fill').animate({ opacity: 1 }, 200);
+                }
+            );
+
+            // Add click-to-expand functionality for overview cards
+            $('.overview-card').click(function() {
+                $(this).toggleClass('expanded');
+                
+                if ($(this).hasClass('expanded')) {
+                    $(this).find('ul').slideDown();
+                } else {
+                    $(this).find('ul').slideUp();
+                }
+            });
+
+            // Study timer functionality
+            let studyTimer = 0;
+            let timerInterval;
+
+            function startStudyTimer() {
+                timerInterval = setInterval(function() {
+                    studyTimer++;
+                    const minutes = Math.floor(studyTimer / 60);
+                    const seconds = studyTimer % 60;
+                    console.log(`Study time: ${minutes}:${seconds.toString().padStart(2, '0')}`);
+                }, 1000);
+            }
+
+            function stopStudyTimer() {
+                clearInterval(timerInterval);
+            }
+
+            // Start timer when page loads
+            startStudyTimer();
+
+            // Achievement system
+            const achievements = {
+                firstQuiz: { name: "첫 문제 도전", earned: false },
+                correctAnswer: { name: "정답 맞히기", earned: false },
+                studyTime: { name: "5분 학습", earned: false },
+                perfectScore: { name: "연속 정답", earned: false }
+            };
+
+            function checkAchievements() {
+                // Check study time achievement
+                if (studyTimer >= 300 && !achievements.studyTime.earned) {
+                    achievements.studyTime.earned = true;
+                    showAchievement("5분 학습 달성! 🎯");
+                }
+            }
+
+            function showAchievement(message) {
+                const $achievement = $(`
+                    <div style="
+                        position: fixed;
+                        top: 100px;
+                        right: 30px;
+                        background: linear-gradient(45deg, #4CAF50, #8BC34A);
+                        color: white;
+                        padding: 15px 20px;
+                        border-radius: 10px;
+                        box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+                        z-index: 2000;
+                        animation: slideInRight 0.5s ease;
+                    ">
+                        ${message}
+                    </div>
+                `);
+
+                $('body').append($achievement);
+
+                setTimeout(() => {
+                    $achievement.fadeOut(500, function() {
+                        $(this).remove();
+                    });
+                }, 3000);
+            }
+
+            // Check achievements periodically
+            setInterval(checkAchievements, 1000);
+
+            // Add CSS animation for achievement
+            $('<style>').prop('type', 'text/css').html(`
+                @keyframes slideInRight {
+                    from {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+            `).appendTo('head');
+
+            // Add study streak counter
+            let studyStreak = localStorage.getItem('studyStreak') || 0;
+            let lastStudyDate = localStorage.getItem('lastStudyDate');
+            const today = new Date().toDateString();
+
+            if (lastStudyDate !== today) {
+                if (lastStudyDate === new Date(Date.now() - 86400000).toDateString()) {
+                    studyStreak++;
+                } else {
+                    studyStreak = 1;
+                }
+                localStorage.setItem('studyStreak', studyStreak);
+                localStorage.setItem('lastStudyDate', today);
+            }
+
+            // Display study streak
+            if (studyStreak > 1) {
+                $('<div>').css({
+                    position: 'fixed',
+                    top: '120px',
+                    left: '30px',
+                    background: 'rgba(255, 107, 107, 0.9)',
+                    color: 'white',
+                    padding: '10px 15px',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    zIndex: 1000
+                }).text(`🔥 ${studyStreak}일 연속 학습`).appendTo('body');
+            }
+
+            console.log('해커스 세무사 재정학 학습 플랫폼이 로드되었습니다!');
+            console.log('키보드 단축키: S - 맨 위로, Q - 퀴즈로 이동');
+        });
+    </script>
+</body>
+</html>

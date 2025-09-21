@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel 기초 단축키 모음 ZIP</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            background: linear-gradient(135deg, #00b4a6, #007991);
+            border: 3px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .window-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .control-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .minimize { background-color: #ffd700; }
+        .maximize { background-color: #00ff00; }
+        .close { background-color: #ff4444; }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 0;
+            background-color: white;
+        }
+        
+        .functions-section {
+            background: linear-gradient(135deg, #00b4a6, #007991);
+            padding: 0;
+        }
+        
+        .function-group {
+            margin: 0;
+        }
+        
+        .group-header {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            margin: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .function-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 10px;
+            line-height: 1.2;
+        }
+        
+        .function-name {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 3px 6px;
+            font-weight: bold;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .function-desc {
+            color: white;
+            padding: 3px 6px;
+        }
+        
+        .logo-section {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .excel-logo {
+            font-size: 48px;
+            color: #00b4a6;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .subtitle {
+            background-color: #00b4a6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .shortcuts-section {
+            background-color: #333;
+            color: white;
+            padding: 0;
+        }
+        
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+        }
+        
+        .shortcut-item {
+            padding: 4px 8px;
+            border-right: 1px solid #555;
+            border-bottom: 1px solid #555;
+            font-size: 10px;
+            line-height: 1.3;
+        }
+        
+        .shortcut-key {
+            color: #ffd700;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .shortcut-desc {
+            color: #ccc;
+        }
+        
+        .section-title {
+            background-color: #444;
+            color: white;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span>Excel 기초 단축키 모음ZIP - Microsoft Excel</span>
+            <div class="window-controls">
+                <div class="control-btn minimize"></div>
+                <div class="control-btn maximize"></div>
+                <div class="control-btn close"></div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="functions-section">
+                <div class="function-group">
+                    <div class="group-header">수학/통계 함수</div>
+                    <div class="function-item">
+                        <div class="function-name">AVERAGE</div>
+                        <div class="function-desc">=AVERAGE(A1:A0) 또는 선택 영역의 평균을 구하기</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">AVERAGEIF</div>
+                        <div class="function-desc">=AVERAGEIF(A1:A10,">=B10") 조건에 맞는 셀들의 평균값</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">AVERAGEIFS</div>
+                        <div class="function-desc">=AVERAGEIFS(C5:C16,D5:D16,"=B2:B10") 여러 조건에 맞는 셀들의 평균값</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">MAX</div>
+                        <div class="function-desc">=MAX(A1:A10) 셀 중 가장 높은 숫자</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">MIN</div>
+                        <div class="function-desc">=MIN(A1:A10) 셀 중 가장 낮은 숫자</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">COUNT</div>
+                        <div class="function-desc">=COUNT(A1:A10) 숫자로 된 셀의 개수 (공백이 있는 셀 제외 개수 세기)</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">COUNTA</div>
+                        <div class="function-desc">=COUNTA(A1:A10) 빈 셀을 제외한 셀의 개수</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">COUNTIF</div>
+                        <div class="function-desc">=COUNTIF(A1:A10,">=10") 기준에 일치하는 셀의 개수</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">COUNTIFS</div>
+                        <div class="function-desc">=COUNTIFS(A1:A10,"조건1",A1:A10,"조건2") 여러 조건에 맞는 셀의 개수</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">LARGE</div>
+                        <div class="function-desc">=LARGE(A1:A10,1) 셀들 중 k번째 큰 값</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">SMALL</div>
+                        <div class="function-desc">=SMALL(A1:A10,1) 셀들 중 k번째 작은 값</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">RANK</div>
+                        <div class="function-desc">=RANK(A1,A1:A10,1) 순위를 매기는 순서, 0이면 내림차순, 1이면 오름차순</div>
+                    </div>
+                </div>
+                
+                <div class="function-group">
+                    <div class="group-header">수학 함수</div>
+                    <div class="function-item">
+                        <div class="function-name">SUM</div>
+                        <div class="function-desc">=SUM(A1:A2) 합계의 합계</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">SUMIF</div>
+                        <div class="function-desc">=SUMIF(조건범위, "조건", 합계범위) SUMIF(A1:A10,"조건",B1:B10) 조건에 맞는 셀들의 합계</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">SUMIFS</div>
+                        <div class="function-desc">=SUMIFS(A1:A10,B1:B10,"조건1",C1:C10,"조건2") 여러 조건에 맞는 셀들의 합계</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">ROUND</div>
+                        <div class="function-desc">=ROUND(숫자, 원하는 자릿수 자리숫수) 지정한 자릿수로 올림처리된 반올림값</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">ROUNDUP</div>
+                        <div class="function-desc">=ROUNDUP(숫자, 올림자릿수 자리수) ROUNDUP(A1,0) 지정한 자리수로 올림처리된 반올림값을 반환함</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">ROUNDDOWN</div>
+                        <div class="function-desc">=ROUNDDOWN(숫자, 내림자릿수 자리수) ROUNDDOWN(A1,0) 지정한 자리수로 내림</div>
+                    </div>
+                </div>
+                
+                <div class="function-group">
+                    <div class="group-header">논리 함수</div>
+                    <div class="function-item">
+                        <div class="function-name">IF</div>
+                        <div class="function-desc">=IF(C2>50, "우수", "미달") IF(논리값, 참인 경우) 지정값만 생성 가능</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">IFERROR</div>
+                        <div class="function-desc">=IFERROR(A1/A2,1) IFERROR(A1값 B1값) 오류인 식은 지정값으로 변환</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">AND</div>
+                        <div class="function-desc">=AND(A1>=100, B1>=100, C1>=100) 모두가 모두 참이면 참</div>
+                    </div>
+                    <div class="function-item">
+                        <div class="function-name">OR</div>
+                        <div class="function-desc">=OR(A1>=100, B1>=100, C1>=100) 어느 중 하나라도 참이면 참</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="logo-section">
+                <div class="excel-logo">📊 Excel</div>
+                <div class="logo-text">기초 단축키 모음<br>모음 짤막 마지</div>
+                <div class="subtitle">엑셀 단축키 모음ZIP</div>
+            </div>
+        </div>
+        
+        <div class="shortcuts-section">
+            <div class="shortcuts-grid">
+                <div class="section-title">Ctrl</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + B</span>
+                    <span class="shortcut-desc">굵게 글꼴, 해제</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 9</span>
+                    <span class="shortcut-desc">행 숨기기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + ~</span>
+                    <span class="shortcut-desc">일반 숫자 서식 적용</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + U</span>
+                    <span class="shortcut-desc">글자 밑줄</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 0</span>
+                    <span class="shortcut-desc">열 숨기기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + $</span>
+                    <span class="shortcut-desc">원/달러 상화 서식<br/>색깔/월일 설정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + I</span>
+                    <span class="shortcut-desc">글자 기울이기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + F1</span>
+                    <span class="shortcut-desc">메뉴 숨기기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + ;</span>
+                    <span class="shortcut-desc">현재 날짜 입력</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + F</span>
+                    <span class="shortcut-desc">글꼴 변경</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + F2</span>
+                    <span class="shortcut-desc">인쇄 미리보기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + %</span>
+                    <span class="shortcut-desc">소수 자릿수 없이 백분율 서식 적용</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + K</span>
+                    <span class="shortcut-desc">하이퍼링크 삽입</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Home</span>
+                    <span class="shortcut-desc">워크시트 처음으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + &</span>
+                    <span class="shortcut-desc">선택한 셀에 윤곽선 테두리 적용</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Y</span>
+                    <span class="shortcut-desc">재실행</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + End</span>
+                    <span class="shortcut-desc">워크시트 끝으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + ^</span>
+                    <span class="shortcut-desc">소수 두 자리 지수 숫자 서식 적용</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Z</span>
+                    <span class="shortcut-desc">되돌리기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + *</span>
+                    <span class="shortcut-desc">데이터 입력원 전체 범위 지정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + F2</span>
+                    <span class="shortcut-desc">메모 삽입</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 1</span>
+                    <span class="shortcut-desc">셀 서식창 표시</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + #</span>
+                    <span class="shortcut-desc">날짜/일 날짜 서식 적용</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 5</span>
+                    <span class="shortcut-desc">삭선선</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + @</span>
+                    <span class="shortcut-desc">시간/분/ AM/PM 시간 서식 적용</span>
+                </div>
+                
+                <div class="section-title">특수키</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F2</span>
+                    <span class="shortcut-desc">활성 셀편집</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + PageDown</span>
+                    <span class="shortcut-desc">선택영역을 앞 모든 선택</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Tab</span>
+                    <span class="shortcut-desc">다음 셀로 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F4</span>
+                    <span class="shortcut-desc">절대값 지정 (단축시 상대참조)</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt</span>
+                    <span class="shortcut-desc">단축키 활성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Tab</span>
+                    <span class="shortcut-desc">다음 창으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F7</span>
+                    <span class="shortcut-desc">맞춤법 검사</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + W + E</span>
+                    <span class="shortcut-desc">전체화면으로 보기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Space bar</span>
+                    <span class="shortcut-desc">열 전체 선택</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F8</span>
+                    <span class="shortcut-desc">영역 선택</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + M + R</span>
+                    <span class="shortcut-desc">최근에 사용한 함수 보기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + 방향키</span>
+                    <span class="shortcut-desc">선택한 셀과 그 방향 셀 선택</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F9</span>
+                    <span class="shortcut-desc">모든 다시 계산</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + H + M + C/U</span>
+                    <span class="shortcut-desc">셀 병합하고 가운데 맞춤/해제</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl+Shift+방향키</span>
+                    <span class="shortcut-desc">선택한 셀과 그 방향의 데이터 셀 모든 선택</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F11</span>
+                    <span class="shortcut-desc">현재 범위의도 차트 만들기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + W + F + F</span>
+                    <span class="shortcut-desc">틀 고정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + Enter</span>
+                    <span class="shortcut-desc">첫 행으로 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F12</span>
+                    <span class="shortcut-desc">다른 이름으로 저장</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + D + F + F</span>
+                    <span class="shortcut-desc">필터 설정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + Space bar</span>
+                    <span class="shortcut-desc">행 전체 선택</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + ↓</span>
+                    <span class="shortcut-desc">선택한 드롭다운 목록 열기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + Tab</span>
+                    <span class="shortcut-desc">이전 셀로 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + PageUp</span>
+                    <span class="shortcut-desc">선택영역을 이전 셀 모든 선택</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

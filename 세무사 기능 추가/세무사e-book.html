@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024년 세무사 1차 재정학 시험 총평</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .ebook-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: white;
+            border-radius: 15px;
+            min-height: 600px;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page h2 {
+            color: #764ba2;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .page h3 {
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.3);
+        }
+        
+        .info-box {
+            background: #f8f9ff;
+            border: 1px solid #e0e6ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .key-points {
+            background: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .calculation-box {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-buttons button {
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .nav-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .nav-buttons button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .page-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .toc {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            padding: 5px 0;
+            border-bottom: 1px dotted #ddd;
+        }
+        
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .score-table th, .score-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .score-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .score-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ebook-container">
+    <div class="page-indicator">
+        <span id="current-page">1</span> / <span id="total-pages">12</span>
+    </div>
+    
+    <div class="header">
+        <h1>2024년 세무사 1차 재정학 시험</h1>
+        <div class="subtitle">총평 및 해설 리포트</div>
+    </div>
+
+    <!-- 페이지 1: 목차 -->
+    <section class="page active">
+        <h2>📚 목차</h2>
+        <div class="toc">
+            <ul>
+                <li>1. 시험 총평 및 출제 경향</li>
+                <li>2. 효과적인 학습 전략</li>
+                <li>3. 조세 관련 문제 해설 (1~10번)</li>
+                <li>4. 기타 주제 문제 해설 (11~20번)</li>
+                <li>5. 시장 실패 및 불평등 (21~32번)</li>
+                <li>6. 사회 보장 및 정부 지출 (33~40번)</li>
+                <li>7. 주요 계산 문제 유형</li>
+                <li>8. 신유형 문제 분석</li>
+                <li>9. 합격 전략 가이드</li>
+                <li>10. 2025년 대비 학습 방향</li>
+                <li>11. 핵심 개념 정리</li>
+                <li>12. 마무리 및 당부사항</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 2: 시험 총평 -->
+    <section class="page">
+        <h2>📊 시험 총평 및 출제 경향</h2>
+        
+        <div class="highlight-box">
+            <h3>🎯 목표 점수 및 난이도</h3>
+            <ul>
+                <li><strong>100점 목표:</strong> 어려운 시험이었음</li>
+                <li><strong>70~80점 합격선:</strong> 달성 가능한 수준</li>
+                <li><strong>2023년과 유사한 난이도</strong></li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <h3>📝 출제 경향 분석</h3>
+            <ul>
+                <li>기출 변형 문제 다수 출제</li>
+                <li>지문이 길어져 읽기 부담 증가 (내용은 평이)</li>
+                <li>문제 풀이 중심 학습의 중요성 부각</li>
+                <li>깊이 있는 이론보다 답 고르기 능력 중시</li>
+            </ul>
+        </div>
+        
+        <div class="calculation-box">
+            <h3>🔢 계산 문제 현황</h3>
+            <p><strong>총 5개 문제</strong> - 역대 최저 수준</p>
+            <ul>
+                <li>신유형: 후생 경제학 제2정리 (1개)</li>
+                <li>필수 개념: 조세 귀착, 공공재 최적 공급, 외부성, 앳킨슨 지수</li>
+                <li>미분 문제: 출제되지 않음</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 3: 학습 전략 -->
+    <section class="page">
+        <h2>💡 효과적인 학습 전략</h2>
+        
+        <div class="key-points">
+            <h3>🎯 핵심 학습 포인트</h3>
+            <ol>
+                <li><strong>문제 풀이 중심 학습</strong>
+                    <ul>
+                        <li>기출 문제 반복 학습</li>
+                        <li>변형 문제 대응 능력 배양</li>
+                    </ul>
+                </li>
+                <li><strong>필수 계산 개념 집중</strong>
+                    <ul>
+                        <li>복잡한 계산보다 핵심 주제 위주</li>
+                        <li>1일 특강 필수 개념 완벽 숙지</li>
+                    </ul>
+                </li>
+                <li><strong>담대한 마음가짐</strong>
+                    <ul>
+                        <li>난이도 조절용 문제(최대 5개)에 흔들리지 않기</li>
+                        <li>어려운 문제에 매몰되지 않기</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="highlight-box">
+            <h3>⚠️ 주의사항</h3>
+            <p>학문적 깊이보다는 <strong>답을 찾는 연습</strong>에 집중하세요!</p>
+            <p>시험장에서 당황하지 않는 <strong>담대함</strong>이 가장 중요합니다.</p>
+        </div>
+    </section>
+
+    <!-- 페이지 4: 조세 관련 문제 -->
+    <section class="page">
+        <h2>💰 조세 관련 문제 해설 (1~10번)</h2>
+        
+        <h3>1번: 조세의 바람직한 조건</h3>
+        <div class="info-box">
+            <p><strong>정답 조건:</strong> 바람직한 조세의 조건은 공평성, 확실성, 편의성, 경제성임</p>
+            <p><strong>주의:</strong> 수입성 원칙에서 재정 수입을 극대화하는 것은 오답 <em>적정</em>해야 함</p>
+        </div>
+        
+        <h3>2번: 조세의 공평성</h3>
+        <div class="key-points">
+            <ul>
+                <li>누진세 도입 시 개인 사업자와 근로소득자의 수평 공평성을 저해할 수 있음</li>
+                <li>편익 원칙에 따른 누진세 도입 시 편익의 소득 탄력성이 1보다 커야 공평함</li>
+                <li>납세 전후 개인 간 효용 순위 변화는 바람직하지 않음</li>
+                <li>포괄적 소득세는 수평적 공평성 개선에 바람직</li>
+                <li>소득 세율의 누진성 강화는 수직적 공평성을 저해하지 않음</li>
+            </ul>
+        </div>
+        
+        <h3>3번: 조세 초과 부담</h3>
+        <div class="calculation-box">
+            <p><strong>핵심 원리:</strong></p>
+            <ul>
+                <li>수요의 가격 탄력성이 클수록 초과 부담은 커짐 (거래량 감소)</li>
+                <li>세율이 높아진다고 조세 수입이 반드시 늘어나는 것은 아님</li>
+                <li>세율이 너무 높아지면 조세 저항이 발생함</li>
+                <li>정액세는 대체 효과가 없어 초과 부담이 발생하지 않음</li>
+                <li>완전 보완재에 대한 과세는 초과 부담을 발생시키지 않음</li>
+                <li>초과 부담 측정 시 보상수요 곡선을 사용함</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 5: 물품세 및 조세 전가 -->
+    <section class="page">
+        <h2>📈 물품세 부과 및 조세 전가 (4~5번)</h2>
+        
+        <div class="highlight-box">
+            <h3>🔑 핵심 원리</h3>
+            <ul>
+                <li>수요가 탄력적일수록 조세 수입은 감소함</li>
+                <li>공급이 탄력적일수록 조세 부과에 따른 후생 손실은 커짐</li>
+                <li>단위당 세액이 커져도 조세 수입이 반드시 증가하지는 않음 </li>
+                <li>탄력성이 높은 쪽이 조세 부담이 상대적으로 작음</li>
+                <li><strong>수요 완전 비탄력적</strong> → 소비자가 조세 전부 부담</li>
+            </ul>
+        </div>
+        
+        <h3>5번 계산 문제 예시</h3>
+        <div class="calculation-box">
+            <p><strong>문제 유형:</strong> 커피우유 수요/공급 함수</p>
+            <p><strong>조건:</strong> 단위당 10원 물품세 부과</p>
+            <p><strong>계산 요소:</strong></p>
+            <ul>
+                <li>균형 가격 변화</li>
+                <li>거래량 변화</li>
+                <li>물품세 부담 배분</li>
+                <li>사회적 후생 손실</li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <h3>6~10번 추가 개념</h3>
+            <ul>
+                <li><strong>6번:</strong> 조세 부과 시 납세자들의 공평한 조세 부담 평가 기준은 편익 원칙과 능력 원칙</li>
+                <li><strong>7번:</strong> 자본 이득 방식과 조합 방식은 완전 통합 방식 - 나머지는 부분 통합 방식</li>
+                <li><strong>8번:</strong> 이자소득세 부과 시 현재 소비가 정상재인 경우 저축은 증가함</li>
+                <li>비례 소득세는 수직적 공평성을 향상시키지 않음</li>
+                <li>선형 누진세는 소득에 따라 평균 세율은 올라가지만 한계 세율은 변화하지 않음</li>
+                <li>소득 공제는 고소득층에 유리함</li>
+                <li>세액 공제는 한계 세율과 관련 없음</li>
+
+                <li><strong>9번:</strong> 법인세 및 부가가치세 특성</li>
+                <li>부가세는 누진적이지 않음</li>
+                <li>수출품 부가가치세는 영세율 적용으로 국내 판매용과 다름</li>
+                <li>기업의 부채 비율을 높이는 것이 법인세 절감에 유리함 (이윤 감소)</li>
+                <li>투자세액 공제는 법인세 부담을 증가시키지 않음</li>
+                <li>법인세는 기업의 자산이 아닌 단기 수입을 대상으로 함</li>
+
+                <li><strong>10번:</strong> 알링햄-샌드모드 탈세 모형</li>
+                <li>알링햄-샌드모드 모형은 불확실성 하의 기대 효용 극대화 관점에서 탈세를 분석함</li>
+                <li>세율 상승이 소득 효과와 대체 효과를 발생시켜 탈루 소득에 미치는 영향은 알 수 없음 (방향이 반대)</li>
+                <li>합리적인 세율 유지, 감사 확률 및 벌금 조정이 탈세 방지 수단임</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 6: 기타 주제 -->
+    <section class="page">
+        <h2>🔍 기타 주제 문제 해설 (11~20번)</h2>
+        
+        <h3>12번: 소비 선택 모형</h3>
+        <div class="info-box">
+            <p><strong>이자소득세 부과 효과:</strong></p>
+            <ul>
+                <li>현재 소비 상대가격 하락</li>
+                <li>대체효과 → 현재소비 증가, 저축 감소</li>
+                <li>소득효과 → 현재·미래소비 모두 감소</li>
+                <li>실질소득 감소 → 효용 수준 감소</li>
+            </ul>
+        </div>
+        
+        <h3>13번: 근로소득세 부과</h3>
+        <div class="key-points">
+            <p>후방굴절 현상: 임금 하락 시 노동공급 증가 가능</p>
+            <p>대체효과 > 소득효과 → 임금↓ 시 노동공급↓</p>
+        </div>
+        
+        <h3>14번: 조세와 기업 투자</h3>
+        <div class="calculation-box">
+            <ul>
+                <li>자본 사용자 비용 = 기회비용</li>
+                <li>가속감가상각 → 사용자비용↓ → 투자↑</li>
+                <li>한계실효세율↑ → 투자 위축</li>
+            </ul>
+        </div>
+        
+        <h3>15번: 국채 발행의 경제적 영향</h3>
+        <div class="highlight-box">
+            <ul>
+                <li>통화주의자: 호황기 구축효과 > 침체기</li>
+                <li>국채발행 → 이자율↑ → 자본유입 → 환율하락</li>
+                <li>중앙은행 인수 → 본원통화↑ → 인플레이션</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 7: 시장 실패 및 불평등 -->
+    <section class="page">
+        <h2>⚖️ 시장 실패 및 불평등 (21~32번)</h2>
+        
+        <h3>21번: 재정의 기능</h3>
+        <div class="info-box">
+            <ul>
+                <li><strong>자원배분 기능:</strong> 피구세 등으로 효율성 개선</li>
+                <li><strong>자동안정장치:</strong> 누진세, 실업보험</li>
+                <li><strong>시장실패 유형:</strong> 공공재, 외부성</li>
+            </ul>
+        </div>
+        
+        <h3>22번: 후생경제학 제2정리 ⭐ 신유형</h3>
+        <div class="highlight-box">
+            <p>초기 부존 재분배를 통해 <strong>효율성 저해 없이</strong> 공평성을 높일 수 있음</p>
+            <p>가격체계 왜곡 없는 재분배 → 파레토 효율성 달성 가능</p>
+        </div>
+        
+        <h3>26번: 공공재 최적 공급</h3>
+        <div class="calculation-box">
+            <p><strong>최적 공급 조건:</strong></p>
+            <p style="text-align: center; font-size: 1.2em;"><strong>MBₐ + MBᵦ = MC</strong></p>
+        </div>
+        
+        <h3>29번: 피구세</h3>
+        <div class="key-points">
+            <ol>
+                <li>사회적 최적 수량 도출</li>
+                <li>해당 수량을 외부 한계비용에 대입</li>
+                <li>피구세 결정</li>
+            </ol>
+        </div>
+        
+        <h3>31~32번: 앳킨슨 지수</h3>
+        <div class="info-box">
+            <ul>
+                <li>1에 가까울수록 분배 불균등</li>
+                <li>공리주의 사회후생함수 → 균등분배 선호</li>
+                <li>노직(자유주의) → 정부 재분배 개입 반대</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 8: 사회보장 및 정부지출 -->
+    <section class="page">
+        <h2>🏛️ 사회 보장 및 정부 지출 (33~40번)</h2>
+        
+        <h3>33번: 현금/현물 보조 정책</h3>
+        <div class="highlight-box">
+            <p><strong>정책 목표가 소비 증대</strong> → 현물보조가 더 효과적</p>
+            <p>현물보조 단점: 높은 행정비용 및 운용비용</p>
+        </div>
+        
+        <h3>35번: 기초 근로장려 세제</h3>
+        <div class="info-box">
+            <ul>
+                <li>무소득자는 수혜 대상 아님</li>
+                <li>가구 구성에 따라 지원 혜택 차등</li>
+                <li>공공부조보다 근로 의욕 촉진 효과 큼</li>
+                <li>평탄구간: 묵시적 한계세율 = 0</li>
+            </ul>
+        </div>
+        
+        <h3>37번: 국민연금 제도</h3>
+        <div class="key-points">
+            <ul>
+                <li>강제가입 → 역선택 문제 해결</li>
+                <li>적립방식 → 세대간 공평성 문제 없음</li>
+                <li>자산대체효과 < 은퇴효과 → 개인저축 증가</li>
+                <li>소득효과 → 노동공급 감소</li>
+            </ul>
+        </div>
+        
+        <h3>39번: 정부 지출</h3>
+        <div class="calculation-box">
+            <p><strong>보몰 효과:</strong> 정부 서비스 생산비용 상대적 증가</p>
+            <p><strong>리바이어던 가설:</strong> 뷰캐넌의 주장</p>
+        </div>
+        
+        <h3>40번: 공공사업 평가</h3>
+        <div class="info-box">
+            <ul>
+                <li>무형적 편익·비용도 고려</li>
+                <li>할인율↑ → 초기 편익 집중 사업 유리</li>
+                <li>장기 사업 → 낮은 할인율 적용</li>
+                <li>애로우-린드 정리: 위험 분할 시 위험 고려 불필요</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 9: 주요 계산 문제 유형 -->
+    <section class="page">
+        <h2>🧮 주요 계산 문제 유형</h2>
+        
+        <div class="highlight-box">
+            <h3>🎯 2024년 출제된 계산 문제 (총 5개)</h3>
+        </div>
+        
+        <h3>1. 조세 귀착 및 후생 손실</h3>
+        <div class="calculation-box">
+            <p><strong>기본 공식:</strong></p>
+            <ul>
+                <li>소비자 부담 = t × (Es / (Es + Ed))</li>
+                <li>생산자 부담 = t × (Ed / (Es + Ed))</li>
+                <li>후생 손실 = ½ × t × ΔQ</li>
+            </ul>
+        </div>
+        
+        <h3>2. 공공재 최적 공급</h3>
+        <div class="key-points">
+            <p><strong>샘슨 조건:</strong> Σ MRS = MRT</p>
+            <p>개인별 한계편익의 수직 합 = 한계비용</p>
+        </div>
+        
+        <h3>3. 외부성 및 피구세</h3>
+        <div class="info-box">
+            <ul>
+                <li>사적 한계비용 + 외부 한계비용 = 사회적 한계비용</li>
+                <li>피구세 = 최적 수량에서의 외부 한계비용</li>
+            </ul>
+        </div>
+        
+        <h3>4. 앳킨슨 지수</h3>
+        <div class="calculation-box">
+            <p>A = 1 - (균등분배 대등소득 / 평균소득)</p>
+            <p>0 ≤ A ≤ 1 (1에 가까울수록 불평등)</p>
+        </div>
+        
+        <h3>5. 후생경제학 제2정리 (신유형)</h3>
+        <div class="highlight-box">
+            <p>재분배를 통한 파레토 효율성 달성 가능성 확인</p>
+            <p>초기 부존 조정 → 효율성 + 공평성 동시 달성</p>
+        </div>
+    </section>
+
+    <!-- 페이지 10: 신유형 문제 분석 -->
+    <section class="page">
+        <h2>🆕 신유형 문제 분석</h2>
+        
+        <div class="highlight-box">
+            <h3>🔍 2024년 신유형 문제</h3>
+            <ul>
+                <li>후생경제학 제2정리 (1개) - 재출제 가능성 낮음</li>
+                <li>재정 이론 (노직, 롤스 등 윤리적 질문)</li>
+                <li>현금/현물 보조 관련 심화 문제</li>
+            </ul>
+        </div>
+        
+        <h3>윤리적 재정 이론</h3>
+        <div class="info-box">
+            <h4>노직 (자유주의)</h4>
+            <ul>
+                <li>정부의 소득 재분배 개입 반대</li>
+                <li>개인의 권리와 자유 중시</li>
+                <li>최소 국가론 지지</li>
+            </ul>
+            
+            <h4>롤스 (정의론)</h4>
+            <ul>
+                <li>원초적 지위에서의 합의</li>
+                <li>최악의 상황에 있는 사람을 위한 정책</li>
+                <li>공정한 재분배 정당화</li>
+            </ul>
+        </div>
+        
+        <h3>현금/현물 보조 심화</h3>
+        <div class="key-points">
+            <h4>효용 관점에서 비교</h4>
+            <ul>
+                <li>현금보조 ≥ 현물보조 (효용 측면)</li>
+                <li>정책 목표에 따라 현물보조 선택 가능</li>
+                <li>행정비용, 표적화 효과 고려 필요</li>
+            </ul>
+        </div>
+        
+        <div class="calculation-box">
+            <h3>💡 신유형 대비 전략</h3>
+            <ul>
+                <li>기본 개념의 응용 능력 배양</li>
+                <li>다각도 접근법으로 문제 해석</li>
+                <li>당황하지 말고 기본 원리 적용</li>
+                <li>부분 점수라도 확보하는 전략</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 11: 합격 전략 가이드 -->
+    <section class="page">
+        <h2>🎯 합격 전략 가이드</h2>
+        
+        <div class="highlight-box">
+            <h3>⚡ 시험장 전략</h3>
+            <ul>
+                <li><strong>담대함 유지:</strong> 어려운 문제에 매몰되지 않기</li>
+                <li><strong>시간 배분:</strong> 70-80점 확보에 집중</li>
+                <li><strong>문제 선별:</strong> 쉬운 문제부터 확실히 득점</li>
+                <li><strong>난이도 조절 문제:</strong> 최대 5개, 과감히 포기</li>
+            </ul>
+        </div>
+        
+        <table class="score-table">
+            <tr>
+                <th>목표 점수</th>
+                <th>전략</th>
+                <th>주의사항</th>
+            </tr>
+            <tr>
+                <td>60-70점</td>
+                <td>기본 문제 위주</td>
+                <td>계산 실수 방지</td>
+            </tr>
+            <tr>
+                <td>70-80점</td>
+                <td>중간 난이도까지</td>
+                <td>시간 배분 중요</td>
+            </tr>
+            <tr>
+                <td>80점 이상</td>
+                <td>고난도 문제 도전</td>
+                <td>완벽주의 경계</td>
+            </tr>
+        </table>
+        
+        <div class="key-points">
+            <h3>📚 효율적 학습법</h3>
+            <ol>
+                <li><strong>기출문제 중심 학습</strong>
+                    <ul>
+                        <li>최근 5년간 기출문제 완벽 분석</li>
+                        <li>변형 문제 패턴 파악</li>
+                        <li>오답노트 작성 및 반복 학습</li>
+                    </ul>
+                </li>
+                <li><strong>핵심 개념 암기</strong>
+                    <ul>
+                        <li>공식보다는 개념 이해</li>
+                        <li>키워드 중심 암기법</li>
+                        <li>도식화를 통한 체계적 정리</li>
+                    </ul>
+                </li>
+                <li><strong>실전 모의고사</strong>
+                    <ul>
+                        <li>시간 제한 두고 실전 연습</li>
+                        <li>약점 영역 집중 보완</li>
+                        <li>컨디션 관리 병행</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="info-box">
+            <h3>⏰ 시간 관리 팁</h3>
+            <ul>
+                <li>1문제당 평균 3-4분 배분</li>
+                <li>계산 문제는 5-7분 할당</li>
+                <li>막히는 문제는 표시 후 넘어가기</li>
+                <li>마지막 10분은 검토 시간 확보</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 페이지 12: 마무리 -->
+    <section class="page">
+        <h2>🎓 마무리 및 당부사항</h2>
+        
+        <div class="highlight-box">
+            <h3>🌟 합격을 위한 마지막 당부</h3>
+            <p style="font-size: 1.2em; text-align: center; margin: 20px 0;">
+                <strong>"담대함과 전략적 사고가 합격의 열쇠입니다"</strong>
+            </p>
+        </div>
+        
+        <div class="key-points">
+            <h3>✅ 최종 점검 사항</h3>
+            <ul>
+                <li>기출문제 패턴 숙지 완료</li>
+                <li>핵심 계산 공식 암기 완료</li>
+                <li>신유형 문제 대응 방안 준비</li>
+                <li>시간 배분 전략 수립 완료</li>
+                <li>멘탈 관리 방법 확립</li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <h3>🎯 2025년 시험 대비 방향</h3>
+            <ul>
+                <li><strong>변화 예상:</strong> 계산 문제 비중 소폭 증가 가능</li>
+                <li><strong>지속 예상:</strong> 기출 변형 문제 위주 출제</li>
+                <li><strong>강화 필요:</strong> 문제 해결 속도 및 정확성</li>
+                <li><strong>새로운 대비:</strong> 윤리적 재정이론 기본 개념</li>
+            </ul>
+        </div>
+        
+        <div class="calculation-box">
+            <h3>📈 점수 목표 설정</h3>
+            <p><strong>현실적 목표:</strong> 75-80점</p>
+            <p><strong>안전 목표:</strong> 70점 이상</p>
+            <p><strong>도전 목표:</strong> 85점 이상</p>
+            <br>
+            <p style="text-align: center;">
+                <em>"완벽을 추구하기보다 확실한 합격을 목표로!"</em>
+            </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 10px;">
+            <h3 style="margin: 0; font-size: 1.5em;">🎉 여러분의 합격을 응원합니다! 🎉</h3>
+            <p style="margin: 10px 0 0 0; font-size: 1.1em;">
+                체계적인 준비와 전략적 접근으로<br>
+                반드시 좋은 결과 있으시길 바랍니다.
+            </p>
+        </div>
+    </section>
+
+    <div class="nav-buttons">
+        <button id="prevBtn" onclick="prevPage()">◀ 이전</button>
+        <button id="nextBtn" onclick="nextPage()">다음 ▶</button>
+    </div>
+</div>
+
+<script>
+    const pages = document.querySelectorAll('.page');
+    const totalPages = pages.length;
+    const currentPageSpan = document.getElementById('current-page');
+    const totalPagesSpan = document.getElementById('total-pages');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentPage = 0;
+    
+    // 총 페이지 수 표시
+    totalPagesSpan.textContent = totalPages;
+    
+    function showPage(index) {
+        pages.forEach((page, i) => {
+            page.classList.toggle('active', i === index);
+        });
+        
+        // 페이지 번호 업데이트
+        currentPageSpan.textContent = index + 1;
+        
+        // 버튼 상태 업데이트
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === totalPages - 1;
+        
+        // 페이지 상단으로 스크롤
+        document.querySelector('.ebook-container').scrollTop = 0;
+    }
+    
+    function nextPage() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    }
+    
+    function prevPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    }
+    
+    // 키보드 네비게이션
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            prevPage();
+        } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            nextPage();
+        }
+    });
+    
+    // 초기 설정
+    showPage(0);
+    
+    // 스와이프 제스처 지원 (모바일)
+    let startX = null;
+    let startY = null;
+    
+    document.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+        if (!startX || !startY) return;
+        
+        let endX = e.changedTouches[0].clientX;
+        let endY = e.changedTouches[0].clientY;
+        
+        let deltaX = startX - endX;
+        let deltaY = startY - endY;
+        
+        // 수평 스와이프가 수직 스와이프보다 큰 경우에만 처리
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+            if (deltaX > 0) {
+                // 왼쪽으로 스와이프 (다음 페이지)
+                nextPage();
+            } else {
+                // 오른쪽으로 스와이프 (이전 페이지)
+                prevPage();
+            }
+        }
+        
+        startX = null;
+        startY = null;
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Excel Shift 단축키 키보드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(76, 175, 80, 0.95);
+            min-width: 200px;
+            border-radius: 8px;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: white;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #388E3C;
+            box-shadow: 0 0 10px rgba(56, 142, 60, 0.3);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #81C784;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 30px;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: rgba(76, 175, 80, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            height: fit-content;
+            backdrop-filter: blur(5px);
+        }
+
+        .sidebar h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .sidebar-item {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(56, 142, 60, 0.3);
+            color: white;
+        }
+
+        .title {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Slide/Carousel */
+        .carousel-container {
+            position: relative;
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            background: linear-gradient(45deg, #388E3C 0%, #4CAF50 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .slide:nth-child(2) {
+            background: linear-gradient(45deg, #2E7D32 0%, #388E3C 100%);
+        }
+
+        .slide:nth-child(3) {
+            background: linear-gradient(45deg, #1B5E20 0%, #2E7D32 100%);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 20px;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .carousel-btn.prev {
+            left: 15px;
+        }
+
+        .carousel-btn.next {
+            right: 15px;
+        }
+
+        .keyboard {
+            background: rgba(76, 175, 80, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 8px;
+            gap: 4px;
+        }
+
+        .key {
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 4px;
+            min-height: 50px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .key:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .shift-key {
+            background: linear-gradient(135deg, #388E3C, #4CAF50);
+        }
+
+        .inactive-key {
+            background: linear-gradient(135deg, #374151, #4B5563);
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .inactive-key:hover {
+            transform: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .special-key {
+            background: linear-gradient(135deg, #2E7D32, #388E3C);
+        }
+
+        /* 키 크기 */
+        .key-normal { width: 50px; }
+        .key-wide { width: 70px; }
+        .key-wider { width: 90px; }
+        .key-widest { width: 110px; }
+        .key-space { width: 300px; }
+        .key-shift { width: 120px; }
+        .key-enter { width: 100px; height: 80px; }
+
+        .korean-text {
+            font-size: 9px;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.95);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            pointer-events: none;
+            max-width: 250px;
+            text-align: center;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: rgba(0,0,0,0.95);
+        }
+
+        .key:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: -55px;
+        }
+
+        .key.active .tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: -55px;
+        }
+
+        /* 첫 번째 행(Function Keys)의 키들은 툴팁을 아래쪽으로 표시 */
+        .row:first-child .tooltip {
+            top: 65px;
+            transform: translateX(-50%);
+        }
+
+        .row:first-child .tooltip::after {
+            top: -16px;
+            border-top-color: transparent;
+            border-bottom-color: rgba(0,0,0,0.95);
+        }
+
+        .row:first-child .key:hover .tooltip {
+            top: 75px;
+        }
+
+        .row:first-child .key.active .tooltip {
+            top: 75px;
+        }
+
+        @media (max-width: 768px) {
+            .tooltip {
+                font-size: 11px;
+                padding: 8px 12px;
+                max-width: 200px;
+                white-space: normal;
+                text-align: center;
+            }
+            
+            .key:hover .tooltip {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 5px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .instructions {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        /* Card UI */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            border-color: #4CAF50;
+        }
+
+        .card h4 {
+            color: #81C784;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* CTA Button */
+        .cta-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #388E3C 0%, #2E7D32 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #2E7D32 0%, #388E3C 100%);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(76, 175, 80, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+            backdrop-filter: blur(10px);
+            transform: scale(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 0 20px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #81C784;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">⇧ Excel Shift 단축키</a>
+            
+            <!-- Navigation -->
+            <nav class="nav">
+                <a href="#" class="nav-item">홈</a>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown">
+                    <a href="#" class="nav-item">단축키 ▼</a>
+                    <div class="dropdown-content">
+                        <a href="#" class="dropdown-item">Shift 단축키</a>
+                        <a href="#" class="dropdown-item">Ctrl 단축키</a>
+                        <a href="#" class="dropdown-item">Alt 단축키</a>
+                        <a href="#" class="dropdown-item">Function 키</a>
+                    </div>
+                </div>
+                
+                <a href="#" class="nav-item">튜토리얼</a>
+                <a href="#" class="nav-item" onclick="openModal()">도움말</a>
+            </nav>
+            
+            <!-- Search -->
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="단축키 검색...">
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="#">홈</a> > <a href="#">Microsoft Office</a> > <span>Excel Shift 단축키</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>⇧ Shift 기능</h3>
+            <a href="#" class="sidebar-item">🔢 셀 범위 선택</a>
+            <a href="#" class="sidebar-item">📊 데이터 입력</a>
+            <a href="#" class="sidebar-item">🔍 필터링</a>
+            <a href="#" class="sidebar-item">📈 차트 작업</a>
+            <a href="#" class="sidebar-item">📋 워크시트 탐색</a>
+            
+            <h3 style="margin-top: 30px;">🔗 빠른 링크</h3>
+            <a href="#" class="sidebar-item">Excel 공식 가이드</a>
+            <a href="#" class="sidebar-item">데이터 분석 팁</a>
+            <a href="#" class="sidebar-item">차트 만들기</a>
+            <a href="#" class="sidebar-item">PDF 다운로드</a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="title">Microsoft Excel Shift 단축키 키보드</div>
+            
+            <!-- Carousel/Slide -->
+            <div class="carousel-container">
+                <div class="carousel" id="carousel">
+                    <div class="slide">⇧ Shift로 셀 범위를 빠르게 선택하세요!</div>
+                    <div class="slide">📊 데이터 입력과 편집을 효율적으로</div>
+                    <div class="slide">📈 Excel 작업 속도를 10배 높이는 방법</div>
+                </div>
+                <button class="carousel-btn prev" onclick="prevSlide()">‹</button>
+                <button class="carousel-btn next" onclick="nextSlide()">›</button>
+            </div>
+            
+            <div class="instructions">
+                초록색 키에 마우스를 올리면 Excel Shift 단축키 정보를 확인할 수 있습니다
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color shift-key"></div>
+                    <span>Excel Shift 단축키</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color special-key"></div>
+                    <span>Shift 키</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color inactive-key"></div>
+                    <span>일반 키</span>
+                </div>
+            </div>
+
+            <div class="keyboard">
+                <!-- Function Keys Row -->
+                <div class="row">
+                    <div class="key shift-key key-normal">F1<div class="korean-text">도움말</div><div class="tooltip">Shift+F1: Excel 도움말</div></div>
+                    <div class="key shift-key key-normal">F2<div class="korean-text">셀 편집</div><div class="tooltip">Shift+F2: 메모 추가/편집</div></div>
+                    <div class="key shift-key key-normal">F3<div class="korean-text">함수 목록</div><div class="tooltip">Shift+F3: 함수 삽입 대화상자</div></div>
+                    <div class="key shift-key key-normal">F4<div class="korean-text">다음 찾기</div><div class="tooltip">Shift+F4: 이전 찾기</div></div>
+                    <div class="key shift-key key-normal">F5<div class="korean-text">이동</div><div class="tooltip">Shift+F5: 찾기 및 바꾸기</div></div>
+                    <div class="key shift-key key-normal">F6<div class="korean-text">이전 창</div><div class="tooltip">Shift+F6: 이전 창으로 이동</div></div>
+                    <div class="key shift-key key-normal">F7<div class="korean-text">맞춤법</div><div class="tooltip">Shift+F7: 맞춤법 검사</div></div>
+                    <div class="key shift-key key-normal">F8<div class="korean-text">선택 축소</div><div class="tooltip">Shift+F8: 선택 영역 축소</div></div>
+                    <div class="key shift-key key-normal">F9<div class="korean-text">계산</div><div class="tooltip">Shift+F9: 활성 시트 계산</div></div>
+                    <div class="key shift-key key-normal">F10<div class="korean-text">메뉴</div><div class="tooltip">Shift+F10: 상황별 메뉴</div></div>
+                    <div class="key shift-key key-normal">F11<div class="korean-text">새 시트</div><div class="tooltip">Shift+F11: 새 워크시트 삽입</div></div>
+                    <div class="key shift-key key-normal">F12<div class="korean-text">저장</div><div class="tooltip">Shift+F12: 저장</div></div>
+                </div>
+
+                <!-- Number Row -->
+                <div class="row">
+                    <div class="key shift-key key-normal">~<div class="korean-text">물결표</div><div class="tooltip">Shift+`: ~ (물결표)</div></div>
+                    <div class="key shift-key key-normal">!<div class="korean-text">느낌표</div><div class="tooltip">Shift+1: ! (느낌표)</div></div>
+                    <div class="key shift-key key-normal">@<div class="korean-text">골뱅이</div><div class="tooltip">Shift+2: @ (골뱅이)</div></div>
+                    <div class="key shift-key key-normal">#<div class="korean-text">샵</div><div class="tooltip">Shift+3: # (샵)</div></div>
+                    <div class="key shift-key key-normal">$<div class="korean-text">절대참조</div><div class="tooltip">Shift+4: $ (절대참조 기호)</div></div>
+                    <div class="key shift-key key-normal">%<div class="korean-text">퍼센트</div><div class="tooltip">Shift+5: % (퍼센트)</div></div>
+                    <div class="key shift-key key-normal">^<div class="korean-text">지수</div><div class="tooltip">Shift+6: ^ (지수 표시)</div></div>
+                    <div class="key shift-key key-normal">&<div class="korean-text">앰퍼샌드</div><div class="tooltip">Shift+7: & (앰퍼샌드)</div></div>
+                    <div class="key shift-key key-normal">*<div class="korean-text">곱하기</div><div class="tooltip">Shift+8: * (곱하기)</div></div>
+                    <div class="key shift-key key-normal">(<div class="korean-text">여는 괄호</div><div class="tooltip">Shift+9: ( (여는 괄호)</div></div>
+                    <div class="key shift-key key-normal">)<div class="korean-text">닫는 괄호</div><div class="tooltip">Shift+0: ) (닫는 괄호)</div></div>
+                    <div class="key shift-key key-normal">_<div class="korean-text">밑줄</div><div class="tooltip">Shift+-: _ (밑줄)</div></div>
+                    <div class="key shift-key key-normal">+<div class="korean-text">더하기</div><div class="tooltip">Shift+=: + (더하기)</div></div>
+                    <div class="key inactive-key key-wider">Backspace</div>
+                </div>
+
+                <!-- QWERTY Row -->
+                <div class="row">
+                    <div class="key shift-key key-wide">Tab<div class="korean-text">이전 셀</div><div class="tooltip">Shift+Tab: 이전 셀로 이동</div></div>
+                    <div class="key inactive-key key-normal">Q</div>
+                    <div class="key shift-key key-normal">W<div class="korean-text">창 닫기</div><div class="tooltip">Shift+Ctrl+W: 통합 문서 닫기</div></div>
+                    <div class="key shift-key key-normal">E<div class="korean-text">끝 선택</div><div class="tooltip">Shift+End: 행 끝까지 선택</div></div>
+                    <div class="key shift-key key-normal">R<div class="korean-text">오른쪽 선택</div><div class="tooltip">Shift+→: 오른쪽 셀 선택</div></div>
+                    <div class="key inactive-key key-normal">T</div>
+                    <div class="key inactive-key key-normal">Y</div>
+                    <div class="key shift-key key-normal">U<div class="korean-text">위쪽 선택</div><div class="tooltip">Shift+↑: 위쪽 셀 선택</div></div>
+                    <div class="key inactive-key key-normal">I</div>
+                    <div class="key shift-key key-normal">O<div class="korean-text">끝 선택</div><div class="tooltip">Shift+Ctrl+End: 데이터 끝까지 선택</div></div>
+                    <div class="key shift-key key-normal">P<div class="korean-text">페이지 위 선택</div><div class="tooltip">Shift+Page Up: 페이지 위로 선택</div></div>
+                    <div class="key shift-key key-normal">{<div class="korean-text">여는 중괄호</div><div class="tooltip">Shift+[: { (여는 중괄호)</div></div>
+                    <div class="key shift-key key-normal">}<div class="korean-text">닫는 중괄호</div><div class="tooltip">Shift+]: } (닫는 중괄호)</div></div>
+                    <div class="key shift-key key-normal">|<div class="korean-text">세로선</div><div class="tooltip">Shift+\: | (세로선)</div></div>
+                </div>
+
+                <!-- ASDF Row -->
+                <div class="row">
+                    <div class="key inactive-key key-widest">Caps Lock</div>
+                    <div class="key shift-key key-normal">A<div class="korean-text">처음 선택</div><div class="tooltip">Shift+Ctrl+Home: 시트 처음까지 선택</div></div>
+                    <div class="key shift-key key-normal">S<div class="korean-text">시작 선택</div><div class="tooltip">Shift+Home: 행 시작까지 선택</div></div>
+                    <div class="key shift-key key-normal">D<div class="korean-text">아래쪽 선택</div><div class="tooltip">Shift+↓: 아래쪽 셀 선택</div></div>
+                    <div class="key shift-key key-normal">F<div class="korean-text">찾기</div><div class="tooltip">Shift+F4: 이전 찾기</div></div>
+                    <div class="key inactive-key key-normal">G</div>
+                    <div class="key inactive-key key-normal">H</div>
+                    <div class="key inactive-key key-normal">J</div>
+                    <div class="key inactive-key key-normal">K</div>
+                    <div class="key shift-key key-normal">L<div class="korean-text">왼쪽 선택</div><div class="tooltip">Shift+←: 왼쪽 셀 선택</div></div>
+                    <div class="key shift-key key-normal">:<div class="korean-text">콜론</div><div class="tooltip">Shift+;: : (콜론)</div></div>
+                    <div class="key shift-key key-normal">"<div class="korean-text">큰따옴표</div><div class="tooltip">Shift+': " (큰따옴표)</div></div>
+                    <div class="key shift-key key-enter">Enter<div class="korean-text">위 셀 이동</div><div class="tooltip">Shift+Enter: 위쪽 셀로 이동</div></div>
+                </div>
+
+                <!-- ZXCV Row -->
+                <div class="row">
+                    <div class="key special-key key-shift">Shift</div>
+                    <div class="key inactive-key key-normal">Z</div>
+                    <div class="key shift-key key-normal">X<div class="korean-text">잘라내기</div><div class="tooltip">Shift+Delete: 잘라내기</div></div>
+                    <div class="key shift-key key-normal">C<div class="korean-text">열 선택</div><div class="tooltip">Shift+Space: 행 전체 선택</div></div>
+                    <div class="key shift-key key-normal">V<div class="korean-text">붙여넣기</div><div class="tooltip">Shift+Insert: 붙여넣기</div></div>
+                    <div class="key inactive-key key-normal">B</div>
+                    <div class="key inactive-key key-normal">N</div>
+                    <div class="key inactive-key key-normal">M</div>
+                    <div class="key shift-key key-normal">&lt;<div class="korean-text">작은 부등호</div><div class="tooltip">Shift+,: &lt; (작은 부등호)</div></div>
+                    <div class="key shift-key key-normal">&gt;<div class="korean-text">큰 부등호</div><div class="tooltip">Shift+.: &gt; (큰 부등호)</div></div>
+                    <div class="key shift-key key-normal">?<div class="korean-text">물음표</div><div class="tooltip">Shift+/: ? (물음표)</div></div>
+                    <div class="key special-key key-shift">Shift</div>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="row">
+                    <div class="key shift-key key-wide">Ctrl<div class="korean-text">조합키</div><div class="tooltip">Shift+Ctrl+조합: 확장 선택</div></div>
+                    <div class="key inactive-key key-wide">Win</div>
+                    <div class="key inactive-key key-wide">Alt</div>
+                    <div class="key shift-key key-space">Space<div class="korean-text">열 선택</div><div class="tooltip">Shift+Ctrl+Space: 열 전체 선택</div></div>
+                    <div class="key inactive-key key-wide">Alt</div>
+                    <div class="key inactive-key key-wide">Menu</div>
+                    <div class="key shift-key key-wide">Ctrl<div class="korean-text">조합키</div><div class="tooltip">Shift+Ctrl+조합: 확장 선택</div></div>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="cta-container">
+                <button class="cta-button" onclick="openModal()">📊 Excel Shift 단축키 가이드 다운로드</button>
+            </div>
+
+            <!-- Card UI -->
+            <div class="cards-container">
+                <div class="card">
+                    <h4>🔢 셀 범위 선택</h4>
+                    <p>
+                    <strong>Shift + ↑/↓:</strong> 위아래 셀 선택<br>
+                    <strong>Shift + ←/→:</strong> 좌우 셀 선택<br>
+                    <strong>Shift + Ctrl + ←/→:</strong> 데이터 끝까지 선택<br>
+                    <strong>Shift + Home/End:</strong> 행 처음/끝까지 선택<br>
+                    <strong>Shift + Ctrl + Home/End:</strong> 시트 처음/끝까지 선택<br>
+                    <strong>Shift + Page Up/Down:</strong> 페이지 단위 선택
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📊 데이터 입력</h4>
+                    <p>
+                    <strong>Shift + Enter:</strong> 위쪽 셀로 이동<br>
+                    <strong>Shift + Tab:</strong> 이전 셀로 이동<br>
+                    <strong>Shift + F2:</strong> 셀 메모 추가/편집<br>
+                    <strong>Shift + F3:</strong> 함수 삽입 대화상자<br>
+                    <strong>Shift + Delete:</strong> 잘라내기<br>
+                    <strong>Shift + Insert:</strong> 붙여넣기
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📈 워크시트 관리</h4>
+                    <p>
+                    <strong>Shift + F11:</strong> 새 워크시트 삽입<br>
+                    <strong>Shift + F6:</strong> 이전 창으로 이동<br>
+                    <strong>Shift + Ctrl + W:</strong> 통합 문서 닫기<br>
+                    <strong>Shift + F12:</strong> 저장<br>
+                    <strong>Shift + F9:</strong> 활성 시트 계산<br>
+                    <strong>Shift + Space:</strong> 행 전체 선택
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>🔍 찾기 및 탐색</h4>
+                    <p>
+                    <strong>Shift + F4:</strong> 이전 찾기 항목<br>
+                    <strong>Shift + F5:</strong> 찾기 및 바꾸기<br>
+                    <strong>Shift + F8:</strong> 선택 영역 축소<br>
+                    <strong>Shift + F10:</strong> 상황별 메뉴<br>
+                    <strong>Shift + F7:</strong> 맞춤법 검사<br>
+                    <strong>Shift + F1:</strong> Excel 도움말
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>⚡ 선택 기법</h4>
+                    <p>
+                    <strong>Shift + Ctrl + Space:</strong> 열 전체 선택<br>
+                    <strong>Shift + Space:</strong> 행 전체 선택<br>
+                    <strong>Shift + Click:</strong> 범위 선택<br>
+                    <strong>Shift + Ctrl + End:</strong> 사용된 범위 끝까지<br>
+                    <strong>Shift + Ctrl + Home:</strong> A1 셀까지<br>
+                    <strong>Shift + 방향키:</strong> 연속 선택
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📋 수식 및 함수</h4>
+                    <p>
+                    <strong>Shift + 4($):</strong> 절대 참조 기호<br>
+                    <strong>Shift + F3:</strong> 함수 삽입<br>
+                    <strong>Shift + F9:</strong> 활성 시트 재계산<br>
+                    <strong>Shift + 8(*):</strong> 곱하기 연산<br>
+                    <strong>Shift + =(+):</strong> 더하기 연산<br>
+                    <strong>Shift + 9/0:</strong> 괄호 입력
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📊 Excel Shift 단축키 가이드</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>⇧ Excel에서 Shift 키 활용 팁</h3>
+                <p style="margin-bottom: 15px;">Excel에서 Shift 키를 효과적으로 활용하는 방법:</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 8px;">셀 범위 선택 시 항상 Shift 키 활용</li>
+                    <li style="margin-bottom: 8px;">방향키와 조합하여 정확한 데이터 범위 선택</li>
+                    <li style="margin-bottom: 8px;">Ctrl+Shift 조합으로 큰 범위 빠르게 선택</li>
+                    <li style="margin-bottom: 8px;">수식 입력시 특수 문자 Shift로 입력</li>
+                </ul>
+                
+                <h3>🎯 필수 Excel Shift 조합 Top 5</h3>
+                <p style="margin-bottom: 15px;">가장 유용한 Excel Shift 단축키들:</p>
+                <ol style="margin-left: 20px;">
+                    <li style="margin-bottom: 5px;"><strong>Shift + Ctrl + 방향키</strong> - 데이터 끝까지 선택</li>
+                    <li style="margin-bottom: 5px;"><strong>Shift + Space</strong> - 행 전체 선택</li>
+                    <li style="margin-bottom: 5px;"><strong>Shift + Ctrl + Space</strong> - 열 전체 선택</li>
+                    <li style="margin-bottom: 5px;"><strong>Shift + Enter</strong> - 위쪽 셀로 이동</li>
+                    <li style="margin-bottom: 5px;"><strong>Shift + F11</strong> - 새 워크시트 삽입</li>
+                </ol>
+                
+                <h3>💡 데이터 선택 기법</h3>
+                <p style="margin-bottom: 15px;">효율적인 Excel 데이터 선택 방법:</p>
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 5px;">연속 데이터: Shift+Ctrl+End</li>
+                    <li style="margin-bottom: 5px;">행 선택: Shift+Space</li>
+                    <li style="margin-bottom: 5px;">열 선택: Ctrl+Space</li>
+                    <li style="margin-bottom: 5px;">범위 선택: Shift+Click</li>
+                </ul>
+
+                <h3>📊 Excel 작업 효율성 팁</h3>
+                <p style="margin-bottom: 15px;">Shift 키로 Excel 작업 속도 향상:</p>
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 5px;"><strong>빠른 데이터 입력:</strong> Shift+Enter로 위쪽 이동</li>
+                    <li style="margin-bottom: 5px;"><strong>범위 선택:</strong> Shift+방향키로 정확한 선택</li>
+                    <li style="margin-bottom: 5px;"><strong>함수 작성:</strong> Shift+F3으로 함수 삽입</li>
+                    <li style="margin-bottom: 5px;"><strong>워크시트 관리:</strong> Shift+F11로 새 시트</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>📖 학습 자료</h4>
+                <a href="#">Excel Shift 단축키 PDF</a>
+                <a href="#">데이터 분석 가이드</a>
+                <a href="#">함수 완전 정복</a>
+                <a href="#">차트 만들기 튜토리얼</a>
+            </div>
+            <div class="footer-section">
+                <h4>🔗 관련 링크</h4>
+                <a href="#">Excel Ctrl 단축키</a>
+                <a href="#">Excel Alt 단축키</a>
+                <a href="#">Excel Function 키</a>
+                <a href="#">Excel 고급 기능</a>
+            </div>
+            <div class="footer-section">
+                <h4>📞 고객 지원</h4>
+                <a href="#">FAQ</a>
+                <a href="#">문의하기</a>
+                <a href="#">피드백</a>
+                <a href="#">버그 신고</a>
+            </div>
+            <div class="footer-section">
+                <h4>ℹ️ 회사 정보</h4>
+                <a href="#">회사 소개</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">이용약관</a>
+                <a href="#">사이트맵</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Excel Shift Shortcuts Guide. All rights reserved. | 연락처: info@excelshortcuts.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const carousel = document.getElementById('carousel');
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Auto slide every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('helpModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('helpModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('helpModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm) {
+                console.log('검색어:', searchTerm);
+                // Highlight matching Shift keys
+                const keys = document.querySelectorAll('.shift-key');
+                keys.forEach(key => {
+                    const tooltip = key.querySelector('.tooltip');
+                    if (tooltip && tooltip.textContent.toLowerCase().includes(searchTerm)) {
+                        key.style.border = '3px solid #FFD700';
+                        key.style.boxShadow = '0 8px 16px rgba(255, 215, 0, 0.4)';
+                    } else {
+                        key.style.border = '2px solid rgba(255,255,255,0.2)';
+                        key.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                    }
+                });
+            } else {
+                // Reset all borders
+                const keys = document.querySelectorAll('.shift-key');
+                keys.forEach(key => {
+                    key.style.border = '2px solid rgba(255,255,255,0.2)';
+                    key.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                });
+            }
+        });
+
+        // Add click effects to keys
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (this.classList.contains('shift-key') || this.classList.contains('special-key')) {
+                    // Remove active class from all keys first
+                    document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+                    
+                    // Add active class to clicked key
+                    this.classList.add('active');
+                    
+                    // Add a click animation
+                    this.style.transform = 'translateY(-3px) scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-3px) scale(1)';
+                    }, 100);
+                    
+                    // Hide tooltip after 3 seconds
+                    setTimeout(() => {
+                        this.classList.remove('active');
+                    }, 3000);
+                }
+            });
+
+            // For touch devices
+            key.addEventListener('touchstart', function(e) {
+                if (this.classList.contains('shift-key') || this.classList.contains('special-key')) {
+                    // Remove active class from all keys first
+                    document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+                    
+                    // Add active class to touched key
+                    this.classList.add('active');
+                    
+                    // Hide tooltip after 3 seconds
+                    setTimeout(() => {
+                        this.classList.remove('active');
+                    }, 3000);
+                }
+            });
+        });
+
+        // Hide tooltip when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.key')) {
+                document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+            }
+        });
+
+        // Hide tooltip when touching elsewhere
+        document.addEventListener('touchstart', function(e) {
+            if (!e.target.closest('.key')) {
+                document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+            }
+        });
+
+        // Add keyboard event listener for demonstration
+        document.addEventListener('keydown', function(e) {
+            if (e.shiftKey) {
+                // Highlight the pressed key if it's a shift combination
+                const key = e.key.toLowerCase();
+                const keyElements = document.querySelectorAll('.shift-key');
+                
+                keyElements.forEach(keyElement => {
+                    const keyText = keyElement.textContent.toLowerCase();
+                    if (keyText.includes(key) || keyText.includes(e.code.toLowerCase())) {
+                        keyElement.classList.add('active');
+                        setTimeout(() => {
+                            keyElement.classList.remove('active');
+                        }, 500);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

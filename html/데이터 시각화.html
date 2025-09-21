@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Data Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+            font-weight: 600;
+        }
+
+        select, button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .chart-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+            margin-bottom: 15px;
+        }
+
+        .d3-chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .data-table {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Real-time Data Dashboard</h1>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Live Data Stream Active</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>데이터 유형</label>
+                <select id="dataType">
+                    <option value="sales">매출 데이터</option>
+                    <option value="users">사용자 데이터</option>
+                    <option value="performance">성능 데이터</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>시간 범위</label>
+                <select id="timeRange">
+                    <option value="24h">최근 24시간</option>
+                    <option value="7d">최근 7일</option>
+                    <option value="30d">최근 30일</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>업데이트 간격</label>
+                <select id="updateInterval">
+                    <option value="1000">1초</option>
+                    <option value="3000">3초</option>
+                    <option value="5000">5초</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <button id="pauseBtn">일시정지</button>
+                <button id="resetBtn">리셋</button>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="chart-container">
+                <div class="chart-title">📊 실시간 라인 차트 (Chart.js)</div>
+                <div class="chart-wrapper">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">🥧 도넛 차트 (Chart.js)</div>
+                <div class="chart-wrapper">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">📈 영역 차트 (D3.js)</div>
+                <div class="chart-wrapper">
+                    <svg id="areaChart" class="d3-chart"></svg>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">📊 막대 차트 (D3.js)</div>
+                <div class="chart-wrapper">
+                    <svg id="barChart" class="d3-chart"></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalValue">0</div>
+                <div class="stat-label">총 값</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgValue">0</div>
+                <div class="stat-label">평균</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="maxValue">0</div>
+                <div class="stat-label">최대값</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="dataPoints">0</div>
+                <div class="stat-label">데이터 포인트</div>
+            </div>
+        </div>
+
+        <div class="data-table">
+            <h3>📋 실시간 데이터 테이블</h3>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>시간</th>
+                        <th>값</th>
+                        <th>카테고리</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        class DataDashboard {
+            constructor() {
+                this.data = [];
+                this.isPaused = false;
+                this.updateInterval = 3000;
+                this.maxDataPoints = 20;
+                this.charts = {};
+                this.mockWebSocket = null;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupCharts();
+                this.setupControls();
+                this.startDataStream();
+                this.startMockWebSocket();
+            }
+
+            setupCharts() {
+                // Chart.js 라인 차트
+                const lineCtx = document.getElementById('lineChart').getContext('2d');
+                this.charts.line = new Chart(lineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: '실시간 데이터',
+                            data: [],
+                            borderColor: 'rgb(102, 126, 234)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        animation: {
+                            duration: 750
+                        }
+                    }
+                });
+
+                // Chart.js 도넛 차트
+                const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+                this.charts.doughnut = new Chart(doughnutCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['카테고리 A', '카테고리 B', '카테고리 C', '카테고리 D'],
+                        datasets: [{
+                            data: [30, 25, 25, 20],
+                            backgroundColor: [
+                                '#FF6B6B',
+                                '#4ECDC4',
+                                '#45B7D1',
+                                '#96CEB4'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+
+                // D3.js 영역 차트
+                this.setupD3AreaChart();
+                
+                // D3.js 막대 차트
+                this.setupD3BarChart();
+            }
+
+            setupD3AreaChart() {
+                const svg = d3.select('#areaChart');
+                const margin = {top: 20, right: 30, bottom: 40, left: 50};
+                const width = 350;
+                const height = 250;
+
+                svg.selectAll("*").remove();
+
+                const xScale = d3.scaleTime()
+                    .range([margin.left, width - margin.right]);
+
+                const yScale = d3.scaleLinear()
+                    .range([height - margin.bottom, margin.top]);
+
+                const area = d3.area()
+                    .x(d => xScale(d.time))
+                    .y0(yScale(0))
+                    .y1(d => yScale(d.value))
+                    .curve(d3.curveMonotoneX);
+
+                this.charts.area = { svg, xScale, yScale, area, width, height, margin };
+            }
+
+            setupD3BarChart() {
+                const svg = d3.select('#barChart');
+                const margin = {top: 20, right: 30, bottom: 40, left: 50};
+                const width = 350;
+                const height = 250;
+
+                svg.selectAll("*").remove();
+
+                const xScale = d3.scaleBand()
+                    .range([margin.left, width - margin.right])
+                    .padding(0.1);
+
+                const yScale = d3.scaleLinear()
+                    .range([height - margin.bottom, margin.top]);
+
+                this.charts.bar = { svg, xScale, yScale, width, height, margin };
+            }
+
+            setupControls() {
+                document.getElementById('dataType').addEventListener('change', (e) => {
+                    this.resetData();
+                });
+
+                document.getElementById('timeRange').addEventListener('change', (e) => {
+                    this.adjustTimeRange(e.target.value);
+                });
+
+                document.getElementById('updateInterval').addEventListener('change', (e) => {
+                    this.updateInterval = parseInt(e.target.value);
+                    this.restartDataStream();
+                });
+
+                document.getElementById('pauseBtn').addEventListener('click', () => {
+                    this.togglePause();
+                });
+
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    this.resetData();
+                });
+            }
+
+            startMockWebSocket() {
+                // 실제 WebSocket 대신 모의 데이터 스트림
+                this.mockWebSocket = {
+                    readyState: 1, // OPEN
+                    send: (data) => console.log('Mock WebSocket send:', data),
+                    close: () => console.log('Mock WebSocket closed')
+                };
+            }
+
+            startDataStream() {
+                this.dataStreamInterval = setInterval(() => {
+                    if (!this.isPaused) {
+                        this.generateNewData();
+                        this.updateCharts();
+                        this.updateStats();
+                        this.updateTable();
+                    }
+                }, this.updateInterval);
+            }
+
+            generateNewData() {
+                const now = new Date();
+                const dataType = document.getElementById('dataType').value;
+                
+                let baseValue, variance, category;
+                
+                switch(dataType) {
+                    case 'sales':
+                        baseValue = 1000;
+                        variance = 200;
+                        category = ['온라인', '오프라인', '모바일', '기타'][Math.floor(Math.random() * 4)];
+                        break;
+                    case 'users':
+                        baseValue = 500;
+                        variance = 100;
+                        category = ['신규', '재방문', '프리미엄', '무료'][Math.floor(Math.random() * 4)];
+                        break;
+                    case 'performance':
+                        baseValue = 85;
+                        variance = 15;
+                        category = ['CPU', 'Memory', 'Disk', 'Network'][Math.floor(Math.random() * 4)];
+                        break;
+                }
+
+                const value = Math.max(0, baseValue + (Math.random() - 0.5) * variance * 2);
+                const newDataPoint = {
+                    time: now,
+                    value: Math.round(value),
+                    category: category,
+                    status: value > baseValue ? '상승' : '하락'
+                };
+
+                this.data.push(newDataPoint);
+                
+                if (this.data.length > this.maxDataPoints) {
+                    this.data.shift();
+                }
+
+                // Mock WebSocket 메시지 시뮬레이션
+                if (this.mockWebSocket.readyState === 1) {
+                    const message = JSON.stringify(newDataPoint);
+                    console.log('Mock WebSocket received:', message);
+                }
+            }
+
+            updateCharts() {
+                // Chart.js 라인 차트 업데이트
+                const labels = this.data.map(d => d.time.toLocaleTimeString());
+                const values = this.data.map(d => d.value);
+
+                this.charts.line.data.labels = labels;
+                this.charts.line.data.datasets[0].data = values;
+                this.charts.line.update('none');
+
+                // Chart.js 도넛 차트 업데이트
+                const categories = {};
+                this.data.forEach(d => {
+                    categories[d.category] = (categories[d.category] || 0) + d.value;
+                });
+
+                const categoryValues = Object.values(categories);
+                if (categoryValues.length > 0) {
+                    this.charts.doughnut.data.datasets[0].data = categoryValues;
+                    this.charts.doughnut.update('none');
+                }
+
+                // D3.js 영역 차트 업데이트
+                this.updateD3AreaChart();
+
+                // D3.js 막대 차트 업데이트
+                this.updateD3BarChart();
+            }
+
+            updateD3AreaChart() {
+                const { svg, xScale, yScale, area, width, height, margin } = this.charts.area;
+                
+                if (this.data.length === 0) return;
+
+                xScale.domain(d3.extent(this.data, d => d.time));
+                yScale.domain([0, d3.max(this.data, d => d.value)]);
+
+                // 축 업데이트
+                svg.select('.x-axis').remove();
+                svg.select('.y-axis').remove();
+
+                svg.append('g')
+                    .attr('class', 'x-axis')
+                    .attr('transform', `translate(0,${height - margin.bottom})`)
+                    .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%H:%M')));
+
+                svg.append('g')
+                    .attr('class', 'y-axis')
+                    .attr('transform', `translate(${margin.left},0)`)
+                    .call(d3.axisLeft(yScale));
+
+                // 영역 업데이트
+                const path = svg.selectAll('.area')
+                    .data([this.data]);
+
+                path.enter()
+                    .append('path')
+                    .attr('class', 'area')
+                    .merge(path)
+                    .transition()
+                    .duration(750)
+                    .attr('d', area)
+                    .attr('fill', 'rgba(118, 75, 162, 0.6)');
+            }
+
+            updateD3BarChart() {
+                const { svg, xScale, yScale, width, height, margin } = this.charts.bar;
+                
+                const categories = {};
+                this.data.forEach(d => {
+                    categories[d.category] = (categories[d.category] || 0) + d.value;
+                });
+
+                const categoryData = Object.entries(categories).map(([key, value]) => ({
+                    category: key,
+                    value: value
+                }));
+
+                if (categoryData.length === 0) return;
+
+                xScale.domain(categoryData.map(d => d.category));
+                yScale.domain([0, d3.max(categoryData, d => d.value)]);
+
+                // 축 업데이트
+                svg.select('.x-axis').remove();
+                svg.select('.y-axis').remove();
+
+                svg.append('g')
+                    .attr('class', 'x-axis')
+                    .attr('transform', `translate(0,${height - margin.bottom})`)
+                    .call(d3.axisBottom(xScale));
+
+                svg.append('g')
+                    .attr('class', 'y-axis')
+                    .attr('transform', `translate(${margin.left},0)`)
+                    .call(d3.axisLeft(yScale));
+
+                // 막대 업데이트
+                const bars = svg.selectAll('.bar')
+                    .data(categoryData);
+
+                bars.enter()
+                    .append('rect')
+                    .attr('class', 'bar')
+                    .merge(bars)
+                    .transition()
+                    .duration(750)
+                    .attr('x', d => xScale(d.category))
+                    .attr('y', d => yScale(d.value))
+                    .attr('width', xScale.bandwidth())
+                    .attr('height', d => yScale(0) - yScale(d.value))
+                    .attr('fill', '#4ECDC4');
+
+                bars.exit().remove();
+            }
+
+            updateStats() {
+                if (this.data.length === 0) return;
+
+                const values = this.data.map(d => d.value);
+                const total = values.reduce((a, b) => a + b, 0);
+                const avg = total / values.length;
+                const max = Math.max(...values);
+
+                document.getElementById('totalValue').textContent = total.toLocaleString();
+                document.getElementById('avgValue').textContent = Math.round(avg).toLocaleString();
+                document.getElementById('maxValue').textContent = max.toLocaleString();
+                document.getElementById('dataPoints').textContent = this.data.length;
+            }
+
+            updateTable() {
+                const tbody = document.querySelector('#dataTable tbody');
+                tbody.innerHTML = '';
+
+                this.data.slice(-10).reverse().forEach(item => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${item.time.toLocaleTimeString()}</td>
+                        <td>${item.value.toLocaleString()}</td>
+                        <td>${item.category}</td>
+                        <td><span style="color: ${item.status === '상승' ? '#4CAF50' : '#F44336'}">${item.status}</span></td>
+                    `;
+                });
+            }
+
+            togglePause() {
+                this.isPaused = !this.isPaused;
+                const btn = document.getElementById('pauseBtn');
+                btn.textContent = this.isPaused ? '재시작' : '일시정지';
+            }
+
+            resetData() {
+                this.data = [];
+                this.updateCharts();
+                this.updateStats();
+                this.updateTable();
+            }
+
+            adjustTimeRange(range) {
+                switch(range) {
+                    case '24h':
+                        this.maxDataPoints = 24;
+                        break;
+                    case '7d':
+                        this.maxDataPoints = 168;
+                        break;
+                    case '30d':
+                        this.maxDataPoints = 720;
+                        break;
+                }
+                
+                if (this.data.length > this.maxDataPoints) {
+                    this.data = this.data.slice(-this.maxDataPoints);
+                }
+            }
+
+            restartDataStream() {
+                clearInterval(this.dataStreamInterval);
+                this.startDataStream();
+            }
+        }
+
+        // 대시보드 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            new DataDashboard();
+        });
+    </script>
+</body>
+</html>

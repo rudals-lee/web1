@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe After Effects 단축키 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad, #3498db);
+            font-family: 'Malgun Gothic', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            height: calc(100vh - 40px);
+        }
+
+        .panel {
+            background: rgba(40, 40, 40, 0.95);
+            border: 2px solid #555;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: #2c2c2c;
+            color: #ccc;
+            padding: 8px 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-icon {
+            width: 16px;
+            height: 16px;
+            background: #666;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .search-icon::after {
+            content: '🔍';
+            position: absolute;
+            font-size: 10px;
+            left: 1px;
+            top: -1px;
+        }
+
+        .panel-content {
+            padding: 15px;
+            height: calc(100% - 45px);
+            overflow-y: auto;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            color: #ddd;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-key {
+            color: #fff;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .shortcut-desc {
+            flex: 1;
+            text-align: right;
+        }
+
+        .ae-logo-section {
+            background: linear-gradient(135deg, #2e3192, #1e1e7e);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .ae-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #9999ff, #6666ff);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .ae-title {
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .timeline-panel { grid-column: 1; grid-row: 1; }
+        .layer-panel { grid-column: 2; grid-row: 1; }
+        .layer-props-panel { grid-column: 3; grid-row: 1; }
+        .file-panel { grid-column: 1; grid-row: 2; }
+        .comp-panel { grid-column: 2; grid-row: 2; }
+        .misc-panel { grid-column: 3; grid-row: 2; }
+
+        .chevron {
+            color: #888;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 타임라인 패널 -->
+        <div class="panel timeline-panel">
+            <div class="panel-header">
+                <div class="search-icon"></div>
+                타임라인 / Timeline
+            </div>
+            <div class="panel-content">
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> B</span>
+                    <span class="shortcut-desc">시작지점 설정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> N</span>
+                    <span class="shortcut-desc">종료지점 설정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Shift + Home</span>
+                    <span class="shortcut-desc">시작지점 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Shift + End</span>
+                    <span class="shortcut-desc">종료지점 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + ←</span>
+                    <span class="shortcut-desc">1프레임 앞으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + →</span>
+                    <span class="shortcut-desc">1프레임 뒤로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + ←</span>
+                    <span class="shortcut-desc">10프레임 앞으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + →</span>
+                    <span class="shortcut-desc">10프레임 뒤로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Alt + [</span>
+                    <span class="shortcut-desc">레이어 시작지점 자르기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Alt + ]</span>
+                    <span class="shortcut-desc">레이어 종료지점 자르기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + D</span>
+                    <span class="shortcut-desc">레이어 자르고 옮리기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> I</span>
+                    <span class="shortcut-desc">레이어 시작지점 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> O</span>
+                    <span class="shortcut-desc">레이어 종료지점 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + R</span>
+                    <span class="shortcut-desc">레이어 리버스</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Shift + 숫자 0-9</span>
+                    <span class="shortcut-desc">타임마커 번호 설정</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 레이어 패널 -->
+        <div class="panel layer-panel">
+            <div class="panel-header">
+                <div class="search-icon"></div>
+                레이어 / Layer(L)
+            </div>
+            <div class="panel-content">
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Y</span>
+                    <span class="shortcut-desc">솔리드 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + Y</span>
+                    <span class="shortcut-desc">솔리드 설정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Shift + T</span>
+                    <span class="shortcut-desc">텍스트 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Shift + L</span>
+                    <span class="shortcut-desc">라이트 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Shift + C</span>
+                    <span class="shortcut-desc">카메라 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Shift + Y</span>
+                    <span class="shortcut-desc">Null 오브젝트 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Y</span>
+                    <span class="shortcut-desc">Adjustment 레이어 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + N</span>
+                    <span class="shortcut-desc">마스크 생성</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Enter</span>
+                    <span class="shortcut-desc">레이어 이름바꾸기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + I</span>
+                    <span class="shortcut-desc">허단 레이어 전력</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + J</span>
+                    <span class="shortcut-desc">상단 레이어 잘력</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + L</span>
+                    <span class="shortcut-desc">선택한 레이어 잠금</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + L</span>
+                    <span class="shortcut-desc">모든 레이어 잠금 해제</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 레이어 세부속성 패널 -->
+        <div class="panel layer-props-panel">
+            <div class="panel-header">
+                <div class="search-icon"></div>
+                레이어 세부속성
+            </div>
+            <div class="panel-content">
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> P</span>
+                    <span class="shortcut-desc">위치</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> R</span>
+                    <span class="shortcut-desc">회전</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> S</span>
+                    <span class="shortcut-desc">크기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> A</span>
+                    <span class="shortcut-desc">앵커포인트</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> T</span>
+                    <span class="shortcut-desc">투명도</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> E</span>
+                    <span class="shortcut-desc">효과</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> L</span>
+                    <span class="shortcut-desc">오디오 레벨</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> M</span>
+                    <span class="shortcut-desc">마스크 패스</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> F</span>
+                    <span class="shortcut-desc">마스크 페더</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> U</span>
+                    <span class="shortcut-desc">모든 키프레임 보기</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 파일 패널 -->
+        <div class="panel file-panel">
+            <div class="panel-header">
+                <div class="search-icon"></div>
+                파일 / File(F)
+            </div>
+            <div class="panel-content">
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + N</span>
+                    <span class="shortcut-desc">새 프로젝트</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Shift + N</span>
+                    <span class="shortcut-desc">새 폴더</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + O</span>
+                    <span class="shortcut-desc">불러오기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + W</span>
+                    <span class="shortcut-desc">파일닫기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + S</span>
+                    <span class="shortcut-desc">저장하기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Shift + S</span>
+                    <span class="shortcut-desc">다른이름으로 저장</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + I</span>
+                    <span class="shortcut-desc">가져오기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + I</span>
+                    <span class="shortcut-desc">여러파일 가져오기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + Shift + K</span>
+                    <span class="shortcut-desc">프로젝트 설정</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 컴포지션 패널 -->
+        <div class="panel comp-panel">
+            <div class="panel-header">
+                <div class="search-icon"></div>
+                컴포지션 / Composition(C)
+            </div>
+            <div class="panel-content">
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + N</span>
+                    <span class="shortcut-desc">새 컴포지션</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + K</span>
+                    <span class="shortcut-desc">컴포지션 설정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> , or .</span>
+                    <span class="shortcut-desc">컴포지션 축소 / 확대</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Shift + /</span>
+                    <span class="shortcut-desc">화면크기에 맞추기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + '</span>
+                    <span class="shortcut-desc">그리드</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + R</span>
+                    <span class="shortcut-desc">가이드</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + M</span>
+                    <span class="shortcut-desc">렌더링큐 추가</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + Alt + M</span>
+                    <span class="shortcut-desc">어도비 미디어 인코더큐 추가</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 기타 패널 -->
+        <div class="panel misc-panel ae-logo-section">
+            <div style="position: absolute; top: 15px; left: 15px; right: 15px;">
+                <div class="panel-header" style="background: rgba(255,255,255,0.1); border-radius: 5px; margin-bottom: 10px;">
+                    <div class="search-icon"></div>
+                    기타
+                </div>
+                <div style="color: #ddd; font-size: 13px;">
+                    <div class="shortcut-item" style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                        <span class="shortcut-key"><span class="chevron">❯</span> Spacebar</span>
+                        <span class="shortcut-desc">재생시작/일시정지</span>
+                    </div>
+                    <div class="shortcut-item" style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                        <span class="shortcut-key"><span class="chevron">❯</span> .</span>
+                        <span class="shortcut-desc">오디오 프리뷰</span>
+                    </div>
+                    <div class="shortcut-item" style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                        <span class="shortcut-key"><span class="chevron">❯</span> 0</span>
+                        <span class="shortcut-desc">램 프리뷰</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key"><span class="chevron">❯</span> Ctrl + 0</span>
+                        <span class="shortcut-desc">램 프리뷰 보존</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ae-logo">Ae</div>
+            <div class="ae-title">애펙단축키 모음.ZIP</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폰트 및 인쇄 규격가이드 외(잡면)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
+
+        .font-section {
+            grid-column: 1 / 3;
+        }
+
+        .font-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .font-column h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .font-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .font-number {
+            width: 20px;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .font-name {
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        .size-chart {
+            grid-column: 3;
+        }
+
+        .size-chart h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #666;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .size-bars {
+            margin-bottom: 20px;
+        }
+
+        .size-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .size-label {
+            width: 30px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .bar {
+            height: 12px;
+            background: linear-gradient(90deg, #ff9999, #ffcccc);
+            margin-left: 10px;
+            border-radius: 2px;
+            flex: 1;
+        }
+
+        .ruler {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 20px;
+        }
+
+        .ruler-marks {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            height: 20px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .ruler-mark {
+            width: 1px;
+            background: #333;
+            height: 100%;
+            position: relative;
+        }
+
+        .ruler-mark.major {
+            height: 15px;
+            background: #000;
+            width: 2px;
+        }
+
+        .ruler-numbers {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .paper-sizes {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .paper-size {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        .paper-size-name {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .paper-size-dim {
+            font-size: 10px;
+            color: #666;
+        }
+
+        .additional-info {
+            grid-column: 1 / 4;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .circle-sizes {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .circle {
+            border: 2px solid #666;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .circle-1mm { width: 8px; height: 8px; }
+        .circle-2mm { width: 12px; height: 12px; }
+        .circle-3mm { width: 16px; height: 16px; }
+        .circle-4mm { width: 20px; height: 20px; }
+        .circle-5mm { width: 24px; height: 24px; }
+        .circle-6mm { width: 28px; height: 28px; }
+        .circle-7mm { width: 32px; height: 32px; }
+        .circle-8mm { width: 36px; height: 36px; }
+        .circle-9mm { width: 40px; height: 40px; }
+        .circle-10mm { width: 44px; height: 44px; }
+
+        .circle-label {
+            font-size: 11px;
+            color: #666;
+            margin: 0 5px;
+        }
+
+        .specs-table {
+            font-size: 11px;
+        }
+
+        .specs-table th {
+            background: #f5f5f5;
+            padding: 5px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .specs-table td {
+            padding: 5px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">폰트 및 인쇄 규격가이드 외(잡면)</div>
+    
+    <div class="main-container">
+        <div class="content-grid">
+            <div class="font-section">
+                <div class="font-list">
+                    <div class="font-column">
+                        <h3>폰트 사이즈(pt)</h3>
+                        <div class="font-item">
+                            <span class="font-number">6</span>
+                            <span class="font-name">나눔고딕 NanumGothic</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">7</span>
+                            <span class="font-name">나눔고딕 NanumGothic</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">8</span>
+                            <span class="font-name">나눔명조 NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">9</span>
+                            <span class="font-name">나눔명조 NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">10</span>
+                            <span class="font-name">나눔명조 NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">11</span>
+                            <span class="font-name">나눔명조 NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">12</span>
+                            <span class="font-name">나눔명조 NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">13</span>
+                            <span class="font-name">나눔명조 NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">14</span>
+                            <span class="font-name">NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">15</span>
+                            <span class="font-name">NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">18</span>
+                            <span class="font-name">NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">20</span>
+                            <span class="font-name">NanumMyeongjo</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">22</span>
+                            <span class="font-name">나눔명조</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">24</span>
+                            <span class="font-name">나눔명조</span>
+                        </div>
+                    </div>
+                    
+                    <div class="font-column">
+                        <h3>1. A. B Type scale</h3>
+                        <div class="font-item">
+                            <span class="font-number">6</span>
+                            <span class="font-name">나눔고딕 NanumGothic</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">7</span>
+                            <span class="font-name">나눔고딕 NanumGothic</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">8</span>
+                            <span class="font-name">나눔스퀘어 NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">9</span>
+                            <span class="font-name">나눔스퀘어 NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">10</span>
+                            <span class="font-name">나눔스퀘어 NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">11</span>
+                            <span class="font-name">나눔스퀘어 NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">12</span>
+                            <span class="font-name">나눔스퀘어 NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">13</span>
+                            <span class="font-name">나눔스퀘어 NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">14</span>
+                            <span class="font-name">NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">15</span>
+                            <span class="font-name">NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">18</span>
+                            <span class="font-name">NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">20</span>
+                            <span class="font-name">NanumSquare</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">22</span>
+                            <span class="font-name">나눔스퀘어</span>
+                        </div>
+                        <div class="font-item">
+                            <span class="font-number">24</span>
+                            <span class="font-name">나눔스퀘어</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="size-chart">
+                <h3>선 굵기</h3>
+                <div class="size-bars">
+                    <div class="size-bar">
+                        <div class="size-label">0.1pt</div>
+                        <div class="bar" style="max-width: 20px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">0.3pt</div>
+                        <div class="bar" style="max-width: 40px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">0.5pt</div>
+                        <div class="bar" style="max-width: 60px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">0.7pt</div>
+                        <div class="bar" style="max-width: 80px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">1pt</div>
+                        <div class="bar" style="max-width: 100px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">1.5pt</div>
+                        <div class="bar" style="max-width: 120px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">2pt</div>
+                        <div class="bar" style="max-width: 140px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">2.5pt</div>
+                        <div class="bar" style="max-width: 160px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">3pt</div>
+                        <div class="bar" style="max-width: 180px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">5pt</div>
+                        <div class="bar" style="max-width: 200px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">10pt</div>
+                        <div class="bar" style="max-width: 220px;"></div>
+                    </div>
+                    <div class="size-bar">
+                        <div class="size-label">20pt</div>
+                        <div class="bar" style="max-width: 240px;"></div>
+                    </div>
+                </div>
+                
+                <div class="paper-sizes">
+                    <div class="paper-size">
+                        <div class="paper-size-name">A1</div>
+                        <div class="paper-size-dim">594×841</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">B1</div>
+                        <div class="paper-size-dim">728×1030</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">4×6</div>
+                        <div class="paper-size-dim">4×6inch</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">명함</div>
+                        <div class="paper-size-dim">54×90</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">A2</div>
+                        <div class="paper-size-dim">420×594</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">B2</div>
+                        <div class="paper-size-dim">515×728</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">5×7</div>
+                        <div class="paper-size-dim">12.7×17.8</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">명함</div>
+                        <div class="paper-size-dim">90×50</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">A3</div>
+                        <div class="paper-size-dim">297×420</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">B3</div>
+                        <div class="paper-size-dim">364×515</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">8×10</div>
+                        <div class="paper-size-dim">20.3×25.4</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">엽서</div>
+                        <div class="paper-size-dim">100×148</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">A4</div>
+                        <div class="paper-size-dim">210×297</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">B4</div>
+                        <div class="paper-size-dim">257×364</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">11×14</div>
+                        <div class="paper-size-dim">27.9×35.6</div>
+                    </div>
+                    <div class="paper-size">
+                        <div class="paper-size-name">봉투</div>
+                        <div class="paper-size-dim">110×220</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="additional-info">
+                <div class="info-grid">
+                    <div>
+                        <h4>원주요이드사이즈(mm)</h4>
+                        <div class="circle-sizes">
+                            <div class="circle circle-1mm"></div>
+                            <span class="circle-label">1mm</span>
+                            <div class="circle circle-2mm"></div>
+                            <span class="circle-label">2mm</span>
+                            <div class="circle circle-3mm"></div>
+                            <span class="circle-label">3mm</span>
+                            <div class="circle circle-4mm"></div>
+                            <span class="circle-label">4mm</span>
+                            <div class="circle circle-5mm"></div>
+                            <span class="circle-label">5mm</span>
+                        </div>
+                        <div class="circle-sizes">
+                            <div class="circle circle-6mm"></div>
+                            <span class="circle-label">6mm</span>
+                            <div class="circle circle-7mm"></div>
+                            <span class="circle-label">7mm</span>
+                            <div class="circle circle-8mm"></div>
+                            <span class="circle-label">8mm</span>
+                            <div class="circle circle-9mm"></div>
+                            <span class="circle-label">9mm</span>
+                            <div class="circle circle-10mm"></div>
+                            <span class="circle-label">10mm</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4>해상도 표준</h4>
+                        <table class="specs-table" style="width: 100%; font-size: 10px;">
+                            <thead>
+                                <tr>
+                                    <th>구분</th>
+                                    <th>픽셀(세로×가로)</th>
+                                    <th>화면비(가로세로비)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SD</td>
+                                    <td>640×480</td>
+                                    <td>4:3</td>
+                                </tr>
+                                <tr>
+                                    <td>HD</td>
+                                    <td>1280×720</td>
+                                    <td>16:9 화면비</td>
+                                </tr>
+                                <tr>
+                                    <td>FullHD</td>
+                                    <td>1920×1080</td>
+                                    <td>2K급 화면비</td>
+                                </tr>
+                                <tr>
+                                    <td>QuadHD</td>
+                                    <td>2560×1440</td>
+                                    <td>3.7M급 화면비</td>
+                                </tr>
+                                <tr>
+                                    <td>4K(UHD)</td>
+                                    <td>3840×2160</td>
+                                    <td>8M급 화면비</td>
+                                </tr>
+                                <tr>
+                                    <td>8K(UHD)</td>
+                                    <td>7680×4320</td>
+                                    <td>33M급 화면비</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="ruler">
+                    <div class="ruler-marks">
+                        <div class="ruler-mark major"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark major"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark major"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark major"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark major"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark"></div>
+                        <div class="ruler-mark major"></div>
+                    </div>
+                    <div class="ruler-numbers">
+                        <span>0</span>
+                        <span>50pt</span>
+                        <span>100pt</span>
+                        <span>150pt</span>
+                        <span>200pt</span>
+                        <span>250pt</span>
+                        <span>300pt</span>
+                        <span>350pt</span>
+                        <span>400pt</span>
+                        <span>450pt</span>
+                        <span>500pt</span>
+                        <span>550pt</span>
+                        <span>600pt</span>
+                        <span>650pt</span>
+                        <span>700pt</span>
+                        <span>750pt</span>
+                        <span>800pt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

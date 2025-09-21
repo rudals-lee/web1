@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>빅케이스 슬라이드</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+
+    /* 슬라이드 */
+    .slide-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .slide-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+
+    .slide-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 0 20px;
+    }
+
+    .slide p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .slide .author {
+      font-size: 14px;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      background: #fff;
+      border: 1px solid #ccc;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+      user-select: none;
+    }
+
+    .arrow:hover {
+      background: #eee;
+    }
+
+    .arrow.left {
+      left: 0;
+    }
+
+    .arrow.right {
+      right: 0;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <section class="slide-section">
+    <!-- <div class="slide-title">빅케이스를 선택하는 이유</div> -->
+
+    <div class="slide-container">
+      <div class="arrow left">&#10094;</div>
+      <div class="arrow right">&#10095;</div>
+
+      <div class="slide-track">
+        <div class="slide">
+          <p>다른 검색 사이트에서 판례를 검색하는 것보다<br>
+          빅케이스에서 하급심 판결까지 쉽게 검색할 수 있어서 좋았습니다.</p>
+          <div class="author">변호사 kim***** 님 (주요 분야: 부동산)</div>
+        </div>
+        <div class="slide">
+          <p>별도 검색 페이지를 열지 않아도 되어 좋고,<br>
+          요청 판례를 하루만에 받아볼 수 있어 업무에 상당히 편리한 것 같습니다.</p>
+          <div class="author">변호사 r****** 님 (주요 분야: 민사, 형사)</div>
+        </div>
+        <div class="slide">
+          <p>AI 판례 추천이 너무 편리해서 자주 사용하고 있습니다.<br>
+          검색 결과도 보기 쉽게 정리되어 있어 활용도가 높습니다.</p>
+          <div class="author">변호사 y*** 님 (주요 분야: 특허)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const track = document.querySelector('.slide-track');
+    const leftArrow = document.querySelector('.arrow.left');
+    const rightArrow = document.querySelector('.arrow.right');
+    let current = 0;
+    const total = slides.length;
+
+    function updateSlide() {
+      track.style.transform = `translateX(-${current * 100}%)`;
+    }
+
+    leftArrow.addEventListener('click', () => {
+      current = (current - 1 + total) % total;
+      updateSlide();
+      resetInterval();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      current = (current + 1) % total;
+      updateSlide();
+      resetInterval();
+    });
+
+    // 자동 슬라이드
+    let interval = setInterval(() => {
+      current = (current + 1) % total;
+      updateSlide();
+    }, 5000);
+
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(() => {
+        current = (current + 1) % total;
+        updateSlide();
+      }, 5000);
+    }
+  </script>
+
+</body>
+</html>

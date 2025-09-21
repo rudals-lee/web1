@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신앤김 법무법인 - 인재채용</title>
+        <!-- footer icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8B4A9C;
+        }
+
+        .logo span {
+            font-size: 14px;
+            display: block;
+            margin-top: -5px;
+            color: #666;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 10px 0;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #8B4A9C;
+            border-bottom-color: #8B4A9C;
+        }
+
+        .search-btn {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        main {
+            margin-top: 80px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 60px;
+            text-align: center;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #8B4A9C;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .content-text h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #8B4A9C;
+        }
+
+        .content-text p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .content-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .content-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .content-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .building-img {
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 18px;
+        }
+
+        .globe-img {
+            background: radial-gradient(circle, #f9f9f9, #e9e9e9);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .globe {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #e8e8e8, #d8d8d8);
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .globe::after {
+            content: '🌍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+        }
+
+        .handshake-img {
+            background: linear-gradient(45deg, #f5f5f5, #e5e5e5);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .handshake {
+            font-size: 100px;
+            color: #666;
+        }
+
+        .video-section {
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .video-placeholder {
+            height: 450px;
+            background: linear-gradient(45deg, #333, #555);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,0,0,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-button:hover {
+            background: rgba(255,0,0,1);
+            transform: scale(1.1);
+        }
+
+        .video-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .video-subtitle {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .philosophy-section {
+            background: white;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .philosophy-circle {
+            width: 300px;
+            height: 300px;
+            border: 4px solid #8B4A9C;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .chinese-text {
+            font-size: 40px;
+            color: #8B4A9C;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .korean-text {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .year-text {
+            font-size: 14px;
+            color: #666;
+            position: absolute;
+            bottom: 40px;
+        }
+
+        .philosophy-content {
+            padding-left: 20px;
+        }
+
+        .philosophy-content h3 {
+            font-size: 24px;
+            color: #8B4A9C;
+            margin-bottom: 30px;
+        }
+
+        .philosophy-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .reverse {
+            flex-direction: row-reverse;
+        }
+
+        .reverse .content-text {
+            text-align: right;
+        }
+
+
+        .footer {
+      background-color: #4a4644;
+      color: #fff;
+      padding: 30px 20px 50px;
+    }
+
+    .footer .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #666;
+    }
+
+    .footer .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .footer .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .footer .footer-bottom a {
+      color: #ddd;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+
+    .footer .footer-bottom a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .social-icons a:hover {
+      background-color: #666;
+    }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            width: 30px;
+            height: 30px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .social-icons a:hover {
+            background: #8b4f8c;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .content-grid, .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .reverse .content-text {
+                text-align: left;
+            }
+
+            .philosophy-circle {
+                width: 250px;
+                height: 250px;
+                margin: 0 auto;
+            }
+
+            .chinese-text {
+                font-size: 32px;
+            }
+
+            .korean-text {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                SHIN&KIM
+                <span>법무법인(유) 세종</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">업무분야</a></li>
+                    <li><a href="#">구성원</a></li>
+                    <li><a href="#">미디어센터</a></li>
+                    <li><a href="#" class="active">인재채용</a></li>
+                    <li><a href="#">법인소개</a></li>
+                </ul>
+            </nav>
+            <button class="search-btn">🔍</button>
+        </div>
+    </header>
+
+    <main>
+
+            <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>인재상</h1>
+                    <p>세종은 거대조직의 부품처럼 시키는 일만 묵묵히 반복하는 구태의연한 행태를 거부하고<br>
+                    새로운 시대의 창단을 선도하는 진취적이고 혁신적인 인재의 지원을 기다립니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section philosophy-section">
+            <div class="container">
+                <h2 class="section-title">세종의 인재철학</h2>
+                
+                <div class="philosophy-grid">
+                    <div class="philosophy-circle">
+                        <div class="chinese-text">以爲何如</div>
+                        <div class="korean-text">어떻게여</div>
+                        <div class="year-text">세종실록 제20년</div>
+                    </div>
+                    <div class="philosophy-content">
+                        <h3>세종대왕은 항상 '어떻게 하면 좋겠는가'라는 질문으로 넘리 의견을 구했습니다.</h3>
+                        <p>세종은 기존의 위계와 서열에 안주하여 수평적인 조직구조를 발전하였으며 조직과 나탬다이 기구를 있고 있습니다.</p>
+                        <p>그 결과 세종의 구성원들은 업무수행 과정에서 적극적으로 의견을 개진하고 주도적으로 의사결정에 참여하는 민주적인 토론 문화의 주체로 성장하고 있습니다.</p>
+                        <p>세종은 구성원들의 의견을 경청하고, 구성원의 자율과 개성을 존중하며, 적극적인 토론문화로 조직 내부의 의사소통이 자유로운 문분입니다.</p>
+                    </div>
+                </div>
+
+                <div class="philosophy-grid reverse" style="margin-top: 100px;">
+                    <div class="philosophy-circle">
+                        <div class="chinese-text">得人爲最</div>
+                        <div class="korean-text">득인위최</div>
+                        <div class="year-text">세종실록 제15년</div>
+                    </div>
+                    <div class="philosophy-content">
+                        <h3>세종은 '인재 얻는 것이 최우선'이리는 세종대왕의 인재철학을 계승합니다.</h3>
+                        <p>세종의 턱황한 경쟁력의 근원은 전문분야 것든 최고의 인재입니다.</p>
+                        <p>세종은 최고의 인재를 영입하기 위하여 이익만이 목적하고 투자하고 인재 양성 늘업다 기업 전면적 교육시스템을 세분적으로 교육하고 있습니다.</p>
+                        <p>세종의 교육기간 집단원들은 세종의 변호사들이 시대를 선도하는 최고의 전문가로 성장할 수 있도록 각 분야의 전문식을 세체적으로 교육하고 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <section class="section">
+            <div class="container">
+                <h2 class="section-title">세종의 인재요건</h2>
+                
+                <div class="content-grid">
+                    <div class="content-image">
+                        <div class="building-img">
+                            Leading-Edge
+                        </div>
+                    </div>
+                    <div class="content-text">
+                        <h2>Leading-Edge</h2>
+                        <p style="color: #8B4A9C; font-weight: bold; margin-bottom: 30px;">세종의 구성원은 시대를 선도합니다.</p>
+                        <p>세종은 기존의 관위와 관습에 얽매이지 않는 진보적이고 진취적인 자세로 시대를 선도하고, 세종의 핵심은 언제나 시대의 창단에서 세풀게 대어가고 진보된 가치들해습니다.</p>
+                        <p>세종은 이러한 자기주도적이고 진취적인 창의성으로 세종의 전통을 계승할 인재를 찾습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">세종의 구성원은 시대를 선도합니다.</h2>
+                
+                <div class="content-grid">
+                    <div class="content-text">
+                        <p>세종은 기존의 관위와 관습에 얽매이지 않는 진보적이고 진취적인 자세로 시대를 선도하고, 세종의 핵심은 언제나 시대의 창단에서 세풀게 대어가고 진보된 가치들해습니다.</p>
+                        <p>세종은 이러한 자기주도적이고 진취적인 창의성으로 세종의 전통을 계승할 인재를 찾습니다.</p>
+                    </div>
+                    <div class="content-image">
+                        <div class="building-img">
+                            현대적 건물 이미지
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="background: #f8f9fa;">
+            <div class="container">
+                <div class="content-grid reverse">
+                    <div class="content-image">
+                        <div class="globe-img">
+                            <div class="globe"></div>
+                        </div>
+                    </div>
+                    <div class="content-text">
+                        <h2>Open-minded</h2>
+                        <p style="color: #8B4A9C; font-weight: bold; margin-bottom: 30px;">세종의 구성원은 개방적인 자세로 세계를 지향합니다.</p>
+                        <p>세종은 국내의 성공에만 안주하는 소극적인 근성을 버리고 개방적이고 진취적인 자세로 세계를 선도하고, 전체 승국 동반자시아에 해당 시장을 실현하여 각국으로 활용하고 있습니다.</p>
+                        <p>세종은 편협하고 폐쇄적인 태도를 거부하고 모든 편견을무터 자유로운 개방적인 사고를 지향하는 인재를 기다립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="content-grid">
+                    <div class="content-text">
+                        <h2>Trustworthy</h2>
+                        <p style="color: #8B4A9C; font-weight: bold; margin-bottom: 30px;">세종의 구성원은 신뢰할 수 있습니다.</p>
+                        <p>세종은 모든 구성원에게 솔직 받는 법률전문가로서 사회적 책임과 소명을 다할 것을 요구하고 있습니다.</p>
+                        <p>세종은 사직한 이익을 위해 사회적으로 지탄 받는 부도덕한 업무에 관여하지 않으며, 높은 윤리적 기준으로 매서에 늘으고 그룹이 무엇인지를 항상 고민합니다.</p>
+                        <p>세종은 법률 저비스 제공하는 로펌으로서 사회적 책임을 회피하지 않고 좋은 영향력으로 공정한 사회를 만들어 위한 노력에 동참합니다.</p>
+                        <p>세종은 이러한 저림 높은 윤리적 기준을 중시하는 인재를 찾게 합니다.</p>
+                    </div>
+                    <div class="content-image">
+                        <div class="handshake-img">
+                            <div class="handshake">🤝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section video-section">
+            <div class="container">
+                <h2 class="section-title">영상으로 만나는 세종</h2>
+                <p style="text-align: center; margin-bottom: 40px; color: #666;">
+                    방송인 허경환이 법무법인(유) 세종을 방문해 직접 액어낸 세종만의 분화와 근무 환경을 영상을 통해 확인해 보십시오.
+                </p>
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                        <div class="video-title">최고조화스키들🔥 허경환과 함께하는 법무법인(유) 세종 탐방 #로펌 #변호사 #법무법인 #디터뷰</div>
+                        <div class="video-subtitle">제가 이 넘은 곳을 짚은 시간에 쫓 봤는데</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-nav">
+        <span>사무소</span>
+        <span>서울</span>
+        <span>판교</span>
+        <span>북경</span>
+        <span>상해</span>
+        <span>호치민</span>
+        <span>하노이</span>
+        <span>자카르타</span>
+        <span>싱가포르</span>
+        <span>지적재산권부</span>
+        <span>사단법인 나눔과이음</span>
+        <span>업무제휴</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        <a href="#">개인정보처리방침</a>
+        <a href="#">면책공고</a>
+        <a href="#">웹접근성</a>
+        <a href="#">국제정보보호인증</a>
+        <a href="#">사이트맵</a>
+      </div>
+      <div>Copyright SHIN & KIM LLC. All rights reserved.</div>
+      <div>
+        <div style="font-weight:bold;">Follow us</div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-blogger-b"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+    <script>
+        // 스크롤 애니메이션
+        window.addEventListener('scroll', () => {
+            const elements = document.querySelectorAll('.content-grid, .philosophy-circle');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // 초기 애니메이션 설정
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.content-grid, .philosophy-circle');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.6s ease';
+            });
+        });
+
+        // 비디오 플레이 버튼 클릭 이벤트
+        document.querySelector('.play-button').addEventListener('click', () => {
+            alert('동영상 재생 기능은 실제 구현에서 추가됩니다.');
+        });
+    </script>
+</body>
+</html>

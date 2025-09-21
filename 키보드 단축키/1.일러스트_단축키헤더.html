@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adobe Illustrator 단축키 & 도구 치트시트</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "맑은 고딕", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff8c00 0%, #ff6600 50%, #e55100 100%); /* Illustrator 오렌지 배경 */
+      color: #333;
+    }
+
+    /* 헤더 스타일 - Illustrator 테마 */
+    header {
+      background: linear-gradient(135deg, #ff8c00 0%, #e65100 50%, #bf360c 100%);
+      border-bottom: 3px solid #ffb74d;
+      box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      flex: 0 0 auto;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logo-icon {
+      background: #ffb74d;
+      color: #bf360c;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(255, 183, 77, 0.3);
+    }
+
+    /* 햄버거 메뉴 버튼 */
+    .mobile-menu-toggle {
+      display: none;
+      background: rgba(255, 183, 77, 0.1);
+      border: 2px solid #ffb74d;
+      color: #ffb74d;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1001;
+      position: relative;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: #ffb74d;
+      color: #bf360c;
+      transform: scale(1.05);
+    }
+
+    /* 네비게이션 메뉴 컨테이너 */
+    .nav-menu {
+      display: flex;
+      gap: 0;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-item > li > a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      white-space: nowrap;
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+    }
+
+    .nav-item > li > a:hover {
+      background: #ffb74d;
+      color: #bf360c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 183, 77, 0.4);
+      border-color: #ffb74d;
+    }
+
+    .nav-item > li > a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #ffb74d;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item > li > a:hover::before {
+      transform: scaleX(1);
+    }
+
+    .dropdown-icon {
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item:hover .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    /* 드롭다운 메뉴 스타일 */
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border: 2px solid #ffb74d;
+      min-width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(5px);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+      margin: 6px;
+      font-weight: 500;
+    }
+
+    .dropdown-item:hover {
+      background: linear-gradient(135deg, #ffb74d 0%, #ff8c00 100%);
+      color: white;
+      transform: translateX(8px);
+      box-shadow: 0 4px 12px rgba(255, 183, 77, 0.3);
+    }
+
+    .dropdown-item.highlighted {
+      background: linear-gradient(135deg, #ff8c00 0%, #e65100 100%);
+      color: white;
+      font-weight: 600;
+    }
+
+    .dropdown-item.highlighted:hover {
+      background: linear-gradient(135deg, #ffb74d 0%, #ff8c00 100%);
+      transform: translateX(8px) scale(1.02);
+    }
+
+    .dropdown-divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #ffb74d 50%, transparent 100%);
+      margin: 8px 18px;
+    }
+
+    /* Illustrator 치트시트 컨테이너 */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      background: #333;
+      border: 2px solid #555;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      padding: 20px;
+      color: #fff;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    /* 상단 일러스트레이터 헤더 */
+    .illustrator-header {
+      display: flex;
+      align-items: center;
+      background: #ff8c00;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .illustrator-header .logo-ai {
+      background: #bf360c;
+      color: #ffb74d;
+      padding: 4px 8px;
+      margin-right: 10px;
+      border-radius: 3px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .illustrator-header span {
+      margin-right: 20px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      margin: 20px 0;
+      color: #ffb74d;
+    }
+
+    /* 도구 테이블 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+    
+    table th {
+      background: #bf360c;
+      padding: 6px;
+      border: 1px solid #555;
+      color: #fff;
+      text-align: center;
+    }
+    
+    table td {
+      border: 1px solid #555;
+      padding: 6px 8px;
+      vertical-align: top;
+      background: #444;
+    }
+
+    /* 단축키 영역 */
+    .shortcut-table {
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .shortcut-table td {
+      width: 25%;
+      padding: 6px;
+      border: 1px solid #555;
+      vertical-align: top;
+      background: #444;
+    }
+
+    /* 하단 컨닝패드 */
+    .pad-title {
+      text-align: center;
+      font-size: 16px;
+      color: #ffb74d;
+      margin: 20px 0 10px;
+    }
+    
+    .pad-section {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+    }
+    
+    .box {
+      background: #444;
+      border: 1px solid #666;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    
+    .box h3 {
+      font-size: 12px;
+      margin: 0 0 8px 0;
+      color: #ffb74d;
+      border-bottom: 1px solid #666;
+      padding-bottom: 4px;
+    }
+
+    /* 키 스타일링 */
+    .key {
+      background: #ff8c00;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 11px;
+    }
+
+    /* 반응형 디자인 */
+    /* 태블릿 크기 (1024px 이하) */
+    @media (max-width: 1024px) {
+      nav {
+        padding: 0 15px;
+      }
+
+      .nav-item > li > a {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      .dropdown {
+        min-width: 180px;
+      }
+
+      .pad-section {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* 모바일 크기 (768px 이하) */
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        justify-content: space-between;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(255, 140, 0, 0.95);
+        backdrop-filter: blur(15px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 20px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        gap: 0;
+      }
+
+      .nav-menu.active {
+        transform: translateX(0);
+      }
+
+      .nav-item {
+        width: 90%;
+        max-width: 300px;
+        margin-bottom: 10px;
+      }
+
+      .nav-item > li > a {
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        justify-content: space-between;
+      }
+
+      .nav-item > li > a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: none;
+      }
+
+      /* 모바일에서 드롭다운을 아코디언 스타일로 변경 */
+      .dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        border: none;
+        border-radius: 10px;
+        margin-top: 10px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .nav-item.active .dropdown {
+        max-height: 500px;
+      }
+
+      .nav-item.active .dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-item {
+        background: rgba(255, 255, 255, 0.1);
+        margin: 5px 10px;
+        color: white;
+        border-radius: 8px;
+        padding: 12px 15px;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: none;
+        color: white;
+      }
+
+      .dropdown-item.highlighted {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+      }
+
+      .dropdown-item.highlighted:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .dropdown-divider {
+        background: rgba(255, 255, 255, 0.3);
+        margin: 8px 20px;
+      }
+
+      .pad-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .illustrator-header span {
+        font-size: 12px;
+        margin-right: 10px;
+      }
+    }
+
+    /* 작은 모바일 크기 (480px 이하) */
+    @media (max-width: 480px) {
+      nav {
+        padding: 0 10px;
+      }
+
+      nav ul {
+        height: 60px;
+      }
+
+      .nav-menu {
+        top: 60px;
+        height: calc(100vh - 60px);
+      }
+
+      .container {
+        width: 95%;
+        padding: 15px;
+      }
+
+      .pad-section {
+        grid-template-columns: 1fr;
+      }
+
+      .illustrator-header {
+        flex-wrap: wrap;
+        gap: 5px;
+        font-size: 12px;
+      }
+
+      .illustrator-header span {
+        font-size: 10px;
+        margin-right: 5px;
+      }
+
+      table {
+        font-size: 10px;
+      }
+
+      .shortcut-table {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 메인 헤더 영역 -->
+  <header>
+    <nav>
+      <ul>
+        <!-- 로고 영역 -->
+        <div class="logo">
+          <a href="#home">
+            <div class="logo-icon">
+              Ai
+            </div>
+            Illustrator 치트시트
+          </a>
+        </div>
+
+        <!-- 모바일 햄버거 메뉴 버튼 -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+          <i class="fas fa-bars" id="menu-icon"></i>
+        </button>
+
+        <!-- 네비게이션 메뉴 -->
+        <div class="nav-menu" id="navMenu">
+          <!-- HOME 메뉴 항목 -->
+          <div class="nav-item">
+            <li><a href="#main">HOME</a></li>
+          </div>
+
+          <!-- TOOLS 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#tools" onclick="toggleDropdown(this)">TOOLS <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#tools" class="dropdown-item highlighted">
+                <i class="fas fa-mouse-pointer"></i>선택 도구
+              </a>
+              <a href="#tools" class="dropdown-item">
+                <i class="fas fa-pen"></i>펜 도구
+              </a>
+              <a href="#tools" class="dropdown-item">
+                <i class="fas fa-font"></i>텍스트 도구
+              </a>
+              <a href="#tools" class="dropdown-item">
+                <i class="fas fa-shapes"></i>도형 도구
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#tools" class="dropdown-item">
+                <i class="fas fa-paint-brush"></i>브러시 도구
+              </a>
+            </div>
+          </div>
+
+          <!-- SHORTCUTS 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#shortcuts" onclick="toggleDropdown(this)">SHORTCUTS <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#shortcuts" class="dropdown-item highlighted">
+                <i class="fas fa-keyboard"></i>편집 단축키
+              </a>
+              <a href="#shortcuts" class="dropdown-item">
+                <i class="fas fa-eye"></i>보기 단축키
+              </a>
+              <a href="#shortcuts" class="dropdown-item">
+                <i class="fas fa-layer-group"></i>오브젝트 단축키
+              </a>
+              <a href="#shortcuts" class="dropdown-item">
+                <i class="fas fa-palette"></i>색상 단축키
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#shortcuts" class="dropdown-item">
+                <i class="fas fa-star"></i>특수 기능
+              </a>
+            </div>
+          </div>
+
+          <!-- PANELS 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#panels" onclick="toggleDropdown(this)">PANELS <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#panels" class="dropdown-item highlighted">
+                <i class="fas fa-layer-group"></i>레이어 패널
+              </a>
+              <a href="#panels" class="dropdown-item">
+                <i class="fas fa-palette"></i>색상 패널
+              </a>
+              <a href="#panels" class="dropdown-item">
+                <i class="fas fa-align-center"></i>정렬 패널
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#panels" class="dropdown-item">
+                <i class="fas fa-info-circle"></i>모든 패널
+              </a>
+            </div>
+          </div>
+
+          <!-- TIPS 드롭다운 메뉴 -->
+          <div class="nav-item">
+            <li><a href="#tips" onclick="toggleDropdown(this)">TIPS <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+            <div class="dropdown">
+              <a href="#tips" class="dropdown-item">
+                <i class="fas fa-lightbulb"></i>프로 팁
+              </a>
+              <a href="#tips" class="dropdown-item">
+                <i class="fas fa-rocket"></i>생산성 향상
+              </a>
+              <a href="#tips" class="dropdown-item">
+                <i class="fas fa-bug"></i>문제 해결
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#tips" class="dropdown-item">
+                <i class="fas fa-download"></i>리소스
+              </a>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- 상단 메뉴바 -->
+    <div class="illustrator-header">
+      <div class="logo-ai">Ai</div>
+      <span>파일 (F)</span>
+      <span>편집 (E)</span>
+      <span>오브젝트 (O)</span>
+      <span>문자 (T)</span>
+      <span>선택 (S)</span>
+      <span>효과 (E)</span>
+      <span>보기 (V)</span>
+      <span>창 (W)</span>
+    </div>
+
+    <h2>Adobe Illustrator 단축키 & 도구 치트시트</h2>
+
+    <!-- 주요 도구 테이블 -->
+    <table>
+      <thead>
+        <tr>
+          <th>도구명</th>
+          <th>단축키</th>
+          <th>설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>선택 도구</td><td><span class="key">V</span></td><td>오브젝트 선택 및 이동</td></tr>
+        <tr><td>직접 선택 도구</td><td><span class="key">A</span></td><td>앵커 포인트 선택</td></tr>
+        <tr><td>펜 도구</td><td><span class="key">P</span></td><td>패스 그리기</td></tr>
+        <tr><td>문자 도구</td><td><span class="key">T</span></td><td>텍스트 입력</td></tr>
+        <tr><td>직사각형 도구</td><td><span class="key">M</span></td><td>사각형 그리기</td></tr>
+        <tr><td>원형 도구</td><td><span class="key">L</span></td><td>원/타원 그리기</td></tr>
+        <tr><td>브러시 도구</td><td><span class="key">B</span></td><td>브러시로 그리기</td></tr>
+        <tr><td>연필 도구</td><td><span class="key">N</span></td><td>자유로운 선 그리기</td></tr>
+        <tr><td>지우개 도구</td><td><span class="key">Shift + E</span></td><td>패스 지우기</td></tr>
+        <tr><td>회전 도구</td><td><span class="key">R</span></td><td>오브젝트 회전</td></tr>
+        <tr><td>크기 조절 도구</td><td><span class="key">S</span></td><td>오브젝트 크기 조절</td></tr>
+        <tr><td>자유 변형 도구</td><td><span class="key">E</span></td><td>자유롭게 변형</td></tr>
+        <tr><td>그라디언트 도구</td><td><span class="key">G</span></td><td>그라디언트 적용</td></tr>
+        <tr><td>스포이드 도구</td><td><span class="key">I</span></td><td>색상 추출</td></tr>
+        <tr><td>블렌드 도구</td><td><span class="key">W</span></td><td>오브젝트 블렌딩</td></tr>
+        <tr><td>심볼 분사기 도구</td><td><span class="key">Shift + S</span></td><td>심볼 분사</td></tr>
+        <tr><td>그래프 도구</td><td><span class="key">J</span></td><td>차트 생성</td></tr>
+        <tr><td>메시 도구</td><td><span class="key">U</span></td><td>그라디언트 메시</td></tr>
+        <tr><td>손 도구</td><td><span class="key">H</span></td><td>캔버스 이동</td></tr>
+        <tr><td>확대 도구</td><td><span class="key">Z</span></td><td>화면 확대/축소</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 단축키 -->
+    <table class="shortcut-table">
+      <tr>
+        <td><span class="key">Ctrl + Z</span> : 실행 취소<br><span class="key">Ctrl + Y</span> : 재실행<br><span class="key">Ctrl + C</span> : 복사<br><span class="key">Ctrl + V</span> : 붙여넣기</td>
+        <td><span class="key">Ctrl + G</span> : 그룹화<br><span class="key">Ctrl + Shift + G</span> : 그룹 해제<br><span class="key">Ctrl + D</span> : 변형 반복<br><span class="key">Ctrl + ]</span> : 앞으로 보내기</td>
+        <td><span class="key">Ctrl + 0</span> : 전체 보기<br><span class="key">Ctrl + 1</span> : 100% 보기<br><span class="key">Ctrl + +</span> : 확대<br><span class="key">Ctrl + -</span> : 축소</td>
+        <td><span class="key">F5</span> : 브러시 패널<br><span class="key">F6</span> : 색상 패널<br><span class="key">F7</span> : 레이어 패널<br><span class="key">F9</span> : 그라디언트 패널</td>
+      </tr>
+    </table>
+
+    <!-- 하단 패드 -->
+    <div class="pad-title">컨닝 패드</div>
+    <div class="pad-section">
+      <div class="box">
+        <h3>편집 명령어</h3>
+        <span class="key">Ctrl + Z</span> : 실행 취소<br>
+        <span class="key">Ctrl + Shift + Z</span> : 재실행<br>
+        <span class="key">Ctrl + X</span> : 잘라내기<br>
+        <span class="key">Ctrl + C</span> : 복사<br>
+        <span class="key">Ctrl + V</span> : 붙여넣기<br>
+        <span class="key">Ctrl + Shift + V</span> : 같은 위치에 붙여넣기
+      </div>
+      <div class="box">
+        <h3>오브젝트 조작</h3>
+        <span class="key">Ctrl + G</span> : 그룹화<br>
+        <span class="key">Ctrl + Shift + G</span> : 그룹 해제<br>
+        <span class="key">Ctrl + ]</span> : 앞으로 보내기<br>
+        <span class="key">Ctrl + [</span> : 뒤로 보내기<br>
+        <span class="key">Ctrl + Shift + ]</span> : 맨 앞으로<br>
+        <span class="key">Ctrl + Shift + [</span> : 맨 뒤로
+      </div>
+      <div class="box">
+        <h3>보기 조작</h3>
+        <span class="key">Ctrl + 0</span> : 전체 화면에 맞춤<br>
+        <span class="key">Ctrl + 1</span> : 100% 크기<br>
+        <span class="key">Ctrl + +</span> : 확대<br>
+        <span class="key">Ctrl + -</span> : 축소<br>
+        <span class="key">Ctrl + Y</span> : 아웃라인 보기<br>
+        <span class="key">Ctrl + ;</span> : 안내선 표시/숨김
+      </div>
+      <div class="box">
+        <h3>문자 작업</h3>
+        <span class="key">Ctrl + Shift + O</span> : 아웃라인 만들기<br>
+        <span class="key">Ctrl + Shift + C</span> : 가운데 정렬<br>
+        <span class="key">Ctrl + Shift + L</span> : 왼쪽 정렬<br>
+        <span class="key">Ctrl + Shift + R</span> : 오른쪽 정렬<br>
+        <span class="key">Ctrl + →</span> : 다음 단어로<br>
+        <span class="key">Ctrl + ←</span> : 이전 단어로
+      </div>
+      <div class="box">
+        <h3>패널 단축키</h3>
+        <span class="key">F5</span> : 브러시<br>
+        <span class="key">F6</span> : 색상<br>
+        <span class="key">F7</span> : 레이어<br>
+        <span class="key">F8</span> : 정보<br>
+      </div>
+    </div>
+
+    <script>
+        // 모바일 메뉴 토글 기능
+        function toggleMobileMenu() {
+          const navMenu = document.getElementById('navMenu');
+          const menuIcon = document.getElementById('menu-icon');
+          
+          navMenu.classList.toggle('active');
+          
+          // 햄버거 아이콘 변경
+          if (navMenu.classList.contains('active')) {
+            menuIcon.className = 'fas fa-times';
+          } else {
+            menuIcon.className = 'fas fa-bars';
+            // 모든 드롭다운 닫기
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+          }
+        }
+    
+        // 모바일에서 드롭다운 토글
+        function toggleDropdown(element) {
+          // 모바일에서만 작동
+          if (window.innerWidth <= 768) {
+            const navItem = element.closest('.nav-item');
+            const wasActive = navItem.classList.contains('active');
+            
+            // 다른 모든 드롭다운 닫기
+            const allNavItems = document.querySelectorAll('.nav-item');
+            allNavItems.forEach(item => item.classList.remove('active'));
+            
+            // 현재 드롭다운 토글
+            if (!wasActive) {
+              navItem.classList.add('active');
+            }
+          }
+        }
+    
+        // 화면 크기 변경 시 모바일 메뉴 상태 리셋
+        window.addEventListener('resize', function() {
+          const navMenu = document.getElementById('navMenu');
+          const menuIcon = document.getElementById('menu-icon');
+          
+          if (window.innerWidth > 768) {
+            navMenu.classList.remove('active');
+            menuIcon.className = 'fas fa-bars';
+            
+            // 모든 드롭다운 닫기
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+          }
+        });
+    
+        // 모바일 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(e) {
+          const navMenu = document.getElementById('navMenu');
+          const menuToggle = document.querySelector('.mobile-menu-toggle');
+          const nav = document.querySelector('nav');
+          
+          if (window.innerWidth <= 768 && 
+              navMenu.classList.contains('active') && 
+              !nav.contains(e.target)) {
+            toggleMobileMenu();
+          }
+        });
+    
+        // ESC 키로 모바일 메뉴 닫기
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            const navMenu = document.getElementById('navMenu');
+            if (navMenu.classList.contains('active')) {
+              toggleMobileMenu();
+            }
+          }
+        });
+      </script>
+    
+    </body>
+    </html>

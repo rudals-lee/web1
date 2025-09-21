@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About me</title>
+    
+    <!-- 외부 라이브러리 CSS 링크 -->
+    <!-- Swiper 슬라이더 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+    
+    <!-- Google Fonts: 한글(Noto Sans KR), 영문(Montserrat, Noto Sans) 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+    
+    <!-- 사이트 전용 CSS 파일 -->
+    <link rel="stylesheet" href="/styles/about me.css"/>
+    
+    <!-- 외부 JavaScript 라이브러리 -->
+    <!-- Font Awesome 아이콘 라이브러리 -->
+    <script src="https://kit.fontawesome.com/25dab3971c.js" crossorigin="anonymous"></script>
+    <!-- Swiper 슬라이더 JavaScript (최신 버전) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- jQuery 라이브러리 (구버전 1.10.1) -->
+    <script src="js/jquery-1.10.1.min.js"></script>
+    <!-- 사이트 전용 JavaScript 파일 -->
+    <script src="js/about me.js"></script>
+  </head>
+
+  <body>
+    <!-- 전체 페이지 래퍼 -->
+    <div class="wrap">
+      
+      <!-- 상단 헤더 영역 -->
+      <header>
+        <!-- 접근성을 위한 숨겨진 제목 (스크린 리더용) -->
+        <h2 class="hidden">header</h2>
+        
+        <!-- Global Navigation Bar (전체 메뉴) -->
+        <nav>
+          <!-- 접근성을 위한 숨겨진 제목 (스크린 리더용) -->
+          <h2 class="hidden">gnb</h2>
+          <ul>
+            <!-- 메인 페이지 링크 -->
+            <li><a href="/HOME.html">Home</a></li>
+            <!-- 현재 페이지 (자기소개) -->
+            <li><a href="/about me.html">About me</a></li>
+            <!-- 페이지 내 섹션 앵커 링크들 -->
+            <li><a href="#How I Learn">How i learn</a></li>
+            <li><a href="#Challenging Life">Challenging life</a></li>
+            <li><a href="#strength">Strength</a></li>
+            <!-- 작업 포트폴리오 페이지 -->
+            <li><a href="/work.html">Work</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- 맨 위로 스크롤 버튼 (고정 위치) -->
+      <div class="top_btn">
+        <a href="#"><img src="/images/scroll-up-64.png" alt="top_btn" /></a>
+      </div>
+
+      <!-- 모바일용 햄버거 메뉴 (숨겨진 상태) -->
+      <div class="open_nav">
+        <ul class="subnav_menu">
+          <!-- 모바일 메뉴 항목들 (오타 수정 필요: "Homea" -> "Home") -->
+          <li><a href="/HOME.html">Homea</a></li>
+          <li><a href="/about me.html">About me</a></li>
+          <li><a href="/work.html">Work</a></li>
+          <!-- 연락처 섹션으로 이동하는 링크 -->
+          <li><a href="/HOME.html#design">Contact</a></li>
+        </ul>
+      </div>
+  
+      <!-- 모바일 햄버거 메뉴 버튼 (3줄 아이콘) -->
+      <div class="mbmenu">
+        <span></span> <!-- 첫 번째 줄 -->
+        <span></span> <!-- 두 번째 줄 -->  
+        <span></span> <!-- 세 번째 줄 -->
+      </div>
+
+      <!-- 메인 콘텐츠 영역 -->
+      <section>
+        <!-- 접근성을 위한 숨겨진 제목 (스크린 리더용) -->
+        <h2 class="hidden">contents_area</h2>
+        
+        <!-- About Me 섹션 -->
+        <div class="aboutme">
+          <div class="container">
+            <!-- 섹션 제목 및 소개 -->
+            <div class="title">
+              <span>About me</span>
+              <p>
+                법률사무원 실무교육 및 실무이수 사항업무능력 웹 소개<br>
+                법률사무원 / 퍼블리셔 이경민입니다.
+              </p>
+            </div>
+            
+            <!-- 프로필 정보 컨테이너 -->
+            <div class="profile_container">
+              <!-- 프로필 이미지 -->
+              <div class="profile_img">
+                <img src="/images/Chat GPT image 로고 (1)-1.png" alt="프로필 이미지" />
+              </div>
+              
+              <!-- 상세 프로필 정보 -->
+              <div class="profile">
+                <ul>
+                  <!-- 기본 개인정보 -->
+                  <li>
+                    <span>Profile</span>
+                    <ul class="sub">
+                      <li>1999. 11. 04</li> <!-- 생년월일 -->
+                      <li>phone. 010-4559-4175</li> <!-- 연락처 -->
+                      <li>Email (1). lkm4175@gmail.com</li> <!-- 이메일 1 -->
+                      <li>Email (2). lkm4175@naver.com</li> <!-- 이메일 2 -->
+                    </ul>
+                  </li>
+                  
+                  <!-- 학력 사항 -->
+                  <li>
+                    <span>Education</span>
+                    <ul class="sub">
+                      <!-- 최신 교육부터 시간 역순으로 배열 -->
+                      <li>UI/UX웹디자인&퍼블리셔 수료<span>2025.08</span></li>
+                      <li>법률사무원 및 민사집행절차 
+                        형사소송회생파산 사무원 양성과정 수료<span>2023.07</span></li>
+                      <li>광운대학교 컴퓨터공학과 휴학 <span>2023.08</span></li>
+                      <li>재현고등학교 졸업 <span>2018.02</span></li>
+                    </ul>
+                  </li>
+                  <br>
+                  
+                  <!-- 자격증 -->
+                  <li>
+                    <span>Certification</span>
+                    <ul class="sub">
+                      <li>행정관리사3급 <span>2018.12</span></li>
+                    </ul>
+                  </li>
+                  
+                  <!-- 기술 스택 -->
+                  <li>
+                    <span>Skill</span>
+                    <ul class="sub">
+                      <!-- 웹 개발 기술 -->
+                      <li>Html5, Css3, Jquery, JavaScript</li>
+                      <!-- 디자인 도구 -->
+                      <li>Figma, Photoshop, Illustrator</li>
+                      <!-- 협업 도구 -->
+                      <li>Git, Notion</li>
+                    </ul>
+                  </li>
+                  
+                  <!-- 개인적 목표/가치관 -->
+                  <li>
+                    <span>To be</span>
+                    <ul class="sub">
+                      <li>#Detail-oriented, 디테일을 놓치지 않고</li>
+                      <li>#Responsible, 책임감 있게</li>
+                      <li>#Honest, 언제나 진심으로</li>
+                    </ul>
+                  </li>
+                  
+                  <!-- 법률 관련 프로그램 사용 경험 -->
+                  <li>
+                    <span>Program</span>
+                    <ul class="sub">
+                      <!-- 법무 관련 소프트웨어들 -->
+                      <li>Big case : 빅케이스</li>
+                      <li>LawForm : 로폼</li>
+                      <li>LBOX : 엘박스</li>
+                      <li>Colaw : 코로</li>
+                      <li>superlawyer : 슈퍼로이어</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <!--profile div 종료-->
+              
+              <!-- 더 보기 버튼 -->
+              <div class="button">
+                <a href="#"> → More </a>
+              </div>
+            </div>
+            <!--profile_container 종료-->
+          </div>
+          <!--container 종료-->
+        </div>
+        <!--aboutme 섹션 종료-->
+
+        <!-- How I Learn 섹션 (앵커 포인트) -->
+        <section id="How I Learn"></section>
+        <div class="inner">
+          <div class="Learning">
+            <!-- 학습 과정 섹션 제목 -->
+            <div class="title">
+              <span>How i learn</span>
+              <p>지난 3개월 동안 법률사무원 및 민사집행절차 형사소송 회생파산 2가지 과정을 배웠습니다</p>
+              <!-- 학습 내용 상세 설명 -->
+              기간이 길지는 안았지만 법률가들 변호사들은 법에 대해 얼마나 많은 법을 이 짧은 시간에 많은 것을 배우며 법률사무 실무를 위한 실체법 절차법 민사집행법 개인 회생 파산 그 다음 형법 및 형사소송법 실무 교육 과정 수료
+              를 완료했으며 <br>민법 정치 불법 제법 침조서 등 법무법인 법률 행정 사무 업무자로서 필요한 실체법 교육을 하였으며 민법 총칙 공부했고 그 다음 물권 채권 직접상속법을 계속 공부 하였습니다.
+            </div><br>
+
+            <!-- 학습 과정 슬라이더 (Swiper) -->
+            <div class="swiper-container swiper1">
+              <div class="swiper-wrapper">
+                <!-- 슬라이드 1: 민사집행 실전실무교육 -->
+                <div class="swiper-slide">
+                  <div class="process_txt_area">
+                    <div class="process_txt">
+                      <strong>1. 이론 공부 : 민사집행 실전실무교육</strong>
+                      <p>
+                        기간이 길지는 안았지만 법률가들 변호사들은 법에 대해 얼마나 많은 법을 이 짧은 
+                        시간에 많은 것을 배우며 법률사무 실무를 위한 실체법 절차법 민사집행법 개인 회생 
+                        파산 그 다음 형법 및 형사소송법 실무 교육 과정 수료를 완료했으며 민법 정치 불법 
+                        제법 침조서 등 법무법인 법률 행정 사무 업무자로서 필요한 실체법 교육을 하였으며 
+                        민법 총칙 공부했고 그 다음 물권 채권 직접상속법을 계속 공부 하였습니다.
+                      </p>
+                    </div>
+                  </div><br>
+
+                  <!-- 해당 과정 관련 이미지 -->
+                  <div class="process_img_area">
+                    <ul class="process_img">
+                      <li>
+                        <img src="/images/Chat GPT image 로고 (1)-2.png" alt="민사집행 실전실무교육 이미지" />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 슬라이드 2: 민사소송 실무교육 -->
+                <div class="swiper-slide">
+                  <div class="process_txt_area">
+                    <div class="process_txt">
+                      <strong>2. 민사소송 실무(실전) 교육</strong>
+                      <p>
+                       제일 재미있던 과정으로 민사소송 실무 교육이며 민사소송 절차 전반에 필
+                       요한 각종 신청 업무와 절차 및 필요 서면 작성 등에 집중적인 교육과 실무 
+                       실습 과정을 이수하여 이에 따라 지급 명령 신청 소송 대리 허가 신청 문서 
+                       제출 명령 신청 사실 조회 신청 증인신청 등 민사소송 절차에서 서류 준비
+                       제출 등 즉시 실무에 활용 가능 합니다
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 해당 과정 관련 이미지 -->
+                  <div class="process_img_area">
+                    <ul class="process_img">
+                      <li>
+                        <img src="/images/Chat GPT image 로고 (2)-1.png" alt="민사소송 실무교육 이미지" />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 슬라이드 3: 가압류 가처분 교육 -->
+                <div class="swiper-slide">
+                  <div class="process_txt_area">
+                    <div class="process_txt">
+                      <strong>3. 가압류 가처분 교전 처분 교육</strong>
+                      <p>
+                        가압류 가처분 교전 처분 교육 소장 항소장 항소 요서 및 답변서 준비서면 
+                        및 소장 작성 및 민사서류 작성 이행해소 확인해서 형상해소에 따른 각 사
+                        건별 설정 및 답변서 준비 서면 등의 작성 및 제출 실무 소가 인지 송달료 
+                        성과 산정 인지 송달료 다 계산 가능합니다
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 해당 과정 관련 이미지 -->
+                  <div class="process_img_area">
+                    <ul class="process_img">
+                      <li>
+                        <img src="/images/Chat GPT image 로고 (3)-2.png" alt="가압류 가처분 교육 이미지" />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 슬라이드 4: 공탁법 -->
+                <div class="swiper-slide">
+                  <div class="process_txt_area">
+                    <div class="process_txt">
+                      <strong>4. 공탁법</strong>
+                      <p>
+                        공탁법 검정 공탁 유가 증공공탁 물품공탁 공탁소 점정 신청서공탁업무 출
+                        고 및 해소 신청서 작성 등 공탁 업무 전반에 대한 실무 업무가 가능합니다
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 해당 과정 관련 이미지 -->
+                  <div class="process_img_area">
+                    <ul class="process_img">
+                      <li>
+                        <img src="/images/Chat GPT image 로고 (4)-1.png" alt="공탁법 교육 이미지" />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 슬라이드 5: 금전 공탁 -->
+                <div class="swiper-slide">
+                  <div class="process_txt_area">
+                    <div class="process_txt">
+                      <strong>5. 금전 공탁</strong>
+                      <p>
+                        금전 공탁 유가증권공탁 물품공탁 공탁서 정정 신청서 등 할 수 있습니다
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <!-- 해당 과정 관련 이미지 -->
+                  <div class="process_img_area">
+                    <ul class="process_img">
+                      <li>
+                        <img src="/images/Chat GPT image 로고 (5)-2.png" alt="금전 공탁 교육 이미지" />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+              <!-- 슬라이더 페이지네이션 (점 표시) -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <!-- Challenging Life 섹션 (앵커 포인트) -->
+          <section id="Challenging Life"></section>
+          <div class="life">
+            <!-- 도전적인 삶 섹션 제목 및 소개 -->
+            <div class="title">
+              <span>Challenging life</span>
+              <p>
+                 "일은 삶은 활력소".<br/>
+                일은 직업으로서의 고단함이 아니라 삶의 활력소이며 즐거움과 행복을 생소해 하는 원천입니다.
+              </p>
+
+              <!-- 군 복무 및 학습 경험 -->
+              <p>
+                군대에서 간부한테 소초내의 모범용사로 선발되며 신병을 위한 교육을 담당하게 되었습니다.<br />
+                그 결과 중대장님 및 소초 간부들은 반응이 좋았다. <br>
+                앞으로도 지속적인 교육을 담당하라고 말씀하셔서 소초에서 인정을 받는 것도 행복했고 전우들과 동기한테 인정을 받았습니다. <br>
+                전역 후 친구와 놀며 일을 안 하고 있던 시간들은 일과 사회생활에 대한 간절한 을 느꼈습니다. <br>
+                간절함을 느껴 정차 없이 여러 알바자리를 구하는 도중 국민법률세무교육원을 만나 실체법과 절적법을 정통하시고 법률사무소까지 하시는 훌륭한 
+                선생님의 열정적인 강의 7시간씩 실무 수업이 짧기 느껴지는 행복한 여름을 보냈습니다. 
+              </p>
+            </div>
+            
+            <!-- 법률 업무 경험 갤러리 -->
+            <div class="life_area">
+              <!-- 첫 번째 행 이미지들 -->
+              <ul class="life_img1">
+                <!-- 민법 실무교육 -->
+                <li>
+                  <a href="">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (1)-2.png" alt="민법 실무교육" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>민법 실무교육</strong>
+                      <span>민법 총칙물권법채권법친족상속법 등 <br>
+                        법무법인 법률 행정사무 업무자로서의 필요한 <br>
+                        실체법 교육을 이수하였습니다</span>
+                    </div>
+                  </div>
+                </li>
+                
+                <!-- 민사소송 실무교육 -->
+                <li>
+                  <a href="">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (3)-1.png" alt="민사소송 실무교육" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>민사소송 실무실전(실전) 교육</strong>
+                      <span>민사소송절차 전반에 필요한 각종 신청업무와 <br>
+                        절차 및 필요 서면작성 등에 대한 집중적인 교육과 <br>
+                        실무실습 과정을 이수하였습니다. <br>
+                        이에 따라 지급명령신청소송대리허가신청문서<br>
+                        제출명령 신청사실조회신청증인신청등<br>
+                        민사소송절차에서 필요한 각종의 관련 서면작성과<br>
+                        첨부서류 준비제출 등 즉시실무에 활용 가능합니다</span>
+                    </div>
+                  </div>
+                </li>
+                
+                <!-- 가압류 가처분 실무교육 -->
+                <li>
+                  <a href="#">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (4)-1.png" alt="가압류 가처분 실무교육" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>가압류가처분, 실무교육</strong>
+                      <span>부동산채권자동차 등의 가압류 및 각종 가처분 신청서<br> 
+                        작성과 신청업무 전반에 대한 실무가 가능합니다</span>
+                    </div>
+                  </div>
+                </li>
+                
+                <!-- 소장 및 답변서 작성 -->
+                <li>
+                  <a href="3">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (2)-1.png" alt="소장 답변서 작성" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>소장항소장<br> 
+                        항소이유서 및 답변서준비서면</strong>
+                      <span>이행의 소확인의 소형성의 소에 따른 각 사건별 소장<br> 
+                        및 답변서준비서면 등의 작성 및 제출 실무소가 산정 <br>
+                        (인지송달료 등가 가능합니다) </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              
+              <!-- 두 번째 행 이미지들 -->
+              <ul class="life_img2">
+                <!-- 공탁 실무교육 -->
+                <li>
+                  <a href="#">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (6)-2.png" alt="공탁 실무교육" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>공탁 실무 교육</strong>
+                      <span>금전공탁유가증권공탁물품공탁공탁서 <br>
+                        정정신청서공 탁물 출급 및 회수신청서 작성 등 <br>
+                        공탁업무 전반에 대한 실무업무가 가능 합니다</span>
+                    </div>
+                  </div>
+                </li>
+                
+                <!-- 부동산 등기 및 가사소송 -->
+                <li>
+                  <a href="#">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (7)-1.png" alt="부동산 등기 가사소송" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>부동산상업 등기/가사소송</strong>
+                      <span>부동산 등기상업등기가사소송에 <br>
+                        대한 실무업무가 가능합니다.</span>
+                    </div>
+                  </div>
+                </li>
+                
+                <!-- 민사집행 실전실무교육 -->
+                <li>
+                  <a href="#">
+                    <div class="life_imgarea">
+                      <img src="/images/LEGALWEB-3.png" alt="민사집행 실전실무교육" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>민사집행 실전실무교육</strong>
+                      <span>민사집행절차 전반에 대한 모든 필요신청서 작성<br>
+                         및 제출에 관한 진행이 가능</span>
+                    </div>
+                  </div>
+                </li>
+                
+                <!-- 형법 및 형사소송 절차 실무 -->
+                <li>
+                  <a href="#">
+                    <div class="life_imgarea">
+                      <img src="/images/Chat GPT image 로고 (5)-1.png" alt="형법 형사소송 절차 실무" />
+                    </div>
+                  </a>
+                  <!-- 호버시 나타나는 상세 정보 -->
+                  <div class="over">
+                    <div class="overcon">
+                      <strong>형법 및 형사소송 절차 실무 </strong>
+                      <span>실체법인 형법의 기본이론 및 범죄론 <br>
+                        체계공법론과실범론 죄수론 등 형법총론을 익힘</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Strength 섹션 (앵커 포인트) -->
+        <section id="strength"></section>
+        <div class="strength">
+          <!-- 강점 섹션 제목 및 소개 -->
+          <div class="title">
+            <span>Strength</span>
+            <p>
+              최소 2년 ~ 3년 이상의 법무업무 경력자 양성을 목표로 일일 시간씩의 강도
+              높은 실무교육을 진행하는 국민법률세무교육원 에서 법무법인의 법률사무
+              원이 되기 위해 힘든 법무실무교육과정을 끝까지 이수 하였습니다.<br>
+              그 결과 저는 최소 2년 이상의 법무법인 실무 경력자 수준의 실무력을 갖추었다 자부합니다.
+              만약 저에게 귀사에 입사할 기회를 주신다면 위와 같은 실무능력에 성실함과 꼼꼼함을 더하여 경력자 못지않은 면모를 보여 드릴 수 있습니다.  
+            </p>
+          </div>
+          
+          <!-- 강점 슬라이더 (Swiper) - 개인 강점들을 카드 형태로 표시 -->
+          <div class="swiper-container swiper2">
+            <div class="swiper-wrapper">
+              <!-- 강점 카드 1: 창의적 표현 -->
+              <div class="swiper-slide">
+                <a href="#">
+                  <!-- 아이콘 영역 -->
+                  <div class="icon_area">
+                    <img src="/images/Chat GPT image 로고 (1)-1.png" alt="창의적 표현 아이콘"/>
+                    <span>Creative Expression</span>
+                    <span>법률업무에 대한 열망</span>
+                  </div>
+                  <!-- 호버시 나타나는 추가 내용 -->
+                  <div class="extra_content">
+                    <div class="extra_text">
+                      <strong>Creative Expression</strong>
+                      <span></span>
+                      <span>콘텐츠로 표현하는 것을 즐겨요</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              
+              <!-- 강점 카드 2: 문제 해결 능력 -->
+              <div class="swiper-slide">
+                <a href="#">
+                  <!-- 아이콘 영역 -->
+                  <div class="icon_area">
+                    <img src="/images/Chat GPT image 로고 (6)-1.png" alt="문제 해결 아이콘"/>
+                    <span>Problem-Solving</span>
+                    <span>할 수 있다는 자신감</span>
+                  </div>
+                  <!-- 호버시 나타나는 추가 내용 -->
+                  <div class="extra_content">
+                    <div class="extra_text">
+                      <strong>Problem-Solving</strong>
+                      <span>최선의 결과를 위해 밤새 고민하며</span>
+                      <span>좋은 해결책을 도출해요.</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              
+              <!-- 강점 카드 3: 책임감 -->
+              <div class="swiper-slide">
+                <a href="#">
+                  <!-- 아이콘 영역 -->
+                  <div class="icon_area">
+                    <img src="/images/Chat GPT image 로고 (3)-1.png" alt="책임감 아이콘"/>
+                    <span>Responsibility</span>
+                    <span>일은 삶은 활력소</span>
+                  </div>
+                  <!-- 호버시 나타나는 추가 내용 -->
+                  <div class="extra_content">
+                    <div class="extra_text">
+                      <strong>Responsibility</strong>
+                      <span>책임감을 가지고</span>
+                      <span>맡을 일을 성실히 수행해요.</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              
+              <!-- 강점 카드 4: 창의적 표현 (중복) -->
+              <div class="swiper-slide">
+                <a href="#">
+                  <!-- 아이콘 영역 -->
+                  <div class="icon_area">
+                    <img src="/images/Chat GPT image 로고 (4)-1.png" alt="즐거움과 행복 아이콘"/>
+                    <span>Creative Expression</span>
+                    <span>즐거움과 행복</span>
+                  </div>
+                  <!-- 호버시 나타나는 추가 내용 -->
+                  <div class="extra_content">
+                    <div class="extra_text">
+                      <strong>Creative Expression</strong>
+                      <span>다양한 생각과 아이디어를</span>
+                      <span>콘텐츠로 표현하는 것을 즐겨요</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              
+              <!-- 강점 카드 5: 지원 포부 -->
+              <div class="swiper-slide">
+                <a href="#">
+                  <!-- 아이콘 영역 -->
+                  <div class="icon_area">
+                    <img src="/images/Chat GPT image 로고 (5)-1.png" alt="지원 포부 아이콘"/>
+                    <span>Responsibility</span>
+                    <span>지원에 대한 포부</span>
+                  </div>
+                  <!-- 호버시 나타나는 추가 내용 -->
+                  <div class="extra_content">
+                    <div class="extra_text">
+                      <strong>Problem-Solving</strong>
+                      <span>최선의 결과를 위해 밤새 고민하며</span>
+                      <span>좋은 해결책을 도출해요.</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              
+              <!-- 강점 카드 6: 실무능력과 성실함 -->
+              <div class="swiper-slide">
+                <a href="#">
+                  <!-- 아이콘 영역 -->
+                  <div class="icon_area">
+                    <img src="/images/Chat GPT image 로고 (6)-1.png" alt="실무능력 성실함 아이콘" />
+                    <span>Problem-Solving</span>
+                    <span>실무능력에 성실함</span>
+                  </div>
+                  <!-- 호버시 나타나는 추가 내용 -->
+                  <div class="extra_content">
+                    <div class="extra_text">
+                      <strong>Responsibility</strong>
+                      <span>책임감을 가지고</span>
+                      <span>맡을 일을 성실히 수행해요.</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- 푸터 영역 -->
+      <footer>
+        <div class="ftinner">
+          <!-- 이름 표시 -->
+          <strong>Name : 이경민</strong>
+          <hr>
+          <!-- 저작권 정보 -->
+          <p>© 2025 웹 포트폴리오. All Rights Reserved.</p>
+          
+          <!-- 연락처 정보 리스트 -->
+          <div class="contact_list">
+            <ul>
+              <!-- GitHub 링크 -->
+              <li>
+                <a href="https://github.com/rudals-lee">
+                  <i class="fab fa-github"></i>
+                  <span>GitHub<br> 
+                    https://github.com/rudals-lee
+                  </span>
+                </a>
+              </li>
+              
+              <!-- Instagram (계정 없음) -->
+              <li>
+                <a href="#">
+                  <i class="fab fa-instagram"></i>
+                  <span>Instagram<br>
+                    계정 없음
+                  </span>
+                </a>
+              </li>
+              
+              <!-- 이메일 연락처 -->
+              <li>
+                <a href="#">
+                  <i class="fas fa-envelope"></i>
+                  <span>email<br>
+                    lkm4175@gmail.com
+                  </span>
+                </a>
+              </li>
+              
+              <!-- 전화번호 -->
+              <li>
+                <a href="#">
+                  <i class="fas fa-phone-alt"></i>
+                  <span>전화번호<br>
+                    010-4559-4175
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- wrap 종료 -->
+  </body>
+</html>

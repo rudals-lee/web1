@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>법무 문서 작성 시스템</title>
+    <style>
+        /* 전체 요소의 기본 마진, 패딩 초기화 및 박스 사이징 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 패딩과 보더가 전체 크기에 포함되도록 */
+        }
+
+        /* 전체 페이지 레이아웃 설정 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* 시스템 기본 폰트 사용 */
+            background-color: #f5f5f5; /* 연한 회색 배경 */
+            display: flex; /* 사이드바와 메인 콘텐츠를 가로로 배치 */
+            height: 100vh; /* 뷰포트 전체 높이 사용 */
+        }
+
+        /* 좌측 사이드바 스타일 */
+        .sidebar {
+            width: 380px; /* 고정 너비 */
+            background-color: white; /* 흰색 배경 */
+            border-right: 1px solid #e0e0e0; /* 우측 보더 */
+            overflow-y: auto; /* 세로 스크롤 가능 */
+            padding: 20px; /* 내부 여백 */
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            flex: 1; /* 나머지 공간 모두 차지 */
+            display: flex;
+            flex-direction: column; /* 세로 방향 배치 */
+            background-color: #f5f5f5;
+        }
+
+        /* 문서가 표시되는 중앙 영역 */
+        .document-area {
+            flex: 1; /* 하단 바를 제외한 나머지 공간 차지 */
+            display: flex;
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: flex-start; /* 세로 상단 정렬 */
+            padding: 40px 20px; /* 여백 */
+        }
+
+        /* 실제 문서 영역 스타일 */
+        .document {
+            width: 600px; /* 고정 너비 */
+            min-height: 800px; /* 최소 높이 */
+            background-color: white; /* 흰색 배경 */
+            padding: 60px; /* 내부 여백 */
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); /* 그림자 효과 */
+            border-radius: 8px; /* 모서리 둥글게 */
+        }
+
+        /* 사이드바의 각 섹션 스타일 */
+        .section {
+            margin-bottom: 30px; /* 섹션 간 간격 */
+        }
+
+        /* 섹션 제목 스타일 */
+        .section-title {
+            font-size: 14px;
+            color: #666; /* 회색 텍스트 */
+            margin-bottom: 15px;
+            font-weight: 600; /* 굵은 글씨 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 제목과 번호를 양쪽 끝에 배치 */
+        }
+
+        /* 섹션 번호 원형 배지 */
+        .section-number {
+            background-color: #666;
+            color: white;
+            border-radius: 50%; /* 원형 */
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* 폼 그룹 스타일 */
+        .form-group {
+            margin-bottom: 15px; /* 폼 요소 간 간격 */
+        }
+
+        /* 폼 라벨 스타일 */
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        /* 입력 필드 공통 스타일 */
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd; /* 연한 회색 테두리 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            font-size: 14px;
+        }
+
+        /* 입력 필드 포커스 시 스타일 */
+        .form-input:focus {
+            outline: none; /* 기본 outline 제거 */
+            border-color: #007aff; /* 파란색 테두리 */
+        }
+
+        /* 라디오 버튼 그룹 스타일 */
+        .radio-group {
+            display: flex;
+            gap: 20px; /* 라디오 버튼 간 간격 */
+            margin-top: 5px;
+        }
+
+        /* 개별 라디오 버튼 아이템 */
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* 라디오 버튼과 라벨 간 간격 */
+        }
+
+        .radio-item input[type="radio"] {
+            margin: 0;
+        }
+
+        .radio-item label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer; /* 클릭 가능한 커서 */
+        }
+
+        /* 날짜 입력 필드들을 가로로 배치 */
+        .date-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .date-inputs input {
+            flex: 1; /* 동일한 크기로 분할 */
+        }
+
+        /* 문서 제목 스타일 */
+        .document-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        /* 문서 날짜 스타일 */
+        .document-date {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #666;
+        }
+
+        /* 문서 본문 스타일 */
+        .document-content {
+            line-height: 1.8; /* 줄 간격 */
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* 서명 섹션 스타일 */
+        .signature-section {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        /* 서명 라인 스타일 */
+        .signature-line {
+            margin: 30px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 정보 섹션 스타일 (채권자/채무자 정보) */
+        .info-section {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        /* 정보 행 스타일 */
+        .info-row {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        /* 정보 라벨 스타일 (채권자:, 주소: 등) */
+        .info-label {
+            display: inline-block;
+            width: 80px; /* 라벨 너비 고정으로 정렬 */
+            font-weight: 500;
+        }
+
+        /* 하단 바 스타일 */
+        .bottom-bar {
+            height: 60px; /* 고정 높이 */
+            background-color: #333; /* 어두운 배경 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 좌우 끝에 요소 배치 */
+            padding: 0 20px;
+        }
+
+        /* 하단 바 좌측 텍스트 */
+        .bottom-left {
+            color: white;
+            font-size: 14px;
+        }
+
+        /* 하단 바 우측 버튼 그룹 */
+        .bottom-right {
+            display: flex;
+            gap: 10px; /* 버튼 간 간격 */
+        }
+
+        /* 버튼 공통 스타일 */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* 보조 버튼 스타일 (미리보기) */
+        .btn-secondary {
+            background-color: #666;
+            color: white;
+        }
+
+        /* 주 버튼 스타일 (작성하기) */
+        .btn-primary {
+            background-color: #007aff;
+            color: white;
+        }
+
+        /* 숨김 처리용 클래스 */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 좌측 사이드바 - 입력 폼들이 위치 -->
+    <div class="sidebar">
+        <!-- 섹션 1: 채권자 및 채무자 정보 입력 -->
+        <div class="section">
+            <div class="section-title">
+                채권자 및 채무자
+                <span class="section-number">1</span>
+            </div>
+            
+            <!-- 채권자(돈 빌려준 사람) 정보 입력 부분 -->
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 12px; color: #666; margin-bottom: 10px;">돈 빌려준 사람(채권자)</div>
+                <!-- 채권자 유형 선택 라디오 버튼 -->
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="creditor_individual" name="creditor_type" value="individual" >
+                        <label for="creditor_individual">법인</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="creditor_company" name="creditor_type" value="company">
+                        <label for="creditor_company">개인사업자</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="creditor_other" name="creditor_type" value="other" checked>
+                        <label for="creditor_other">개인</label>
+                    </div>
+                </div>
+                <!-- 채권자 이름 입력 필드 -->
+                <div class="form-group">
+                    <input type="text" class="form-input" id="creditor_name" placeholder="성명" value="김채권">
+                </div>
+            </div>
+
+            <!-- 채무자(돈 빌린 사람) 정보 입력 부분 -->
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 12px; color: #666; margin-bottom: 10px;">돈 빌린 사람(채무자)</div>
+                <!-- 채무자 유형 선택 라디오 버튼 -->
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="debtor_individual" name="debtor_type" value="individual">
+                        <label for="debtor_individual">법인</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="debtor_company" name="debtor_type" value="company">
+                        <label for="debtor_company">개인사업자</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="debtor_other" name="debtor_type" value="other" checked>
+                        <label for="debtor_other">개인</label>
+                    </div>
+                </div>
+                <!-- 채무자 이름 입력 필드 -->
+                <div class="form-group">
+                    <input type="text" class="form-input" id="debtor_name" placeholder="성명" value="이채무">
+                </div>
+            </div>
+        </div>
+
+        <!-- 섹션 2: 금전 대여 내용 입력 -->
+        <div class="section">
+            <div class="section-title">
+                금전 대여 내용
+                <span class="section-number">2</span>
+            </div>
+            
+            <!-- 대여 기간 입력 (시작일, 종료일) -->
+            <div class="form-group">
+                <label class="form-label">대여기간</label>
+                <div class="date-inputs">
+                    <input type="date" class="form-input" id="loan_start_date">
+                    <input type="date" class="form-input" id="loan_end_date">
+                </div>
+            </div>
+
+            <!-- 대여 금액 입력 -->
+            <div class="form-group">
+                <label class="form-label">총 빌린 금액</label>
+                <div style="position: relative;">
+                    <input type="text" class="form-input" id="loan_amount" placeholder="숫자만 입력해주세요">
+                    <!-- 금액 단위 표시 (원) -->
+                    <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #666;">원</span>
+                </div>
+            </div>
+
+            <!-- 이자 설정 여부 선택 -->
+            <div class="form-group">
+                <label class="form-label">현금일 대여 이자를 정하셨나요?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="interest_yes" name="interest" value="yes">
+                        <label for="interest_yes">정함</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="interest_no" name="interest" value="no" checked>
+                        <label for="interest_no">정하지 않음</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 섹션 3: 채권자 상세 정보 입력 -->
+        <div class="section">
+            <div class="section-title">
+                채권자 상세정보
+                <span class="section-number">3</span>
+            </div>
+            
+            <!-- 채권자 성명과 주민등록번호 입력 -->
+            <div class="form-group">
+                <label class="form-label">성명</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" class="form-input" id="creditor_detail_name" placeholder="성명" style="flex: 1;" value="김혜권">
+                    <input type="text" class="form-input" id="creditor_id" placeholder="주민등록번호" style="flex: 1;">
+                </div>
+            </div>
+
+            <!-- 채권자 주소 입력 (기본 주소) -->
+            <div class="form-group">
+                <label class="form-label">주소</label>
+                <input type="text" class="form-input" id="creditor_address" placeholder="채권자의 주소를 정확히제대로">
+            </div>
+
+            <!-- 채권자 상세 주소 입력 -->
+            <div class="form-group">
+                <input type="text" class="form-input" id="creditor_address2" placeholder="상세주소 주소를 입력하세요">
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <!-- 문서 미리보기 영역 -->
+        <div class="document-area">
+            <div class="document">
+                <!-- 문서 제목 -->
+                <div class="document-title">금전 차용증</div>
+                <!-- 문서 작성 날짜 -->
+                <div class="document-date">2025.08.01.</div>
+                
+                <!-- 문서 본문 내용 -->
+                <div class="document-content">
+                    <p>이채무자(이하 '채무자'라고 한다)는 <strong id="doc_creditor_name">김혜권</strong>(이하 '채권자'라고 한다)로부터 아래와 같이
+                    차용하였음을 확인하고, 변제에 것을 약속합니다.</p>
+                </div>
+
+                <!-- 구분선 -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <strong>- 아 래 -</strong>
+                </div>
+
+                <!-- 채권자 정보 섹션 -->
+                <div class="info-section">
+                    <div class="info-row">
+                        <span class="info-label">채권자 :</span>
+                        <span id="doc_creditor_detail"><strong id="doc_creditor_name2">김채권</strong> (서명 또는 인)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">주민등록번호 :</span>
+                        <span id="doc_creditor_id"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">주소 :</span>
+                        <span id="doc_creditor_full_address"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">전화번호 :</span>
+                        <span id="doc_creditor_phone"></span>
+                    </div>
+                </div>
+
+                <!-- 채무자 정보 섹션 -->
+                <div class="info-section" style="margin-top: 30px;">
+                    <div class="info-row">
+                        <span class="info-label">채무자 :</span>
+                        <span id="doc_debtor_detail"><strong id="doc_debtor_name">이채무</strong> (서명 또는 인)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">주민등록번호 :</span>
+                        <span id="doc_debtor_id"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">주소 :</span>
+                        <span id="doc_debtor_address"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">전화번호 :</span>
+                        <span id="doc_debtor_phone"></span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- 하단 액션 바 -->
+        <div class="bottom-bar">
+            <div class="bottom-left">생성 문서 보기</div>
+            <div class="bottom-right">
+                <button class="btn btn-secondary">미리보기</button>
+                <button class="btn btn-primary">작성하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 사이드바 입력값을 실시간으로 문서에 반영하는 함수
+         * 사용자가 입력한 정보를 즉시 문서 미리보기에 업데이트
+         */
+        function updateDocument() {
+            // 채권자 이름을 문서의 두 위치에 업데이트
+            const creditorName = document.getElementById('creditor_name').value;
+            document.getElementById('doc_creditor_name').textContent = creditorName;
+            document.getElementById('doc_creditor_name2').textContent = creditorName;
+            
+            // 채무자 이름을 문서에 업데이트
+            const debtorName = document.getElementById('debtor_name').value;
+            document.getElementById('doc_debtor_name').textContent = debtorName;
+            
+            // 채권자 상세 정보들을 가져와서 문서에 반영
+            const creditorDetailName = document.getElementById('creditor_detail_name').value;
+            const creditorId = document.getElementById('creditor_id').value;
+            const creditorAddress = document.getElementById('creditor_address').value;
+            const creditorAddress2 = document.getElementById('creditor_address2').value;
+            
+            // 주민등록번호 업데이트
+            document.getElementById('doc_creditor_id').textContent = creditorId;
+            
+            // 전체 주소 업데이트 (기본주소 + 상세주소)
+            document.getElementById('doc_creditor_full_address').textContent = 
+                creditorAddress + (creditorAddress2 ? ' ' + creditorAddress2 : '');
+        }
+
+        // 각 입력 필드에 실시간 업데이트 이벤트 리스너 등록
+        document.getElementById('creditor_name').addEventListener('input', updateDocument);
+        document.getElementById('debtor_name').addEventListener('input', updateDocument);
+        document.getElementById('creditor_detail_name').addEventListener('input', updateDocument);
+        document.getElementById('creditor_id').addEventListener('input', updateDocument);
+        document.getElementById('creditor_address').addEventListener('input', updateDocument);
+        document.getElementById('creditor_address2').addEventListener('input', updateDocument);
+
+        // 페이지 로드 시 초기 문서 업데이트 실행
+        updateDocument();
+
+        /**
+         * 금액 입력 필드 처리
+         * - 숫자만 입력 허용
+         * - 천 단위마다 콤마(,) 자동 추가
+         */
+        document.getElementById('loan_amount').addEventListener('input', function(e) {
+            // 숫자가 아닌 모든 문자 제거
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            
+            // 값이 있으면 천 단위 콤마 추가
+            if (value) {
+                value = parseInt(value).toLocaleString();
+            }
+            
+            // 처리된 값을 다시 입력 필드에 설정
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

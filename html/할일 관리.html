@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoMaster - 할일 관리</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVG9kb01hc3RlciIsInNob3J0X25hbWUiOiJUb2RvIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxZTFiNGIiLCJ0aGVtZV9jb2xvciI6IiM2MzY2ZjEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRJNElpQm9aV2xuYUhROUlqRXlPQ0lpSUhacFpYZENiM2c5SWpBZ01DQXhNamdnTVRJNElpQm1hV3hzUFNJak5qTTJObVl4SWlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M00yNXZjbWN2TWpBd01DOXpkbWNpUGp4d1lYUm9JR1E5SW0weE1qUXVOamtnTmpBdU16bGpNUzQwTmlBd0lEY3VOVEVnTWk0ek5TQTNMalV4SURRZ2RqTXVNall1TFRBdU1UUmphUzQxTnkwMUxqRTVJRFV1TWpjdE56UXVNemNnTnk0MU1TMDBkQzB6TGpJMkxqRTBZaTB6TGpJMklESXVOamN0TkNBMUxqRTVJRGN1TlRFZ05HZ3pNUzR6TW1NMExqWXhJREFnT0M0eUlETXVOVEVnT0M0eUlEZ3VNVFlnTUNBMExqVXpJRGd1TWpjdU1UUWdOUzQxTlNBeUxqWTNJRGdnTlM0MU5TQTRjeTB6TGpVeUlEZ3VNamN0T0M0eUlEZ3VNVFp6TFRndU1qQXROQzQxTXkwNExqSXRPQzR4Tm13dE1URXVNVEJqTFRndU9UWTBNUTE0WlcxNElqOCtQQzl6ZG1jKyIsInNpemVzIjoiMTI4eDEyOCIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    <meta name="theme-color" content="#6366f1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .todo-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .add-todo-form {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .categories {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-filter {
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .category-filter.active {
+            background: #6366f1;
+            color: white;
+            border-color: #6366f1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-height: 200px;
+        }
+
+        .todo-item {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: move;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .todo-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #6366f1;
+        }
+
+        .todo-item.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .todo-item.completed {
+            opacity: 0.7;
+            background: #f0fdf4;
+            border-color: #16a34a;
+        }
+
+        .todo-item.completed .todo-title {
+            text-decoration: line-through;
+            color: #16a34a;
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .todo-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .todo-category {
+            background: #6366f1;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .todo-description {
+            color: #6b7280;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .todo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .todo-priority {
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .priority-high { background: #fee2e2; color: #dc2626; }
+        .priority-medium { background: #fef3c7; color: #d97706; }
+        .priority-low { background: #dcfce7; color: #16a34a; }
+
+        .todo-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .btn-complete {
+            background: #16a34a;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+        }
+
+        .sidebar {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            height: fit-content;
+            border: 2px solid #e2e8f0;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            color: #374151;
+            font-size: 1.3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone {
+            border: 3px dashed #d1d5db;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            color: #6b7280;
+            background: #f9fafb;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #6366f1;
+            background: #eef2ff;
+            color: #6366f1;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .categories {
+                justify-content: center;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>📋 TodoMaster</h1>
+            <p>드래그 앤 드롭으로 쉽게 관리하는 스마트 할일 앱</p>
+        </header>
+
+        <div class="main-content">
+            <div class="todo-section">
+                <div class="add-todo-form">
+                    <h3 style="margin-bottom: 20px; color: #374151;">새 할일 추가</h3>
+                    <form id="addTodoForm">
+                        <div class="form-group">
+                            <label for="todoTitle">제목</label>
+                            <input type="text" id="todoTitle" required placeholder="할일을 입력하세요">
+                        </div>
+                        <div class="form-group">
+                            <label for="todoDescription">설명</label>
+                            <textarea id="todoDescription" rows="3" placeholder="상세 설명 (선택사항)"></textarea>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label for="todoCategory">카테고리</label>
+                                <select id="todoCategory">
+                                    <option value="work">업무</option>
+                                    <option value="personal">개인</option>
+                                    <option value="shopping">쇼핑</option>
+                                    <option value="health">건강</option>
+                                    <option value="study">공부</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="todoPriority">우선순위</label>
+                                <select id="todoPriority">
+                                    <option value="low">낮음</option>
+                                    <option value="medium">보통</option>
+                                    <option value="high">높음</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">✨ 할일 추가</button>
+                    </form>
+                </div>
+
+                <div class="categories">
+                    <div class="category-filter active" data-category="all">전체</div>
+                    <div class="category-filter" data-category="work">업무</div>
+                    <div class="category-filter" data-category="personal">개인</div>
+                    <div class="category-filter" data-category="shopping">쇼핑</div>
+                    <div class="category-filter" data-category="health">건강</div>
+                    <div class="category-filter" data-category="study">공부</div>
+                </div>
+
+                <div class="drop-zone" id="dropZone">
+                    <p>🎯 할일을 여기로 드래그해서 순서를 변경하세요</p>
+                </div>
+
+                <div class="todo-list" id="todoList">
+                    <!-- 할일 아이템들이 여기에 추가됩니다 -->
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <h3>📊 진행 현황</h3>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalTodos">0</div>
+                        <div class="stat-label">전체</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="completedTodos">0</div>
+                        <div class="stat-label">완료</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pendingTodos">0</div>
+                        <div class="stat-label">진행중</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="completionRate">0%</div>
+                        <div class="stat-label">완료율</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="progressChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TodoApp {
+            constructor() {
+                this.todos = JSON.parse(localStorage.getItem('todos')) || [];
+                this.currentFilter = 'all';
+                this.draggedItem = null;
+                this.charts = {};
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.renderTodos();
+                this.updateStats();
+                this.initCharts();
+                this.registerServiceWorker();
+            }
+
+            setupEventListeners() {
+                // 폼 제출
+                document.getElementById('addTodoForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addTodo();
+                });
+
+                // 카테고리 필터
+                document.querySelectorAll('.category-filter').forEach(filter => {
+                    filter.addEventListener('click', (e) => {
+                        this.setFilter(e.target.dataset.category);
+                    });
+                });
+
+                // 드롭존 이벤트
+                const dropZone = document.getElementById('dropZone');
+                dropZone.addEventListener('dragover', this.handleDragOver.bind(this));
+                dropZone.addEventListener('drop', this.handleDrop.bind(this));
+                dropZone.addEventListener('dragenter', this.handleDragEnter.bind(this));
+                dropZone.addEventListener('dragleave', this.handleDragLeave.bind(this));
+            }
+
+            addTodo() {
+                const title = document.getElementById('todoTitle').value.trim();
+                const description = document.getElementById('todoDescription').value.trim();
+                const category = document.getElementById('todoCategory').value;
+                const priority = document.getElementById('todoPriority').value;
+
+                if (!title) return;
+
+                const todo = {
+                    id: Date.now(),
+                    title,
+                    description,
+                    category,
+                    priority,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+
+                this.todos.unshift(todo);
+                this.saveTodos();
+                this.renderTodos();
+                this.updateStats();
+                
+                // 폼 초기화
+                document.getElementById('addTodoForm').reset();
+                
+                // 성공 애니메이션
+                this.showNotification('할일이 추가되었습니다! ✅');
+            }
+
+            deleteTodo(id) {
+                this.todos = this.todos.filter(todo => todo.id !== id);
+                this.saveTodos();
+                this.renderTodos();
+                this.updateStats();
+                this.showNotification('할일이 삭제되었습니다! 🗑️');
+            }
+
+            toggleComplete(id) {
+                const todo = this.todos.find(todo => todo.id === id);
+                if (todo) {
+                    todo.completed = !todo.completed;
+                    this.saveTodos();
+                    this.renderTodos();
+                    this.updateStats();
+                    
+                    if (todo.completed) {
+                        this.showNotification('할일을 완료했습니다! 🎉');
+                    } else {
+                        this.showNotification('할일을 미완료로 변경했습니다.');
+                    }
+                }
+            }
+
+            setFilter(category) {
+                this.currentFilter = category;
+                
+                // 활성 필터 업데이트
+                document.querySelectorAll('.category-filter').forEach(filter => {
+                    filter.classList.remove('active');
+                });
+                document.querySelector(`[data-category="${category}"]`).classList.add('active');
+                
+                this.renderTodos();
+            }
+
+            getFilteredTodos() {
+                if (this.currentFilter === 'all') {
+                    return this.todos;
+                }
+                return this.todos.filter(todo => todo.category === this.currentFilter);
+            }
+
+            renderTodos() {
+                const todoList = document.getElementById('todoList');
+                const filteredTodos = this.getFilteredTodos();
+                
+                todoList.innerHTML = '';
+                
+                filteredTodos.forEach(todo => {
+                    const todoElement = this.createTodoElement(todo);
+                    todoList.appendChild(todoElement);
+                });
+            }
+
+            createTodoElement(todo) {
+                const div = document.createElement('div');
+                div.className = `todo-item fade-in ${todo.completed ? 'completed' : ''}`;
+                div.draggable = true;
+                div.dataset.id = todo.id;
+                
+                div.addEventListener('dragstart', this.handleDragStart.bind(this));
+                div.addEventListener('dragend', this.handleDragEnd.bind(this));
+                
+                const categoryEmojis = {
+                    work: '💼',
+                    personal: '👤',
+                    shopping: '🛒',
+                    health: '💪',
+                    study: '📚'
+                };
+
+                div.innerHTML = `
+                    <div class="todo-header">
+                        <div>
+                            <div class="todo-title">${categoryEmojis[todo.category]} ${todo.title}</div>
+                            ${todo.description ? `<div class="todo-description">${todo.description}</div>` : ''}
+                        </div>
+                        <div class="todo-category">${this.getCategoryName(todo.category)}</div>
+                    </div>
+                    <div class="todo-meta">
+                        <div class="todo-priority priority-${todo.priority}">
+                            ${this.getPriorityName(todo.priority)}
+                        </div>
+                        <div class="todo-actions">
+                            <button class="btn btn-small btn-complete" onclick="app.toggleComplete(${todo.id})">
+                                ${todo.completed ? '↩️ 되돌리기' : '✅ 완료'}
+                            </button>
+                            <button class="btn btn-small btn-delete" onclick="app.deleteTodo(${todo.id})">
+                                🗑️ 삭제
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                return div;
+            }
+
+            getCategoryName(category) {
+                const names = {
+                    work: '업무',
+                    personal: '개인',
+                    shopping: '쇼핑',
+                    health: '건강',
+                    study: '공부'
+                };
+                return names[category] || category;
+            }
+
+            getPriorityName(priority) {
+                const names = {
+                    high: '🔴 높음',
+                    medium: '🟡 보통',
+                    low: '🟢 낮음'
+                };
+                return names[priority] || priority;
+            }
+
+            // 드래그 앤 드롭 이벤트 핸들러
+            handleDragStart(e) {
+                this.draggedItem = e.target;
+                e.target.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            }
+
+            handleDragEnd(e) {
+                e.target.classList.remove('dragging');
+                this.draggedItem = null;
+            }
+
+            handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            }
+
+            handleDragEnter(e) {
+                e.preventDefault();
+                e.target.classList.add('drag-over');
+            }
+
+            handleDragLeave(e) {
+                e.target.classList.remove('drag-over');
+            }
+
+            handleDrop(e) {
+                e.preventDefault();
+                e.target.classList.remove('drag-over');
+                
+                if (this.draggedItem) {
+                    const draggedId = parseInt(this.draggedItem.dataset.id);
+                    const draggedTodo = this.todos.find(todo => todo.id === draggedId);
+                    
+                    if (draggedTodo) {
+                        // 리스트 맨 위로 이동
+                        this.todos = this.todos.filter(todo => todo.id !== draggedId);
+                        this.todos.unshift(draggedTodo);
+                        
+                        this.saveTodos();
+                        this.renderTodos();
+                        this.showNotification('할일 순서가 변경되었습니다! 📋');
+                    }
+                }
+            }
+
+            updateStats() {
+                const total = this.todos.length;
+                const completed = this.todos.filter(todo => todo.completed).length;
+                const pending = total - completed;
+                const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+                document.getElementById('totalTodos').textContent = total;
+                document.getElementById('completedTodos').textContent = completed;
+                document.getElementById('pendingTodos').textContent = pending;
+                document.getElementById('completionRate').textContent = `${completionRate}%`;
+
+                this.updateCharts();
+            }
+
+            initCharts() {
+                // 진행률 차트
+                const progressCtx = document.getElementById('progressChart').getContext('2d');
+                this.charts.progress = new Chart(progressCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['완료', '진행중'],
+                        datasets: [{
+                            data: [0, 0],
+                            backgroundColor: ['#16a34a', '#e2e8f0'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+
+                // 카테고리별 차트
+                const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+                this.charts.category = new Chart(categoryCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['업무', '개인', '쇼핑', '건강', '공부'],
+                        datasets: [{
+                            label: '할일 수',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#6366f1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateCharts() {
+                const completed = this.todos.filter(todo => todo.completed).length;
+                const pending = this.todos.length - completed;
+
+                // 진행률 차트 업데이트
+                this.charts.progress.data.datasets[0].data = [completed, pending];
+                this.charts.progress.update();
+
+                // 카테고리별 차트 업데이트
+                const categoryData = [0, 0, 0, 0, 0];
+                const categories = ['work', 'personal', 'shopping', 'health', 'study'];
+                
+                this.todos.forEach(todo => {
+                    const index = categories.indexOf(todo.category);
+                    if (index !== -1) categoryData[index]++;
+                });
+
+                this.charts.category.data.datasets[0].data = categoryData;
+                this.charts.category.update();
+            }
+
+            saveTodos() {
+                localStorage.setItem('todos', JSON.stringify(this.todos));
+            }
+
+            showNotification(message) {
+                // 간단한 알림 시스템
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #16a34a;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 10px;
+                    z-index: 1000;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                    animation: slideIn 0.3s ease-out;
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+
+            registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    // PWA를 위한 서비스 워커 등록
+                    const swCode = `
+                        const CACHE_NAME = 'todomaster-v1';
+                        const urlsToCache = [
+                            '/',
+                            '/manifest.json'
+                        ];
+
+                        self.addEventListener('install', function(event) {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then(function(cache) {
+                                        return cache.addAll(urlsToCache);
+                                    })
+                            );
+                        });
+
+                        self.addEventListener('fetch', function(event) {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then(function(response) {
+                                        if (response) {
+                                            return response;
+                                        }
+                                        return fetch(event.request);
+                                    }
+                                )
+                            );
+                        });
+                    `;
+                    
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    
+                    navigator.serviceWorker.register(swUrl)
+                        .then(function(registration) {
+                            console.log('ServiceWorker registration successful');
+                        })
+                        .catch(function(err) {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                }
+            }
+        }
+
+        // 앱 초기화
+        const app = new TodoApp();
+
+        // 추가 CSS 애니메이션
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+
+            /* PWA 설치 버튼 스타일 */
+            .install-prompt {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #6366f1;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 25px;
+                box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+                cursor: pointer;
+                display: none;
+                z-index: 1000;
+                animation: bounceIn 0.5s ease-out;
+            }
+
+            @keyframes bounceIn {
+                0% {
+                    transform: translateX(-50%) scale(0.3);
+                    opacity: 0;
+                }
+                50% {
+                    transform: translateX(-50%) scale(1.05);
+                }
+                70% {
+                    transform: translateX(-50%) scale(0.9);
+                }
+                100% {
+                    transform: translateX(-50%) scale(1);
+                    opacity: 1;
+                }
+            }
+
+            /* 반응형 개선 */
+            @media (max-width: 480px) {
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                    gap: 10px;
+                }
+
+                .todo-meta {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 15px;
+                }
+
+                .todo-actions {
+                    width: 100%;
+                    justify-content: space-between;
+                }
+
+                .form-group:last-child {
+                    grid-column: 1 / -1;
+                }
+            }
+
+            /* 다크모드 미디어 쿼리 */
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+                }
+
+                .app-container {
+                    background: #1f2937;
+                    color: #f9fafb;
+                }
+
+                .add-todo-form, .sidebar {
+                    background: #374151;
+                    border-color: #4b5563;
+                }
+
+                .todo-item {
+                    background: #374151;
+                    border-color: #4b5563;
+                    color: #f9fafb;
+                }
+
+                .todo-item:hover {
+                    border-color: #8b5cf6;
+                }
+
+                .stat-card {
+                    background: #4b5563;
+                    border-color: #6b7280;
+                }
+
+                .form-group input,
+                .form-group select,
+                .form-group textarea {
+                    background: #4b5563;
+                    border-color: #6b7280;
+                    color: #f9fafb;
+                }
+
+                .category-filter {
+                    background: #4b5563;
+                    border-color: #6b7280;
+                    color: #f9fafb;
+                }
+
+                .drop-zone {
+                    background: #374151;
+                    border-color: #6b7280;
+                    color: #9ca3af;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // PWA 설치 프롬프트
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            const installPrompt = document.createElement('div');
+            installPrompt.className = 'install-prompt';
+            installPrompt.innerHTML = '📱 앱으로 설치하기';
+            installPrompt.style.display = 'block';
+            
+            installPrompt.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (outcome === 'accepted') {
+                        app.showNotification('앱이 설치되었습니다! 🎉');
+                    }
+                    
+                    deferredPrompt = null;
+                    installPrompt.remove();
+                }
+            });
+            
+            document.body.appendChild(installPrompt);
+            
+            // 5초 후 자동으로 숨김
+            setTimeout(() => {
+                if (installPrompt.parentNode) {
+                    installPrompt.style.animation = 'slideOut 0.3s ease-in forwards';
+                    setTimeout(() => installPrompt.remove(), 300);
+                }
+            }, 5000);
+        });
+
+        // 키보드 단축키
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + Enter로 할일 추가
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                const form = document.getElementById('addTodoForm');
+                if (form) {
+                    const event = new Event('submit');
+                    form.dispatchEvent(event);
+                }
+            }
+            
+            // ESC로 입력 필드 초기화
+            if (e.key === 'Escape') {
+                document.getElementById('addTodoForm').reset();
+                document.getElementById('todoTitle').focus();
+            }
+        });
+
+        // 초기 포커스
+        document.getElementById('todoTitle').focus();
+
+        // 오프라인 감지
+        window.addEventListener('online', () => {
+            app.showNotification('인터넷 연결이 복구되었습니다! 🌐');
+        });
+
+        window.addEventListener('offline', () => {
+            app.showNotification('오프라인 모드입니다. 데이터는 로컬에 저장됩니다. 📱');
+        });
+
+        // 데이터 백업/복원 기능
+        window.exportTodos = function() {
+            const data = JSON.stringify(app.todos, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `todos-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            app.showNotification('할일 데이터가 내보내졌습니다! 💾');
+        };
+
+        window.importTodos = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const todos = JSON.parse(e.target.result);
+                            if (Array.isArray(todos)) {
+                                app.todos = todos;
+                                app.saveTodos();
+                                app.renderTodos();
+                                app.updateStats();
+                                app.showNotification('할일 데이터가 가져와졌습니다! 📂');
+                            } else {
+                                throw new Error('잘못된 파일 형식');
+                            }
+                        } catch (error) {
+                            app.showNotification('파일을 읽을 수 없습니다. 올바른 백업 파일인지 확인해주세요. ❌');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            
+            input.click();
+        };
+
+        // 백업/복원 버튼 추가
+        const backupControls = document.createElement('div');
+        backupControls.innerHTML = `
+            <div style="margin-top: 20px; text-align: center;">
+                <button onclick="exportTodos()" class="btn btn-small" style="margin-right: 10px; background: #059669;">
+                    💾 내보내기
+                </button>
+                <button onclick="importTodos()" class="btn btn-small" style="background: #0891b2;">
+                    📂 가져오기
+                </button>
+            </div>
+        `;
+        document.querySelector('.sidebar').appendChild(backupControls);
+
+        console.log('🎉 TodoMaster 앱이 성공적으로 로드되었습니다!');
+        console.log('💡 팁: Ctrl/Cmd + Enter로 빠르게 할일을 추가할 수 있습니다.');
+        console.log('💡 팁: ESC를 눌러 입력 필드를 초기화할 수 있습니다.');
+    </script>
+</body>
+</html>

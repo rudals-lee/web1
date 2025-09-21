@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LBOX - 법률 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .logo::before {
+            content: "📚";
+            margin-right: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            color: #0066cc;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .search-section {
+            background: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #0066cc;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .search-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .search-tab {
+            padding: 10px 0;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .search-tab.active {
+            color: #0066cc;
+            border-bottom-color: #0066cc;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-option {
+            padding: 6px 12px;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+            background: white;
+            cursor: pointer;
+        }
+
+        .filter-option:hover {
+            border-color: #0066cc;
+            color: #0066cc;
+        }
+
+        .main-content {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .results-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .results-sort {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sort-btn {
+            padding: 6px 12px;
+            border: 1px solid #e9ecef;
+            background: white;
+            color: #666;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .case-item {
+            padding: 20px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .case-item:last-child {
+            border-bottom: none;
+        }
+
+        .case-title {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .case-title:hover {
+            text-decoration: underline;
+        }
+
+        .case-meta {
+            color: #0066cc;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .case-summary {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .case-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .case-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pagination {
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #e9ecef;
+            background: white;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .page-btn.active {
+            background: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .page-btn:hover:not(.active) {
+            border-color: #0066cc;
+            color: #0066cc;
+        }
+
+        /* 형광색 마킹
+        .highlight {
+            background-color: #fff3cd;
+            padding: 0 2px;
+        } */
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LBOX</div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item">고객지원</a>
+            <a href="#" class="nav-item">요금제</a>
+        </nav>
+        <div class="auth-buttons">
+            <a href="#" class="btn">로그인</a>
+            <a href="#" class="btn btn-primary">회원가입</a>
+        </div>
+    </header>
+
+    <section class="search-section">
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="사건번호, 키워드를 입력하세요.">
+            <button class="search-btn">🔍</button>
+        </div>
+        
+        <div class="search-tabs">
+            <a href="#" class="search-tab active">판례</a>
+            <a href="#" class="search-tab">결정례</a>
+            <a href="#" class="search-tab">유권해석</a>
+            <a href="#" class="search-tab">주식심무</a>
+            <a href="#" class="search-tab">법령</a>
+            <a href="#" class="search-tab">논문</a>
+            <a href="#" class="search-tab">뉴스</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="filter-section">
+                <div class="filter-title">필터</div>
+                
+                <div class="filter-group">
+                    <div class="filter-label">사건유형</div>
+                    <div class="filter-options">
+                        <div class="filter-option">민사</div>
+                        <div class="filter-option">형사</div>
+                        <div class="filter-option">행정</div>
+                        <div class="filter-option">가사</div>
+                        <div class="filter-option">특허</div>
+                        <div class="filter-option">기타</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label">법원</div>
+                    <div class="filter-options">
+                        <div class="filter-option">대법원</div>
+                        <div class="filter-option">고등/특허법원</div>
+                        <div class="filter-option">지방법원</div>
+                        <div class="filter-option">헌법재판소</div>
+                        <div class="filter-option">군사법원</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label">주문유형</div>
+                    <div class="filter-options">
+                        <div class="filter-option">원고승</div>
+                        <div class="filter-option">원고패</div>
+                        <div class="filter-option">무죄</div>
+                        <div class="filter-option">파기환송</div>
+                        <div class="filter-option">청구기각</div>
+                        <div class="filter-option">상고기각</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label">제목어</div>
+                    <input type="text" class="search-input" placeholder="제목 키워드 입력" style="margin-bottom: 10px;">
+                    <button class="btn" style="width: 100%">추가</button>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label">재판부명</div>
+                    <div class="filter-options">
+                        <div class="filter-option">전체</div>
+                        <div class="filter-option">민사</div>
+                        <div class="filter-option">형사</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label">기간</div>
+                    <div class="filter-options">
+                        <div class="filter-option">전체</div>
+                        <div class="filter-option">1년</div>
+                        <div class="filter-option">3년</div>
+                        <div class="filter-option">5년</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="results-header">
+                <div class="results-count">1,583,807개의 검색결과</div>
+                <div class="results-sort">
+                    <span>관련도순 📋</span>
+                    <button class="sort-btn">관련도순 ⬇️</button>
+                </div>
+            </div>
+
+            <div class="case-item">
+                <a href="#" class="case-title">대구지방법원 상주지원 2016. 12. 23.자 2016고정</a>
+                <div class="case-meta">[<span class="highlight">형사보상</span>(<span class="highlight">형사보상</span>결정무효확정에대한죄사헌고)]</div>
+                <div class="case-summary">
+                    청구인에 대한 공소사실을 구성하는 각 범죄의 경우, <span class="highlight">형사재판</span>의 경과 및 확정된 판결의 내용 등을 종합적으로 고려
+                    하여 보면, 이 사건 청구를 전부 기각하는 것은 상당하지 아니하고, 청구인은 위 <span class="highlight">형사사건</span>으로 인하여 구금을 당하였
+                    음이 명백하므로, 청구인은 <span class="highlight">형사보상</span>법 제2조에 ... <span class="highlight">형사소송법</span> 제194조의4 제1항에 의하여, 같은 법 제194조의2에
+                    따른 보정요구의 방식은 '<span class="highlight">형사소송</span>비용 등에 관한 법률을 온당하며, 변호인 보수는 국선변호인에 관한 규정을 준...
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">👁️ 9</div>
+                    <div class="case-stat">💬 0</div>
+                </div>
+            </div>
+
+            <div class="case-item">
+                <a href="#" class="case-title">광주고등법원 2023. 11. 8.자 2022그19 결정</a>
+                <div class="case-meta">[<span class="highlight">형사보상</span>신청사건]변호(<span class="highlight">특수강도</span>치상)[피권한법취하라]</div>
+                <div class="case-summary">
+                    구금에 대한 보상 1) <span class="highlight">형사보상</span>신청 구금의 방법 파고되는 무방한 초이어 확정된 시간대 관련하여 1961. 5. 18.부터 1962.
+                    12. 27까지 총 589일 동안 구금을 당하였고, 기혹의 <span class="highlight">형사보상</span> 및 변해역에에 관한 법률에어 <span class="highlight">형사보상법</span>이라 한다)
+                    제4조 각 호에 규정된 ... 비록의 보상을 청구할 수 있다. 2) 보상의 범위 <span class="highlight">형사소송법</span> 제194조의4 제1항은 보상금액
+                    에 관하여 <span class="highlight">형사소송비용</span> 등에 관한 법률에어 '<span class="highlight">형사소송비용법</span>'이라 한다을 준용하되 변호인이어던 자어 대하여는...
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">👁️ 23</div>
+                    <div class="case-stat">💬 0</div>
+                </div>
+            </div>
+
+            <div class="case-item">
+                <a href="#" class="case-title">헌법재판소 2002. 11. 26.자 2002헌미750 결정</a>
+                <div class="case-meta">[<span class="highlight">형사보상</span>결정취소헌청권한청구]</div>
+                <div class="case-summary">
+                    대법원규칙 제1707호로 개정된 것이 부당하는 것이며, 동 규칙 제3조 제1항은 법령의서의 구속 등록 법의 그런데 국가보
+                    안이 되고 하였는데, 헌청 그럼 1-5일 <span class="highlight">형사</span> 표준법정의 언간도를 보면, 검사서 및 피고인간도 각 터디오오버디 독린
+                    이 15생디버디단 높이에 대리되도록 규...
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">👁️ 1</div>
+                    <div class="case-stat">💬 0</div>
+                </div>
+            </div>
+
+            <div class="case-item">
+                <a href="#" class="case-title">서울남부지방법원 1987. 9. 2. 선고 85고3 판결</a>
+                <div class="case-meta">[<span class="highlight">형사보상</span>구자건]</div>
+                <div class="case-summary">
+                    <span class="highlight">형사보상</span>구자혁정에 대한 불복방법 <span class="highlight">형사보상</span>법 제19조 제2항이 보상의 청구를 기각한 결정에 대하여는 즉시항
+                    고할 수 있다고 규정하고 있으므로, 이에 준하여 보상청구를 기각한 결정에 대하여도 즉시항고로 불복할 수 있다. ...
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">👁️ 0</div>
+                    <div class="case-stat">💬 1</div>
+                </div>
+            </div>
+
+            <div class="case-item">
+                <a href="#" class="case-title">헌법재판소 2014. 7. 1.자 2014헌미255 결정</a>
+                <div class="case-meta">[<span class="highlight">형사보상</span>법제재정죄취하귄한소취]</div>
+                <div class="case-summary">
+                    청구인은 미군구금수에 대하여 법원에 <span class="highlight">형사보상</span>을 청구하였고(수원지방법원 2014.구46), 소속 계속 중 <span class="highlight">형사보상</span>
+                    및 명예회복에 관한 법률 ('대법원 <span class="highlight">형사보상법</span>'이라 한다) 제26조 제1항 제1항에 대한 위헌법률심판제청신청 하
+                    였으나, 2014. 5. 2.... 법원은 '청구인에 대한 청소석 재판에서 제1 공소사실이 결여되어 아 니라고 청구인이 아 무
+                    력에 대해 무죄판결을 받았다하드, 헌법 제67조 제1항에 따라 청구인의 미금구금수 249일로 이미 보상에서 ...
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">집필(4주)</div>
+                </div>
+            </div>
+
+            <div class="case-item">
+                <a href="#" class="case-title">헌법재판소 1997. 10. 7.자 97헌미288 결정</a>
+                <div class="case-meta">[<span class="highlight">형사소송</span>비용제재정취하헌청권]</div>
+                <div class="case-summary">
+                    피기자인 않았고 하더라도 국민의 인간 존송을 위하여 마킴이 미금이 미금구금수치를 분에에 신원하여어 함이는: 물구
+                    하고 검사자 상고를 제기한 마후 피고인의 상고를 제기한 경우에 원문적이 피기될 때만 그 정물을 산 임하고 그 이하
+                    의 경우에는 일부받올 신원할 수 있도록 규정한 <span class="highlight">형사소송법</span> ... 그런데 이 사건 실현규정 대상인 <span class="highlight">형사소송법</span> 제482
+                    조제1항 및 형법에서 57조제1항 향은 그 자체만으로 기본권침해에의 법률효과가 생기는 것이 아니라 구체적인 소송사건...
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">👁️ 0</div>
+                    <div class="case-stat">💬 1</div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="page-btn">‹</a>
+                <a href="#" class="page-btn">‹‹</a>
+                <a href="#" class="page-btn active">1</a>
+                <a href="#" class="page-btn">2</a>
+                <a href="#" class="page-btn">3</a>
+                <a href="#" class="page-btn">4</a>
+                <a href="#" class="page-btn">5</a>
+                <a href="#" class="page-btn">››</a>
+                <a href="#" class="page-btn">›</a>
+                <div style="margin-left: 20px;">
+                    <span style="color: #666; font-size: 14px;">이동</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 검색 기능
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const query = document.querySelector('.search-input').value;
+            if (query.trim()) {
+                alert('검색어: ' + query);
+            }
+        });
+
+        // 엔터키 검색
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-btn').click();
+            }
+        });
+
+        // 필터 옵션 클릭 효과
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                this.style.borderColor = this.style.borderColor === 'rgb(0, 102, 204)' ? '#e9ecef' : '#0066cc';
+                this.style.color = this.style.color === 'rgb(0, 102, 204)' ? '#666' : '#0066cc';
+                this.style.backgroundColor = this.style.backgroundColor === 'rgb(230, 247, 255)' ? 'white' : '#e6f7ff';
+            });
+        });
+
+        // 탭 전환
+        document.querySelectorAll('.search-tab').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 페이지네이션
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            if (!btn.classList.contains('active')) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

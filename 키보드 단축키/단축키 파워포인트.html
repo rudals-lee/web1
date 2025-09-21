@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPoint 단축키 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: #FF6B6B;
+            border-radius: 50%;
+            opacity: 0.8;
+            transform: rotate(45deg);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: #FFE66D;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+        
+        .powerpoint-icon {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: #D04423;
+            border-radius: 8px;
+            position: relative;
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+        
+        .powerpoint-icon::before {
+            content: 'P';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .title {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .subtitle {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .highlight-box {
+            background: #FF6B6B;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            display: inline-block;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .content {
+            padding: 30px;
+            background: #2C3E50;
+        }
+        
+        .shortcuts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .shortcuts-table {
+            background: #34495E;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: #E74C3C;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .table-content {
+            padding: 20px;
+        }
+        
+        .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #455A64;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .shortcut-row:last-child {
+            border-bottom: none;
+        }
+        
+        .shortcut-key {
+            background: #607D8B;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .keyboard-layout {
+            background: #34495E;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .keyboard {
+            display: grid;
+            gap: 5px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .keyboard-row {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .key {
+            background: #455A64;
+            color: white;
+            border: 2px solid #FF6B6B;
+            border-radius: 6px;
+            padding: 10px;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .key.function {
+            min-width: 35px;
+            background: #607D8B;
+        }
+        
+        .key.wide {
+            min-width: 60px;
+        }
+        
+        .key.extra-wide {
+            min-width: 80px;
+        }
+        
+        .key.space {
+            min-width: 200px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .ctrl { background: #4ECDC4; }
+        .shift { background: #9B59B6; }
+        .ctrl-shift { background: #F39C12; }
+        
+        @media (max-width: 768px) {
+            .shortcuts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 36px;
+            }
+            
+            .subtitle {
+                font-size: 18px;
+            }
+            
+            .key {
+                min-width: 35px;
+                height: 35px;
+                font-size: 8px;
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="powerpoint-icon"></div>
+            <h1 class="title">Power Point</h1>
+            <p class="subtitle">이동한 디자이너를<br>위한 이북헤지도록!</p>
+            <div class="highlight-box">PPT단축키 모음ZIP</div>
+        </div>
+        
+        <div class="content">
+            <div class="shortcuts-section">
+                <!-- 첫 번째 테이블 -->
+                <div class="shortcuts-table">
+                    <div class="table-header">
+                        파일 · 홈 · 삽입 · 디자인 · 전환 · 애니메이션 · 슬라이드 쇼 · 보기
+                    </div>
+                    <div class="table-content">
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + S</span>
+                            <span>글자서식 단축키</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + U</span>
+                            <span>글자색 밑줄</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + [</span>
+                            <span>글자를 크게</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + ]</span>
+                            <span>글자를 작게</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + T</span>
+                            <span>글자를 기울게</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + T</span>
+                            <span>글자 사이 늘임</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Shift + F3</span>
+                            <span>대/소문자 변경</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">F7</span>
+                            <span>맞춤법 검사</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 두 번째 테이블 -->
+                <div class="shortcuts-table">
+                    <div class="table-header">개체선택 단축키</div>
+                    <div class="table-content">
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + V</span>
+                            <span>붙여넣기</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + X</span>
+                            <span>잘라내기</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + A</span>
+                            <span>전체선택</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + G</span>
+                            <span>그룹화</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + Shift + G</span>
+                            <span>그룹해제</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 세 번째 테이블 -->
+                <div class="shortcuts-table">
+                    <div class="table-header">정렬 단축키</div>
+                    <div class="table-content">
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + J</span>
+                            <span>양쪽 정렬</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + L</span>
+                            <span>왼쪽 정렬</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + E</span>
+                            <span>가운데 정렬</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + R</span>
+                            <span>오른쪽 정렬</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + F</span>
+                            <span>찾아 바꾸기</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Shift + F9</span>
+                            <span>눈금 표시/숨기기</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Alt + F9</span>
+                            <span>안내선 표시</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 네 번째 테이블 -->
+                <div class="shortcuts-table">
+                    <div class="table-header">마우스작업 단축키</div>
+                    <div class="table-content">
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + S</span>
+                            <span>저장</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + Z</span>
+                            <span>실행취소</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + Y</span>
+                            <span>다시 실행</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Ctrl + H</span>
+                            <span>글자 찾아서 바꾸기</span>
+                        </div>
+                        <div class="shortcut-row">
+                            <span class="shortcut-key">Shift + F5</span>
+                            <span>현재 슬라이드부터 슬라이드 쇼</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 키보드 레이아웃 -->
+            <div class="keyboard-layout">
+                <div class="keyboard">
+                    <div class="keyboard-row">
+                        <div class="key function">F1<br>파일패드쇼</div>
+                        <div class="key function">F2<br>이름바꾸기</div>
+                        <div class="key function">F3<br>다음보기</div>
+                        <div class="key function">F4<br>마지막행위<br>재실행</div>
+                        <div class="key function">F5<br>슬라이드 쇼</div>
+                        <div class="key function">F6</div>
+                        <div class="key function">F7<br>맞춤법검사</div>
+                        <div class="key function">F8</div>
+                        <div class="key function">F9<br>새로고침</div>
+                        <div class="key function">F10</div>
+                        <div class="key function">F11</div>
+                        <div class="key function">F12<br>다른이름으로<br>저장</div>
+                    </div>
+                    
+                    <div class="keyboard-row">
+                        <div class="key">~</div>
+                        <div class="key">1<br>볼링장치</div>
+                        <div class="key">2<br>볼링장치</div>
+                        <div class="key">3<br>머신장치</div>
+                        <div class="key">4<br>스프트볼</div>
+                        <div class="key">5<br>화면갈아</div>
+                        <div class="key">6<br>붓만있</div>
+                        <div class="key">7<br>벌룬</div>
+                        <div class="key">8<br>가로줄기</div>
+                        <div class="key">9<br>특별함정</div>
+                        <div class="key">0<br>볼벌룬</div>
+                        <div class="key">-<br>볼링장치</div>
+                        <div class="key">+<br>볼링장치</div>
+                        <div class="key wide">백스페이스</div>
+                    </div>
+                    
+                    <div class="keyboard-row">
+                        <div class="key wide">Tab</div>
+                        <div class="key">Q<br>객체선택</div>
+                        <div class="key">W<br>볼링장치</div>
+                        <div class="key">E<br>가운데정렬</div>
+                        <div class="key">R<br>오른쪽정렬</div>
+                        <div class="key">T<br>색상변경</div>
+                        <div class="key">Y<br>재실행</div>
+                        <div class="key">U<br>밑줄</div>
+                        <div class="key">I<br>가로줄기</div>
+                        <div class="key">O<br>특별함정</div>
+                        <div class="key">P<br>인쇄</div>
+                        <div class="key">[<br>볼링장치</div>
+                        <div class="key">]<br>볼링장치</div>
+                        <div class="key">|</div>
+                    </div>
+                    
+                    <div class="keyboard-row">
+                        <div class="key extra-wide">Caps Lock</div>
+                        <div class="key">A<br>전체선택</div>
+                        <div class="key">S<br>저장</div>
+                        <div class="key">D</div>
+                        <div class="key">F<br>찾아바꾸기</div>
+                        <div class="key">G<br>그룹화</div>
+                        <div class="key">H<br>볼링장치</div>
+                        <div class="key">J<br>양쪽정렬</div>
+                        <div class="key">K<br>하이퍼링크</div>
+                        <div class="key">L<br>왼쪽정렬</div>
+                        <div class="key">;</div>
+                        <div class="key">'</div>
+                        <div class="key extra-wide">Enter</div>
+                    </div>
+                    
+                    <div class="keyboard-row">
+                        <div class="key extra-wide">Shift</div>
+                        <div class="key">Z<br>실행취소</div>
+                        <div class="key">X<br>잘라내기</div>
+                        <div class="key">C<br>복사</div>
+                        <div class="key">V<br>붙여넣기</div>
+                        <div class="key">B<br>굵은글자</div>
+                        <div class="key">N<br>새슬라이드</div>
+                        <div class="key">M<br>메모뜨기</div>
+                        <div class="key">,</div>
+                        <div class="key">.</div>
+                        <div class="key">/</div>
+                        <div class="key extra-wide">Shift</div>
+                    </div>
+                    
+                    <div class="keyboard-row">
+                        <div class="key wide">Ctrl</div>
+                        <div class="key wide">Win</div>
+                        <div class="key wide">Alt</div>
+                        <div class="key space">Space</div>
+                        <div class="key wide">Alt</div>
+                        <div class="key wide">Menu</div>
+                        <div class="key wide">Ctrl</div>
+                    </div>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color ctrl"></div>
+                        <span>Ctrl</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color shift"></div>
+                        <span>Shift</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color ctrl-shift"></div>
+                        <span>Ctrl + Shift</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

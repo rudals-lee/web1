@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIN&KIM 법무법인</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            color: #8b4f8c;
+            font-size: 28px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .nav a:hover {
+            color: #8b4f8c;
+        }
+
+        /* Dropdown Styles */
+        .nav-item {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 20px 0;
+            margin-top: 10px;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f8f8;
+            color: #8b4f8c;
+            border-left-color: #8b4f8c;
+        }
+
+        .dropdown-item.highlighted {
+            color: #8b4f8c;
+            font-weight: 600;
+        }
+
+        .dropdown::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        .search-box {
+            background: #666;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .search-icon {
+            color: white;
+            font-size: 18px;
+        }
+
+
+        /* Notice Banner */
+        .notice-banner {
+            background: #8b4f8c;
+            color: white;
+            padding: 20px;
+            margin: 20px auto;
+            /* max-width: 1200px; */
+            border-radius: 8px;
+            position: relative;
+            margin-left: 20px;
+            margin-right: 20px;
+            text-align: center;
+        }
+
+        .notice-banner h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .notice-banner p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .notice-banner .details {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .notice-banner .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .notice-banner .checkbox {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='400' viewBox='0 0 1200 400'%3E%3Crect width='1200' height='400' fill='%23ddd'/%3E%3Ctext x='600' y='200' text-anchor='middle' dy='.3em' font-size='40' fill='%23999'%3EModern Office Interior%3C/text%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 79, 140, 0.8), rgba(139, 79, 140, 0.6));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .search-container {
+            background: rgba(139, 79, 140, 0.9);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 400px;
+        }
+
+        .search-container input {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            flex: 1;
+            outline: none;
+        }
+
+        .search-container input::placeholder {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .search-container .search-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Awards Section */
+        .awards-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .awards-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .awards-image {
+            background: linear-gradient(45deg, #2c1810, #8b4f8c);
+            color: white;
+            padding: 60px 40px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .gcr-logo {
+            background: #c41e3a;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .awards-image h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .awards-image .award-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .awards-image .region {
+            font-size: 18px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .awards-image .winner {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .awards-content {
+            padding: 40px;
+            flex: 1;
+        }
+
+        .awards-content h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .awards-content p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* News Section */
+        .news-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .news-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .news-header a {
+            color: #8b4f8c;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .news-item {
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-item.featured {
+            background: #8b4f8c;
+            color: white;
+            padding: 30px;
+        }
+
+        .news-item.regular {
+            background: #f8f8f8;
+            padding: 30px;
+        }
+
+        .news-category {
+            font-size: 12px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .news-date {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .news-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: currentColor;
+            text-decoration: none;
+        }
+
+        .news-item {
+            position: relative;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .newsletter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .newsletter-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .newsletter-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .newsletter-item:last-child {
+            border-bottom: none;
+        }
+
+        .newsletter-content {
+            flex: 1;
+        }
+
+        .newsletter-category {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .newsletter-title {
+            color: #333;
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .newsletter-date {
+            color: #999;
+            font-size: 14px;
+            margin-left: 20px;
+        }
+
+        .newsletter-new {
+            background: #8b4f8c;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        /* YouTube Section */
+        .youtube-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .youtube-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .youtube-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .youtube-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .youtube-item {
+            background: #f8f8f8;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .youtube-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .youtube-thumbnail {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .youtube-thumbnail.purple {
+            background: linear-gradient(45deg, #8b4f8c, #b366b8);
+        }
+
+        .youtube-thumbnail.gray {
+            background: linear-gradient(45deg, #666, #999);
+        }
+
+        .play-button {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .youtube-content {
+            padding: 20px;
+        }
+
+        .youtube-title {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+            font-weight: normal;
+        }
+
+        /* Business Areas Section */
+        .business-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .business-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .business-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .business-item {
+            position: relative;
+            height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .business-item.legal {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='250' viewBox='0 0 300 250'%3E%3Crect width='300' height='250' fill='%23333'/%3E%3Ctext x='150' y='125' text-anchor='middle' dy='.3em' font-size='20' fill='%23fff'%3ELegal Scale%3C/text%3E%3C/svg%3E");
+            background-size: cover;
+        }
+
+        .business-item.digital {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='250' viewBox='0 0 300 250'%3E%3Crect width='300' height='250' fill='%23456'/%3E%3Ctext x='150' y='125' text-anchor='middle' dy='.3em' font-size='20' fill='%23fff'%3EDigital Tech%3C/text%3E%3C/svg%3E");
+            background-size: cover;
+        }
+
+        .business-item.network {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='250' viewBox='0 0 300 250'%3E%3Crect width='300' height='250' fill='%23789'/%3E%3Ctext x='150' y='125' text-anchor='middle' dy='.3em' font-size='20' fill='%23fff'%3ENetwork%3C/text%3E%3C/svg%3E");
+            background-size: cover;
+        }
+
+        .business-label {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Footer */
+
+.footer {
+      background-color: #4a4644;
+      color: #fff;
+      padding: 30px 20px 50px;
+    }
+
+    .footer .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #666;
+    }
+
+    .footer .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .footer .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .footer .footer-bottom a {
+      color: #ddd;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+
+    .footer .footer-bottom a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .social-icons a:hover {
+      background-color: #666;
+    }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            width: 30px;
+            height: 30px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .social-icons a:hover {
+            background: #8b4f8c;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav {
+                gap: 20px;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .search-container {
+                min-width: 300px;
+            }
+
+            .awards-container {
+                flex-direction: column;
+            }
+
+            .news-grid,
+            .youtube-grid,
+            .business-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더: SHIN&KIM 로고, 네비게이션 메뉴, 검색 아이콘, 드롭다운 메뉴 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>SHIN&KIM</h1>
+                <div>
+                    <div style="color: #8b4f8c; font-size: 12px;">법무법인(유)세종</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <div class="nav-item">
+                    <a href="/세종_리디자인/1.세종_업무분야.html">업무분야</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item highlighted">분야별</a>
+                        <a href="#" class="dropdown-item">산업별</a>
+                        <a href="#" class="dropdown-item">지역별</a>
+                        <a href="#" class="dropdown-item">센터</a>
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <a href="/세종_리디자인/2.세종_구성원.html">구성원</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item highlighted">구성원 검색</a>
+                        <!-- <a href="#" class="dropdown-item">구성원</a> -->
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <a href="/세종_리디자인/3.세종_미디어센터.html">미디어센터</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item highlighted">세종 소식</a>
+                        <a href="#" class="dropdown-item">언론보도</a>
+                        <a href="#" class="dropdown-item">업무사례</a>
+                        <a href="#" class="dropdown-item">뉴스레터</a>
+                        <a href="#" class="dropdown-item">기고 및 연구자료</a>
+                        <a href="#" class="dropdown-item">유튜브 채널</a>
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <a href="/세종_리디자인/4.세종_인재영입.html">인재영입</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item highlighted">인재상</a>
+                        <a href="#" class="dropdown-item">채용공고</a>
+                        <a href="#" class="dropdown-item">지원하기</a>
+                        <a href="#" class="dropdown-item">채용문의</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                <a href="/세종_리디자인/5.세종_법인소개.html">법인소개</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item highlighted">세종 소식</a>
+                        <a href="#" class="dropdown-item">수상내역</a>
+                        <a href="#" class="dropdown-item">사무소 위치</a>
+                        <a href="#" class="dropdown-item">사회공헌</a>
+                        <a href="#" class="dropdown-item">지속가능성</a>
+                    </div>
+                </div>
+
+            </nav>
+            <div class="search-box">
+                <i class="fas fa-search"><a href="/세종_리디자인/6.검색.html">검색</a></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- 공지 배너: IP그룹 채용 공고, 닫기 버튼, "오늘 하루 열지 않기" 체크박스 -->
+    <div class="notice-banner">
+        <button class="close">×</button>
+        <h3>IP그룹 경력변호사 채용 공고</h3>
+        <p>지원기간: 2025년 7월 24일 (목) ~ 8월 17일 (일) 자정까지</p>
+        <a href="#" class="details">자세히 보기 →</a>
+        <div class="checkbox">
+            <input type="checkbox" id="dontShow">
+            <label for="dontShow">오늘 하루 열지 않기</label>
+        </div>
+    </div>
+
+    <!-- 히어로 섹션: "Your Firm of Choice" 타이틀과 검색 기능 -->
+    <div class="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Your Firm of Choice</h2>
+                <div class="search-container">
+                    <input type="text" placeholder="How can we help you?">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 수상 섹션: GCR Awards 2025 내용과 설명 -->
+           <section style="background: white; border-radius: 12px; overflow: hidden; margin: 30px auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); max-width: 1000px;">
+    <div class="swiper" style="width: 100%;">
+      <div class="swiper-wrapper">
+
+        <!-- Slide 1 -->
+        <div class="swiper-slide" style="display: flex; flex-wrap: wrap;">
+          <div style="background: linear-gradient(45deg, #2c1810, #8b4f8c); color: white; padding: 60px 40px; flex: 1 1 40%; text-align: center;">
+            <div style="background: #c41e3a; color: white; padding: 8px 12px; border-radius: 4px; display: inline-block; margin-bottom: 20px; font-weight: bold;">GCR</div>
+            <h3 style="font-size: 24px; margin-bottom: 10px;">AWARDS</h3>
+            <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px; line-height: 1.2;">MERGER CONTROL<br>MATTER OF THE YEAR -<br>APMEA</div>
+            <div style="font-size: 18px; margin-bottom: 10px; opacity: 0.9;">Korean Air/Asiana</div>
+            <div style="font-size: 32px; font-weight: bold;">2025 WINNER</div>
+          </div>
+          <div style="padding: 40px; flex: 1 1 60%; background: #fff;">
+            <h3 style="color: #333; font-size: 22px; margin-bottom: 20px;">오종한 대표변호사, ALB<br>''2025 아시아 슈퍼분쟁해결 변호사 50인' 선정'</h3>
+            <p style="color: #666; line-height: 1.6; font-size: 14px;">법무법인(유) 세종의 오종한 대표변호사가 글로벌 법률매체 ALB(Asia Legal Business)의 ‘2025 아시아 슈퍼 분쟁해결 변호사 50인(Asia Super 50 Disputes Lawyers 2025)’에 선정되는 영예를 안았습니다.</p>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="swiper-slide" style="display: flex; flex-wrap: wrap;">
+          <div style="background: linear-gradient(45deg, #2c1810, #085542); color: white; padding: 60px 40px; flex: 1 1 40%; text-align: center;">
+            <div style="background: #c41e3a; color: white; padding: 8px 12px; border-radius: 4px; display: inline-block; margin-bottom: 20px; font-weight: bold;">GCR</div>
+            <h3 style="font-size: 24px; margin-bottom: 10px;">AWARDS</h3>
+            <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px; line-height: 1.2;">MERGER CONTROL<br>MATTER OF THE YEAR -<br>APMEA</div>
+            <div style="font-size: 18px; margin-bottom: 10px; opacity: 0.9;">Korean Air/Asiana</div>
+            <div style="font-size: 32px; font-weight: bold;">2025 WINNER</div>
+          </div>
+          <div style="padding: 40px; flex: 1 1 60%; background: #fff;">
+            <h3 style="color: #333; font-size: 22px; margin-bottom: 20px;">법무법인(유)세종, 기업지<br>'배구조 전략센터 출범'</h3>
+            <p style="color: #666; line-height: 1.6; font-size: 14px;">법무법인(유) 세종은 주주에 대한 이사의 충실 의무 명문화, 전자주주총회 도입 등 기업 지배구조와 자본시장에 중대한 영향을 끼칠 개정 상법에 선제적으로 대응하기 위해 ‘기업지배구조 전략센터’를 새롭게 출범하였습니다..</p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="swiper-slide" style="display: flex; flex-wrap: wrap;">
+          <div style="background: linear-gradient(45deg, #2c1810, #d81d05); color: white; padding: 60px 40px; flex: 1 1 40%; text-align: center;">
+            <div style="background: #c41e3a; color: white; padding: 8px 12px; border-radius: 4px; display: inline-block; margin-bottom: 20px; font-weight: bold;">GCR</div>
+            <h3 style="font-size: 24px; margin-bottom: 10px;">AWARDS</h3>
+            <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px; line-height: 1.2;">MERGER CONTROL<br>MATTER OF THE YEAR -<br>APMEA</div>
+            <div style="font-size: 18px; margin-bottom: 10px; opacity: 0.9;">Korean Air/Asiana</div>
+            <div style="font-size: 32px; font-weight: bold;">2025 WINNER</div>
+          </div>
+          <div style="padding: 40px; flex: 1 1 60%; background: #fff;">
+            <h3 style="color: #333; font-size: 22px; margin-bottom: 20px;">법무법인(유) 세종, GCR awards 2025<br>'올해의 아태지역 기업결합상' 수상</h3>
+            <p style="color: #666; line-height: 1.6; font-size: 14px;">법무법인(유) 세종이 저명한 경쟁법 분야 전문저널인 GCR(Global Competition Review)이 수여하는 '올해의 아태지역 기업결합상(Merger Control Matter of the Year: Asia Pacific, Middle East and Africa)'을 수상하는 영예를 안았습니다.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Navigation buttons -->
+      <div class="swiper-button-prev" style="color: #333;"></div>
+      <div class="swiper-button-next" style="color: #333;"></div>
+    </div>
+  </section>
+
+        <!-- 뉴스 섹션: 세종소식 그리드 레이아웃 (6개 뉴스 아이템) -->
+        <section class="news-section">
+            <div class="news-header">
+                <h2>세종소식</h2>
+                <a href="#">더보기</a>
+            </div>
+            <div class="news-grid">
+                <div class="news-item regular">
+                    <div class="news-category">수상/위촉</div>
+                    <div class="news-title">오종한 대표변호사, ALB '2025 아시아 슈퍼 분쟁해결 변호사 50인' 선정</div>
+                    <div class="news-date">2025.07.25</div>
+                </div>
+                <div class="news-item regular">
+                    <div class="news-category">언론보도</div>
+                    <div class="news-title">세종, 감찰 출신 인재 대거 영입… 더 커진 '형사그룹 멤파워'</div>
+                    <div class="news-date">2025.07.23</div>
+                    <a href="#" class="news-link">↗</a>
+                </div>
+                <div class="news-item featured">
+                    <div class="news-category">세미나</div>
+                    <div class="news-title">'지식재산권 침해에 대한 불공정무역위법 조사 제도의 전략적 효용적 활용을 위한 세미나' 개최</div>
+                    <div class="news-date">2025.07.23</div>
+                </div>
+                <div class="news-item regular">
+                    <div class="news-category">언론보도</div>
+                    <div class="news-title">지식재산권 침해 전략적 대응방안 모색…세종 세미나 성료</div>
+                    <div class="news-date">2025.07.17</div>
+                    <a href="#" class="news-link">↗</a>
+                </div>
+                <div class="news-item featured">
+                    <div class="news-category">언론보도</div>
+                    <div class="news-title">[인터뷰] '더 센' 상법 개정 예고… 이동건 센터장 "외사검찰 윤직 남겨야 방어 된다"</div>
+                    <div class="news-date">2025.07.15</div>
+                    <a href="#" class="news-link">↗</a>
+                </div>
+                <div class="news-item regular">
+                    <div class="news-category">세미나</div>
+                    <div class="news-title">'기업지배구조 전략센터 출범 기념 세미나 - 상법 개정, 그 내용과 시사점' 세미나 개최</div>
+                    <div class="news-date">2025.07.14</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 뉴스레터 섹션: 금융, 지적재산권 관련 뉴스레터 목록, "N" 표시로 새로운 콘텐츠 강조, 날짜별 정렬 -->
+        <section class="newsletter-section">
+            <div class="newsletter-header">
+                <h2>뉴스레터</h2>
+                <a href="#">더보기</a>
+            </div>
+            <div class="newsletter-item">
+                <div class="newsletter-content">
+                    <div class="newsletter-category">금융</div>
+                    <div class="newsletter-title">세종 Financial Regulation Review (2025. 7. 9. - 2025. 7. 22.) <span class="newsletter-new">N</span></div>
+                </div>
+                <div class="newsletter-date">2025.07.25</div>
+            </div>
+            <div class="newsletter-item">
+                <div class="newsletter-content">
+                    <div class="newsletter-category">지적재산권</div>
+                    <div class="newsletter-title">개정 산업기술보호법 시행령의 주요 내용 및 시사점 <span class="newsletter-new">N</span></div>
+                </div>
+                <div class="newsletter-date">2025.07.22</div>
+            </div>
+            <div class="newsletter-item">
+                <div class="newsletter-content">
+                    <div class="newsletter-category">금융</div>
+                    <div class="newsletter-title">디지털 자산 규제의 전향점, 미 하원 '크립토 3법' 통과 <span class="newsletter-new">N</span></div>
+                </div>
+                <div class="newsletter-date">2025.07.21</div>
+            </div>
+        </section>
+
+        <!-- 유튜브 채널 섹션: 3개의 비디오 썸네일 (재생 버튼 포함), 세종 변호사 Vlog, 판교 본사무소 이전, 탐방 영상, 각각 다른 색상 테마 -->
+        <section class="youtube-section">
+            <div class="youtube-header">
+                <h2>유튜브 채널</h2>
+                <a href="#">더보기</a>
+            </div>
+            <div class="youtube-grid">
+                <div class="youtube-item">
+                    <div class="youtube-thumbnail">
+                        <div class="play-button">▶</div>
+                        세종 어쏘 변호사의 하루 Vlog
+                    </div>
+                    <div class="youtube-content">
+                        <div class="youtube-title">세종 변호사의 하루 Vlog | 대형로펌 어쏘 변호사는 어떤 하루를 보낼까? 🏢👩‍💼📚 | #룸투어 #점심 소개 #대리석로망 #판결서</div>
+                    </div>
+                </div>
+                <div class="youtube-item">
+                    <div class="youtube-thumbnail purple">
+                        <div class="play-button">▶</div>
+                        법무법인(유) 세종 판교 본사무소 확장 이전
+                    </div>
+                    <div class="youtube-content">
+                        <div class="youtube-title">[법무법인(유) 세종] 판교 본사무소 확장 이전</div>
+                    </div>
+                </div>
+                <div class="youtube-item">
+                    <div class="youtube-thumbnail gray">
+                        <div class="play-button">▶</div>
+                        허경한과 함께하는 법무법인(유) 세종 탐방
+                    </div>
+                    <div class="youtube-content">
+                        <div class="youtube-title">허경한과 함께하는 법무법인(유) 세종 탐방</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 업무사례 섹션: 공정거래 분야, 노동 분야 이미지 배경 이미지와 오버레이 텍스트 -->
+        <section class="business-section">
+            <div class="business-header">
+                <h2>업무사례</h2>
+                <a href="#">더보기</a>
+            </div>
+            <div class="business-grid">
+                <div class="business-item legal">
+                    <div class="business-label">공정거래 분야</div>
+                </div>
+                <div class="business-item digital">
+                    <div class="business-label">노동 분야</div>
+                </div>
+                <div class="business-item network">
+                    <div class="business-label">노동 분야</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 푸터 섹션: 4개 컬럼으로 구성된 링크 메뉴, 서무소, 연락처, 사내변인 정보, 소셜 미디어 아이콘, 개인정보처리방침, 저작권 정보, KOREANA 로고 -->
+<footer class="footer">
+    <div class="footer-top">
+      <div class="footer-nav">
+        <span>사무소</span>
+        <span>서울</span>
+        <span>판교</span>
+        <span>북경</span>
+        <span>상해</span>
+        <span>호치민</span>
+        <span>하노이</span>
+        <span>자카르타</span>
+        <span>싱가포르</span>
+        <span>지적재산권부</span>
+        <span>사단법인 나눔과이음</span>
+        <span>업무제휴</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        <a href="#">개인정보처리방침</a>
+        <a href="#">면책공고</a>
+        <a href="#">웹접근성</a>
+        <a href="#">국제정보보호인증</a>
+        <a href="#">사이트맵</a>
+      </div>
+      <div>Copyright SHIN & KIM LLC. All rights reserved.</div>
+      <div>
+        <div style="font-weight:bold;">Follow us</div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-blogger-b"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+     <!-- 주요 특징: 반응형 디자인으로 모바일 최적화, 일관된 브랜딩과 색상 체계, 호버 효과와 인터랙티브 요소들 -->
+
+    <!-- 인터랙티브 기능: 공지 배너 닫기 기능, 검색 기능 (Enter 키 및 버튼 클릭), 호버 효과 및 애니메이션, 반응형 디자인 -->
+    <script>
+        // Close notice banner
+        document.querySelector('.notice-banner .close').addEventListener('click', function() {
+            document.querySelector('.notice-banner').style.display = 'none';
+        });
+
+        // Don't show today checkbox
+        document.getElementById('dontShow').addEventListener('change', function() {
+            if(this.checked) {
+                setTimeout(() => {
+                    document.querySelector('.notice-banner').style.display = 'none';
+                }, 1000);
+            }
+        });
+
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-container input').value;
+            if(searchTerm.trim()) {
+                alert('검색어: ' + searchTerm);
+            }
+        });
+
+        // Enter key search
+        document.querySelector('.search-container input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                const searchTerm = this.value;
+                if(searchTerm.trim()) {
+                    alert('검색어: ' + searchTerm);
+                }
+            }
+        });
+
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+</body>
+</html>

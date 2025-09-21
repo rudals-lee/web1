@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoshop CC 키보드 단축키</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .sidebar {
+            background: #2c2c2c;
+            padding: 20px 15px;
+            min-width: 150px;
+        }
+        
+        .tool-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: #ffffff;
+            font-size: 13px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .tool-key {
+            background: #555;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            margin-right: 10px;
+            min-width: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 0;
+        }
+        
+        .section {
+            padding: 20px;
+            color: white;
+        }
+        
+        .section-header {
+            background: #4a90e2;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .edit-section {
+            background: #333;
+        }
+        
+        .image-section {
+            background: #333;
+        }
+        
+        .layer-section {
+            background: #333;
+            grid-row: span 2;
+        }
+        
+        .select-section {
+            background: #333;
+        }
+        
+        .view-section {
+            background: #4a90e2;
+        }
+        
+        .window-section {
+            background: #333;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #555;
+        }
+        
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+        
+        .shortcut-key {
+            font-weight: bold;
+            color: #4a90e2;
+            min-width: 120px;
+        }
+        
+        .shortcut-desc {
+            text-align: right;
+        }
+        
+        .photoshop-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #31a8ff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .logo-subtitle {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #e0f4ff;
+        }
+        
+        .highlight-box {
+            background: rgba(74, 144, 226, 0.3);
+            border: 2px solid #4a90e2;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="photoshop-logo">
+        Ps<br>
+        <div style="font-size: 14px;">Photoshop CC</div>
+        <div class="logo-subtitle">기본 단축키부터<br>고급 툴까지</div>
+        <div class="highlight-box" style="margin-top: 10px; font-size: 14px;">
+            포토샵단축키 명령어
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="tool-item"><span class="tool-key">V</span>이동 도구</div>
+            <div class="tool-item"><span class="tool-key">M</span>사각형 선택 올가미 도구</div>
+            <div class="tool-item"><span class="tool-key">L</span>올가미 도구</div>
+            <div class="tool-item"><span class="tool-key">W</span>자동 선택 도구</div>
+            <div class="tool-item"><span class="tool-key">C</span>자르기 도구</div>
+            <div class="tool-item"><span class="tool-key">K</span>조각도 도구</div>
+            <div class="tool-item"><span class="tool-key">I</span>스포이드 도구</div>
+            <div class="tool-item"><span class="tool-key">J</span>스팟 복구 브러시 도구</div>
+            <div class="tool-item"><span class="tool-key">B</span>브러시 도구</div>
+            <div class="tool-item"><span class="tool-key">S</span>복제 도장 도구</div>
+            <div class="tool-item"><span class="tool-key">Y</span>작업 내역 브러시 도구</div>
+            <div class="tool-item"><span class="tool-key">E</span>지우개 도구</div>
+            <div class="tool-item"><span class="tool-key">G</span>페인트 통 도구</div>
+            <div class="tool-item"><span class="tool-key">O</span>닷지 도구</div>
+            <div class="tool-item"><span class="tool-key">P</span>펜 도구</div>
+            <div class="tool-item"><span class="tool-key">T</span>수평 문자 도구</div>
+            <div class="tool-item"><span class="tool-key">A</span>패스 선택 도구</div>
+            <div class="tool-item"><span class="tool-key">U</span>사각형 도구</div>
+            <div class="tool-item"><span class="tool-key">H</span>손 도구</div>
+            <div class="tool-item"><span class="tool-key">Z</span>돋보기 도구</div>
+            <div class="tool-item"><span class="tool-key">X</span>전경색/배경색 전환</div>
+            <div class="tool-item"><span class="tool-key">Q</span>빠른 마스크 모드로 편집</div>
+            <div class="tool-item"><span class="tool-key">F</span>화면 모드 변경</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="edit-section">
+                <div class="section-header">편집 / Edit (E)</div>
+                <div class="section">
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + Z</span>
+                        <span class="shortcut-desc">실행 취소하기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Shift + Ctrl + Z</span>
+                        <span class="shortcut-desc">재실행</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + Ctrl + Z</span>
+                        <span class="shortcut-desc">이전 단계</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + Ctrl + W</span>
+                        <span class="shortcut-desc">모두 닫기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + X</span>
+                        <span class="shortcut-desc">잘라내기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + C</span>
+                        <span class="shortcut-desc">복사하기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + V</span>
+                        <span class="shortcut-desc">붙여넣기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + T</span>
+                        <span class="shortcut-desc">이미지 자유 변형</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-section">
+                <div class="section-header">이미지 / Image (I)</div>
+                <div class="section">
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + L</span>
+                        <span class="shortcut-desc">레벨</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + M</span>
+                        <span class="shortcut-desc">곡선</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + U</span>
+                        <span class="shortcut-desc">색조 / 채도</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + B</span>
+                        <span class="shortcut-desc">색상 균형</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + Shift + Ctrl + B</span>
+                        <span class="shortcut-desc">흑백</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + I</span>
+                        <span class="shortcut-desc">반전</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + Shift + Ctrl + L</span>
+                        <span class="shortcut-desc">자동 대비</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + Ctrl + I</span>
+                        <span class="shortcut-desc">이미지 크기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + Ctrl + C</span>
+                        <span class="shortcut-desc">캔버스 크기</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="window-section">
+                <div class="section-header">창 / Window (W)</div>
+                <div class="section">
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">F5</span>
+                        <span class="shortcut-desc">브러시</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">F6</span>
+                        <span class="shortcut-desc">색상</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">F7</span>
+                        <span class="shortcut-desc">레이어</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">F8</span>
+                        <span class="shortcut-desc">정보</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Alt + F9</span>
+                        <span class="shortcut-desc">액션</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layer-section">
+                <div class="section-header">레이어 / Layer (L)</div>
+                <div class="section">
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Shift + Ctrl + N</span>
+                        <span class="shortcut-desc">새 레이어 만들기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + J</span>
+                        <span class="shortcut-desc">레이어 복사하기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + G</span>
+                        <span class="shortcut-desc">그룹 만들기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Shift + Ctrl + G</span>
+                        <span class="shortcut-desc">레이어 그룹 해제</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Shift + Ctrl + ]</span>
+                        <span class="shortcut-desc">레이어 맨 앞으로 보내기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + ]</span>
+                        <span class="shortcut-desc">레이어 한 단계 앞으로 보내기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + [</span>
+                        <span class="shortcut-desc">레이어 한 단계 뒤로 보내기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Shift + Ctrl + [</span>
+                        <span class="shortcut-desc">레이어 맨 뒤로 보내기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + E</span>
+                        <span class="shortcut-desc">선택한 레이어 병합</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="select-section">
+                <div class="section-header">선택 / Select (S)</div>
+                <div class="section">
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + A</span>
+                        <span class="shortcut-desc">전체 선택</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + D</span>
+                        <span class="shortcut-desc">선택 영역 해제</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Shift + Ctrl + I</span>
+                        <span class="shortcut-desc">선택 영역 반전</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="view-section">
+                <div class="section-header">보기 / View (V)</div>
+                <div class="section">
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + +</span>
+                        <span class="shortcut-desc">확대해서 보기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + -</span>
+                        <span class="shortcut-desc">축소해서 보기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + 0</span>
+                        <span class="shortcut-desc">화면 크기에 맞게 조절</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + 1</span>
+                        <span class="shortcut-desc">100% 조절</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + H</span>
+                        <span class="shortcut-desc">안내선 보이기 / 숨기기</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + R</span>
+                        <span class="shortcut-desc">눈금자 보이기 / 숨기기</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

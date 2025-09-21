@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자기소개서</title>  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    /* 헤더 스타일 */
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo img {
+      height: 60px;
+      width: auto;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #2a4d8f;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #e8f0fe;
+      transform: scale(1.1);
+    }
+
+    /* 사이드 메뉴 스타일 */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 320px;
+      height: 100vh;
+      background-color: #fff;
+      box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+      transition: right 0.3s ease-in-out;
+      z-index: 1001;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .side-menu.active {
+      right: 0;
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #2a4d8f;
+    }
+
+    .menu-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #2a4d8f;
+    }
+
+    .close-btn {
+      background: #2a4d8f;
+      border: none;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: #1e3a73;
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    .menu-section {
+      margin-bottom: 2rem;
+    }
+
+    .menu-section h3 {
+      color: #2a4d8f;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      padding-left: 10px;
+      border-left: 3px solid #2a4d8f;
+    }
+
+    .menu-items {
+      list-style: none;
+    }
+
+    .menu-items li {
+      margin-bottom: 8px;
+    }
+
+    .menu-items a {
+      display: block;
+      padding: 10px 15px;
+      color: #555;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .menu-items a:hover {
+      background-color: #2a4d8f;
+      color: white;
+      transform: translateX(5px);
+    }
+
+    /* 오버레이 */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 999;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 메인 콘텐츠 */
+    .main-content {
+      margin-top: 80px;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #2a4d8f;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      color: #2a4d8f;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: #2a4d8f;
+      margin: 1.5rem 0 0.5rem 0;
+    }
+
+    section {
+      background-color: #fff;
+      padding: 30px;
+      margin-bottom: 25px;
+      border-left: 5px solid #2a4d8f;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    ul {
+      padding-left: 25px;
+      margin-top: 10px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    p {
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    strong {
+      color: #2a4d8f;
+      font-weight: 600;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+      
+      .side-menu {
+        width: 300px;
+        right: -300px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+
+      section {
+        padding: 20px;
+      }
+    }
+
+    /* 스크롤 애니메이션 */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <!-- 헤더 -->
+  <header class="header">
+    <div class="logo">
+      <a href="/HOME.html"><img src="/images/LEGALWEB-2.png" alt="법률문서 로고" /></a>
+    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <!-- 오버레이 -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- 사이드 메뉴 -->
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+      <div class="menu-title">메뉴</div>
+      <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+
+    <div class="menu-section">
+      <h3>📋 주요 섹션</h3>
+      <ul class="menu-items">
+        <li><a href="#personal-info">인적사항</a></li>
+        <li><a href="#career">경력사항</a></li>
+        <li><a href="#skills">업무 역량 및 교육</a></li>
+        <li><a href="#deposit-execution">공탁 및 민사집행</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>💼 담당업무</h3>
+      <ul class="menu-items">
+        <li><a href="#career">소송관련 기록 관리</a></li>
+        <li><a href="#career">제작비 정산</a></li>
+        <li><a href="#career">고객 응대 및 상담</a></li>
+        <li><a href="#career">법원 및 검찰 업무</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>🖥️ 활용 프로그램</h3>
+      <ul class="menu-items">
+        <li><a href="#career">Microsoft Office</a></li>
+        <li><a href="#career">법률 프로그램</a></li>
+        <li><a href="#career">프로그래밍 언어</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>🔗 기타</h3>
+      <ul class="menu-items">
+        <li><a href="/HOME.html">홈으로</a></li>
+        <li><a href="#" onclick="window.print()">인쇄하기</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="main-content">
+    <h1>자기소개서</h1>
+
+    <section id="personal-info" class="fade-in">
+      <h2>인적사항</h2>
+      <p><strong>이름:</strong> 이경민</p>
+      <p><strong>나이:</strong> 26세</p>
+    </section>
+
+    <section id="career" class="fade-in">
+      <h2>경력사항</h2>
+      <p><strong>근무처:</strong> 법무법인(광장) 총무부</p>
+      <p><strong>근무기간:</strong> 2023년 11월 13일 ~ 2024년 11월 12일 (1년)</p>
+      <h3>담당업무:</h3>
+      <ul>
+        <li>소송관련 기록 및 정보 관리</li>
+        <li>제작비 정산 및 비용처리</li>
+        <li>회의자료 취합</li>
+        <li>우편물 분류</li>
+        <li>전화 및 팩스 수발신</li>
+        <li>고객 응대 및 간단한 상담</li>
+        <li>변호사 일정관리(재판기일 등)</li>
+        <li>법원 및 검찰 기록 등사 및 제출</li>
+        <li>전자사건 등록, 제출내역 확인 및 출력</li>
+        <li>제출서류 확인</li>
+      </ul>
+      <h3>활용 프로그램:</h3>
+      <ul>
+        <li>Microsoft Word, Excel, PowerPoint</li>
+        <li>Colaw, bigcase, lawform, superlawyer, LBOX</li>
+        <li>Html5, Css3, JavaScript, Bootstrap, Swiper, Jquery, Figma, Photoshop, illustrator, Chat GPT, Claude, Perplexity</li>
+      </ul>
+    </section>
+
+    <section id="skills" class="fade-in">
+      <h2>업무 역량 및 교육 이수 내용</h2>
+      <p>법무법인(광장) 총무부에서 1년간 사무보조로 근무하면서 다양한 법률사무 실무 경험을 쌓았으며, 다음과 같은 실체법 및 절차법 관련 교육 과정을 이수하였습니다.</p>
+      <ul>
+        <li>민법 총칙, 물권법, 채권법, 친족상속법 등의 실체법 지식</li>
+        <li>민사소송절차에 필요한 각종 서면 작성 및 제출 업무 능력</li>
+        <li>지급명령신청, 소송대리허가신청, 문서제출명령신청 등 실무 경험</li>
+        <li>각 사건별 소장, 답변서, 준비서면 작성 및 제출 실무 역량</li>
+        <li>소가 산정, 인지대 및 송달료 계산 가능</li>
+      </ul>
+
+      <!-- <p>프론트엔드 개발자.</p>
+      <ul>
+        <li>빠르게 변화하는 디지털 환경 속에서, 기술과 창의성을 융합한 콘텐츠를 기획하고 구현하는 역량은 그 어느 때보다 중요해졌습니다. 저는 엠비씨(MBC)아카데미 컴퓨터교육센터 본점에서 진행된 ‘생성형 AI를 활용한 반응형 웹콘텐츠 개발기획자 양성과정(총 960시간)’을 수료하며, 웹디자인과 UI/UX 설계, 프론트엔드 개발, 생성형 AI 활용법, 영상편집까지 콘텐츠 전반의 기획 및 제작 역량을 체계적으로 갖추게 되었습니다.</li>
+        <li>과정 초반에는 HTML, CSS, JavaScript를 기반으로 한 웹표준 및 접근성 중심의 퍼블리싱 교육을 통해 웹의 구조와 사용성을 이해했습니다. 반응형 웹 구현, 조건문·반복문을 활용한 동적 이벤트 제작 실습을 거치며 웹 구현의 논리적 사고를 기를 수 있었고, 이후 React와 Vue.js 프레임워크를 접목하여 실제 사용자 중심 웹서비스의 인터페이스를 설계했습니다.</li>
+        <li>이와 함께 UI/UX 설계 과정에서는 정보구조 작성, 와이어프레임, 스토리보드 설계, 프로토타입 제작을 통해 사용성과 심미성이 조화된 웹디자인 역량을 키웠으며, 웹디자인/영상디자인 콘텐츠 기획 실습을 통해 시장 조사, 비즈니스 모델 수립, 프로젝트 기획서 작성 등 콘텐츠 전략 수립 능력을 배양했습니다.</li>
+        <li>특히 인상 깊었던 것은 실무 프로젝트1 [ESG 기업홍보 웹디자인/영상제작]과 실무 프로젝트2 [생성형 AI 활용 영상제작]이었습니다. 팀원들과 함께 기업 브랜드의 메시지를 시각적으로 구현하고, 생성형 AI(챗GPT)의 프롬프트 설계 및 영상 편집 툴(프리미어·애프터이펙트)을 활용해 기획부터 제작, 후반 편집까지 전 과정을 수행하며 콘텐츠 디자이너로서의 실무 경험을 쌓았습니다. 이 과정은 기업 실무자 멘토 특강과 발표회, 피드백 과정을 통해 현장성과 완성도를 높일 수 있는 값진 시간이었습니다.</li>
+        <li>앞으로 저는 웹과 영상, AI를 넘나드는 융합형 콘텐츠 디자이너로서, 사용자와 소통하며 효율성과 감성을 동시에 갖춘 디지털 콘텐츠를 기획하고 구현하는 전문가로 성장하고자 합니다. 기술의 흐름을 민감하게 읽고, 언제나 배우고 적용하는 자세로 현업에서 실질적인 가치를 창출하는 인재가 되겠습니다.</li>
+      </ul> -->
+    </section>
+
+    <section id="deposit-execution" class="fade-in">
+      <h2>공탁 및 민사집행 실무</h2>
+      <p>공탁 및 민사집행 업무에 대한 전반적인 경험을 보유하고 있으며, 다음과 같은 실무가 가능합니다.</p>
+      <ul>
+        <li>금전, 유가증권, 물품 공탁 관련 서류 작성</li>
+        <li>공탁서 정정, 공탁물 출급 및 회수 신청서 작성</li>
+        <li>집행문 부여신청, 송달/확정증명원 신청</li>
+        <li>판결문 재도 부여, 강제경매 신청, 채권압류 및 추심명령 신청 등</li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    // DOM 요소들
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
+
+    // 메뉴 열기
+    function openMenu() {
+      sideMenu.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // 메뉴 닫기
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // 이벤트 리스너
+    menuBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openMenu();
+    });
+
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // 메뉴 항목 클릭 시 메뉴 닫기
+    const menuItems = document.querySelectorAll('.menu-items a');
+    menuItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        // 내부 링크인 경우에만 메뉴 닫기
+        if (this.getAttribute('href').startsWith('#')) {
+          closeMenu();
+        }
+      });
+    });
+
+    // ESC 키로 메뉴 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    // 부드러운 스크롤 (내부 링크용)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // 스크롤 애니메이션
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // 모든 섹션에 애니메이션 적용
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // 메뉴 아이템 활성화 표시
+    function updateActiveMenuItem() {
+      const sections = document.querySelectorAll('section[id]');
+      const menuLinks = document.querySelectorAll('.menu-items a[href^="#"]');
+      
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          currentSection = section.id;
+        }
+      });
+      
+      menuLinks.forEach(link => {
+        link.style.background = '';
+        link.style.color = '';
+        link.style.transform = '';
+        
+        if (link.getAttribute('href') === '#' + currentSection) {
+          link.style.background = '#2a4d8f';
+          link.style.color = 'white';
+          link.style.transform = 'translateX(5px)';
+        }
+      });
+    }
+
+    // 스크롤 시 활성 메뉴 아이템 업데이트
+    window.addEventListener('scroll', updateActiveMenuItem);
+    
+    // 페이지 로드 시 초기 활성 아이템 설정
+    window.addEventListener('load', updateActiveMenuItem);
+
+    // 섹션 호버 효과
+    document.querySelectorAll('section').forEach(section => {
+      section.addEventListener('mouseenter', function() {
+        this.style.borderLeftWidth = '8px';
+      });
+      
+      section.addEventListener('mouseleave', function() {
+        this.style.borderLeftWidth = '5px';
+      });
+    });
+  </script>
+</body>
+</html>

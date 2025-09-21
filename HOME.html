@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- HTML5 문서 타입 선언 및 한국어 언어 설정 -->
+  <meta charset="UTF-8" />
+  <!-- 문자 인코딩을 UTF-8로 설정하여 한글 및 다국어 지원 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- 반응형 웹을 위한 뷰포트 설정, 모바일 기기에서 화면 크기에 맞게 조정 -->
+  <style>/*내부 CSS 스타일 영역 현재 비어있음*/</style>
+  <title>웹 포트폴리오</title>
+  <!-- 브라우저 탭에 표시될 페이지 제목 -->
+
+  <!-- 폰트 및 아이콘 -->
+  <!-- Font Awesome 6.4.0 CDN - 아이콘 폰트 라이브러리 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Montserrat 폰트 (600, 700 굵기) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Pretendard 폰트 - 한글 최적화 폰트 -->
+  <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.6/dist/web/static/pretendard.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <!-- 메인 스타일시트 연결 -->
+  <link rel="stylesheet" href="styles/HOME_style.css" />
+</head>
+<body>
+
+<!-- 모바일 햄버거 메뉴 버튼 -->
+<!-- 3개의 span 태그로 햄버거 메뉴의 3개 선을 구성 -->
+<div class="mbmenu">
+  <span></span> <!-- 햄버거 메뉴 첫 번째 선 -->
+  <span></span> <!-- 햄버거 메뉴 두 번째 선 -->
+  <span></span> <!-- 햄버거 메뉴 세 번째 선 -->
+</div>
+
+<!-- 모바일 전용 네비게이션 메뉴 -->
+<!-- 햄버거 메뉴 클릭 시 나타나는 모바일용 네비게이션 -->
+<div class="open_nav">
+  <ul class="subnav_menu">
+    <!-- 각 메뉴 항목은 페이지 내 섹션으로 이동하는 앵커 링크 -->
+    <li><a href="#main">HOME</a></li> <!-- 메인 섹션으로 이동 -->
+    <li><a href="#about">ABOUT</a></li> <!-- 소개 섹션으로 이동 -->
+    <li><a href="/about me.html">ABOUT-ME</a></li> <!-- 별도 페이지로 이동 -->
+    <li><a href="#skill">SKILL</a></li> <!-- 스킬 섹션으로 이동 -->
+    <li><a href="/work.html">WORK</a> <!-- 작업 포트폴리오 페이지로 이동 -->
+    <li><a href="#coding">CODING</a></li> <!-- 코딩 섹션으로 이동 -->
+    <li><a href="#design">RE-DESIGN</a></li> <!-- 리디자인 섹션으로 이동 -->
+  </ul>
+</div>
+
+<!-- 메인 헤더 영역 -->
+<header>
+  <nav>
+    <ul>
+      <!-- 로고 영역 -->
+      <div class="logo">
+        <!-- 홈페이지로 이동하는 로고 링크 -->
+        <a href="/HOME.html"><img src="/images/LEGALWEB-2.png" alt="법률문서 로고" /></a>
+      </div>
+
+      <!-- HOME 메뉴 항목 -->
+      <div class="nav-item">
+      <li><a href="#main">HOME</a></li> <!-- 메인 섹션으로 스크롤 이동 -->
+      </div>
+
+      <!-- ABOUT 드롭다운 메뉴 -->
+      <div class="nav-item">
+        <!-- 메인 메뉴 항목 - 드롭다운 화살표 아이콘 포함 -->
+        <li><a href="#about">ABOUT <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+        <!-- 드롭다운 메뉴 컨테이너 -->
+        <div class="dropdown">
+          <!-- 강조된 메뉴 항목 (하이라이트 스타일 적용) -->
+          <a href="/about me.html" class="dropdown-item highlighted">
+            <i class="fas fa-user"></i>ABOUT-ME <!-- 사용자 아이콘과 함께 -->
+          </a>
+          <!-- 프로필 페이지 링크 -->
+          <a href="/html/자기소개서.html" class="dropdown-item">
+            <i class="fas fa-id-card"></i>프로필 <!-- ID 카드 아이콘과 함께 -->
+          </a>
+          <!-- 경력 페이지 링크 -->
+          <a href="/html/기술경력서.html" class="dropdown-item">
+            <i class="fas fa-briefcase"></i>경력 <!-- 서류가방 아이콘과 함께 -->
+          </a>
+          <!-- 드롭다운 구분선 -->
+          <div class="dropdown-divider"></div>
+          <!-- PDF 이력서 다운로드 링크 -->
+          <a href="/html/이경민_이력서.pdf" class="dropdown-item">
+            <i class="fas fa-envelope"></i>이력서 <!-- 봉투 아이콘과 함께 -->
+          </a>
+        </div>
+      </div>
+
+      <!-- SKILL 드롭다운 메뉴 -->
+      <div class="nav-item">
+        <li><a href="#skill">SKILL <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+        <div class="dropdown">
+          <!-- 프로그래밍 언어 섹션 -->
+          <a href="#skill" class="dropdown-item highlighted">
+            <i class="fas fa-language"></i>Language <!-- 언어 아이콘 -->
+          </a>
+          <!-- 라이브러리 섹션 -->
+          <a href="#skill" class="dropdown-item">
+            <i class="fas fa-database"></i>Library <!-- 데이터베이스 아이콘 -->
+          </a>
+          <!-- 개발 도구 섹션 -->
+          <a href="#skill" class="dropdown-item">
+            <i class="fas fa-tools"></i>Tool <!-- 도구 아이콘 -->
+          </a>
+          <!-- AI 도구 섹션 -->
+          <a href="#skill" class="dropdown-item">
+            <i class="fas fa-robot"></i>AI <!-- 로봇 아이콘 -->
+          </a>
+          <!-- 기타 기술 섹션 -->
+          <a href="#skill" class="dropdown-item">
+            <i class="fas fa-laptop-code"></i>기타 <!-- 노트북 코딩 아이콘 -->
+          </a>
+        </div>
+      </div>
+      
+      <!-- WORK 드롭다운 메뉴 -->
+      <div class="nav-item">
+        <li><a href="#work">WORK <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+        <div class="dropdown">
+          <!-- 코딩 프로젝트 섹션으로 이동 (앵커 링크 사용) -->
+          <a href="/work.html#Coding Projects" class="dropdown-item highlighted">
+            <i class="fas fa-laptop-code"></i>WORK1
+          </a>
+          <!-- 전체 프로젝트 페이지 -->
+          <a href="/work.html" class="dropdown-item">
+            <i class="fas fa-project-diagram"></i>프로젝트
+          </a>
+          <!-- 포트폴리오 홈페이지 -->
+          <a href="/HOME.html" class="dropdown-item">
+            <i class="fas fa-folder-open"></i>포트폴리오
+          </a>
+          <div class="dropdown-divider"></div>
+          <!-- 성과 페이지 -->
+          <a href="/5_achievements.html" class="dropdown-item">
+            <i class="fas fa-trophy"></i>성과 <!-- 트로피 아이콘 -->
+          </a>
+        </div>
+      </div>
+      
+      <!-- CODING 드롭다운 메뉴 -->
+      <div class="nav-item">
+        <li><a href="#coding">CODING <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+        <div class="dropdown">
+          <!-- 프론트엔드 개발 페이지 -->
+          <a href="/1_frontend.html" class="dropdown-item">
+            <i class="fab fa-html5"></i>Fronrt-end <!-- HTML5 브랜드 아이콘 -->
+          </a>
+          <!-- JavaScript 페이지 -->
+          <a href="2_javascript.html" class="dropdown-item">
+            <i class="fab fa-js-square"></i>JavaScript <!-- JS 브랜드 아이콘 -->
+          </a>
+          <!-- React 페이지 -->
+          <a href="/3_react.html" class="dropdown-item">
+            <i class="fab fa-react"></i>React <!-- React 브랜드 아이콘 -->
+          </a>
+          <div class="dropdown-divider"></div>
+          <!-- GitHub 페이지 -->
+          <a href="/4_github.html" class="dropdown-item">
+            <i class="fab fa-github"></i>GitHub <!-- GitHub 브랜드 아이콘 -->
+          </a>
+        </div>
+      </div>
+      
+      <!-- RE-DESIGN 드롭다운 메뉴 -->
+      <div class="nav-item">
+        <li><a href="#design">RE-DESIGN <i class="fas fa-chevron-down dropdown-icon"></i></a></li>
+        <div class="dropdown">
+          <!-- 빅케이스 리디자인 프로젝트 -->
+          <a href="/빅케이스_리디자인/big_home.html" class="dropdown-item">
+            <i class="fas fa-palette"></i>빅케이스 리디자인 <!-- 팔레트 아이콘 -->
+          </a>
+          <!-- 로폼 리디자인 프로젝트 -->
+          <a href="/로폼_리디자인/html/lawform_index.html" class="dropdown-item">
+            <i class="fas fa-paint-brush"></i>로폼 리디자인 <!-- 페인트 브러시 아이콘 -->
+          </a>
+          <!-- LBOX 리디자인 프로젝트 -->
+          <a href="/엘박스_리디자인/lbox_home.html" class="dropdown-item">
+            <i class="fas fa-cube"></i>LBOX 리디자인 <!-- 큐브 아이콘 -->
+          </a>
+          <div class="dropdown-divider"></div>
+          <!-- UI/UX 디자인 프로젝트 -->
+          <a href="/키보드 단축키/키보드 단축키 홈.html" class="dropdown-item">
+            <i class="fas fa-mobile-alt"></i>UI/UX 디자인 생산성 도구<!-- 모바일 아이콘 -->
+          </a>
+          <a href="/JLPT 5급 시험/히라가나.가타가나.html" class="dropdown-item">
+            <i class="fas fa-js-square"></i>JLPT 요약집<!-- 모바일 아이콘 -->
+          </a>
+          <a href="/프롬프터1.html" class="dropdown-item">
+            <i class="fas fa-js-square"></i> 시나리오 프롬프터<!-- 모바일 아이콘 -->
+          </a>
+           <a href="/음성 인식 텍스트 변환기.html" class="dropdown-item">
+            <i class="fas fa-js-square"></i> 음성인식텍스트<!-- 모바일 아이콘 -->
+          </a>
+        </div>
+      </div>
+
+    </ul>
+  </nav>
+</header>
+
+<!-- 메인 히어로 섹션 -->
+<!-- 페이지 배경에 표시될 로고 이미지 -->
+<img src="/images/Chat GPT image 로고 (3)-1.png" alt="배경 로고" class="background-image">
+<section id="main" class="mainpg">
+  <!-- 메인 텍스트 영역 -->
+  <div class="main_text_area">
+    <!-- 메인 제목 - 이름이 강조된 인사말 -->
+    <h1 class="main_title"><p>Hi, I'm <span>Lee-kyung-min</span></p></h1>
+    <!-- 부제목 - 직업과 포트폴리오 설명 -->
+    <p class="title_txt">법률사무원 & 프론트엔드 개발자 & 웹디자이너 포트폴리오</p>
+    <!-- 소셜 아이콘 영역 (현재 비어있음) -->
+    <div class="main_icon_area">
+    </div>
+  </div>
+</section>
+
+<main>
+<!-- About 소개 섹션 -->
+<section id="about" class="aboutme">
+  <div class="container"><br><br> <!-- 상단 여백을 위한 줄바꿈 -->
+    <!-- 섹션 제목 -->
+    <div class="title"><span>About-View All</span></div>
+    <!-- 전체 소개 페이지로 이동하는 링크 (현재 비어있음) -->
+    <a href="/about me.html"></a>
+    <!-- 프로필 컨테이너 -->
+    <div class="profile_container">
+      <!-- 프로필 이미지 영역 -->
+      <div class="profile_img">
+        <img src="/images/Chat GPT image 로고 (3).png" alt="프로필">
+      </div>
+      <!-- 프로필 정보 영역 -->
+      <div class="profile">
+        <strong>Name : 이경민</strong>
+        <p>웹디자인과 프론트엔드 개발 및 법률사무원을 함께하는 크리에이터입니다.</p><br>
+        <ul>
+          <!-- 블러 효과가 적용된 개인정보 - 클릭 시 선명해지는 인터랙티브 요소 -->
+          <strong>텍스트는 흐려져 있다가 클릭하면 선명해집니다.</strong>
+          <!-- 주소 정보 - 클릭 시 블러 해제 -->
+          <div onclick="this.style.filter='blur(0)';"
+          style="filter: blur(5px); cursor: pointer; transition: filter 0.3s ease; font-size: 24px; color: #333; margin-top: 10px;">
+          <li><span>📍</span>서울시 노원구 덕릉로780 동아불암아파트 103동 2201호</li>
+          </div>
+          <!-- 이메일 정보 - 클릭 시 블러 해제 -->
+          <div onclick="this.style.filter='blur(0)';"
+          style="filter: blur(5px); cursor: pointer; transition: filter 0.3s ease; font-size: 24px; color: #333; margin-top: 10px;">
+          <li><span>🖥</span>lkm4175@naver.com / lkm4175@gmil.com</li>
+          </div>
+          <!-- 전화번호 정보 - 클릭 시 블러 해제 -->
+          <div onclick="this.style.filter='blur(0)';"
+          style="filter: blur(5px); cursor: pointer; transition: filter 0.3s ease; font-size: 24px; color: #333; margin-top: 10px;">
+           <li><span>📞</span>010-4559-4175</li>
+          </div>
+        </ul>
+        <!-- 관련 문서 링크 버튼들 -->
+        <div class="button">
+          <a href="/html/자기소개서.html">자기소개서</a>
+          <!-- MP3 다운로드 버튼 - download 속성으로 파일 다운로드 -->
+          <a href="/html/자기소개서+음성파일.mp3" download class="download-btn">📄 음성파일</a>
+          <a href="/html/기술경력서.html">기술경력서</a>
+          <!-- PDF 다운로드 버튼 - download 속성으로 파일 다운로드 -->
+          <a href="/html/이경민_이력서.pdf" download class="download-btn">📄 이력서 PDF 다운로드</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 기술 스택 섹션 -->
+<section id="skill" class="skills">
+  <div class="title"><br><br> <!-- 상단 여백 -->
+    <span>Skill</span>
+  </div>
+</section>
+<!-- 스킬 박스 컨테이너 -->
+<div class="skill_box">
+  <!-- 스킬 카테고리 탭 메뉴 -->
+  <div class="skill_list">
+    <ul>
+      <!-- 활성화된 첫 번째 탭 (Language) -->
+      <li><a href="#" class="active">Language</a></li>
+      <li><a href="#">Library</a></li>
+      <li><a href="#">Tool</a></li>
+      <li><a href="#">AI</a></li>
+      <li><a href="#">기타</a></li>
+    </ul>
+  </div>
+  <!-- 스킬 내용 컨테이너 -->
+  <div class="skill_txtcon">
+    <!-- Language 탭 내용 - 프로그래밍 언어들 -->
+    <ul class="skill_tab markup">
+      <li>
+        <div class="skill_txt">
+          <strong>Html5</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-html5-100.png" alt="html5" />
+          </div>
+          <span>시맨틱 마크업을 통한</span>
+          <span>구조 설계</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Css3</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-css3-100.png" alt="css3" />
+          </div>
+          <span>반응형 & 적응형</span>
+          <span>웹사이트 구축</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>JavaScript</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-javascript-100.png" alt="javaScript" />
+          </div>
+          <span>프로그램 동적</span>
+          <span>기능 구현</span>
+        </div>
+      </li>
+    </ul>
+    
+    <!-- Library 탭 내용 - 프론트엔드 라이브러리들 -->
+    <ul class="skill_tab Library">
+      <li>
+        <div class="skill_txt">
+          <strong>Bootstrap</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-bootstrap-100.png" alt="Bootstrap" />
+          </div>
+          <span>반응형 레이아웃 및</span>
+          <span>UI 구성 </span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Swiper</strong>
+          <div class="skill_img">
+            <img src="./images/swiper.png" alt="swiper" />
+          </div>
+          <span>반응형 슬라이드 구현</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Jquery</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-jquery-100.png" alt="jquery" />
+          </div>
+          <span>인터랙션 및</span>
+          <span>이벤트 제어 </span>
+        </div>
+      </li>
+    </ul>
+    
+    <!-- Tool 탭 내용 - 디자인 도구들 -->
+    <ul class="skill_tab tool">
+      <li>
+        <div class="skill_txt">
+          <strong>Figma</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-figma-100.png" alt="figma" />
+          </div>
+          <span>디자인 협업 툴로 사용</span>
+          <span>웹 사이트 시안 제작</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Photoshop</strong>
+          <div class="skill_img">
+            <img src="images/photoshop-100.png" alt="Photoshop" />
+          </div>
+          <span>배너, 상세페이지 제작</span>
+          <span>이미지 보정</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Illustrator</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-illustrator-100.png" alt="illustrator" />
+          </div>
+          <span>카드뉴스 제작</span>
+          <span>로고, 캐릭터 제작</span>
+        </div>
+      </li>
+    </ul>
+    
+    <!-- AI 도구 탭 내용 -->
+    <ul class="skill_tab tool">
+      <li>
+        <div class="skill_txt">
+          <strong>Chat GPT</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-chat-gpt-100.png" alt="figma" />
+          </div>
+          <span>디자인 추천</span>
+          <span>AI 이미지 제작</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Claude</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-claude-ai-100.png" alt="Photoshop" />
+          </div>
+          <span> 내용추천 </span>
+          <span>코딩</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>Perplexity</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-perplexity-ai-100 -1.png" alt="perplexity" />
+          </div>
+          <span> 내용수정 </span>
+          <span>자료 조사</span>
+        </div>
+      </li>
+    </ul> 
+    
+    <!-- 기타 도구 탭 내용 -->
+    <ul class="skill_tab tool">
+      <li>
+        <div class="skill_txt">
+          <strong>google</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-google-100.png" alt="google" />
+          </div>
+          <span>디자인 추천</span>
+          <span>AI 이미지 제작</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>GitHub</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-github-100.png" alt="gemini" />
+          </div>
+          <span> 자료정리 </span>
+          <span>저장소</span>
+        </div>
+      </li>
+      <li>
+        <div class="skill_txt">
+          <strong>youtube</strong>
+          <div class="skill_img">
+            <img src="/images/icons8-youtube-100.png" alt="youtube" />
+          </div>
+          <span> 내용 자료 조사 </span>
+          <!-- <span>예제</span> --> <!-- 주석 처리된 내용 -->
+        </div>
+      </li>
+    </ul> 
+  </div>
+</div>
+
+<!-- Work 작업 포트폴리오 섹션 -->
+<section id="work" class="coding">
+  <div class="container">
+    <div class="title"><br><br> <!-- 상단 여백 -->
+      <!-- 전체 작업 페이지로 이동하는 링크 -->
+      <span><a href="/work.html">Work-View All</a></span>
+    </div>
+    <ul>
+      <li>
+        <!-- 프로젝트 이미지 영역 -->
+        <div class="coding_img">
+          <a href="/work.html" alt="세종"> <!-- 잘못된 alt 사용 - a 태그에는 alt 속성이 없음 -->
+          <!-- 세종 로고 이미지 - 고정 크기로 설정 -->
+          <img src="/images/법무법인 세종 로고.svg" alt="세무사" style="width: 330px; height: 330px;"> 
+          </a>
+        </div>
+        <!-- 프로젝트 설명 텍스트 -->
+        <div class="coding_text">
+          <strong>Project Name</strong>
+          <span>HTML/CSS/JS</span> <!-- 사용 기술 스택 -->
+          <p>
+            <span>기여도: 100%</span> <!-- 개인 프로젝트임을 명시 -->
+            <span>반응형 구현</span> <!-- 주요 특징 -->
+            <span>주요 기능: 슬라이더, 메뉴 인터랙션</span> <!-- 구현된 기능들 -->
+          </p>
+          <!-- 프로젝트 상세 페이지로 이동하는 버튼 -->
+          <a href="/세종_리디자인/법무법인 세종 리디자인.html" class="go_btn">세종 리디자인</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- 코딩 프로젝트 섹션 (세무사 시험 관련) -->
+<section id="coding" class="work">
+  <div class="coding">
+    <div class="title">
+      <span> <br> <!-- 상단 여백 -->
+        <!-- 각종 코딩 관련 페이지들로 이동하는 링크들 -->
+        <a href="#coding"> Coding <i class="fa-solid fa-caret-right"></i></a>
+        <a href="/1_frontend.html">Fronrt-end <i class="fa-solid fa-caret-right"></i></a>
+        <a href="/2_javascript.html">JavaScript <i class="fa-solid fa-caret-right"></i></a>
+        <a href="/3_react.html">React <i class="fa-solid fa-caret-right"></i></a>
+        <a href="/4_github.html">GitHub <i class="fa-solid fa-caret-right"></i></a> 
+      </span>
+    </div>
+    
+    <ul>
+      <!-- 2025년 제62회 세무사 1차시험 프로젝트 -->
+      <li>
+        <div class="coding_text">
+          <strong>2025년 제62회 세무사 1차시험</strong>
+          <span>2025년도 제62회 세무사 1차시험 1교시 시험지 원본</span>
+          <!-- <p><span>기여도 : 100%</span><span>제작기간 : 2일</span></p> --> <!-- 주석 처리된 프로젝트 정보 -->
+          <!-- 각 과목별 시험지 링크 버튼들 -->
+          <div class="button_area">
+            <a href="/62회-재정학 40문제.html" class="go_btn">재정학<span>arrow</span></a> <!-- 재정학 -->
+            <a href="/62회-세법 40문제.html" class="go_btn2">세법<span>arrow</span></a> <!-- 세법 -->
+          </div> 
+        </div>
+        <!-- 프로젝트 대표 이미지 -->
+        <div class="coding_img">
+          <img src="/images/Chat GPT image 로고 (2)-1.png" alt="coding_img" style="width: 400px;"/>
+        </div>
+      </li>
+      
+      <!-- 2024년 제61회 세무사 1차시험 프로젝트 -->
+      <li>
+        <div class="coding_text">
+          <strong>2024년 제61회 세무사 1차시험</strong>
+          <span>2024년도 제61회 세무사 1차시험 1교시 시험지 원본</span>
+          <div class="button_area">
+            <a href="/기능 추가/61회 세무사1차 재정학.html" class="go_btn">---<span>arrow</span></a> <!-- 재정학 -->
+            <a href="#" class="go_btn2">---<span>arrow</span></a> <!-- 미완성 링크 -->
+            <a href="#" class="go_btn2">---<span>arrow</span></a> <!-- 미완성 링크 -->
+          </div>
+        </div>
+        <!-- 프로젝트 대표 이미지 -->
+        <div class="coding_img">
+          <img src="/images/Chat GPT image 로고 (3)-1.png" alt="coding_img" style="width: 400px;"/>
+        </div>
+      </li>
+      
+      <!-- 2023년 제60회 세무사 1차시험 프로젝트 -->
+      <li>
+        <div class="coding_text">
+          <strong>2023년 제60회 세무사 1차시험</strong>
+          <span>2023년도 제60회 세무사 1차시험 1교시 시험지 원본</span>
+          <div class="button_area">
+            <a href="#" class="go_btn2">---<span>arrow</span></a> <!-- 미완성 링크 -->
+            <a href="#" class="go_btn2">---<span>arrow</span>
+            </a> <!-- 미완성 링크 -->
+          </div>
+        </div>
+        <!-- 프로젝트 대표 이미지 -->
+        <div class="coding_img">
+        <img src="/images/Chat GPT image 로고 (4)-1.png" alt="coding_img" style="width: 400px;"/>
+        </div>
+      </li>
+      
+      <!-- 2022년 제59회 세무사 1차시험 프로젝트 -->
+      <li>
+        <div class="coding_text">
+          <strong>2022년 제59회 세무사 1차시험</strong>
+          <span>2022년도 제59회 세무사 1차시험 1교시 시험지 원본</span>
+          <div class="button_area">
+            <a href="#" class="go_btn2">---<span>arrow</span></a> <!-- 미완성 링크 -->
+            <a href="#" class="go_btn2">---<span>arrow</span></a> <!-- 미완성 링크 -->
+          </div>
+        </div>
+        <!-- 프로젝트 대표 이미지 -->
+        <div class="coding_img">
+        <img src="/images/Chat GPT image 로고 (5)-1.png" alt="coding_img" style="width: 400px;"/>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Design 리디자인 프로젝트 섹션 -->
+<section id="design" class="design">
+  <div class="container"><br><br> <!-- 상단 여백 -->
+    <!-- 섹션 제목 -->
+    <div class="title"><span>RE-design</span></div>
+    <ul>
+      <!-- 빅케이스 리디자인 프로젝트 -->
+      <li>
+        <strong>빅케이스 리디자인</strong><br>
+        <!-- 프로젝트 페이지로 이동하는 링크 -->
+        <a class="nav-link" href="/빅케이스_리디자인/big_home.html" class="button_go2">
+        <!-- 프로젝트 썸네일 이미지 -->
+        <div class="design_img"><img src="/images/빅케이스리디자인3.png" alt="빅케이스"></div>
+        </a>
+      </li>
+      
+      <!-- 로폼 리디자인 프로젝트 -->
+       <li>
+        <strong>로폼 리디자인 </strong><br>
+        <!-- 프로젝트 페이지로 이동하는 링크 -->
+        <a class="nav-link" href="/로폼_리디자인/html/lawform_index.html" class="button_go2">
+        <!-- 프로젝트 썸네일 이미지 -->
+        <div class="design_img"><img src="/images/로폼리디자인3.png" alt="로폼"></div>
+        </a>
+      </li>
+      
+      <!-- LBOX 리디자인 프로젝트 -->
+       <li>
+        <strong>LBOX 리디자인</strong><br>
+        <!-- 프로젝트 페이지로 이동하는 링크 -->
+        <a class="nav-link" href="/엘박스_리디자인/lbox_home.html" class="button_go2">
+        <!-- 프로젝트 썸네일 이미지 -->
+        <div class="design_img"><img src="/images/엘박스리디자인3.png" alt="엘박스"></div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Footer 하단 영역 -->
+<footer>
+  <div class="ftinner">
+    <!-- 이름 표시 -->
+    <strong>Name : 이경민</strong>
+    <hr> <!-- 구분선 -->
+    <!-- 저작권 표시 -->
+    <p>© 2025 웹 포트폴리오. All Rights Reserved.</p>
+    <!-- 연락처 및 소셜미디어 링크 목록 -->
+    <div class="contact_list">
+      <ul>
+        <!-- GitHub 링크 -->
+        <li><a href="https://github.com/rudals-lee"><i class="fab fa-github"></i><span>GitHub<br> 
+          https://github.com/rudals-lee
+        </span></a></li>
+        
+        <!-- Instagram 링크 (계정 없음) -->
+        <li><a href="#"><i class="fab fa-instagram"></i><span>Instagram<br>
+          계정 없음
+        </span></a></li>
+        
+        <!-- 이메일 링크 -->
+        <li><a href="#"><i class="fas fa-envelope"></i><span>email<br>
+          lkm4175@gmail.com
+        </span></a></li>
+        
+        <!-- 전화번호 링크 -->
+        <li><a href="#"><i class="fas fa-phone-alt"></i><span>전화번호<br>
+          010-4559-4175
+        </span></a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- 맨 위로 이동 버튼 -->
+<!-- 페이지 상단으로 스크롤하는 고정 버튼 -->
+<div class="top_btn"><a href="#"><img src="images/scroll-up-64.png" alt="위로"></a></div>
+
+<!-- JavaScript 라이브러리 및 스크립트 -->
+<!-- jQuery 라이브러리 CDN에서 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- 커스텀 JavaScript 파일 - 페이지 인터랙션 및 기능 구현 -->
+<script src="js/Home.js"></script>
+
+</main>
+</body>
+</html>

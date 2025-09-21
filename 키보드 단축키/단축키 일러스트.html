@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Illustrator 2020 단축키 차트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff8c00, #4a90e2);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #ff8c00, #4a90e2);
+            height: 30px;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: white;
+            border-style: dashed;
+            border-width: 2px 0 0 0;
+            border-color: white;
+            background-clip: padding-box;
+            background-image: repeating-linear-gradient(to right, white 0, white 10px, transparent 10px, transparent 20px);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 0;
+        }
+        
+        .section {
+            background: #333;
+            color: white;
+            padding: 15px;
+            border: 2px solid #666;
+        }
+        
+        .section-header {
+            background: #ff8c00;
+            color: white;
+            padding: 8px 15px;
+            margin: -15px -15px 15px -15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        
+        .shortcut-key {
+            color: #ffa500;
+            font-weight: bold;
+            min-width: 100px;
+        }
+        
+        .shortcut-desc {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .logo-section {
+            background: #ff8c00;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            grid-row: span 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ai-logo {
+            background: #333;
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff8c00;
+            margin-bottom: 20px;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .highlight {
+            color: #4a90e2;
+            font-weight: bold;
+        }
+        
+        .brand-name {
+            background: #4a90e2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .right-panel {
+            background: #666;
+            color: white;
+            padding: 15px;
+        }
+        
+        .right-section {
+            margin-bottom: 20px;
+        }
+        
+        .right-header {
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .right-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+        
+        .right-key {
+            background: #888;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"></div>
+        
+        <div class="main-content">
+            <!-- 문자 / Type -->
+            <div class="section">
+                <div class="section-header">문자 / Type (T)</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + O</span>
+                    <span class="shortcut-desc">글자 아웃라인 만들기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + →</span>
+                    <span class="shortcut-desc">단어 한 부분으로 커서 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + ←</span>
+                    <span class="shortcut-desc">단어 첫 부분으로 커서 이동</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + R</span>
+                    <span class="shortcut-desc">오른쪽 정렬</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + L</span>
+                    <span class="shortcut-desc">왼쪽 정렬</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + C</span>
+                    <span class="shortcut-desc">가운데 정렬</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + J</span>
+                    <span class="shortcut-desc">정렬 조가화</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">↵ + click</span>
+                    <span class="shortcut-desc">세로 복사</span>
+                </div>
+            </div>
+
+            <!-- 보기 / View -->
+            <div class="section">
+                <div class="section-header">보기 / View (V)</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + +</span>
+                    <span class="shortcut-desc">확대해서 보기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + -</span>
+                    <span class="shortcut-desc">축소해서 보기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 0</span>
+                    <span class="shortcut-desc">화면 크기에 맞게 조정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 1</span>
+                    <span class="shortcut-desc">100% 조정</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Y</span>
+                    <span class="shortcut-desc">아웃라인 보기 / 승가기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + ;</span>
+                    <span class="shortcut-desc">안내선 보기 / 승가기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + R</span>
+                    <span class="shortcut-desc">눈금자 보기 / 승가기</span>
+                </div>
+            </div>
+
+            <!-- 창문 / Window -->
+            <div class="section">
+                <div class="section-header">창문 / Window (W)</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F5</span>
+                    <span class="shortcut-desc">브러시</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F6</span>
+                    <span class="shortcut-desc">색상</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F7</span>
+                    <span class="shortcut-desc">레이어</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + F7</span>
+                    <span class="shortcut-desc">정렬</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + F8</span>
+                    <span class="shortcut-desc">정보</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + F9</span>
+                    <span class="shortcut-desc">그라디언트</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + F9</span>
+                    <span class="shortcut-desc">패스파인더</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + F10</span>
+                    <span class="shortcut-desc">선</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + F10</span>
+                    <span class="shortcut-desc">투명도</span>
+                </div>
+            </div>
+
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <div class="ai-logo">Ai</div>
+                <div class="logo-text">illustrator 2020</div>
+                <div class="subtitle">도구분류 <span class="highlight">단축기 안내</span></div>
+                <div class="subtitle">모든 <span class="highlight">상세 웹개발</span></div>
+                <div class="subtitle"><span class="highlight">건식연구 웹개발</span></div>
+                <div class="brand-name">민크스단축키 <span style="color: #4a90e2;">단축키</span></div>
+            </div>
+
+            <!-- 편집 / Edit -->
+            <div class="section">
+                <div class="section-header">편집 / Edit (E)</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Z</span>
+                    <span class="shortcut-desc">실행 취소하기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift + Ctrl + Z</span>
+                    <span class="shortcut-desc">재실행</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + Ctrl + Z</span>
+                    <span class="shortcut-desc">이전 단계</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Alt + Ctrl + W</span>
+                    <span class="shortcut-desc">모두 닫기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + X</span>
+                    <span class="shortcut-desc">잘라내기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + C</span>
+                    <span class="shortcut-desc">복사하기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + V</span>
+                    <span class="shortcut-desc">붙여넣기</span>
+                </div>
+            </div>
+
+            <!-- 오브젝트 / Object -->
+            <div class="section">
+                <div class="section-header">오브젝트 / Object (O)</div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + D</span>
+                    <span class="shortcut-desc">변형 작업 반복</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + G</span>
+                    <span class="shortcut-desc">그룹 만들기</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + G</span>
+                    <span class="shortcut-desc">그룹 해제</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + ]</span>
+                    <span class="shortcut-desc">오브젝트를 앞으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + [</span>
+                    <span class="shortcut-desc">오브젝트를 뒤로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + ]</span>
+                    <span class="shortcut-desc">오브젝트를 맨 앞으로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Shift + [</span>
+                    <span class="shortcut-desc">오브젝트를 맨 뒤로</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + 2</span>
+                    <span class="shortcut-desc">잠금</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl + Alt + 2</span>
+                    <span class="shortcut-desc">잠금 모두 해제</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel" style="position: absolute; right: 0; top: 30px; width: 200px; height: calc(100% - 30px);">
+            <div class="right-section">
+                <div class="right-header">대기 도구</div>
+                <div class="right-item">
+                    <span>번화 영역 도구</span>
+                    <span class="right-key">Shift + O</span>
+                </div>
+                <div class="right-item">
+                    <span>Ì대기</span>
+                    <span class="right-key">Shift + K</span>
+                </div>
+                <div class="right-item">
+                    <span>블로글 도구</span>
+                    <span class="right-key">Z</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">세부 도구</div>
+                <div class="right-item">
+                    <span>직점 세부 도구</span>
+                    <span class="right-key">V</span>
+                </div>
+                <div class="right-item">
+                    <span>자유 세부 도구</span>
+                    <span class="right-key">A</span>
+                </div>
+                <div class="right-item">
+                    <span>활가비 도구</span>
+                    <span class="right-key">Y</span>
+                </div>
+                <div class="right-item">
+                    <span>펜 도구</span>
+                    <span class="right-key">P</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">패널/색상 교체</div>
+                <div class="right-item">
+                    <span>Shift + X</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">문자 도구</div>
+                <div class="right-item">
+                    <span>문자 도구</span>
+                    <span class="right-key">T</span>
+                </div>
+                <div class="right-item">
+                    <span>세로 문자 도구</span>
+                    <span class="right-key">W</span>
+                </div>
+                <div class="right-item">
+                    <span>서치럭 도구</span>
+                    <span class="right-key">M</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">그리기 도구</div>
+                <div class="right-item">
+                    <span>Shift + D</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">회면 모드 변경</div>
+                <div class="right-item">
+                    <span>F</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">Shapes 도구</div>
+                <div class="right-item">
+                    <span>Shift + N</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">자유 도구</div>
+                <div class="right-item">
+                    <span>Shift + E</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">직점 도구</div>
+                <div class="right-item">
+                    <span>R</span>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="right-header">크기 조정 도구</div>
+                <div class="right-item">
+                    <span>S</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

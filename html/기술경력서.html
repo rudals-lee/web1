@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>경력 기술서</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    /* 헤더 스타일 */
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo img {
+      height: 60px;
+      width: auto;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #333;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #e9ecef;
+      transform: scale(1.1);
+    }
+
+    /* 사이드 메뉴 스타일 */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 320px;
+      height: 100vh;
+      background-color: #fff;
+      box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+      transition: right 0.3s ease-in-out;
+      z-index: 1001;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .side-menu.active {
+      right: 0;
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #007bff;
+    }
+
+    .menu-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .close-btn {
+      background: #007bff;
+      border: none;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: #0056b3;
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    .menu-section {
+      margin-bottom: 2rem;
+    }
+
+    .menu-section h3 {
+      color: #333;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      padding-left: 10px;
+      border-left: 3px solid #007bff;
+    }
+
+    .menu-items {
+      list-style: none;
+    }
+
+    .menu-items li {
+      margin-bottom: 8px;
+    }
+
+    .menu-items a {
+      display: block;
+      padding: 10px 15px;
+      color: #555;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .menu-items a:hover {
+      background-color: #007bff;
+      color: white;
+      transform: translateX(5px);
+    }
+
+    /* 오버레이 */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 999;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 메인 콘텐츠 */
+    .main-content {
+      margin-top: 80px;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      color: #333;
+      font-weight: 700;
+    }
+
+    .career-table-container {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .career-table-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #e9ecef;
+      padding: 18px;
+      text-align: left;
+      vertical-align: top;
+      transition: background-color 0.3s ease;
+    }
+
+    th {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      width: 20%;
+      font-weight: 600;
+      color: #495057;
+      border-right: 3px solid #007bff;
+    }
+
+    td {
+      background-color: #fff;
+      line-height: 1.6;
+    }
+
+    td[colspan="3"] {
+      white-space: pre-line;
+    }
+
+    tr:hover td {
+      background-color: #f8f9fa;
+    }
+
+    tr:hover th {
+      background: linear-gradient(135deg, #e9ecef, #dee2e6);
+    }
+
+    /* 회사명 행 특별 스타일 */
+    tr:first-child th,
+    tr:first-child td {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    tr:first-child th {
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      border-right: 3px solid #004085;
+    }
+
+    tr:first-child td {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      color: #1565c0;
+      font-weight: 700;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+      
+      .side-menu {
+        width: 300px;
+        right: -300px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      th, td {
+        padding: 12px;
+        font-size: 0.9rem;
+      }
+
+      th {
+        width: 25%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      table {
+        font-size: 0.8rem;
+      }
+
+      th, td {
+        padding: 8px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* 애니메이션 */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 인쇄 스타일 */
+    @media print {
+      .header, .side-menu, .overlay {
+        display: none !important;
+      }
+
+      .main-content {
+        margin-top: 0;
+        padding: 20px;
+      }
+
+      .career-table-container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+
+      body {
+        background-color: white;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 헤더 -->
+  <header class="header">
+    <div class="logo">
+      <a href="/HOME.html"><img src="/images/LEGALWEB-2.png" alt="법률문서 로고" /></a>
+    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <!-- 오버레이 -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- 사이드 메뉴 -->
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+      <div class="menu-title">메뉴</div>
+      <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+
+    <div class="menu-section">
+      <h3>📄 문서 정보</h3>
+      <ul class="menu-items">
+        <li><a href="#company-info">회사 정보</a></li>
+        <li><a href="#position-info">직급 정보</a></li>
+        <li><a href="#work-content">업무 내용</a></li>
+        <li><a href="#resignation-reason">퇴직 사유</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>🏢 회사 정보</h3>
+      <ul class="menu-items">
+        <li><a href="#company-info">법무법인(유)광장</a></li>
+        <li><a href="#company-info">총무부</a></li>
+        <li><a href="#company-info">2023.11 ~ 2024.11</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>💼 주요 업무</h3>
+      <ul class="menu-items">
+        <li><a href="#work-content">소송관련 기록 관리</a></li>
+        <li><a href="#work-content">제작비 정산</a></li>
+        <li><a href="#work-content">회의자료 취합</a></li>
+        <li><a href="#work-content">우편물 분류</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>🔗 기타</h3>
+      <ul class="menu-items">
+        <li><a href="/HOME.html">홈으로</a></li>
+        <li><a href="#" onclick="window.print()">인쇄하기</a></li>
+        <li><a href="#" id="downloadBtn">PDF 다운로드</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="main-content">
+    <h1 class="fade-in">경 력 기 술 서</h1>
+
+    <div class="career-table-container fade-in">
+      <table>
+        <tr id="company-info">
+          <th>회사명</th>
+          <td>법무법인(유)광장</td>
+          <th>재직기간</th>
+          <td>2023.11 ~ 2024.11</td>
+        </tr>
+        <tr id="position-info">
+          <th>직급</th>
+          <td colspan="3">사원</td>
+        </tr>
+        <tr>
+          <th>회사소개</th>
+          <td colspan="3">법무법인(유)광장 총무부</td>
+        </tr>
+        <tr id="work-content">
+          <th>업무내용</th>
+          <td colspan="3">
+소송관련 기록 및 정보 관리
+
+제작비 정산 및 비용처리
+
+회의자료 취합
+
+우편물 분류
+
+전화 및 팩스 수발신
+
+고객 응대 및 간단한 상담
+
+변호사 일정관리(재판기일 등)
+
+법원 및 검찰 기록 등사 및 제출
+
+전자사건 등록, 제출내역 확인 및 출력
+
+제출서류 확인
+
+전자소송 시스템을 통한 형사 문건 접수 및 제출 업무
+
+(고소장, 항소이유서, 진정서 등 형사사건 관련 문건 전자 접수)
+
+등기/등사 및 법원 송무 업무 전반 수행
+(기록 열람 및 등사 신청, 수령 후 사건 정리 및 보고)
+
+전자공탁 시스템 이용 공탁서 작성 및 제출
+(보석보증금, 지급명령 관련 공탁 등)
+
+법원 제출용 신청서 및 보정서 작성 및 제출 대응
+(보정명령에 따른 서류 수정/보완 및 기한 내 처리)
+
+재판기일 관리 및 사건 진행 상황 문서화 및 보고
+
+전화 응대, 문서 스캔 및 기록 정리 등 일반 사무보조
+</td>
+        </tr>
+        <tr id="resignation-reason">
+          <th>퇴직사유</th>
+          <td colspan="3">계약기간 만료</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // DOM 요소들
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // 메뉴 열기
+    function openMenu() {
+      sideMenu.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // 메뉴 닫기
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // 이벤트 리스너
+    menuBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openMenu();
+    });
+
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // 메뉴 항목 클릭 시 메뉴 닫기
+    const menuItems = document.querySelectorAll('.menu-items a');
+    menuItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        // 내부 링크인 경우에만 메뉴 닫기
+        if (this.getAttribute('href').startsWith('#')) {
+          closeMenu();
+        }
+      });
+    });
+
+    // ESC 키로 메뉴 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    // 부드러운 스크롤 (내부 링크용)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          // 테이블 행으로 스크롤
+          const tableRow = target.closest('tr');
+          if (tableRow) {
+            tableRow.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+            
+            // 행 하이라이트 효과
+            tableRow.style.backgroundColor = '#fff3cd';
+            setTimeout(() => {
+              tableRow.style.backgroundColor = '';
+            }, 2000);
+          }
+        }
+      });
+    });
+
+    // PDF 다운로드 기능 (시뮬레이션)
+    downloadBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('PDF 다운로드 기능은 실제 환경에서 구현됩니다.');
+      closeMenu();
+    });
+
+    // 스크롤 애니메이션
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // 모든 fade-in 요소에 애니메이션 적용
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // 테이블 행 클릭 시 하이라이트 효과
+    document.querySelectorAll('tr').forEach(row => {
+      row.addEventListener('click', function() {
+        // 기존 하이라이트 제거
+        document.querySelectorAll('tr.highlighted').forEach(r => {
+          r.classList.remove('highlighted');
+          r.style.backgroundColor = '';
+        });
+        
+        // 새 하이라이트 추가
+        this.classList.add('highlighted');
+        this.style.backgroundColor = '#e3f2fd';
+        
+        setTimeout(() => {
+          this.style.backgroundColor = '';
+          this.classList.remove('highlighted');
+        }, 2000);
+      });
+    });
+
+    // 메뉴 아이템 활성화 표시
+    function updateActiveMenuItem() {
+      const rows = document.querySelectorAll('tr[id]');
+      const menuLinks = document.querySelectorAll('.menu-items a[href^="#"]');
+      
+      let currentRow = '';
+      
+      rows.forEach(row => {
+        const rect = row.getBoundingClientRect();
+        if (rect.top <= 200 && rect.bottom >= 200) {
+          currentRow = row.id;
+        }
+      });
+      
+      menuLinks.forEach(link => {
+        link.style.background = '';
+        link.style.color = '';
+        link.style.transform = '';
+        
+        if (link.getAttribute('href') === '#' + currentRow) {
+          link.style.background = '#007bff';
+          link.style.color = 'white';
+          link.style.transform = 'translateX(5px)';
+        }
+      });
+    }
+
+    // 스크롤 시 활성 메뉴 아이템 업데이트
+    window.addEventListener('scroll', updateActiveMenuItem);
+    
+    // 페이지 로드 시 초기 활성 아이템 설정
+    window.addEventListener('load', updateActiveMenuItem);
+  </script>
+</body>
+</html>

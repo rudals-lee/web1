@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LBOX - 요금제</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2196F3;
+        }
+
+        .logo::before {
+            content: "📦";
+            margin-right: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            padding: 8px 16px;
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .signup-btn {
+            padding: 8px 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .plan-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .recommended {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .plan-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .price-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .price-label {
+            color: #666;
+        }
+
+        .price-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .new-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+
+        .features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .features li::before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .cta-primary:hover {
+            background: #1976D2;
+        }
+
+        .cta-secondary {
+            background: white;
+            color: #2196F3;
+            border: 2px solid #2196F3;
+        }
+
+        .cta-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .contact-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .contact-link:hover {
+            color: #2196F3;
+        }
+
+        .enterprise-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .enterprise-card .plan-name,
+        .enterprise-card .price,
+        .enterprise-card .features li {
+            color: white;
+        }
+
+        .enterprise-card .features li::before {
+            color: #4CAF50;
+        }
+
+        .faq-section {
+            margin-top: 80px;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .faq-icon {
+            font-size: 40px;
+            min-width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .faq-content h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .faq-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .features-comparison {
+            margin-top: 80px;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .features-comparison h2 {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .comparison-table {
+            overflow-x: auto;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            padding: 20px 15px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #e9ecef;
+            text-align: center;
+        }
+
+        .feature-col {
+            width: 25%;
+            text-align: left !important;
+        }
+
+        .plan-col {
+            width: 37.5%;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f3f4;
+            vertical-align: top;
+        }
+
+        .category-header {
+            background: #f8f9fa;
+        }
+
+        .category-header td {
+            font-weight: bold;
+            color: #333;
+            padding: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .feature-name {
+            font-weight: 500;
+            color: #333;
+            text-align: left;
+        }
+
+        .info-icon {
+            color: #999;
+            font-size: 12px;
+            margin-left: 5px;
+            cursor: help;
+        }
+
+        .feature-desc {
+            color: #555;
+            line-height: 1.4;
+            /* text-align: left; */
+            text-align: center;
+        }
+
+        .check-mark {
+            color: #4CAF50;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+
+        /* 추가 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: #2c3e50;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #f8f9fa;
+        }
+
+        .faq-question.active {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: #666;
+        }
+
+        .arrow.rotated {
+            transform: rotate(180deg);
+            color: #1976d2;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #fafafa;
+        }
+
+        .faq-answer.open {
+            max-height: 200px;
+        }
+
+        .faq-answer-content {
+            padding: 20px 25px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .more-questions {
+            text-align: center;
+            margin: 40px 0 60px 0;
+        }
+
+        .more-questions-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: #666;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .more-questions-btn:hover {
+            border-color: #1976d2;
+            color: #1976d2;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin-top: 60px;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: #1976d2;
+            transform: translateY(-2px);
+        }
+
+        /* 푸터추가 */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 60px 20px 30px;
+            /* margin-top: 60px; */
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-info {
+            font-size: 13px;
+            color: #95a5a6;
+            line-height: 1.6;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: #34495e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #3498db;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+
+        @media (max-width: 768px) {
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .faq-item {
+                padding: 25px;
+                gap: 15px;
+            }
+
+            .faq-icon {
+                font-size: 32px;
+                min-width: 50px;
+                height: 50px;
+            }
+
+            .faq-content h3 {
+                font-size: 16px;
+            }
+
+            .features-comparison {
+                padding: 30px 20px;
+                margin: 60px -20px 0;
+                border-radius: 0;
+            }
+
+            .features-comparison h2 {
+                font-size: 24px;
+            }
+
+            .comparison-table {
+                font-size: 13px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px 8px;
+            }
+
+            .feature-col {
+                width: 35%;
+            }
+
+            .plan-col {
+                width: 32.5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <a href="lbox_home.html">LBOX</a>
+                </div>
+            <ul class="nav-menu">
+                <li><a href="#">고객지원</a></li>
+                <li><a href="lbox_plus.html">요금제</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="search-btn">🔍</button>
+                <button class="login-btn">
+                    <a href="lbox_login.html">로그인</a>
+                </button>
+                <button class="signup-btn">
+                    <a href="lbox_login2.html">회원가입</a>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="hero">
+            <h1>모든 법률 전문가를 위한<br>더 다양해진 엘박스 요금제</h1>
+        </section>
+
+        <div class="pricing-cards">
+            <!-- 스탠다드 플랜 -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h2 class="plan-name">스탠다드 <span class="recommended">권장 플랜</span></h2>
+                    <p class="plan-description">개인 법률 전문가를 위한</p>
+                </div>
+                
+                <div class="price">49,900원 부터</div>
+                
+                <div class="price-detail">
+                    <span class="price-label">플 패키지</span>
+                    <span class="price-value">69,900원 <span style="color: #999;">/월</span></span>
+                </div>
+                
+                <div class="price-detail">
+                    <span class="price-label">인사·노무 <span class="new-badge">NEW</span></span>
+                    <span class="price-value">49,900원 <span style="color: #999;">/월</span></span>
+                </div>
+
+                <ul class="features">
+                    <li>스탠다드 플 패키지의 모든 기능</li>
+                    <li>계정 관리를 위한 어드민 제공</li>
+                    <li>판례분과법 공유</li>
+                </ul>
+
+                <button class="cta-button cta-primary">7일 무료 사용하기</button>
+            </div>
+
+            <!-- 비즈니스 플랜 -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h2 class="plan-name">비즈니스 <span class="recommended">권장 플랜</span></h2>
+                    <p class="plan-description">9인 이하 구독의 팀을 위한</p>
+                </div>
+                
+                <div class="price">~59,415원 <span style="color: #999; font-size: 16px;">(월 인당 기준)</span></div>
+
+                <ul class="features">
+                    <li>스탠다드 플 패키지의 모든 기능</li>
+                    <li>계정 관리를 위한 어드민 제공</li>
+                    <li>판례분과법 공유</li>
+                </ul>
+
+                <button class="cta-button cta-primary">시작하기</button>
+                <a href="#" class="contact-link">견적보기</a>
+            </div>
+
+            <!-- 엔터프라이즈 플랜 -->
+            <div class="pricing-card enterprise-card">
+                <div class="card-header">
+                    <h2 class="plan-name">엔터프라이즈 <span class="recommended">권장 플랜</span></h2>
+                    <p class="plan-description">10인 이상의 구독의 팀을 위한</p>
+                </div>
+                
+                <div class="price">별도 문의</div>
+
+                <ul class="features">
+                    <li>스탠다드 플 패키지의 모든 기능</li>
+                    <li>계정 관리를 위한 어드민 제공</li>
+                    <li>판례분과법 공유</li>
+                </ul>
+
+                <button class="cta-button cta-secondary">문의하기</button>
+            </div>
+        </div>
+
+        <!-- FAQ 섹션 -->
+        <section class="faq-section">
+            <div class="faq-grid">
+                <!-- 공공기관 문의 -->
+                <div class="faq-item">
+                    <div class="faq-icon">🏛️</div>
+                    <div class="faq-content">
+                        <h3>40인 이상의 공공기관인가요?</h3>
+                        <p>IP기반 이용 환경(법률정 플랜)을 제공합니다.</p>
+                    </div>
+                </div>
+
+                <!-- 지방변호사회 소속 -->
+                <div class="faq-item">
+                    <div class="faq-icon">⚖️</div>
+                    <div class="faq-content">
+                        <h3>지방변호사회 소속인가요?</h3>
+                        <p>MOU 소속 변호사 할인 혜택을 제공합니다.</p>
+                    </div>
+                </div>
+
+                <!-- 로스쿨 확생 -->
+                <div class="faq-item">
+                    <div class="faq-icon">🎓</div>
+                    <div class="faq-content">
+                        <h3>로스쿨 학생인가요?</h3>
+                        <p>로스쿨별 무료 이용 혜택을 제공합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 제품 주요 기능 비교 테이블 -->
+        <section class="features-comparison">
+            <h2>제품 주요 기능</h2>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="feature-col">기능</th>
+                            <th class="plan-col">플 패키지</th>
+                            <th class="plan-col">인사·노무</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="category-header">
+                            <td colspan="3"><strong>법률 데이터 제공</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                판례 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">모든 판례</td>
+                            <td class="feature-desc">인사·노무 분야 키워드 및 관련 법령을 이용한 판례</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                경정례 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">모든 경정례</td>
+                            <td class="feature-desc">고용보험심사위원회, 개인정보보호위원회 등 인사·노무 분야에 필요한 기관의 경정례</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                유권해석 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">모든 유권해석</td>
+                            <td class="feature-desc">고용노동부, 법제처 기관의 유권해석</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                주석서 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                실무서 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                법령 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                논문 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                언론보도(뉴스) <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+
+                        <!-- 내용추가1 -->
+                        <tr class="category-header">
+                            <td colspan="3"><strong>핵심 기능</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                사건일정관리 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                판례보관함 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                법률분석 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                법령별 판례 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                         <tr>
+                            <td class="feature-name">
+                                복대리 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">변호사 인증시</td>
+                            <td class="feature-desc">변호사 인증시</td>
+                        </tr>
+                         <tr>
+                            <td class="feature-name">
+                                내 판결문 등록 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">변호사 인증시</td>
+                            <td class="feature-desc">변호사 인증시</td>
+                        </tr>
+
+                        <!-- 내용추가2 -->
+                        <tr class="category-header">
+                            <td colspan="3"><strong>편의 기능</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                AI 유사판례 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                빠른 검색 명령어 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                판례지도 뷰 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                하이라이트/메모 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                미등록 판례 요청 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="check-mark">✓</td>
+                            <td class="check-mark">✓</td>
+                        </tr>
+
+                        <!-- 내용추가3 -->
+                         <tr class="category-header">
+                            <td colspan="3"><strong>엘박스 AI</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">
+                                복대리 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">엘박스 AI 승인 시</td>
+                            <td class="feature-desc">엘박스 AI 승인 시</td>
+                        </tr>
+                         <tr>
+                            <td class="feature-name">
+                                내 판결문 등록 <span class="info-icon">ⓘ</span>
+                            </td>
+                            <td class="feature-desc">엘박스 AI 승인 시</td>
+                            <td class="feature-desc">엘박스 AI 승인 시</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+  </main>
+        <!-- 추가 -->
+        <div class="container">
+        <h1>자주 묻는 질문</h1>
+
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>결제 방식이 궁금해요.</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        신용카드, 체크카드, 계좌이체, 휴대폰 소액결제 등 다양한 결제 방식을 지원합니다. 안전한 결제를 위해 PG사를 통한 암호화된 결제 시스템을 사용하고 있습니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>결제 후 언제 이용할 수 있나요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        결제 완료 후 즉시 서비스 이용이 가능합니다. 만약 결제 후에도 서비스가 활성화되지 않는다면 고객센터로 문의해 주세요.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>환불이 어떻게 되나요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        서비스 이용 약관에 따라 환불 정책이 적용됩니다. 일반적으로 서비스 시작 후 7일 이내에 환불 요청이 가능하며, 자세한 내용은 고객센터로 문의해 주세요.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>기술 문의는 어떻게 해야 연락할 수 있나요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        기술 문의는 고객센터 이메일 또는 1:1 문의하기를 통해 접수하실 수 있습니다. 평일 9시-18시에 문의하시면 빠른 답변을 받으실 수 있습니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>학습에 필요한 프로그램이나 개발환경이 별도로 필요한가요 아님 없어도 이용가능한가요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        별도의 프로그램 설치 없이 웹 브라우저만 있으면 바로 이용 가능합니다. 클라우드 기반의 개발환경을 제공하여 어디서든 쉽게 학습하실 수 있습니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>스마트폰 웹으로 볼 수 있나요? 움직이기가 불편한가요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        모바일 웹에서도 최적화된 화면으로 이용 가능합니다. 반응형 디자인으로 제작되어 스마트폰, 태블릿에서도 편리하게 사용하실 수 있습니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>[스마트폰 / 태블릿]에서는 어떤뷰화나? [스마트폰 / 모바일] - 노트북과는 어떤 기능 차이가있나요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        모바일과 데스크톱 버전 모두 동일한 핵심 기능을 제공합니다. 다만 화면 크기에 따라 일부 인터페이스가 최적화되어 표시됩니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>서툰 사용자 위한 사용작업시 한국영상 안 영상이 기본적여야?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        초보자를 위한 한국어 가이드 영상과 튜토리얼을 제공합니다. 단계별 설명으로 누구나 쉽게 따라할 수 있도록 구성되어 있습니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>가끔 불러올 때문에 좀삼고 연결 안됩니다니까?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        네트워크 상태나 일시적인 서버 문제로 접속이 어려울 수 있습니다. 페이지를 새로고침하거나 잠시 후 다시 시도해 주세요.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>파일을 올리고 이눈 방식이 어떻게 되나요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        드래그 앤 드롭 또는 파일 선택 버튼을 통해 업로드할 수 있습니다. 지원되는 파일 형식과 크기 제한은 서비스 가이드를 참고해 주세요.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>정답 또는 토탈 오류하먼서 파일론 듣고 가김되어있나요?</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        업로드된 파일은 안전하게 암호화되어 저장되며, 개인정보보호법에 따라 엄격하게 관리됩니다. 서비스 이용 후 자동으로 삭제됩니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="more-questions">
+            <button class="more-questions-btn">자주 묻는 질문 더 보기</button>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <div class="cta-title">모든 법률 데이터</div>
+        <div class="cta-subtitle">엘박스에서 검색하고 활용하세요</div>
+        <button class="cta-button">무료체 시작하기</button>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <span>📘</span> LBOX
+                </div>
+                <div class="footer-links">
+                    <a href="#">1:1 문의 등록</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">공지사항</a>
+                </div>
+                <div class="footer-info">
+                    <p>사업자: 주식회사 엘박스<br>
+                    사업자번호: 661-86-01360<br>
+                    통신판매업신고번호: 2021-서울강남-03424<br>
+                    대표자명: 1670-1926<br>
+                    대표자명: 이한<br>
+                    주소: 서울특별시 강남구 테헤란로 306 카이트타워 5층</p>
+                    <div class="footer-bottom">
+                        <p>Copyright © 2025 LBOX Co., Ltd. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>고객센터</h4>
+                <ul>
+                    <li><a href="#">기술 블로그</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>개인정보처리방침</h4>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">💬</a>
+                    <a href="#" class="social-icon">📧</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const arrow = element.querySelector('.arrow');
+            const isOpen = answer.classList.contains('open');
+
+            // Close all FAQ items
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                item.classList.remove('open');
+            });
+            document.querySelectorAll('.faq-question').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelectorAll('.arrow').forEach(item => {
+                item.classList.remove('rotated');
+            });
+
+            // If this item wasn't open, open it
+            if (!isOpen) {
+                answer.classList.add('open');
+                element.classList.add('active');
+                arrow.classList.add('rotated');
+            }
+        }
+        // 간단한 인터랙션 추가
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // FAQ 아이템 호버 효과
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.01)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

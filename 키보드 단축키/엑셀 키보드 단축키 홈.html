@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel 단축키 마스터 | 데이터 분석 효율성 극대화</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0F4C3A 0%, #1B6B54 30%, #217A5C 70%, #2E8B57 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-float 20s ease-in-out infinite;
+        }
+
+        @keyframes grid-float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-25px, -25px); }
+        }
+
+        /* Floating Data Elements */
+        .data-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .data-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 20px;
+            animation: float-data 8s ease-in-out infinite;
+        }
+
+        @keyframes float-data {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.2; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo::before {
+            content: '📊';
+            font-size: 28px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-item:hover {
+            background: rgba(46, 139, 87, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2E8B57, #20B2AA);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(46, 139, 87, 0.3); }
+            to { box-shadow: 0 0 25px rgba(46, 139, 87, 0.6); }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #ffffff, #90EE90, #ffffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 4s ease-in-out infinite;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 100%);
+            color: white;
+            box-shadow: 0 12px 35px rgba(46, 139, 87, 0.3);
+        }
+
+        .cta-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 45px rgba(46, 139, 87, 0.4);
+        }
+
+        .cta-primary:hover::before {
+            left: 100%;
+        }
+
+        .cta-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            border-color: #2E8B57;
+        }
+
+        /* Excel Grid Stats */
+        .excel-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stat-cell {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px 25px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .stat-cell::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #2E8B57, #20B2AA, #32CD32, #2E8B57);
+            background-size: 400% 400%;
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: gradient-border 3s ease infinite;
+        }
+
+        .stat-cell:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes gradient-border {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .stat-cell:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #2E8B57;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #20B2AA;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 80px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(46, 139, 87, 0.1), transparent);
+            animation: rotate 6s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #2E8B57;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: block;
+            animation: bounce-slow 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce-slow {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #20B2AA;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .feature-link {
+            color: #20B2AA;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 25px;
+            border: 2px solid #2E8B57;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-link:hover {
+            background: #2E8B57;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .feature-link:hover::before {
+            left: 100%;
+        }
+
+        /* Excel Functions Showcase */
+        .functions-showcase {
+            padding: 100px 20px;
+        }
+
+        .functions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .function-item {
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.2), rgba(32, 178, 170, 0.2));
+            padding: 35px 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .function-item::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 6px;
+            height: 6px;
+            background: #20B2AA;
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .function-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: #20B2AA;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .function-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .function-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #90EE90;
+        }
+
+        .function-desc {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 20px;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .testimonial-slider {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial {
+            color: white;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 30px;
+            font-size: 4rem;
+            color: #20B2AA;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #90EE90;
+            font-size: 1.1rem;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #0F4C3A 0%, #2E8B57 100%);
+        }
+
+        .newsletter-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-desc {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 450px;
+            margin: 0 auto;
+            gap: 15px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .newsletter-btn {
+            padding: 18px 35px;
+            background: linear-gradient(135deg, #2E8B57, #20B2AA);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn:hover {
+            background: linear-gradient(135deg, #20B2AA, #2E8B57);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(46, 139, 87, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 80px 20px 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+        }
+
+        .footer-section a:hover {
+            color: #20B2AA;
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 40px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .excel-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid Background -->
+    <div class="grid-bg"></div>
+
+    <!-- Floating Data Elements -->
+    <div class="data-elements" id="dataElements"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">Excel 단축키 마스터</a>
+            
+            <nav class="nav">
+                <a href="#features" class="nav-item">기능</a>
+                <a href="#shortcuts" class="nav-item">단축키</a>    
+                <a href="#functions" class="nav-item">함수</a>
+                <a href="#tutorials" class="nav-item">튜토리얼</a>
+                <a href="#download" class="nav-item">다운로드</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">✨ 데이터 분석 전문가를 위한</div>
+        <h1 class="hero-title">Excel 단축키 마스터</h1>
+        <h2 class="hero-subtitle">📊 스프레드시트 작업 효율성을 10배 높이세요</h2>
+        <p class="hero-description">
+            Microsoft Excel의 모든 단축키와 고급 기능을 마스터하고, 데이터 분석과 
+            보고서 작성 속도를 극대화하세요. 초보자부터 데이터 분석 전문가까지!
+        </p>
+        
+        <div class="hero-cta">
+            <a href="#" class="cta-primary">🚀 학습 시작하기</a>
+            <a href="#" class="cta-secondary">📹 데모 보기</a>
+        </div>
+
+        <!-- Excel Stats Grid -->
+        <div class="excel-stats">
+            <div class="stat-cell">
+                <span class="stat-number">300+</span>
+                <span class="stat-label">단축키 & 함수</span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-number">100,000+</span>
+                <span class="stat-label">전문가 사용자</span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-number">85%</span>
+                <span class="stat-label">작업 시간 단축</span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">온라인 학습</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">🎯 왜 Excel 단축키 마스터인가?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">인터랙티브 키보드</h3>
+                    <p class="feature-description">
+                        실제 키보드에서 마우스 호버로 모든 Excel 단축키를 
+                        즉시 확인하고 학습할 수 있습니다.
+                    </p>
+                    <a href="#" class="feature-link">체험하기</a>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">📈</span>
+                    <h3 class="feature-title">실무 중심 학습</h3>
+                    <p class="feature-description">
+                        실제 데이터 분석 업무에서 가장 많이 사용되는 
+                        핵심 기능과 고급 함수를 우선 학습합니다.
+                    </p>
+                    <a href="#" class="feature-link">시작하기</a>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎓</span>
+                    <h3 class="feature-title">전문가 과정</h3>
+                    <p class="feature-description">
+                        초급부터 고급까지, 단계별 커리큘럼으로 
+                        Excel 전문가가 되는 완벽한 로드맵을 제공합니다.
+                    </p>
+                    <a href="#" class="feature-link">과정 보기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Functions Showcase -->
+    <section class="functions-showcase" id="functions">
+        <div class="container">
+            <h2 class="section-title">🔧 핵심 기능 카테고리</h2>
+            <div class="functions-grid">
+                <a href="#" class="function-item">
+                    <span class="function-icon">📝</span>
+                    <div class="function-title">데이터 입력</div>
+                    <div class="function-desc">셀 이동, 선택, 자동완성 등 기본 입력 단축키</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">🎨</span>
+                    <div class="function-title">서식 지정</div>
+                    <div class="function-desc">글꼴, 테두리, 색상, 셀 병합 등 서식 단축키</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">📊</span>
+                    <div class="function-title">함수 & 수식</div>
+                    <div class="function-desc">SUM, VLOOKUP, IF문 등 핵심 함수 사용법</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">📈</span>
+                    <div class="function-title">차트 & 그래프</div>
+                    <div class="function-desc">데이터 시각화를 위한 차트 생성 단축키</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">🔍</span>
+                    <div class="function-title">데이터 분석</div>
+                    <div class="function-desc">필터링, 정렬, 피벗 테이블 등 분석 도구</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">💾</span>
+                    <div class="function-title">파일 관리</div>
+                    <div class="function-desc">저장, 열기, 인쇄 등 파일 관련 단축키</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">⚙️</span>
+                    <div class="function-title">고급 기능</div>
+                    <div class="function-desc">매크로, VBA, 고급 데이터 조작 기능</div>
+                </a>
+                
+                <a href="#" class="function-item">
+                    <span class="function-icon">🔗</span>
+                    <div class="function-title">연결 & 공유</div>
+                    <div class="function-desc">하이퍼링크, 공유, 협업 관련 단축키</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="tutorials">
+        <div class="container">
+            <h2 class="section-title">💬 전문가들의 후기</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <p class="testimonial-text">
+                        Excel 단축키를 익힌 후 데이터 분석 작업이 3배 빨라졌습니다. 
+                        특히 피벗 테이블과 VLOOKUP 함수 조합이 정말 유용해요!
+                    </p>
+                    <p class="testimonial-author">- 김○○ 데이터 분석가</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">
+                        복잡한 보고서 작성이 이렇게 쉬워질 줄 몰랐습니다. 
+                        단축키 덕분에 야근이 절반으로 줄었어요.
+                    </p>
+                    <p class="testimonial-author">- 박○○ 회계팀장</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">
+                        초보자도 쉽게 따라할 수 있는 체계적인 학습 과정이 
+                        정말 인상적입니다. Excel 고수가 된 기분이에요!
+                    </p>
+                    <p class="testimonial-author">- 이○○ 마케팅 매니저</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter" id="download">
+        <div class="container">
+            <h2 class="newsletter-title">📧 Excel 마스터 뉴스레터</h2>
+            <p class="newsletter-desc">
+                최신 Excel 팁과 고급 기능을 매주 이메일로 받아보세요
+            </p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="이메일 주소를 입력하세요">
+                <button type="submit" class="newsletter-btn">구독하기</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>📚 학습 자료</h4>
+                <a href="#">Excel 단축키 PDF</a>
+                <a href="#">함수 레퍼런스 가이드</a>
+                <a href="#">실습 예제 파일</a>
+                <a href="#">비디오 튜토리얼</a>
+                <a href="#">온라인 연습 문제</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>🔗 관련 도구</h4>
+                <a href="#">Word 단축키</a>
+                <a href="#">PowerPoint 단축키</a>
+                <a href="#">Google Sheets</a>
+                <a href="#">데이터 분석 도구</a>
+                <a href="#">비즈니스 인텔리전스</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>📞 고객 지원</h4>
+                <a href="#">자주 묻는 질문</a>
+                <a href="#">1:1 문의하기</a>
+                <a href="#">학습 커뮤니티</a>
+                <a href="#">피드백 보내기</a>
+                <a href="#">기술 지원</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>ℹ️ 회사 정보</h4>
+                <a href="#">서비스 소개</a>
+                <a href="#">이용 약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">사업자 정보</a>
+                <a href="#">채용 정보</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Excel 단축키 마스터. All rights reserved. | 📧 contact@excelmaster.com | 📞 02-1234-5678</p>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating data elements
+        function createDataElements() {
+            const dataElements = document.getElementById('dataElements');
+            const icons = ['📊', '📈', '📉', '💹', '🔢', '📋', '💻', '⚡', '📱', '🎯'];
+            
+            for (let i = 0; i < 20; i++) {
+                const element = document.createElement('div');
+                element.className = 'data-icon';
+                element.textContent = icons[Math.floor(Math.random() * icons.length)];
+                
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                element.style.animationDelay = Math.random() * 8 + 's';
+                element.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                
+                dataElements.appendChild(element);
+            }
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Newsletter form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.newsletter-input').value;
+            if (email) {
+                alert('구독해 주셔서 감사합니다! Excel 마스터 팁을 매주 보내드릴게요. 📊');
+                this.reset();
+            }
+        });
+
+        // Animated counter for statistics
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = counter.innerText;
+                const numericTarget = parseInt(target.replace(/[^0-9]/g, ''));
+                const suffix = target.replace(/[0-9]/g, '');
+                
+                let current = 0;
+                const increment = numericTarget / 150;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= numericTarget) {
+                        counter.innerText = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.innerText = Math.floor(current) + suffix;
+                    }
+                }, 20);
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animate counters when stats section is visible
+                    if (entry.target.querySelector('.stat-number')) {
+                        animateCounters();
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections for scroll animations
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease';
+            observer.observe(section);
+        });
+
+        // Make hero section visible immediately
+        document.querySelector('.hero').style.opacity = '1';
+        document.querySelector('.hero').style.transform = 'translateY(0)';
+
+        // Add parallax effect to hero
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const rate = scrolled * -0.3;
+            
+            if (hero) {
+                hero.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Add hover effects to feature cards with enhanced animations
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-20px) scale(1.03) rotateX(5deg)';
+                this.style.boxShadow = '0 30px 60px rgba(0, 0, 0, 0.4)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02) rotateX(0deg)';
+                this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.3)';
+            });
+        });
+
+        // Add click ripple effect
+        document.querySelectorAll('.function-item, .feature-card, .cta-primary, .cta-secondary').forEach(element => {
+            element.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Typing effect for hero title
+        function typeWriter() {
+            const title = document.querySelector('.hero-title');
+            const text = 'Excel 단축키 마스터';
+            title.innerHTML = '';
+            
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    title.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            }
+            type();
+        }
+
+        // Add testimonial slider functionality
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        
+        function showTestimonial(index) {
+            testimonials.forEach((testimonial, i) => {
+                if (i === index) {
+                    testimonial.style.display = 'block';
+                    testimonial.style.opacity = '1';
+                    testimonial.style.transform = 'translateY(0)';
+                } else {
+                    testimonial.style.display = 'none';
+                }
+            });
+        }
+
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }
+
+        // Initialize testimonials
+        if (testimonials.length > 0) {
+            testimonials.forEach((testimonial, index) => {
+                testimonial.style.display = index === 0 ? 'block' : 'none';
+                testimonial.style.transition = 'all 0.5s ease';
+            });
+            
+            // Auto-rotate testimonials every 5 seconds
+            setInterval(nextTestimonial, 5000);
+        }
+
+        // Add ripple CSS dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+            
+            .feature-card {
+                perspective: 1000px;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize everything when page loads
+        window.addEventListener('load', function() {
+            createDataElements();
+            setTimeout(typeWriter, 1000);
+        });
+
+        // Add enhanced hover effects for navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-2px) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

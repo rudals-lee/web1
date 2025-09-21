@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한글(아래아한글) Ctrl+Shift 단축키 키보드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6, #60A5FA);
+            font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(30, 58, 138, 0.95);
+            min-width: 220px;
+            border-radius: 12px;
+            padding: 15px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 30px;
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            width: 220px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #60A5FA;
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.4);
+            width: 250px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 12px 20px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #A8C8FF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #60A5FA;
+        }
+
+        /* Main Content */
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 30px;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(30, 58, 138, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            height: fit-content;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h3 {
+            color: white;
+            margin-bottom: 18px;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-item {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 12px 18px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(96, 165, 250, 0.3);
+            color: white;
+            border-left-color: #60A5FA;
+            transform: translateX(5px);
+        }
+
+        .title {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            background: linear-gradient(45deg, #FFFFFF, #A8C8FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Enhanced Carousel */
+        .carousel-container {
+            position: relative;
+            margin: 25px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 220px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .slide-content {
+            z-index: 1;
+            text-align: center;
+        }
+
+        .slide-subtitle {
+            font-size: 16px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 24px;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        .keyboard {
+            background: rgba(30, 58, 138, 0.6);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            gap: 6px;
+        }
+
+        .key {
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 6px;
+            min-height: 55px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .key:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .ctrl-shift-key {
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
+            border-color: #60A5FA;
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .ctrl-shift-key:hover {
+            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.5);
+            border-color: #93C5FD;
+        }
+
+        .inactive-key {
+            background: linear-gradient(135deg, #374151, #4B5563);
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .inactive-key:hover {
+            transform: none;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .special-key {
+            background: linear-gradient(135deg, #4A5568, #6B7280);
+            border-color: rgba(107, 114, 128, 0.5);
+        }
+
+        .modifier-key {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            border-color: #A855F7;
+        }
+
+        /* 키 크기 */
+        .key-normal { width: 50px; }
+        .key-wide { width: 70px; }
+        .key-wider { width: 90px; }
+        .key-widest { width: 110px; }
+        .key-space { width: 300px; }
+        .key-shift { width: 120px; }
+        .key-ctrl { width: 80px; }
+        .key-enter { width: 100px; height: 85px; }
+
+        .korean-text {
+            font-size: 9px;
+            margin-top: 3px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .shortcut-combo {
+            font-size: 8px;
+            opacity: 0.7;
+            margin-bottom: 2px;
+        }
+
+        /* Enhanced Tooltip */
+        .tooltip {
+            position: absolute;
+            top: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(30,58,138,0.95));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            border: 2px solid rgba(96, 165, 250, 0.6);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            pointer-events: none;
+            max-width: 350px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 10px solid transparent;
+            border-top-color: rgba(0,0,0,0.95);
+        }
+
+        .key:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: -65px;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .key.active .tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: -65px;
+        }
+
+        /* 첫 번째 행(Function Keys)의 키들은 툴팁을 아래쪽으로 표시 */
+        .row:first-child .tooltip {
+            top: 70px;
+            transform: translateX(-50%);
+        }
+
+        .row:first-child .tooltip::after {
+            top: -20px;
+            border-top-color: transparent;
+            border-bottom-color: rgba(0,0,0,0.95);
+        }
+
+        .row:first-child .key:hover .tooltip {
+            top: 80px;
+        }
+
+        .row:first-child .key.active .tooltip {
+            top: 80px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 35px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .legend-color {
+            width: 35px;
+            height: 25px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .instructions {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Enhanced Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: #60A5FA;
+        }
+
+        .card h4 {
+            color: #93C5FD;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .card strong {
+            color: #60A5FA;
+        }
+
+        /* CTA Button */
+        .cta-container {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(30, 58, 138, 0.6);
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1E3A8A 100%);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(59, 130, 246, 0.95));
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            color: white;
+            backdrop-filter: blur(15px);
+            transform: scale(0.7) rotate(5deg);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) rotate(0deg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .nav {
+                display: none;
+            }
+
+            .keyboard {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 24px;
+            }
+
+            .tooltip {
+                display: none;
+            }
+
+            .key {
+                min-height: 45px;
+                font-size: 10px;
+            }
+        }
+
+        /* Pulse animation for active keys */
+        @keyframes pulse {
+            0% { box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 6px 12px rgba(59, 130, 246, 0.6), 0 0 20px rgba(96, 165, 250, 0.4); }
+            100% { box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3); }
+        }
+
+        .key.active {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">⌨️ 한글 Ctrl+Shift 단축키</a>
+            
+            <!-- Navigation -->
+            <nav class="nav">
+                <a href="#" class="nav-item">홈</a>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown">
+                    <a href="#" class="nav-item">단축키 모음 ▼</a>
+                    <div class="dropdown-content">
+                        <a href="#" class="dropdown-item">Ctrl 단축키</a>
+                        <a href="#" class="dropdown-item">Shift 단축키</a>
+                        <a href="#" class="dropdown-item">Ctrl+Shift 단축키</a>
+                        <a href="#" class="dropdown-item">Alt 단축키</a>
+                        <a href="#" class="dropdown-item">F키 단축키</a>
+                    </div>
+                </div>
+                
+                <a href="#" class="nav-item">튜토리얼</a>
+                <a href="#" class="nav-item" onclick="openModal()">도움말</a>
+            </nav>
+            
+            <!-- Search -->
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Ctrl+Shift 단축키 검색...">
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="#">홈</a> > <a href="#">한컴 오피스</a> > <span>한글 Ctrl+Shift 단축키</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>📁 Ctrl+Shift 카테고리</h3>
+            <a href="#" class="sidebar-item">🎯 고급 텍스트 선택</a>
+            <a href="#" class="sidebar-item">📝 문단 단위 편집</a>
+            <a href="#" class="sidebar-item">🔄 서식 변환</a>
+            <a href="#" class="sidebar-item">📊 표/개체 관리</a>
+            <a href="#" class="sidebar-item">🎨 스타일 적용</a>
+            <a href="#" class="sidebar-item">📋 클립보드 확장</a>
+            
+            <h3 style="margin-top: 30px;">🔗 빠른 링크</h3>
+            <a href="#" class="sidebar-item">Ctrl+Shift 필수 10선</a>
+            <a href="#" class="sidebar-item">고급 편집 가이드</a>
+            <a href="#" class="sidebar-item">단축키 연습 모드</a>
+            <a href="#" class="sidebar-item">PDF 치트시트</a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="title">한글(아래아한글) Ctrl+Shift 단축키 키보드</div>
+            
+            <!-- Enhanced Carousel -->
+            <div class="carousel-container">
+                <div class="carousel" id="carousel">
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div>🎯 Ctrl+Shift로 고급 편집 마스터!</div>
+                            <div class="slide-subtitle">문단, 단어 단위 정밀 선택</div>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div>🚀 전문가급 문서 편집 속도</div>
+                            <div class="slide-subtitle">복합 단축키로 효율성 극대화</div>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div>⚡ 고급 서식 및 스타일 제어</div>
+                            <div class="slide-subtitle">프로페셔널 문서 작성</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="prevSlide()">‹</button>
+                <button class="carousel-btn next" onclick="nextSlide()">›</button>
+            </div>
+            
+            <div class="instructions">
+                파란색 키에 마우스를 올리면 한글 Ctrl+Shift 단축키 정보를 확인할 수 있습니다
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color ctrl-shift-key"></div>
+                    <span>Ctrl+Shift 단축키</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color modifier-key"></div>
+                    <span>보조키 (Ctrl, Shift)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color inactive-key"></div>
+                    <span>일반 키</span>
+                </div>
+            </div>
+
+            <div class="keyboard">
+                <!-- Function Keys Row -->
+                <div class="row">
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F1<div class="korean-text">확장도움말</div>
+                        <div class="tooltip">Ctrl+Shift+F1: 확장 도움말 및 기능 설명</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F2<div class="korean-text">책갈피편집</div>
+                        <div class="tooltip">Ctrl+Shift+F2: 책갈피 편집</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F3<div class="korean-text">이전바꾸기</div>
+                        <div class="tooltip">Ctrl+Shift+F3: 이전 바꾸기 항목</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F4<div class="korean-text">모든창닫기</div>
+                        <div class="tooltip">Ctrl+Shift+F4: 모든 문서창 닫기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F5<div class="korean-text">북마크이동</div>
+                        <div class="tooltip">Ctrl+Shift+F5: 북마크로 이동</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F6<div class="korean-text">분할창이동</div>
+                        <div class="tooltip">Ctrl+Shift+F6: 분할 창 간 이동</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F7<div class="korean-text">맞춤법전체</div>
+                        <div class="tooltip">Ctrl+Shift+F7: 전체 문서 맞춤법 검사</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F8<div class="korean-text">선택영역확장</div>
+                        <div class="tooltip">Ctrl+Shift+F8: 선택 영역 확장 모드</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F9<div class="korean-text">모든필드갱신</div>
+                        <div class="tooltip">Ctrl+Shift+F9: 모든 필드 갱신</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F10<div class="korean-text">메뉴사용자정의</div>
+                        <div class="tooltip">Ctrl+Shift+F10: 메뉴 사용자 정의</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F11<div class="korean-text">스타일창</div>
+                        <div class="tooltip">Ctrl+Shift+F11: 스타일 창 열기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F12<div class="korean-text">인쇄미리보기</div>
+                        <div class="tooltip">Ctrl+Shift+F12: 인쇄 미리보기</div>
+                    </div>
+                </div>
+
+                <!-- Number Row -->
+                <div class="row">
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        ~<div class="korean-text">특수기호</div>
+                        <div class="tooltip">Ctrl+Shift+`: 특수 기호 입력</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        1<div class="korean-text">제목1스타일</div>
+                        <div class="tooltip">Ctrl+Shift+1: 제목1 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        2<div class="korean-text">제목2스타일</div>
+                        <div class="tooltip">Ctrl+Shift+2: 제목2 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        3<div class="korean-text">제목3스타일</div>
+                        <div class="tooltip">Ctrl+Shift+3: 제목3 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        4<div class="korean-text">제목4스타일</div>
+                        <div class="tooltip">Ctrl+Shift+4: 제목4 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        5<div class="korean-text">제목5스타일</div>
+                        <div class="tooltip">Ctrl+Shift+5: 제목5 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        6<div class="korean-text">제목6스타일</div>
+                        <div class="tooltip">Ctrl+Shift+6: 제목6 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        7<div class="korean-text">목록스타일</div>
+                        <div class="tooltip">Ctrl+Shift+7: 목록 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        8<div class="korean-text">번호스타일</div>
+                        <div class="tooltip">Ctrl+Shift+8: 번호 매기기 스타일</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        9<div class="korean-text">본문스타일</div>
+                        <div class="tooltip">Ctrl+Shift+9: 본문 스타일 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        0<div class="korean-text">기본스타일</div>
+                        <div class="tooltip">Ctrl+Shift+0: 기본 스타일로 복원</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        -<div class="korean-text">첨자</div>
+                        <div class="tooltip">Ctrl+Shift+-: 아래첨자 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        =<div class="korean-text">위첨자</div>
+                        <div class="tooltip">Ctrl+Shift+=: 위첨자 적용</div>
+                    </div>
+                    <div class="key inactive-key key-wider">Backspace</div>
+                </div>
+
+                <!-- QWERTY Row -->
+                <div class="row">
+                    <div class="key ctrl-shift-key key-wide">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        Tab<div class="korean-text">역탭이동</div>
+                        <div class="tooltip">Ctrl+Shift+Tab: 역방향 탭 이동</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        Q<div class="korean-text">인용문</div>
+                        <div class="tooltip">Ctrl+Shift+Q: 인용문 서식 적용</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        W<div class="korean-text">창모두닫기</div>
+                        <div class="tooltip">Ctrl+Shift+W: 모든 창 닫기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        E<div class="korean-text">문단가운데정렬</div>
+                        <div class="tooltip">Ctrl+Shift+E: 문단 가운데 정렬</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        R<div class="korean-text">문단오른쪽정렬</div>
+                        <div class="tooltip">Ctrl+Shift+R: 문단 오른쪽 정렬</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        T<div class="korean-text">표삽입</div>
+                        <div class="tooltip">Ctrl+Shift+T: 표 삽입 대화상자</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        Y<div class="korean-text">다시실행</div>
+                        <div class="tooltip">Ctrl+Shift+Y: 다시 실행 (Redo)</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        U<div class="korean-text">밑줄변경</div>
+                        <div class="tooltip">Ctrl+Shift+U: 밑줄 스타일 변경</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        I<div class="korean-text">기울임해제</div>
+                        <div class="tooltip">Ctrl+Shift+I: 기울임꼴 해제</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        O<div class="korean-text">열기옵션</div>
+                        <div class="tooltip">Ctrl+Shift+O: 고급 열기 옵션</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        P<div class="korean-text">인쇄옵션</div>
+                        <div class="tooltip">Ctrl+Shift+P: 고급 인쇄 옵션</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        [<div class="korean-text">글꼴축소</div>
+                        <div class="tooltip">Ctrl+Shift+[: 글꼴 크기 축소</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        ]<div class="korean-text">글꼴확대</div>
+                        <div class="tooltip">Ctrl+Shift+]: 글꼴 크기 확대</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        \<div class="korean-text">스타일제거</div>
+                        <div class="tooltip">Ctrl+Shift+\: 모든 서식 제거</div>
+                    </div>
+                </div>
+
+                <!-- ASDF Row -->
+                <div class="row">
+                    <div class="key inactive-key key-widest">Caps Lock</div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        A<div class="korean-text">모두선택확장</div>
+                        <div class="tooltip">Ctrl+Shift+A: 전체 문서 선택 (확장)</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        S<div class="korean-text">다른이름저장</div>
+                        <div class="tooltip">Ctrl+Shift+S: 다른 이름으로 저장</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        D<div class="shortcut-combo">복제</div>
+                        <div class="korean-text">선택영역복제</div>
+                        <div class="tooltip">Ctrl+Shift+D: 선택 영역 복제</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        F<div class="korean-text">고급찾기</div>
+                        <div class="tooltip">Ctrl+Shift+F: 고급 찾기 및 바꾸기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        G<div class="korean-text">그룹해제</div>
+                        <div class="tooltip">Ctrl+Shift+G: 개체 그룹 해제</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        H<div class="korean-text">바꾸기옵션</div>
+                        <div class="tooltip">Ctrl+Shift+H: 고급 바꾸기 옵션</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        J<div class="korean-text">양쪽정렬</div>
+                        <div class="tooltip">Ctrl+Shift+J: 문단 양쪽 정렬</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        K<div class="korean-text">하이퍼링크</div>
+                        <div class="tooltip">Ctrl+Shift+K: 하이퍼링크 편집</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        L<div class="korean-text">문단왼쪽정렬</div>
+                        <div class="tooltip">Ctrl+Shift+L: 문단 왼쪽 정렬</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        ;<div class="korean-text">스타일목록</div>
+                        <div class="tooltip">Ctrl+Shift+;: 스타일 목록 보기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        '<div class="korean-text">인용부호</div>
+                        <div class="tooltip">Ctrl+Shift+': 스마트 인용부호</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-enter">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        Enter<div class="korean-text">페이지나누기</div>
+                        <div class="tooltip">Ctrl+Shift+Enter: 페이지 나누기</div>
+                    </div>
+                </div>
+
+                <!-- ZXCV Row -->
+                <div class="row">
+                    <div class="key modifier-key key-shift">Shift</div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        Z<div class="korean-text">다시실행</div>
+                        <div class="tooltip">Ctrl+Shift+Z: 다시 실행 (Redo)</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        X<div class="korean-text">잘라내기확장</div>
+                        <div class="tooltip">Ctrl+Shift+X: 확장 잘라내기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        C<div class="korean-text">서식복사</div>
+                        <div class="tooltip">Ctrl+Shift+C: 서식만 복사</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        V<div class="korean-text">서식붙여넣기</div>
+                        <div class="tooltip">Ctrl+Shift+V: 서식만 붙여넣기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        B<div class="korean-text">굵기해제</div>
+                        <div class="tooltip">Ctrl+Shift+B: 굵은글씨 해제</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        N<div class="korean-text">새창</div>
+                        <div class="tooltip">Ctrl+Shift+N: 새 창에서 열기</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        M<div class="korean-text">여백설정</div>
+                        <div class="tooltip">Ctrl+Shift+M: 여백 설정</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        ,<div class="korean-text">글꼴축소</div>
+                        <div class="tooltip">Ctrl+Shift+,: 글꼴 크기 축소</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        .<div class="korean-text">글꼴확대</div>
+                        <div class="tooltip">Ctrl+Shift+.: 글꼴 크기 확대</div>
+                    </div>
+                    <div class="key ctrl-shift-key key-normal">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        /<div class="korean-text">주석토글</div>
+                        <div class="tooltip">Ctrl+Shift+/: 주석 토글</div>
+                    </div>
+                    <div class="key modifier-key key-shift">Shift</div>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="row">
+                    <div class="key modifier-key key-ctrl">Ctrl</div>
+                    <div class="key inactive-key key-wide">Win</div>
+                    <div class="key inactive-key key-wide">Alt</div>
+                    <div class="key ctrl-shift-key key-space">
+                        <div class="shortcut-combo">Ctrl+Shift</div>
+                        Space<div class="korean-text">강제띄어쓰기</div>
+                        <div class="tooltip">Ctrl+Shift+Space: 강제 띄어쓰기 (줄바꿈 방지)</div>
+                    </div>
+                    <div class="key inactive-key key-wide">Alt</div>
+                    <div class="key inactive-key key-wide">Menu</div>
+                    <div class="key modifier-key key-ctrl">Ctrl</div>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="cta-container">
+                <button class="cta-button" onclick="openModal()">📚 Ctrl+Shift 단축키 완전 가이드 다운로드</button>
+            </div>
+
+            <!-- Enhanced Card UI -->
+            <div class="cards-container">
+                <div class="card">
+                    <h4>🎯 고급 텍스트 선택</h4>
+                    <p>
+                    <strong>Ctrl+Shift+방향키:</strong> 단어/문단 단위 선택<br>
+                    <strong>Ctrl+Shift+Home/End:</strong> 문서 처음/끝까지 선택<br>
+                    <strong>Ctrl+Shift+Page Up/Down:</strong> 페이지 단위 선택<br>
+                    <strong>Ctrl+Shift+A:</strong> 전체 문서 선택 (확장)<br>
+                    <strong>Ctrl+Shift+F8:</strong> 선택 영역 확장 모드<br>
+                    <strong>Ctrl+Shift+D:</strong> 선택 영역 복제
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📝 문단 및 정렬</h4>
+                    <p>
+                    <strong>Ctrl+Shift+E:</strong> 문단 가운데 정렬<br>
+                    <strong>Ctrl+Shift+R:</strong> 문단 오른쪽 정렬<br>
+                    <strong>Ctrl+Shift+L:</strong> 문단 왼쪽 정렬<br>
+                    <strong>Ctrl+Shift+J:</strong> 문단 양쪽 정렬<br>
+                    <strong>Ctrl+Shift+M:</strong> 여백 설정<br>
+                    <strong>Ctrl+Shift+Enter:</strong> 페이지 나누기
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>🎨 서식 및 스타일</h4>
+                    <p>
+                    <strong>Ctrl+Shift+1~9:</strong> 제목1~9 스타일 적용<br>
+                    <strong>Ctrl+Shift+0:</strong> 기본 스타일로 복원<br>
+                    <strong>Ctrl+Shift+C:</strong> 서식만 복사<br>
+                    <strong>Ctrl+Shift+V:</strong> 서식만 붙여넣기<br>
+                    <strong>Ctrl+Shift+\:</strong> 모든 서식 제거<br>
+                    <strong>Ctrl+Shift+F11:</strong> 스타일 창 열기
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>🔤 글꼴 및 문자</h4>
+                    <p>
+                    <strong>Ctrl+Shift+[/]:</strong> 글꼴 크기 축소/확대<br>
+                    <strong>Ctrl+Shift+,/.:</strong> 글꼴 크기 세밀 조정<br>
+                    <strong>Ctrl+Shift+B:</strong> 굵은글씨 해제<br>
+                    <strong>Ctrl+Shift+I:</strong> 기울임꼴 해제<br>
+                    <strong>Ctrl+Shift+U:</strong> 밑줄 스타일 변경<br>
+                    <strong>Ctrl+Shift+=/-:</strong> 위첨자/아래첨자
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📊 표 및 개체</h4>
+                    <p>
+                    <strong>Ctrl+Shift+T:</strong> 표 삽입 대화상자<br>
+                    <strong>Ctrl+Shift+G:</strong> 개체 그룹 해제<br>
+                    <strong>Ctrl+Shift+K:</strong> 하이퍼링크 편집<br>
+                    <strong>Ctrl+Shift+Space:</strong> 강제 띄어쓰기<br>
+                    <strong>Ctrl+Shift+':</strong> 스마트 인용부호<br>
+                    <strong>Ctrl+Shift+`:</strong> 특수 기호 입력
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>⚡ 고급 편집 기능</h4>
+                    <p>
+                    <strong>Ctrl+Shift+S:</strong> 다른 이름으로 저장<br>
+                    <strong>Ctrl+Shift+F:</strong> 고급 찾기 및 바꾸기<br>
+                    <strong>Ctrl+Shift+H:</strong> 고급 바꾸기 옵션<br>
+                    <strong>Ctrl+Shift+Z/Y:</strong> 다시 실행 (Redo)<br>
+                    <strong>Ctrl+Shift+N:</strong> 새 창에서 열기<br>
+                    <strong>Ctrl+Shift+F12:</strong> 인쇄 미리보기
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⌨️ 한글 Ctrl+Shift 단축키 완전 가이드</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>🎯 Ctrl+Shift 단축키 활용법</h3>
+                <p style="margin-bottom: 15px;">한글에서 Ctrl+Shift 조합으로 고급 편집 기능을 활용하는 방법:</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 8px;">고급 텍스트 선택: Ctrl+Shift+방향키</li>
+                    <li style="margin-bottom: 8px;">스타일 빠른 적용: Ctrl+Shift+숫자</li>
+                    <li style="margin-bottom: 8px;">서식 고급 제어: Ctrl+Shift+서식키</li>
+                    <li style="margin-bottom: 8px;">문단 정렬 제어: Ctrl+Shift+정렬키</li>
+                </ul>
+                
+                <h3>⚡ Ctrl+Shift 필수 단축키 Top 10</h3>
+                <p style="margin-bottom: 15px;">한글에서 가장 유용한 Ctrl+Shift 단축키들:</p>
+                <ol style="margin-left: 20px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+방향키</strong> - 단어/문단 단위 선택</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+S</strong> - 다른 이름으로 저장</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+C/V</strong> - 서식 복사/붙여넣기</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+1~6</strong> - 제목 스타일 적용</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+E/R/L</strong> - 문단 정렬</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+[/]</strong> - 글꼴 크기 조정</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+F</strong> - 고급 찾기/바꾸기</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+Enter</strong> - 페이지 나누기</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+\</strong> - 모든 서식 제거</li>
+                    <li style="margin-bottom: 5px;"><strong>Ctrl+Shift+Space</strong> - 강제 띄어쓰기</li>
+                </ol>
+                
+                <h3>💡 생산성 향상 팁</h3>
+                <p style="margin-bottom: 15px;">Ctrl+Shift로 문서 편집 효율성 극대화:</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 8px;"><strong>빠른 스타일 적용:</strong> Ctrl+Shift+1~9로 제목 스타일 즉시 적용</li>
+                    <li style="margin-bottom: 8px;"><strong>서식 일괄 복사:</strong> Ctrl+Shift+C로 서식만 복사 후 여러 곳에 적용</li>
+                    <li style="margin-bottom: 8px;"><strong>정밀한 선택:</strong> Ctrl+Shift+방향키로 단어/문단 단위 정확 선택</li>
+                    <li style="margin-bottom: 8px;"><strong>고급 편집:</strong> Ctrl+Shift+F로 복잡한 찾기/바꾸기 작업</li>
+                </ul>
+                
+                <h3>🔄 작업 흐름 최적화</h3>
+                <p style="margin-bottom: 15px;">Ctrl+Shift 단축키를 활용한 효율적인 작업 순서:</p>
+                <ol style="margin-left: 20px;">
+                    <li style="margin-bottom: 8px;"><strong>문서 구조화:</strong> Ctrl+Shift+1~6으로 제목 계층 구조 생성</li>
+                    <li style="margin-bottom: 8px;"><strong>내용 작성:</strong> Ctrl+Shift+0으로 본문 스타일 적용</li>
+                    <li style="margin-bottom: 8px;"><strong>서식 통일:</strong> Ctrl+Shift+C/V로 서식 일괄 적용</li>
+                    <li style="margin-bottom: 8px;"><strong>최종 검토:</strong> Ctrl+Shift+F로 용어 일괄 수정</li>
+                    <li style="margin-bottom: 8px;"><strong>문서 완성:</strong> Ctrl+Shift+S로 최종 저장</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: rgba(0, 0, 0, 0.4); color: rgba(255, 255, 255, 0.8); padding: 40px 0 20px 0; margin-top: 60px;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+            <div>
+                <h4 style="color: white; margin-bottom: 15px;">📖 학습 자료</h4>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">Ctrl+Shift 단축키 PDF</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">고급 편집 튜토리얼</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">스타일 활용 가이드</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">전문가 팁 모음</a>
+            </div>
+            <div>
+                <h4 style="color: white; margin-bottom: 15px;">🔗 관련 링크</h4>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">Ctrl 단축키</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">Shift 단축키</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">Alt 단축키</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">F키 단축키</a>
+            </div>
+            <div>
+                <h4 style="color: white; margin-bottom: 15px;">📞 고객 지원</h4>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">FAQ</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">문의하기</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">피드백</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">버그 신고</a>
+            </div>
+            <div>
+                <h4 style="color: white; margin-bottom: 15px;">ℹ️ 회사 정보</h4>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">회사 소개</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">개인정보처리방침</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">이용약관</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s ease;">사이트맵</a>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; margin-top: 30px; font-size: 14px;">
+            <p>&copy; 2024 Hangeul Ctrl+Shift Shortcuts Guide. All rights reserved. | 연락처: info@hangeulshortcuts.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Carousel functionality
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const carousel = document.getElementById('carousel');
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Auto slide every 6 seconds
+        setInterval(nextSlide, 6000);
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('helpModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('helpModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside or pressing ESC
+        window.onclick = function(event) {
+            const modal = document.getElementById('helpModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Enhanced search functionality
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const keys = document.querySelectorAll('.ctrl-shift-key');
+            
+            keys.forEach(key => {
+                const tooltip = key.querySelector('.tooltip');
+                const keyText = key.textContent.toLowerCase();
+                
+                if (searchTerm && (tooltip && tooltip.textContent.toLowerCase().includes(searchTerm) || keyText.includes(searchTerm))) {
+                    key.style.border = '3px solid #F59E0B';
+                    key.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.6)';
+                } else {
+                    key.style.border = '2px solid rgba(255,255,255,0.2)';
+                    key.style.boxShadow = '0 6px 12px rgba(59, 130, 246, 0.3)';
+                }
+            });
+
+            // Show search results count
+            if (searchTerm) {
+                const matchCount = Array.from(keys).filter(key => {
+                    const tooltip = key.querySelector('.tooltip');
+                    const keyText = key.textContent.toLowerCase();
+                    return tooltip && tooltip.textContent.toLowerCase().includes(searchTerm) || keyText.includes(searchTerm);
+                }).length;
+                
+                console.log(`검색 결과: ${matchCount}개 발견`);
+            }
+        });
+
+        // Enhanced key interaction
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (this.classList.contains('ctrl-shift-key')) {
+                    // Remove active class from all keys
+                    document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+                    
+                    // Add active class to clicked key
+                    this.classList.add('active');
+                    
+                    // Animate the key press
+                    this.style.transform = 'translateY(-4px) scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-4px) scale(1.05)';
+                    }, 150);
+                    
+                    // Show tooltip for longer
+                    setTimeout(() => {
+                        this.classList.remove('active');
+                    }, 4000);
+
+                    // Log the shortcut for demo purposes
+                    const tooltip = this.querySelector('.tooltip');
+                    if (tooltip) {
+                        console.log('Selected shortcut:', tooltip.textContent);
+                    }
+                }
+            });
+
+            // Mobile touch support
+            key.addEventListener('touchstart', function(e) {
+                if (this.classList.contains('ctrl-shift-key')) {
+                    document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    setTimeout(() => {
+                        this.classList.remove('active');
+                    }, 4000);
+                }
+            });
+        });
+
+        // Hide active state when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.key')) {
+                document.querySelectorAll('.key').forEach(k => k.classList.remove('active'));
+            }
+        });
+
+        // Keyboard shortcut simulation
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey) {
+                const keys = document.querySelectorAll('.ctrl-shift-key');
+                keys.forEach(key => {
+                    const keyText = key.textContent;
+                    
+                    // Check for function keys
+                    if (e.key.startsWith('F') && keyText.includes(e.key)) {
+                        key.classList.add('active');
+                        setTimeout(() => key.classList.remove('active'), 1000);
+                    }
+                    // Check for letter keys
+                    else if (keyText.includes(e.key.toUpperCase())) {
+                        key.classList.add('active');
+                        setTimeout(() => key.classList.remove('active'), 1000);
+                    }
+                    // Check for special keys
+                    else if (
+                        (e.key === 'Enter' && keyText.includes('Enter')) ||
+                        (e.key === 'Tab' && keyText.includes('Tab')) ||
+                        (e.key === ' ' && keyText.includes('Space'))
+                    ) {
+                        key.classList.add('active');
+                        setTimeout(() => key.classList.remove('active'), 1000);
+                    }
+                });
+                
+                // Prevent default browser behavior for some shortcuts
+                if (['KeyS', 'KeyN', 'KeyT', 'KeyW'].includes(e.code)) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Add smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add hover sound effect (optional)
+        document.querySelectorAll('.ctrl-shift-key').forEach(key => {
+            key.addEventListener('mouseenter', function() {
+                // Could add subtle sound effect here
+                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+
+        // Performance optimization: Throttle scroll events
+        let ticking = false;
+        function updateScrollPosition() {
+            // Update header transparency based on scroll
+            const header = document.querySelector('.header');
+            const scrolled = window.scrollY > 50;
+            
+            if (scrolled) {
+                header.style.background = 'rgba(0, 0, 0, 0.4)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.2)';
+            }
+            
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollPosition);
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>

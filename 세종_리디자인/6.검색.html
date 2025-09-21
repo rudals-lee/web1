@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIN & KIM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 배경 패턴 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 헤더 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: white;
+        }
+
+        .close-btn {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* 메인 컨텐츠 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .search-container {
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 30px;
+            font-size: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-input:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* 검색 결과 영역 */
+        .search-results {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 30px;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .result-url {
+            color: rgba(120, 219, 255, 0.8);
+            font-size: 14px;
+        }
+
+        /* 하단 정보 */
+        .footer-info {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .nav-item {
+                font-size: 14px;
+            }
+
+            .main-content {
+                padding: 30px 20px;
+            }
+
+            .search-input {
+                padding: 15px 25px;
+                font-size: 16px;
+            }
+
+            .search-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <a href="/법무법인 세종 리디자인.html">SHIN & KIM</a>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item">변호사소개</a>
+                <a href="#" class="nav-item">업무분야</a>
+                <a href="#" class="nav-item">대표사건</a>
+                <a href="#" class="nav-item">보도자료</a>
+                <a href="#" class="nav-item">채용정보</a>
+            </nav>
+            <button class="close-btn">×</button>
+        </header>
+
+        <main class="main-content">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="검색어 입력" id="searchInput">
+                    <button class="search-btn" onclick="performSearch()">검색</button>
+                </div>
+            </div>
+
+            <div class="search-results" id="searchResults">
+                <div class="result-item">
+                    <div class="result-title">변호사 프로필 - 김철수</div>
+                    <div class="result-description">20년 경력의 기업법무 전문 변호사로, 다양한 기업 법률 업무를 담당하고 있습니다. 특히 계약서 검토 및 분쟁 해결에 전문성을 가지고 있습니다.</div>
+                    <div class="result-url">shinkim.com/lawyers/kimcs</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-title">업무분야 - 기업법무</div>
+                    <div class="result-description">기업의 일상적인 법률 업무부터 복잡한 기업 구조조정, M&A까지 폭넓은 기업법무 서비스를 제공합니다.</div>
+                    <div class="result-url">shinkim.com/practice/corporate</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-title">최근 보도자료 - 대규모 인수합병 자문 완료</div>
+                    <div class="result-description">신앤김 법무법인이 국내 대기업의 해외 자회사 인수합병 거래에서 법률 자문을 성공적으로 완료했다고 발표했습니다.</div>
+                    <div class="result-url">shinkim.com/news/2024-ma-advisory</div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer-info">
+            <div class="footer-text">
+                서울시 강남구 테헤란로 123길 45 신앤김빌딩<br>
+                대표전화: 02-1234-5678 | 팩스: 02-1234-5679<br>
+                이메일: info@shinkim.com
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            if (searchInput.value.trim() !== '') {
+                searchResults.style.display = 'block';
+                
+                // 부드러운 애니메이션 효과
+                searchResults.style.opacity = '0';
+                searchResults.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    searchResults.style.transition = 'all 0.5s ease';
+                    searchResults.style.opacity = '1';
+                    searchResults.style.transform = 'translateY(0)';
+                }, 100);
+            } else {
+                searchResults.style.display = 'none';
+            }
+        }
+
+        // 엔터키로 검색
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // 입력창이 비어있으면 결과 숨기기
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            if (e.target.value.trim() === '') {
+                document.getElementById('searchResults').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

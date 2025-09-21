@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>맛집 찾기 - 위치 기반 맛집 추천</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        select, input[type="number"] {
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .status.loading {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .content-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .restaurants-panel {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .panel-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .restaurants-list {
+            max-height: 450px;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .restaurant-card {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .restaurant-card:hover {
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .restaurant-card:last-child {
+            border-bottom: none;
+        }
+
+        .restaurant-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .restaurant-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.1rem;
+        }
+
+        .distance {
+            color: #666;
+            font-size: 0.9rem;
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 15px;
+        }
+
+        .restaurant-address {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .restaurant-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 15px;
+        }
+
+        .btn-review {
+            background: #28a745;
+        }
+
+        .btn-review:hover {
+            background: #218838;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .review-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .star-rating .star {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .star-rating .star:hover,
+        .star-rating .star.active {
+            color: #ffc107;
+        }
+
+        .reviews-section {
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .review-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            color: #ffc107;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .no-restaurants {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .no-restaurants i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .content-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ 맛집 찾기</h1>
+            <p class="subtitle">위치 기반 맛집 추천 서비스</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <button id="getLocationBtn">📍 내 위치 찾기</button>
+                <select id="restaurantType">
+                    <option value="">모든 음식점</option>
+                    <option value="korean">한식</option>
+                    <option value="chinese">중식</option>
+                    <option value="japanese">일식</option>
+                    <option value="western">양식</option>
+                    <option value="cafe">카페</option>
+                    <option value="fastfood">패스트푸드</option>
+                </select>
+                <label>반경: </label>
+                <input type="number" id="searchRadius" value="1000" min="500" max="5000" step="500">
+                <span>미터</span>
+                <button id="searchBtn" disabled>🔍 맛집 찾기</button>
+            </div>
+        </div>
+
+        <div id="status" class="status" style="display: none;"></div>
+
+        <div class="content-area">
+            <div id="map">
+                🗺️ 지도를 로딩하려면 위치를 허용해주세요
+            </div>
+
+            <div class="restaurants-panel">
+                <div class="panel-header">
+                    <h2>🍴 추천 맛집</h2>
+                </div>
+                <div class="restaurants-list" id="restaurantsList">
+                    <div class="no-restaurants">
+                        <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;">🔍</div>
+                        <p>위치를 설정하고 맛집을 검색해보세요!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 리뷰 모달 -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalRestaurantName">맛집 리뷰</h2>
+            
+            <div class="review-form">
+                <div class="form-group">
+                    <label>평점:</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reviewText">리뷰 내용:</label>
+                    <textarea id="reviewText" placeholder="이 맛집에 대한 경험을 공유해주세요..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reviewAuthor">작성자:</label>
+                    <input type="text" id="reviewAuthor" placeholder="닉네임을 입력하세요" style="width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 10px;">
+                </div>
+                
+                <button onclick="submitReview()" style="width: 100%; margin-top: 10px;">리뷰 등록</button>
+            </div>
+            
+            <div class="reviews-section">
+                <h3>기존 리뷰</h3>
+                <div id="existingReviews"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 전역 변수
+        let map;
+        let service;
+        let infoWindow;
+        let currentLocation;
+        let markers = [];
+        let currentRestaurantId = null;
+        let selectedRating = 0;
+
+        // 리뷰 데이터 (실제 앱에서는 서버에 저장)
+        let reviewsData = {};
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // 이벤트 리스너 설정
+            document.getElementById('getLocationBtn').addEventListener('click', getCurrentLocation);
+            document.getElementById('searchBtn').addEventListener('click', searchRestaurants);
+            
+            // 모달 이벤트
+            const modal = document.getElementById('reviewModal');
+            const closeBtn = document.querySelector('.close');
+            
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // 별점 이벤트
+            setupStarRating();
+            
+            // Google Maps API 로드
+            loadGoogleMapsAPI();
+        }
+
+        function loadGoogleMapsAPI() {
+            // 실제 Google Maps API 키가 필요합니다
+            const script = document.createElement('script');
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        function initMap() {
+            // 서울 중심으로 초기 지도 설정
+            const seoul = { lat: 37.5665, lng: 126.9780 };
+            
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: seoul,
+                styles: [
+                    {
+                        featureType: 'poi',
+                        elementType: 'labels',
+                        stylers: [{ visibility: 'off' }]
+                    }
+                ]
+            });
+            
+            service = new google.maps.places.PlacesService(map);
+            infoWindow = new google.maps.InfoWindow();
+            
+            showStatus('지도가 로드되었습니다. 위치를 허용해주세요.', 'success');
+        }
+
+        function getCurrentLocation() {
+            if (!navigator.geolocation) {
+                showStatus('이 브라우저는 위치 서비스를 지원하지 않습니다.', 'error');
+                return;
+            }
+
+            const button = document.getElementById('getLocationBtn');
+            button.disabled = true;
+            button.textContent = '위치 찾는 중...';
+            
+            showStatus('위치를 확인하고 있습니다...', 'loading');
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    currentLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    
+                    // 지도 중심을 현재 위치로 이동
+                    map.setCenter(currentLocation);
+                    
+                    // 현재 위치 마커 표시
+                    new google.maps.Marker({
+                        position: currentLocation,
+                        map: map,
+                        title: '현재 위치',
+                        icon: {
+                            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                                    <circle cx="16" cy="16" r="12" fill="#4285F4" stroke="white" stroke-width="3"/>
+                                    <circle cx="16" cy="16" r="4" fill="white"/>
+                                </svg>
+                            `),
+                            scaledSize: new google.maps.Size(32, 32)
+                        }
+                    });
+                    
+                    button.disabled = false;
+                    button.textContent = '📍 내 위치 찾기';
+                    document.getElementById('searchBtn').disabled = false;
+                    
+                    showStatus('위치를 찾았습니다! 이제 맛집을 검색할 수 있습니다.', 'success');
+                },
+                function(error) {
+                    button.disabled = false;
+                    button.textContent = '📍 내 위치 찾기';
+                    
+                    let message = '위치를 가져올 수 없습니다: ';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            message += '위치 접근이 거부되었습니다.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            message += '위치 정보를 사용할 수 없습니다.';
+                            break;
+                        case error.TIMEOUT:
+                            message += '위치 요청 시간이 초과되었습니다.';
+                            break;
+                        default:
+                            message += '알 수 없는 오류가 발생했습니다.';
+                    }
+                    showStatus(message, 'error');
+                }
+            );
+        }
+
+        function searchRestaurants() {
+            if (!currentLocation) {
+                showStatus('먼저 현재 위치를 찾아주세요.', 'error');
+                return;
+            }
+
+            const button = document.getElementById('searchBtn');
+            button.disabled = true;
+            button.textContent = '검색 중...';
+            
+            showStatus('근처 맛집을 검색하고 있습니다...', 'loading');
+            
+            // 기존 마커 제거
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            const radius = parseInt(document.getElementById('searchRadius').value);
+            const type = document.getElementById('restaurantType').value;
+            
+            const request = {
+                location: currentLocation,
+                radius: radius,
+                type: ['restaurant', 'food', 'meal_takeaway'],
+                keyword: type ? getKoreanKeyword(type) : ''
+            };
+
+            service.nearbySearch(request, (results, status) => {
+                button.disabled = false;
+                button.textContent = '🔍 맛집 찾기';
+                
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    displayRestaurants(results);
+                    showStatus(`${results.length}개의 맛집을 찾았습니다!`, 'success');
+                } else {
+                    showStatus('맛집 검색에 실패했습니다. 다시 시도해주세요.', 'error');
+                }
+            });
+        }
+
+        function getKoreanKeyword(type) {
+            const keywords = {
+                'korean': '한식',
+                'chinese': '중식',
+                'japanese': '일식',
+                'western': '양식',
+                'cafe': '카페',
+                'fastfood': '패스트푸드'
+            };
+            return keywords[type] || '';
+        }
+
+        function displayRestaurants(restaurants) {
+            const listContainer = document.getElementById('restaurantsList');
+            listContainer.innerHTML = '';
+
+            if (restaurants.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="no-restaurants">
+                        <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;">😔</div>
+                        <p>근처에 맛집이 없습니다. 검색 반경을 늘려보세요.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            restaurants.forEach((restaurant, index) => {
+                // 지도에 마커 추가
+                const marker = new google.maps.Marker({
+                    position: restaurant.geometry.location,
+                    map: map,
+                    title: restaurant.name,
+                    icon: {
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                                <circle cx="16" cy="16" r="12" fill="#FF6B6B" stroke="white" stroke-width="3"/>
+                                <text x="16" y="20" text-anchor="middle" fill="white" font-size="16" font-weight="bold">${index + 1}</text>
+                            </svg>
+                        `),
+                        scaledSize: new google.maps.Size(32, 32)
+                    }
+                });
+
+                markers.push(marker);
+
+                // 마커 클릭 이벤트
+                marker.addListener('click', () => {
+                    infoWindow.setContent(`
+                        <div style="padding: 10px;">
+                            <h3>${restaurant.name}</h3>
+                            <p>평점: ${restaurant.rating || 'N/A'} ⭐</p>
+                            <p>${restaurant.vicinity}</p>
+                        </div>
+                    `);
+                    infoWindow.open(map, marker);
+                });
+
+                // 거리 계산
+                const distance = calculateDistance(
+                    currentLocation.lat, 
+                    currentLocation.lng,
+                    restaurant.geometry.location.lat(),
+                    restaurant.geometry.location.lng()
+                );
+
+                // 리스트에 레스토랑 카드 추가
+                const restaurantCard = createRestaurantCard(restaurant, distance, index + 1);
+                listContainer.appendChild(restaurantCard);
+            });
+        }
+
+        function createRestaurantCard(restaurant, distance, number) {
+            const card = document.createElement('div');
+            card.className = 'restaurant-card';
+            
+            const rating = restaurant.rating || 0;
+            const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
+            
+            // 리뷰 개수 계산
+            const restaurantId = restaurant.place_id;
+            const reviewCount = reviewsData[restaurantId] ? reviewsData[restaurantId].length : 0;
+            
+            card.innerHTML = `
+                <div class="restaurant-name">${number}. ${restaurant.name}</div>
+                <div class="restaurant-info">
+                    <div class="rating">
+                        <span class="stars">${stars}</span>
+                        <span>${rating.toFixed(1)} (${restaurant.user_ratings_total || 0}개 리뷰)</span>
+                    </div>
+                    <div class="distance">${distance}m</div>
+                </div>
+                <div class="restaurant-address">${restaurant.vicinity}</div>
+                <div class="restaurant-actions">
+                    <button class="btn-small btn-review" onclick="openReviewModal('${restaurantId}', '${restaurant.name}')">
+                        💬 리뷰 (${reviewCount})
+                    </button>
+                    <button class="btn-small" onclick="showOnMap('${restaurant.geometry.location.lat()}', '${restaurant.geometry.location.lng()}', '${restaurant.name}')">
+                        🗺️ 지도에서 보기
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000; // 지구 반지름 (미터)
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return Math.round(R * c);
+        }
+
+        function showOnMap(lat, lng, name) {
+            const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
+            map.setCenter(position);
+            map.setZoom(18);
+            
+            infoWindow.setContent(`
+                <div style="padding: 10px;">
+                    <h3>${name}</h3>
+                    <p>선택하신 맛집입니다</p>
+                </div>
+            `);
+            
+            // 해당 마커 찾기
+            const marker = markers.find(m => 
+                Math.abs(m.getPosition().lat() - parseFloat(lat)) < 0.0001 &&
+                Math.abs(m.getPosition().lng() - parseFloat(lng)) < 0.0001
+            );
+            
+            if (marker) {
+                infoWindow.open(map, marker);
+            }
+        }
+
+        function openReviewModal(restaurantId, restaurantName) {
+            currentRestaurantId = restaurantId;
+            document.getElementById('modalRestaurantName').textContent = restaurantName;
+            document.getElementById('reviewModal').style.display = 'block';
+            
+            // 기존 리뷰 표시
+            displayExistingReviews(restaurantId);
+            
+            // 폼 초기화
+            resetReviewForm();
+        }
+
+        function setupStarRating() {
+            const stars = document.querySelectorAll('.star-rating .star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.dataset.rating);
+                    updateStarDisplay();
+                });
+                
+                star.addEventListener('mouseover', function() {
+                    const rating = parseInt(this.dataset.rating);
+                    highlightStars(rating);
+                });
+            });
+            
+            document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+                updateStarDisplay();
+            });
+        }
+
+        function highlightStars(rating) {
+            const stars = document.querySelectorAll('.star-rating .star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function updateStarDisplay() {
+            highlightStars(selectedRating);
+        }
+
+        function submitReview() {
+            const reviewText = document.getElementById('reviewText').value.trim();
+            const reviewAuthor = document.getElementById('reviewAuthor').value.trim();
+            
+            if (!selectedRating || !reviewText || !reviewAuthor) {
+                alert('모든 필드를 입력해주세요.');
+                return;
+            }
+            
+            // 리뷰 데이터 저장
+            if (!reviewsData[currentRestaurantId]) {
+                reviewsData[currentRestaurantId] = [];
+            }
+            
+            const review = {
+                rating: selectedRating,
+                text: reviewText,
+                author: reviewAuthor,
+                date: new Date().toLocaleDateString('ko-KR')
+            };
+            
+            reviewsData[currentRestaurantId].push(review);
+            
+            // 리뷰 목록 업데이트
+            displayExistingReviews(currentRestaurantId);
+            
+            // 폼 초기화
+            resetReviewForm();
+            
+            // 맛집 리스트의 리뷰 카운트 업데이트
+            updateRestaurantListReviewCount();
+            
+            alert('리뷰가 등록되었습니다!');
+        }
+
+        function displayExistingReviews(restaurantId) {
+            const reviewsContainer = document.getElementById('existingReviews');
+            const reviews = reviewsData[restaurantId] || [];
+            
+            if (reviews.length === 0) {
+                reviewsContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">아직 리뷰가 없습니다. 첫 번째 리뷰를 작성해보세요!</p>';
+                return;
+            }
+            
+            reviewsContainer.innerHTML = reviews.map(review => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-author">${review.author}</span>
+                        <span class="review-date">${review.date}</span>
+                    </div>
+                    <div class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</div>
+                    <div class="review-text">${review.text}</div>
+                </div>
+            `).join('');
+        }
+
+        function resetReviewForm() {
+            document.getElementById('reviewText').value = '';
+            document.getElementById('reviewAuthor').value = '';
+            selectedRating = 0;
+            updateStarDisplay();
+        }
+
+        function updateRestaurantListReviewCount() {
+            // 현재 표시된 맛집 리스트를 다시 검색하여 업데이트
+            const searchBtn = document.getElementById('searchBtn');
+            if (!searchBtn.disabled && currentLocation) {
+                // 잠시 후 리스트 새로고침 (사용자 경험을 위해)
+                setTimeout(() => {
+                    searchRestaurants();
+                }, 1000);
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+            
+            // 성공 메시지는 3초 후 자동 숨김
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Google Maps API 콜백 함수 (API 키가 없을 때의 대체 기능)
+        window.initMap = function() {
+            // 실제 Google Maps API가 로드되지 않은 경우 시뮬레이션
+            console.log('Google Maps API 시뮬레이션 모드');
+            initMapSimulation();
+        };
+
+        // API 키가 없을 때의 시뮬레이션 함수들
+        function initMapSimulation() {
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🗺️</div>
+                    <h3>지도 시뮬레이션 모드</h3>
+                    <p>실제 Google Maps API 키가 필요합니다</p>
+                    <p>현재는 데모 모드로 작동합니다</p>
+                    <button onclick="simulateLocationFound()" style="margin-top: 15px; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        📍 시뮬레이션 위치 설정
+                    </button>
+                </div>
+            `;
+            
+            showStatus('데모 모드입니다. Google Maps API 키를 설정하면 실제 지도가 표시됩니다.', 'loading');
+        }
+
+        function simulateLocationFound() {
+            // 서울 강남역 좌표로 시뮬레이션
+            currentLocation = {
+                lat: 37.4979,
+                lng: 127.0276
+            };
+            
+            document.getElementById('searchBtn').disabled = false;
+            
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #333;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">📍</div>
+                    <h3>위치 설정 완료</h3>
+                    <p><strong>시뮬레이션 위치:</strong> 서울시 강남구 강남역</p>
+                    <p>위도: ${currentLocation.lat}</p>
+                    <p>경도: ${currentLocation.lng}</p>
+                </div>
+            `;
+            
+            showStatus('시뮬레이션 위치가 설정되었습니다! 이제 맛집을 검색할 수 있습니다.', 'success');
+        }
+
+        // Google Maps API가 로드되지 않았을 때 대체 검색 함수
+        function simulateRestaurantSearch() {
+            const sampleRestaurants = [
+                {
+                    name: "강남 한정식",
+                    rating: 4.5,
+                    vicinity: "서울시 강남구 강남대로 123",
+                    user_ratings_total: 245,
+                    place_id: "sample_1",
+                    distance: 150
+                },
+                {
+                    name: "이탈리안 레스토랑 벨라",
+                    rating: 4.2,
+                    vicinity: "서울시 강남구 테헤란로 456",
+                    user_ratings_total: 189,
+                    place_id: "sample_2",
+                    distance: 320
+                },
+                {
+                    name: "스시 장인",
+                    rating: 4.7,
+                    vicinity: "서울시 강남구 선릉로 789",
+                    user_ratings_total: 156,
+                    place_id: "sample_3",
+                    distance: 450
+                },
+                {
+                    name: "카페 모멘트",
+                    rating: 4.1,
+                    vicinity: "서울시 강남구 강남대로 321",
+                    user_ratings_total: 298,
+                    place_id: "sample_4",
+                    distance: 280
+                },
+                {
+                    name: "중화요리 대성",
+                    rating: 4.3,
+                    vicinity: "서울시 강남구 역삼로 654",
+                    user_ratings_total: 167,
+                    place_id: "sample_5",
+                    distance: 520
+                }
+            ];
+
+            const type = document.getElementById('restaurantType').value;
+            let filteredRestaurants = sampleRestaurants;
+            
+            // 음식 종류별 필터링 시뮬레이션
+            if (type === 'korean') {
+                filteredRestaurants = sampleRestaurants.filter(r => r.name.includes('한정식'));
+            } else if (type === 'japanese') {
+                filteredRestaurants = sampleRestaurants.filter(r => r.name.includes('스시'));
+            } else if (type === 'western') {
+                filteredRestaurants = sampleRestaurants.filter(r => r.name.includes('이탈리안'));
+            } else if (type === 'chinese') {
+                filteredRestaurants = sampleRestaurants.filter(r => r.name.includes('중화'));
+            } else if (type === 'cafe') {
+                filteredRestaurants = sampleRestaurants.filter(r => r.name.includes('카페'));
+            }
+
+            displaySimulatedRestaurants(filteredRestaurants);
+            showStatus(`${filteredRestaurants.length}개의 맛집을 찾았습니다! (시뮬레이션)`, 'success');
+        }
+
+        function displaySimulatedRestaurants(restaurants) {
+            const listContainer = document.getElementById('restaurantsList');
+            listContainer.innerHTML = '';
+
+            if (restaurants.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="no-restaurants">
+                        <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;">😔</div>
+                        <p>해당 조건에 맞는 맛집이 없습니다.</p>
+                        <p>다른 조건으로 검색해보세요.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            restaurants.forEach((restaurant, index) => {
+                const card = createSimulatedRestaurantCard(restaurant, index + 1);
+                listContainer.appendChild(card);
+            });
+        }
+
+        function createSimulatedRestaurantCard(restaurant, number) {
+            const card = document.createElement('div');
+            card.className = 'restaurant-card';
+            
+            const rating = restaurant.rating || 0;
+            const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
+            
+            // 리뷰 개수 계산
+            const restaurantId = restaurant.place_id;
+            const reviewCount = reviewsData[restaurantId] ? reviewsData[restaurantId].length : 0;
+            
+            card.innerHTML = `
+                <div class="restaurant-name">${number}. ${restaurant.name}</div>
+                <div class="restaurant-info">
+                    <div class="rating">
+                        <span class="stars">${stars}</span>
+                        <span>${rating.toFixed(1)} (${restaurant.user_ratings_total || 0}개 리뷰)</span>
+                    </div>
+                    <div class="distance">${restaurant.distance}m</div>
+                </div>
+                <div class="restaurant-address">${restaurant.vicinity}</div>
+                <div class="restaurant-actions">
+                    <button class="btn-small btn-review" onclick="openReviewModal('${restaurantId}', '${restaurant.name}')">
+                        💬 리뷰 (${reviewCount})
+                    </button>
+                    <button class="btn-small" onclick="showSimulatedLocation('${restaurant.name}')">
+                        🗺️ 지도에서 보기
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function showSimulatedLocation(restaurantName) {
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #333;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🏪</div>
+                    <h3>${restaurantName}</h3>
+                    <p>선택하신 맛집의 위치입니다</p>
+                    <p>(실제 지도는 Google Maps API 키가 필요합니다)</p>
+                    <button onclick="showAllLocations()" style="margin-top: 15px; padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        🗺️ 전체 지도 보기
+                    </button>
+                </div>
+            `;
+        }
+
+        function showAllLocations() {
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #333;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🗺️</div>
+                    <h3>전체 맛집 위치</h3>
+                    <p>현재 위치: 서울시 강남구 강남역</p>
+                    <p>검색된 모든 맛집이 지도에 표시됩니다</p>
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <p><strong>💡 참고:</strong></p>
+                        <p>실제 Google Maps API를 사용하면</p>
+                        <p>인터랙티브한 지도와 정확한 위치가 표시됩니다</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 검색 함수 오버라이드 (API가 없을 때)
+        function searchRestaurants() {
+            if (!currentLocation) {
+                showStatus('먼저 현재 위치를 찾아주세요.', 'error');
+                return;
+            }
+
+            const button = document.getElementById('searchBtn');
+            button.disabled = true;
+            button.textContent = '검색 중...';
+            
+            showStatus('근처 맛집을 검색하고 있습니다...', 'loading');
+            
+            // 시뮬레이션 딜레이
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = '🔍 맛집 찾기';
+                
+                // Google Maps API가 로드되어 있으면 실제 검색, 아니면 시뮬레이션
+                if (typeof google !== 'undefined' && google.maps && service) {
+                    // 실제 Google Places API 검색
+                    const radius = parseInt(document.getElementById('searchRadius').value);
+                    const type = document.getElementById('restaurantType').value;
+                    
+                    const request = {
+                        location: currentLocation,
+                        radius: radius,
+                        type: ['restaurant', 'food', 'meal_takeaway'],
+                        keyword: type ? getKoreanKeyword(type) : ''
+                    };
+
+                    service.nearbySearch(request, (results, status) => {
+                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+                            displayRestaurants(results);
+                            showStatus(`${results.length}개의 맛집을 찾았습니다!`, 'success');
+                        } else {
+                            showStatus('맛집 검색에 실패했습니다. 다시 시도해주세요.', 'error');
+                        }
+                    });
+                } else {
+                    // 시뮬레이션 검색
+                    simulateRestaurantSearch();
+                }
+            }, 1500);
+        }
+
+        // 페이지 로드 시 Google Maps API 시도
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            
+            // Google Maps API 로드 시도
+            setTimeout(() => {
+                if (typeof google === 'undefined') {
+                    // API가 로드되지 않았으면 시뮬레이션 모드로 전환
+                    initMapSimulation();
+                }
+            }, 3000);
+        });
+
+        // 샘플 리뷰 데이터 추가 (데모용)
+        reviewsData = {
+            'sample_1': [
+                {
+                    rating: 5,
+                    text: '정말 맛있는 한정식집이에요! 밑반찬도 정갈하고 메인 요리도 훌륭합니다.',
+                    author: '김맛집',
+                    date: '2025/08/01'
+                },
+                {
+                    rating: 4,
+                    text: '가격이 조금 비싸긴 하지만 그만한 가치가 있다고 생각해요.',
+                    author: '서울사람',
+                    date: '2025/07/28'
+                }
+            ],
+            'sample_2': [
+                {
+                    rating: 4,
+                    text: '파스타가 정말 맛있어요. 분위기도 좋고 데이트하기 좋은 곳입니다.',
+                    author: '이탈리아러버',
+                    date: '2025/08/02'
+                }
+            ],
+            'sample_3': [
+                {
+                    rating: 5,
+                    text: '신선한 재료로 만든 스시가 입에서 녹아요. 강력 추천!',
+                    author: '스시매니아',
+                    date: '2025/07/30'
+                }
+            ]
+        };
+
+        console.log('맛집 찾기 앱이 초기화되었습니다!');
+    </script>
+</body>
+</html>

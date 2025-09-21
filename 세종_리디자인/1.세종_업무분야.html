@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIN&KIM - 업무분야</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            color: #8B4B8C;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #8B4B8C;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 30px;
+            position: relative;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .nav-menu .active {
+            color: #8B4B8C;
+            border-bottom: 2px solid #8B4B8C;
+            padding-bottom: 28px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .search-icon {
+            background: #333;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4A90E2 0%, #8B4B8C 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: -50px;
+            right: -50px;
+            bottom: -50px;
+            background-image: 
+                linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.1) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .search-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-box {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 500px;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #8B4B8C;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #8B4B8C;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 40px;
+        }
+
+        .filter-tab {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px 40px;
+            cursor: pointer;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .filter-tab.active {
+            background: #8B4B8C;
+            color: white;
+            border-color: #8B4B8C;
+        }
+
+        .filter-tab:not(:last-child) {
+            border-right: none;
+        }
+
+        .content-section {
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            background: #f0f0f0;
+            padding: 15px 20px;
+            border-left: 3px solid #8B4B8C;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .section-item {
+            color: #555;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .section-item:hover {
+            color: #8B4B8C;
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        .view-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .view-option.active {
+            color: #8B4B8C;
+            border-bottom: 2px solid #8B4B8C;
+            padding-bottom: 2px;
+        }
+
+        .detail-view-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            cursor: pointer;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .detail-view-btn:hover {
+            background: #f5f5f5;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        .footer-awards {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .koreana-logo {
+            height: 30px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links span {
+            font-size: 14px;
+            color: #ccc;
+            margin-right: 10px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .social-icon {
+            width: 30px;
+            height: 30px;
+            background: #555;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #666;
+        }
+
+        .copyright {
+            border-top: 1px solid #555;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">SHIN&KIM</div>
+                <div class="subtitle">법무법인(유)세종</div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="active">업무분야</a></li>
+                    <li><a href="/2.세종_구성원.html">구성원</a></li>
+                    <li><a href="/3.세종_미디어센터.html">미디어센터</a></li>
+                    <li><a href="/4.세종_인재영입.html">인재채용</a></li>
+                    <li><a href="/5.세종_법인소개.html">법인소개</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <span>사이트맵</span>
+                <span>세미나</span>
+                <span>연락처</span>
+                <span>오시는 길</span>
+                <span>Language</span>
+                <div class="search-icon">🔍</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 그라데이션 배경의 히어로 섹션 -->
+    <div class="hero">
+        <div class="breadcrumb">HOME > 업무분야</div>
+        <h1>업무분야</h1>
+    </div>
+
+    <div class="main-content">
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="검색어 입력">
+                <button class="search-btn">🔍</button>
+            </div>
+            
+            <!-- 검색 기능과 필터 탭 (분야별, 산업별, 지역별, 센터) -->
+            <div class="filter-tabs">
+                <div class="filter-tab active">분야별</div>
+                <div class="filter-tab">산업별</div>
+                <div class="filter-tab">지역별</div>
+                <div class="filter-tab">센터</div>
+            </div>
+        </div>
+
+        <div class="view-controls">
+            <div class="view-options">
+                <span class="view-option active">그룹별</span>
+                <span class="view-option">가나다순</span>
+            </div>
+            <button class="detail-view-btn">전체닫기</button>
+        </div>
+
+        <!-- 접을 수 있는 섹션들 (기업, 기업금융, 금융규제, 소송 및 중재, 공정거래) -->
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>기업</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">기업구조조정(회생·파산·워크아웃)</div>
+                <div class="section-item">기업인수·합병(M&A)</div>
+                <div class="section-item">기업지배구조</div>
+                <div class="section-item">기업지배구조 컨설팅센터</div>
+                <div class="section-item">부동산대체투자</div>
+                <div class="section-item">인사·노무</div>
+                <div class="section-item">일반진단자문</div>
+                <div class="section-item">중대재해대응센터</div>
+                <div class="section-item">정보보호</div>
+                <div class="section-item">정보보안</div>
+                <div class="section-item">해외규제·글로벌리스크 대응</div>
+                <div class="section-item">해외투자·외국인투자</div>
+                <div class="section-item">환경</div>
+                <div class="section-item">환경안전컨설팅센터</div>
+                <div class="section-item">ESG센터</div>
+                <div class="section-item">Private Equity</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>기업금융</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">금융기관 일반 여신</div>
+                <div class="section-item">부동산, 항공기, 선박 금융</div>
+                <div class="section-item">시허건설자금(SOC) 투자</div>
+                <div class="section-item">유동화 및 구조화금융</div>
+                <div class="section-item">인수금융</div>
+                <div class="section-item">자본시장</div>
+                <div class="section-item">자산운용</div>
+                <div class="section-item">파생금융기계</div>
+                <div class="section-item">프로젝트 파이낸스</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>금융규제</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">금융기관 내부통제 및 컴플라이언스</div>
+                <div class="section-item">금융기관 인허가 및 셋업맥스</div>
+                <div class="section-item">금융기관 감사 및 제재 대응</div>
+                <div class="section-item">금융컨설팅</div>
+                <div class="section-item">금융IT 및 금융정보보호</div>
+                <div class="section-item">디지털금융</div>
+                <div class="section-item">상장투자</div>
+                <div class="section-item">자금세탁방지·외국환</div>
+                <div class="section-item">자본시장 조사 및 제재 대응</div>
+                <div class="section-item">정책금융</div>
+                <div class="section-item">외재부정조사</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>소송 및 중재</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">기업·상속 분쟁</div>
+                <div class="section-item">건설 분쟁</div>
+                <div class="section-item">구조조정(회생·파산·워크아웃) 분쟁</div>
+                <div class="section-item">국제상사중재</div>
+                <div class="section-item">국제독자분쟁</div>
+                <div class="section-item">금융 분쟁</div>
+                <div class="section-item">기업재해구조 및 정권금분쟁</div>
+                <div class="section-item">노동 분쟁</div>
+                <div class="section-item">바이오·헬스케어 분쟁</div>
+                <div class="section-item">보험 분쟁</div>
+                <div class="section-item">부동산진단 분쟁</div>
+                <div class="section-item">세조물특허</div>
+                <div class="section-item">해상 분쟁</div>
+                <div class="section-item">행정소송 및 구제</div>
+                <div class="section-item">헌법소송</div>
+                <div class="section-item">환경 분쟁</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>공정거래</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">공정거래 분쟁</div>
+                <div class="section-item">공정거래 컴플라이언스</div>
+                <div class="section-item">기업결합</div>
+                <div class="section-item">기업집단규제</div>
+                <div class="section-item">방문(다단계)판매</div>
+                <div class="section-item">부당공동행위(담합)</div>
+                <div class="section-item">불공정거래행위</div>
+                <div class="section-item">시장지배적지위남용</div>
+                <div class="section-item">표시광고·약관</div>
+                <div class="section-item">하도급·가맹사업·대규모유통업</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>국제통상 및 관세</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">경제제재·수출통제</div>
+                <div class="section-item">관세 자문 및 불복</div>
+                <div class="section-item">국제경법 일반</div>
+                <div class="section-item">무역구제</div>
+                <div class="section-item">WTO·FTA 통상분쟁</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>조세</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">관세 조사 및 분쟁</div>
+                <div class="section-item">국제조세</div>
+                <div class="section-item">기업회계</div>
+                <div class="section-item">세무조사</div>
+                <div class="section-item">자산관리 (상속·기업승계)</div>
+                <div class="section-item">조세불복 (국세, 지방세 / 조세행정)</div>
+                <div class="section-item">조세일반자문</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>형사</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">경찰수사대응</div>
+                <div class="section-item">국세형사</div>
+                <div class="section-item">기업형사</div>
+                <div class="section-item">반부패·내부조사</div>
+                <div class="section-item">일반형사</div>
+                <div class="section-item">형사재판(법원)</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>지적재산권</span>
+                <span class="toggle-icon icon-minus"></span>
+            </div>
+            <div class="section-content">
+                <div class="section-item">기술 일반 라이선싱, 프랜차이즈</div>
+                <div class="section-item">부정경쟁행위 및 영업비밀</div>
+                <div class="section-item">저작권 및 엔터테인먼트</div>
+                <div class="section-item">지적재산권 총괄 및 기술</div>
+                <div class="section-item">특허·실용신안·디자인·상표</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <div class="footer-section">
+                    <a href="#">서울소</a>
+                    <a href="#">서울</a>
+                    <a href="#">함곡</a>
+                    <a href="#">복직</a>
+                    <a href="#">상해</a>
+                    <a href="#">호치민</a>
+                    <a href="#">하노이</a>
+                    <a href="#">자카르타</a>
+                    <a href="#">싱가포르</a>
+                    <a href="#">지적재산권부</a>
+                </div>
+                <div class="footer-section">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">면책공고</a>
+                    <a href="#">협력관계</a>
+                    <a href="#">국제정보보호지침</a>
+                    <a href="#">사이트맵</a>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-awards">
+                        <span>사단법인 나눔과아름</span>
+                        <span>업무제휴</span>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRkZGRkZGIi8+Cjx0ZXh0IHg9IjUwIiB5PSIyNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzMzMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5LT1JFQU5BPC90ZXh0Pgo8L3N2Zz4K" alt="KOREANA" class="koreana-logo">
+                    </div>
+                    <div class="social-links">
+                        <span>Follow us</span>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon">f</a>
+                            <a href="#" class="social-icon">b</a>
+                            <a href="#" class="social-icon">in</a>
+                            <a href="#" class="social-icon">📺</a>
+                            <a href="#" class="social-icon">📷</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Copyright SHIN & KIM LLC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 인터랙티브 기능: 섹션 헤더 클릭으로 내용 토글, 필터 탭 전환, 뷰 옵션 전환 (그룹별/가나다순), 전체 섹션 일괄 열기/닫기 -->
+    <script>
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.className = 'toggle-icon icon-minus';
+            } else {
+                content.classList.add('collapsed');
+                icon.className = 'toggle-icon icon-plus';
+            }
+        }
+
+        // Filter tab functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // View option functionality
+        document.querySelectorAll('.view-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.view-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Close all sections functionality
+        document.querySelector('.detail-view-btn').addEventListener('click', function() {
+            const isClosing = this.textContent === '전체닫기';
+            
+            document.querySelectorAll('.section-content').forEach(content => {
+                if (isClosing) {
+                    content.classList.add('collapsed');
+                } else {
+                    content.classList.remove('collapsed');
+                }
+            });
+            
+            document.querySelectorAll('.toggle-icon').forEach(icon => {
+                icon.className = isClosing ? 'toggle-icon icon-plus' : 'toggle-icon icon-minus';
+            });
+            
+            this.textContent = isClosing ? '전체열기' : '전체닫기';
+        });
+    </script>
+</body>
+</html>

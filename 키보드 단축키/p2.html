@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Suite - MacBook Shortcuts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #3B4252;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .top-header {
+            background: linear-gradient(135deg, #2E3440 0%, #3B4252 100%);
+            border-bottom: 1px solid rgba(136, 192, 208, 0.2);
+            padding: 20px 0;
+            margin-bottom: 0;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #88C0D0, #5E81AC);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(136, 192, 208, 0.3);
+        }
+
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ECEFF4;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: #D8DEE9;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: #88C0D0;
+            background: rgba(136, 192, 208, 0.1);
+        }
+
+        .nav-item.active {
+            color: #88C0D0;
+            background: rgba(136, 192, 208, 0.15);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #88C0D0;
+            border-radius: 50%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            width: 36px;
+            height: 36px;
+            background: rgba(76, 86, 106, 0.6);
+            border: 1px solid rgba(136, 192, 208, 0.2);
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            color: #D8DEE9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(94, 129, 172, 0.4);
+            border-color: rgba(136, 192, 208, 0.4);
+            color: #88C0D0;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(46, 52, 64, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(136, 192, 208, 0.2);
+            z-index: 100;
+        }
+
+        .mobile-nav.open {
+            display: block;
+        }
+
+        .mobile-nav-item {
+            display: block;
+            padding: 15px 20px;
+            color: #D8DEE9;
+            border-bottom: 1px solid rgba(136, 192, 208, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mobile-nav-item:hover,
+        .mobile-nav-item.active {
+            background: rgba(136, 192, 208, 0.1);
+            color: #88C0D0;
+        }
+
+        .mobile-nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-btn, .profile-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(76, 86, 106, 0.6);
+            border: 1px solid rgba(136, 192, 208, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #D8DEE9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover, .profile-btn:hover {
+            background: rgba(94, 129, 172, 0.4);
+            border-color: rgba(136, 192, 208, 0.4);
+            color: #88C0D0;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, #434C5E 0%, #4C566A 100%);
+            padding: 40px 0 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(136, 192, 208, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(94, 129, 172, 0.1) 0%, transparent 50%);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #88C0D0 0%, #5E81AC 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 
+                0 8px 24px rgba(136, 192, 208, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .title {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #ECEFF4;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            color: #8892B0;
+            margin-bottom: 0;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(136, 192, 208, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #88C0D0;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #8892B0;
+            font-weight: 500;
+        }
+
+        .content-wrapper {
+            padding: 40px 0;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .program-card {
+            background: #4C566A;
+            border-radius: 16px;
+            padding: 25px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .program-card:hover {
+            transform: translateY(-3px);
+            background: #5E81AC;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .program-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .ps { background: linear-gradient(135deg, #001E36, #31A8FF); }
+        .ai { background: linear-gradient(135deg, #FF9A00, #FF6600); }
+        .ae { background: linear-gradient(135deg, #9999FF, #6666FF); }
+        .pr { background: linear-gradient(135deg, #FF99CC, #FF0066); }
+        .han { background: linear-gradient(135deg, #4285F4, #1A73E8); }
+        .ex { background: linear-gradient(135deg, #217346, #0F7B0F); }
+
+        .program-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .program-desc {
+            color: #8892B0;
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #ECEFF4;
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .shortcut-category {
+            background: #4C566A;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #88C0D0;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #88C0D0, #5E81AC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-key {
+            background: #3B4252;
+            color: #88C0D0;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(136, 192, 208, 0.3);
+        }
+
+        .shortcut-desc {
+            color: #D8DEE9;
+            font-size: 14px;
+            margin-left: 15px;
+            flex: 1;
+            text-align: right;
+        }
+
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .tutorial-card {
+            background: #4C566A;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-2px);
+            background: #5E81AC;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .tutorial-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #88C0D0;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-desc {
+            color: #D8DEE9;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tutorial-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tutorial-tag {
+            background: #3B4252;
+            color: #88C0D0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .docs-section {
+            margin-bottom: 40px;
+        }
+
+        .docs-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #88C0D0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .docs-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #88C0D0, #5E81AC);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .docs-list {
+            background: #4C566A;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .docs-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .docs-item:hover {
+            background: rgba(136, 192, 208, 0.1);
+            margin: 0 -10px;
+            padding: 12px 10px;
+            border-radius: 8px;
+        }
+
+        .docs-item:last-child {
+            border-bottom: none;
+        }
+
+        .docs-item-title {
+            color: #D8DEE9;
+            font-weight: 500;
+        }
+
+        .docs-item-type {
+            color: #8892B0;
+            font-size: 12px;
+            background: #3B4252;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .programs-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .shortcuts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <nav class="header-nav">
+            <div class="nav-left">
+                <div class="nav-logo">⚡</div>
+                <div class="nav-title">Program Suite</div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" onclick="showSection('home')">홈</div>
+                <div class="nav-item" onclick="showSection('programs')">프로그램</div>
+                <div class="nav-item" onclick="showSection('shortcuts')">단축키</div>
+                <div class="nav-item" onclick="showSection('tutorials')">튜토리얼</div>
+                <div class="nav-item" onclick="showSection('docs')">문서</div>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</div>
+                <div class="search-btn">🔍</div>
+                <div class="profile-btn">👤</div>
+            </div>
+        </nav>
+        
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-item active" onclick="showSection('home')">홈</div>
+            <div class="mobile-nav-item" onclick="showSection('programs')">프로그램</div>
+            <div class="mobile-nav-item" onclick="showSection('shortcuts')">단축키</div>
+            <div class="mobile-nav-item" onclick="showSection('tutorials')">튜토리얼</div>
+            <div class="mobile-nav-item" onclick="showSection('docs')">문서</div>
+        </div>
+    </header>
+
+    <div class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header">
+                    <div class="logo">⚡</div>
+                    <div>
+                        <h1 class="title">Program Suite</h1>
+                        <p class="subtitle">전문 프로그램 모음</p>
+                    </div>
+                </div>
+                
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">전문 프로그램</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">단축키</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">생산성 향상</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- 홈 섹션 -->
+            <div id="home" class="section active">
+                <div class="programs-grid">
+                    <div class="program-card">
+                        <div class="program-icon ps">Ps</div>
+                        <div class="program-name">Photoshop</div>
+                        <div class="program-desc">이미지 편집</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon ai">Ai</div>
+                        <div class="program-name">Illustrator</div>
+                        <div class="program-desc">벡터 디자인</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon ae">Ae</div>
+                        <div class="program-name">After Effects</div>
+                        <div class="program-desc">영상 합성</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon pr">Pr</div>
+                        <div class="program-name">Premiere Pro</div>
+                        <div class="program-desc">영상 편집</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon han">한</div>
+                        <div class="program-name">한글</div>
+                        <div class="program-desc">문서 작성</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon ex">Ex</div>
+                        <div class="program-name">Excel</div>
+                        <div class="program-desc">스프레드시트</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로그램 섹션 -->
+            <div id="programs" class="section">
+                <h2 class="section-title">전문 프로그램 가이드</h2>
+                <div class="programs-grid">
+                    <div class="program-card">
+                        <div class="program-icon ps">Ps</div>
+                        <div class="program-name">Adobe Photoshop</div>
+                        <div class="program-desc">전문 이미지 편집 및 디지털 아트 제작</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon ai">Ai</div>
+                        <div class="program-name">Adobe Illustrator</div>
+                        <div class="program-desc">벡터 그래픽 및 로고 디자인</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon ae">Ae</div>
+                        <div class="program-name">Adobe After Effects</div>
+                        <div class="program-desc">모션 그래픽 및 영상 합성</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon pr">Pr</div>
+                        <div class="program-name">Adobe Premiere Pro</div>
+                        <div class="program-desc">전문 영상 편집 및 제작</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon han">한</div>
+                        <div class="program-name">한글 워드프로세서</div>
+                        <div class="program-desc">문서 작성 및 편집</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon ex">Ex</div>
+                        <div class="program-name">Microsoft Excel</div>
+                        <div class="program-desc">데이터 분석 및 스프레드시트</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 단축키 섹션 -->
+            <div id="shortcuts" class="section">
+                <h2 class="section-title">필수 단축키</h2>
+                <div class="shortcuts-grid">
+                    <div class="shortcut-category">
+                        <div class="category-title">
+                            <div class="category-icon">⌘</div>
+                            공통 단축키
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + C</div>
+                            <div class="shortcut-desc">복사</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + V</div>
+                            <div class="shortcut-desc">붙여넣기</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + Z</div>
+                            <div class="shortcut-desc">실행 취소</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + S</div>
+                            <div class="shortcut-desc">저장</div>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-category">
+                        <div class="category-title">
+                            <div class="category-icon">Ps</div>
+                            Photoshop
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">V</div>
+                            <div class="shortcut-desc">이동 도구</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">B</div>
+                            <div class="shortcut-desc">브러시 도구</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">E</div>
+                            <div class="shortcut-desc">지우개 도구</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">L</div>
+                            <div class="shortcut-desc">올가미 도구</div>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-category">
+                        <div class="category-title">
+                            <div class="category-icon">Ai</div>
+                            Illustrator
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">A</div>
+                            <div class="shortcut-desc">직접 선택 도구</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">P</div>
+                            <div class="shortcut-desc">펜 도구</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">T</div>
+                            <div class="shortcut-desc">문자 도구</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">R</div>
+                            <div class="shortcut-desc">회전 도구</div>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-category">
+                        <div class="category-title">
+                            <div class="category-icon">📊</div>
+                            Excel
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + ↓</div>
+                            <div class="shortcut-desc">셀 끝으로 이동</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">F2</div>
+                            <div class="shortcut-desc">셀 편집</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + Enter</div>
+                            <div class="shortcut-desc">배열 수식 입력</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-key">⌘ + T</div>
+                            <div class="shortcut-desc">표 만들기</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 튜토리얼 섹션 -->
+            <div id="tutorials" class="section">
+                <h2 class="section-title">학습 튜토리얼</h2>
+                <div class="tutorial-grid">
+                    <div class="tutorial-card">
+                        <div class="tutorial-title">Photoshop 기초 마스터</div>
+                        <div class="tutorial-desc">포토샵의 기본 도구부터 고급 기법까지 단계별로 학습하세요. 레이어, 마스크, 필터 등 핵심 기능을 완벽하게 익힐 수 있습니다.</div>
+                        <div class="tutorial-tags">
+                            <span class="tutorial-tag">초급</span>
+                            <span class="tutorial-tag">이미지 편집</span>
+                            <span class="tutorial-tag">3시간</span>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-title">Illustrator 벡터 디자인</div>
+                        <div class="tutorial-desc">일러스트레이터로 로고, 아이콘, 일러스트를 제작하는 방법을 배웁니다. 펜 도구 사용법부터 복잡한 패스 편집까지 상세하게 설명합니다.</div>
+                        <div class="tutorial-tags">
+                            <span class="tutorial-tag">중급</span>
+                            <span class="tutorial-tag">벡터 그래픽</span>
+                            <span class="tutorial-tag">4시간</span>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-title">Premiere Pro 영상편집</div>
+                        <div class="tutorial-desc">프리미어 프로를 사용한 전문적인 영상 편집 기법을 학습합니다. 컷편집, 색보정, 오디오 믹싱 등 영상 제작의 전 과정을 다룹니다.</div>
+                        <div class="tutorial-tags">
+                            <span class="tutorial-tag">중급</span>
+                            <span class="tutorial-tag">영상편집</span>
+                            <span class="tutorial-tag">5시간</span>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-title">After Effects 모션그래픽</div>
+                        <div class="tutorial-desc">애프터 이펙트를 활용한 모션 그래픽 제작 튜토리얼입니다. 키프레임 애니메이션부터 파티클 시스템까지 다양한 효과를 배웁니다.</div>
+                        <div class="tutorial-tags">
+                            <span class="tutorial-tag">고급</span>
+                            <span class="tutorial-tag">모션그래픽</span>
+                            <span class="tutorial-tag">6시간</span>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-title">Excel 데이터 분석</div>
+                        <div class="tutorial-desc">엑셀의 강력한 데이터 분석 기능을 활용하는 방법을 배웁니다. 피벗테이블, 차트, 함수 등을 사용한 실무 중심의 학습 과정입니다.</div>
+                        <div class="tutorial-tags">
+                            <span class="tutorial-tag">중급</span>
+                            <span class="tutorial-tag">데이터분석</span>
+                            <span class="tutorial-tag">4시간</span>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-title">한글 문서작성 마스터</div>
+                        <div class="tutorial-desc">한글 워드프로세서를 활용한 전문 문서 작성 기법을 학습합니다. 스타일, 표, 도형, 차트 등을 활용한 보고서 작성 방법을 다룹니다.</div>
+                        <div class="tutorial-tags">
+                            <span class="tutorial-tag">초급</span>
+                            <span class="tutorial-tag">문서작성</span>
+                            <span class="tutorial-tag">2시간</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문서 섹션 -->
+            <div id="docs" class="section">
+                <h2 class="section-title">기술 문서</h2>
+                
+                <div class="docs-section">
+                    <div class="docs-title">
+                        <div class="docs-icon">📖</div>
+                        사용자 가이드
+                    </div>
+                    <div class="docs-list">
+                        <div class="docs-item">
+                            <div class="docs-item-title">Photoshop 완벽 가이드</div>
+                            <div class="docs-item-type">PDF</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">Illustrator 단축키 치트시트</div>
+                            <div class="docs-item-type">PDF</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">Premiere Pro 워크플로우 가이드</div>
+                            <div class="docs-item-type">PDF</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">After Effects 표현식 레퍼런스</div>
+                            <div class="docs-item-type">PDF</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="docs-section">
+                    <div class="docs-title">
+                        <div class="docs-icon">🔧</div>
+                        설치 및 설정
+                    </div>
+                    <div class="docs-list">
+                        <div class="docs-item">
+                            <div class="docs-item-title">macOS에서 Adobe 프로그램 설치하기</div>
+                            <div class="docs-item-type">가이드</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">프로그램 환경설정 최적화</div>
+                            <div class="docs-item-type">가이드</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">플러그인 및 확장 프로그램 관리</div>
+                            <div class="docs-item-type">가이드</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">라이선스 및 계정 관리</div>
+                            <div class="docs-item-type">가이드</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="docs-section">
+                    <div class="docs-title">
+                        <div class="docs-icon">🎯</div>
+                        실습 프로젝트
+                    </div>
+                    <div class="docs-list">
+                        <div class="docs-item">
+                            <div class="docs-item-title">포스터 디자인 프로젝트</div>
+                            <div class="docs-item-type">실습</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">브랜드 아이덴티티 제작</div>
+                            <div class="docs-item-type">실습</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">유튜브 인트로 제작하기</div>
+                            <div class="docs-item-type">실습</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">데이터 시각화 대시보드</div>
+                            <div class="docs-item-type">실습</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="docs-section">
+                    <div class="docs-title">
+                        <div class="docs-icon">❓</div>
+                        FAQ 및 문제해결
+                    </div>
+                    <div class="docs-list">
+                        <div class="docs-item">
+                            <div class="docs-item-title">자주 묻는 질문 (FAQ)</div>
+                            <div class="docs-item-type">FAQ</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">프로그램 오류 해결 가이드</div>
+                            <div class="docs-item-type">문제해결</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">성능 최적화 팁</div>
+                            <div class="docs-item-type">팁</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">호환성 이슈 해결</div>
+                            <div class="docs-item-type">문제해결</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="docs-section">
+                    <div class="docs-title">
+                        <div class="docs-icon">📚</div>
+                        참고 자료
+                    </div>
+                    <div class="docs-list">
+                        <div class="docs-item">
+                            <div class="docs-item-title">색상 이론 및 팔레트 가이드</div>
+                            <div class="docs-item-type">이론</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">타이포그래피 기초</div>
+                            <div class="docs-item-type">이론</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">영상 제작 워크플로우</div>
+                            <div class="docs-item-type">워크플로우</div>
+                        </div>
+                        <div class="docs-item">
+                            <div class="docs-item-title">디자인 원칙과 법칙</div>
+                            <div class="docs-item-type">이론</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('open');
+        }
+
+        function showSection(sectionName) {
+            // 모든 섹션 숨기기
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // 선택된 섹션 보이기
+            document.getElementById(sectionName).classList.add('active');
+
+            // 네비게이션 아이템 활성화 상태 변경
+            const navItems = document.querySelectorAll('.nav-item');
+            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            
+            navItems.forEach(item => item.classList.remove('active'));
+            mobileNavItems.forEach(item => item.classList.remove('active'));
+
+            // 활성화할 아이템 찾아서 active 클래스 추가
+            const sectionMap = {
+                'home': 0,
+                'programs': 1,
+                'shortcuts': 2,
+                'tutorials': 3,
+                'docs': 4
+            };
+
+            if (sectionMap.hasOwnProperty(sectionName)) {
+                navItems[sectionMap[sectionName]].classList.add('active');
+                mobileNavItems[sectionMap[sectionName]].classList.add('active');
+            }
+
+            // 모바일 메뉴 닫기
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.remove('open');
+        }
+
+        // 화면 크기가 변경될 때 모바일 메뉴 자동 닫기
+        window.addEventListener('resize', function() {
+            const mobileNav = document.getElementById('mobileNav');
+            if (window.innerWidth > 768) {
+                mobileNav.classList.remove('open');
+            }
+        });
+
+        // 모바일 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!mobileNav.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileNav.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

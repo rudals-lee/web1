@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025년 세무사 1차 시험(제62회) 재정학 총평&해설</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* 네비게이션 헤더 */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .menu-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* 사이드 메뉴 */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+            transition: right 0.4s ease;
+            z-index: 1001;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .menu-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section h3 {
+            color: #34495e;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            padding-left: 10px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-items li {
+            margin-bottom: 8px;
+        }
+
+        .menu-items a {
+            display: block;
+            padding: 12px 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .menu-items a:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* 오버레이 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 999;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 20px 20px; /* 상단 패딩 추가 */
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .instructor-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            font-size: 1.4em;
+            color: #34495e;
+            margin: 20px 0 10px 0;
+            padding-left: 15px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .problem-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .problem-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .problem-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .problem-content {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .study-tips {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .study-tips h2 {
+            color: white;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #fff;
+        }
+
+        .quiz-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-item {
+            background: linear-gradient(135deg, #f1f3f4, #e8eaed);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #e67e22;
+        }
+
+        .quiz-question {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .quiz-answer {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 80px 10px 10px 10px;
+            }
+
+            .nav-header {
+                padding: 10px 15px;
+            }
+
+            .side-menu {
+                width: 300px;
+                right: -300px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .nav-logo img { height: 60px; width: 60px; }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 헤더 -->
+    <div class="nav-header">
+        <div class="nav-logo">
+            <a href="/HOME.html"><img src="/images/LEGALWEB-2.png" alt="법률문서 로고"/></a>
+        </div>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+
+    <!-- 오버레이 -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- 사이드 메뉴 -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="menu-title">메뉴</div>
+            <button class="close-btn" id="closeBtn">✕</button>
+        </div>
+
+        <div class="menu-section">
+            <h3>📚 주요 섹션</h3>
+            <ul class="menu-items">
+                <li><a href="#header-section">시험 개요</a></li>
+                <li><a href="#exam-review">시험 총평</a></li>
+                <li><a href="#study-strategy">학습 전략</a></li>
+                <li><a href="#problem-analysis">핵심 문제 해설</a></li>
+                <li><a href="#study-tips">합격 팁</a></li>
+                <li><a href="#quiz-section">심화 퀴즈</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <h3>🎯 핵심 문제</h3>
+            <ul class="menu-items">
+                <li><a href="#problem-1">1번 - 조세의 원칙</a></li>
+                <li><a href="#problem-2">2번 - 공평 과세</a></li>
+                <li><a href="#problem-4">4번 - 초과 부담</a></li>
+                <li><a href="#problem-5">5번 - 초과 부담 계산</a></li>
+                <li><a href="#problem-8">8번 - 탈세 모형</a></li>
+                <li><a href="#problem-10">10번 - 이자 소득세</a></li>
+                <li><a href="#problem-15">15번 - 국가 부채</a></li>
+                <li><a href="#problem-19">19번 - 공기업 공공요금</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <h3>🔗 외부 링크</h3>
+            <ul class="menu-items">
+                <li><a href="https://www.hackers.co.kr" target="_blank">해커스 세무사</a></li>
+                <li><a href="#" onclick="window.print()">페이지 인쇄</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header fade-in" id="header-section">
+            <h1>2025년 세무사 1차 시험(제62회)</h1>
+            <div class="subtitle">재정학 총평 & 해설</div>
+            <div class="instructor-info">해커스 세무사 재정학 강사 서호성</div><br>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Ss-9zy23yvo?si=UGwZtPIb5R8dIPjp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="main-content">
+            <div class="section fade-in" id="exam-review">
+                <h2>📊 시험 총평</h2>
+                <div class="difficulty-badge">전반적 난이도: 중하</div>
+                
+                <h3>주요 특징</h3>
+                <ul>
+                    <li>만점 방지용 문제 부재</li>
+                    <li>작년과 달리 <span class="highlight">8회 토일성문제 미출제</span></li>
+                    <li>체감 난이도 하락</li>
+                    <li>신유형 문제 출제되지 않음</li>
+                </ul>
+
+                <h3>출제 경향</h3>
+                <ul>
+                    <li>수업 시간 강조 내용 다수 출제</li>
+                    <li>조세파트 등 뒷부분 출제 비중 높음</li>
+                    <li>계산 문제 4개 출제 (매우 평이)</li>
+                    <li>1일 특강 내용 다수 출제</li>
+                </ul>
+            </div>
+
+            <div class="section fade-in" id="study-strategy">
+                <h2>📚 학습 전략</h2>
+                
+                <h3>핵심 원칙</h3>
+                <ul>
+                    <li><span class="highlight">이론에 깊이 빠지지 않기</span></li>
+                    <li>주제에 맞는 정답 찾기 연습</li>
+                    <li>기출문제 및 모의고사 반복</li>
+                </ul>
+
+                <h3>시간 관리</h3>
+                <ul>
+                    <li><span class="highlight">15분 내 80점 득점</span> 목표</li>
+                    <li>1번 선지가 정답이면 즉시 다음 문제</li>
+                    <li>어려운 문제는 과감히 넘어가기</li>
+                </ul>
+
+                <h3>효과적 학습법</h3>
+                <ul>
+                    <li>통계적 기출 중심 학습</li>
+                    <li>강사 강조 부분 위주</li>
+                    <li>해커스 커리큘럼 충실히 따르기</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="problem-section fade-in" id="problem-analysis">
+            <h2>🔍 핵심 문제 해설</h2>
+            
+            <div class="problem-grid">
+                <div class="problem-item" id="problem-1">
+                    <div class="problem-title">
+                        <span class="problem-number">1</span>조세의 원칙
+                    </div>
+                    <div class="problem-content">
+                        조세납부 방법, 시기, 금액 등이 법률 규정에 따라 명확히 제시되어야 하는 것은 <strong>확실성의 원칙</strong>
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-2">
+                    <div class="problem-title">
+                        <span class="problem-number">2</span>공평 과세 원칙
+                    </div>
+                    <div class="problem-content">
+                        <strong>능력 원칙:</strong> 아파트 가격 상승 시 재산세 부담 증가<br>
+                        <strong>편익 원칙:</strong> 빅셀의 동등이생 원칙
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-4">
+                    <div class="problem-title">
+                        <span class="problem-number">4</span>초과 부담
+                    </div>
+                    <div class="problem-content">
+                        <strong>발생 원인:</strong> 한계 대체율과 한계 변환율 불일치<br>
+                        <strong>램지 규칙:</strong> 역탄력성 원칙에 따른 세율 설정
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-5">
+                    <div class="problem-title">
+                        <span class="problem-number">5</span>초과 부담 계산
+                    </div>
+                    <div class="problem-content">
+                        <strong>조세 수입:</strong> (단위당 조세) × (과세 후 거래량)<br>
+                        <strong>초과 부담:</strong> 1/2 × (단위당 조세) × (거래량 감소분)
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-8">
+                    <div class="problem-title">
+                        <span class="problem-number">8</span>탈세 모형
+                    </div>
+                    <div class="problem-content">
+                        <strong>대체 효과:</strong> 세율 인상 시 탈루 소득 증가<br>
+                        <strong>소득 효과:</strong> 세율 인상 시 탈루 소득 감소
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-10">
+                    <div class="problem-title">
+                        <span class="problem-number">10</span>이자 소득세
+                    </div>
+                    <div class="problem-content">
+                        <strong>국민 저축:</strong> 변화 알 수 없음<br>
+                        <strong>소득/대체 효과:</strong> 상대적 크기에 따라 현재 소비 영향 결정
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-15">
+                    <div class="problem-title">
+                        <span class="problem-number">15</span>국가 부채
+                    </div>
+                    <div class="problem-content">
+                        <strong>리카도 대등 정리:</strong> 저축 증가로 이자율 불변<br>
+                        <strong>중복 세대 모형:</strong> 국가 채무는 미래 세대 부담
+                    </div>
+                </div>
+
+                <div class="problem-item" id="problem-19">
+                    <div class="problem-title">
+                        <span class="problem-number">19</span>공기업 공공요금
+                    </div>
+                    <div class="problem-content">
+                        <strong>한계 비용 가격:</strong> 효율적이나 손실 발생<br>
+                        <strong>램지 원칙:</strong> 수요 탄력성에 따른 가격 설정
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-tips fade-in" id="study-tips">
+            <h2>💡 합격을 위한 핵심 팁</h2>
+            
+            <div class="tip-item">
+                <strong>시간 관리가 생명</strong><br>
+                15분 내 80점을 목표로, 1번 선지가 확실하면 다른 선지 확인 없이 다음 문제로 진행하세요.
+            </div>
+            
+            <div class="tip-item">
+                <strong>이론보다 문제 해결</strong><br>
+                재정학은 학문적 깊이보다 주제에 맞는 정답을 찾는 연습이 중요합니다.
+            </div>
+            
+            <div class="tip-item">
+                <strong>기출문제 반복학습</strong><br>
+                해커스 커리큘럼과 기출문제, 모의고사를 반복 학습하는 것이 고득점의 핵심입니다.
+            </div>
+            
+            <div class="tip-item">
+                <strong>당황하지 말기</strong><br>
+                항상 5문제 정도는 어렵게 나올 수 있다고 생각하고, 모르는 문제는 과감히 넘어가는 담대함이 필요합니다.
+            </div>
+        </div>
+
+        <div class="quiz-section fade-in" id="quiz-section">
+            <h2>🎯 심화 학습 퀴즈</h2>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">
+                    Q1: 재정학 학습 시 이론에 깊이 빠지기보다 주제에 맞는 정답을 찾는 연습이 중요한 이유는?
+                </div>
+                <div class="quiz-answer">
+                    <strong>A1:</strong> 세무사1차 재정학시험은 학문적 깊이를 요구하기보다, 주어진 주제에서 정확한 답을 찾아내는 능력을 평가하기 때문입니다. 이론에 너무 깊이 몰두하면 오히려 시간 낭비가 되고, 실제 시험에서 필요한 문제 해결 능력을 키우기 어렵습니다.
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">
+                    Q2: 2025년 세무사1차 재정학시험에서 1번 선지가 정답일 경우 나머지 선지를 확인하지 않고 넘어가는 전략이 유효했던 이유는?
+                </div>
+                <div class="quiz-answer">
+                    <strong>A2:</strong> 이번 시험은 만점 방지용 문제가 없었고, 출제자가 명확하게 정답을 제시하는 경향이 강했기 때문입니다. 1번 선지가 확실한 정답이라면, 다른 선지들을 읽는 데 시간을 낭비하거나 불필요한 혼란을 겪을 필요 없이 다음 문제로 넘어가는 것이 효율적인 시간 관리 전략이었습니다.
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">
+                    Q3: 이자 소득세 부과 시 저축자의 현재 소비와 미래 소비에 미치는 소득 효과와 대체 효과의 방향은?
+                </div>
+                <div class="quiz-answer">
+                    <strong>A3:</strong><br>
+                    <strong>소득 효과:</strong> 이자 소득세 부과로 실질 소득이 감소하므로, 현재 소비와 미래 소비 모두 감소합니다.<br>
+                    <strong>대체 효과:</strong> 이자율 하락으로 현재 소비의 상대 가격이 하락하여 현재 소비는 증가하고, 미래 소비의 상대 가격은 상승하여 미래 소비는 감소합니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 메뉴 기능
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('overlay');
+
+        // 메뉴 열기
+        function openMenu() {
+            sideMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 메뉴 닫기
+        function closeMenu() {
+            sideMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 이벤트 리스너
+        menuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openMenu();
+        });
+
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // 메뉴 항목 클릭 시 메뉴 닫기
+        const menuItems = document.querySelectorAll('.menu-items a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // 내부 링크인 경우에만 메뉴 닫기
+                if (this.getAttribute('href').startsWith('#')) {
+                    closeMenu();
+                }
+            });
+        });
+
+        // ESC 키로 메뉴 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMenu();
+            }
+        });
+
+        // 부드러운 스크롤 (내부 링크용)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 모든 섹션에 애니메이션 적용
+        document.querySelectorAll('.section, .problem-section, .study-tips, .quiz-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // 문제 아이템 호버 효과
+        document.querySelectorAll('.problem-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                item.style.color = 'white';
+                item.style.transform = 'translateX(10px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+                item.style.color = '#333';
+                item.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+
+        // 메뉴 아이템 활성화 표시
+        function updateActiveMenuItem() {
+            const sections = document.querySelectorAll('[id]');
+            const menuLinks = document.querySelectorAll('.menu-items a[href^="#"]');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            menuLinks.forEach(link => {
+                link.style.background = '';
+                link.style.color = '';
+                
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    link.style.color = 'white';
+                }
+            });
+        }
+
+        // 스크롤 시 활성 메뉴 아이템 업데이트
+        window.addEventListener('scroll', updateActiveMenuItem);
+        
+        // 페이지 로드 시 초기 활성 아이템 설정
+        window.addEventListener('load', updateActiveMenuItem);
+    </script>
+</body>
+</html>

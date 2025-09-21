@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음성 인식 텍스트 변환기</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+    .container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #4a5568;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 140px;
+        justify-content: center;
+    }
+
+    .btn-start {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        color: white;
+    }
+
+    .btn-start:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .btn-stop {
+        background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        color: white;
+    }
+
+    .btn-stop:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+    }
+
+    .btn-clear {
+        background: linear-gradient(45deg, #feca57, #ff9ff3);
+        color: white;
+    }
+
+    .btn-clear:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(254, 202, 87, 0.4);
+    }
+
+    .btn-save {
+        background: linear-gradient(45deg, #5f27cd, #341f97);
+        color: white;
+    }
+
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(95, 39, 205, 0.4);
+    }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .status {
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .status.listening {
+        background: linear-gradient(45deg, #ff6b6b, #feca57);
+        color: white;
+        animation: pulse 2s infinite;
+    }
+
+    .status.stopped {
+        background: #f8f9fa;
+        color: #6c757d;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .text-area {
+        width: 100%;
+        min-height: 300px;
+        padding: 20px;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        font-size: 18px;
+        line-height: 1.6;
+        resize: vertical;
+        font-family: 'Arial', sans-serif;
+        box-sizing: border-box;
+    }
+
+    .text-area:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .info {
+        background: #e3f2fd;
+        border: 1px solid #bbdefb;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #1565c0;
+    }
+
+    .mic-icon {
+        font-size: 18px;
+    }
+
+    .word-count {
+        text-align: right;
+        color: #6c757d;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .save-options {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .filename-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        min-width: 200px;
+    }
+
+    .filename-input:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    .success-message {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+        text-align: center;
+        display: none;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 음성 인식 텍스트 변환기</h1>
+    
+    <div class="controls">
+        <button id="startBtn" class="btn btn-start">
+            <span class="mic-icon">🎤</span>
+            음성 인식 시작
+        </button>
+        <button id="stopBtn" class="btn btn-stop" disabled>
+            <span>⏹️</span>
+            인식 중지
+        </button>
+        <button id="clearBtn" class="btn btn-clear">
+            <span>🗑️</span>
+            텍스트 지우기
+        </button>
+        <button id="saveBtn" class="btn btn-save">
+            <span>💾</span>
+            파일로 저장
+        </button>
+    </div>
+
+    <div class="save-options">
+        <label for="filenameInput">파일명:</label>
+        <input type="text" id="filenameInput" class="filename-input" placeholder="음성메모" value="음성메모">
+        <small style="color: #6c757d;">.txt 파일로 저장됩니다</small>
+    </div>
+
+    <div id="successMessage" class="success-message">
+        파일이 성공적으로 저장되었습니다! 📝
+    </div>
+
+    <div id="status" class="status stopped">
+        음성 인식을 시작하려면 "음성 인식 시작" 버튼을 클릭하세요
+    </div>
+
+    <textarea id="textArea" class="text-area" placeholder="여기에 음성으로 변환된 텍스트가 나타납니다..."></textarea>
+    
+    <div class="word-count">
+        글자 수: <span id="charCount">0</span>자 | 단어 수: <span id="wordCount">0</span>개
+    </div>
+
+    <div class="info">
+        <strong>사용 방법:</strong><br>
+        1. "음성 인식 시작" 버튼을 클릭하세요<br>
+        2. 마이크 접근을 허용하세요<br>
+        3. 자연스럽게 말하면 텍스트로 변환됩니다<br>
+        4. "인식 중지" 버튼으로 중지할 수 있습니다<br>
+        5. "파일로 저장" 버튼으로 텍스트를 메모장 파일로 저장할 수 있습니다<br><br>
+        <strong>참고:</strong> 이 기능은 Chrome, Edge 등 최신 브라우저에서 지원됩니다.
+    </div>
+</div>
+
+<script>
+    // 음성 인식 API 확인
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        document.getElementById('status').textContent = '이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 브라우저를 사용해보세요.';
+        document.getElementById('startBtn').disabled = true;
+    } else {
+        // 음성 인식 객체 생성
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        // 음성 인식 설정
+        recognition.continuous = true; // 지속적으로 인식
+        recognition.interimResults = true; // 중간 결과도 표시
+        recognition.lang = 'ko-KR'; // 한국어 설정
+
+        // DOM 요소들
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const status = document.getElementById('status');
+        const textArea = document.getElementById('textArea');
+        const charCount = document.getElementById('charCount');
+        const wordCount = document.getElementById('wordCount');
+        const filenameInput = document.getElementById('filenameInput');
+        const successMessage = document.getElementById('successMessage');
+
+        let isRecognizing = false;
+        let finalTranscript = '';
+
+        // 글자 수 및 단어 수 업데이트 함수
+        function updateCounts() {
+            const text = textArea.value;
+            charCount.textContent = text.length;
+            wordCount.textContent = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        }
+
+        // 파일 저장 함수
+        function saveToFile() {
+            const text = textArea.value.trim();
+            
+            if (text === '') {
+                alert('저장할 텍스트가 없습니다.');
+                return;
+            }
+
+            const filename = filenameInput.value.trim() || '음성메모';
+            const currentDate = new Date();
+            const dateString = currentDate.toLocaleDateString('ko-KR').replace(/\./g, '').replace(/ /g, '');
+            const timeString = currentDate.toLocaleTimeString('ko-KR', {hour12: false}).replace(/:/g, '');
+            const fullFilename = `${filename}_${dateString}_${timeString}.txt`;
+
+            // Blob 생성 (UTF-8 BOM 추가로 한글 깨짐 방지)
+            const BOM = '\uFEFF';
+            const blob = new Blob([BOM + text], { type: 'text/plain;charset=utf-8' });
+
+            // 다운로드 링크 생성
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fullFilename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            // 성공 메시지 표시
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // 음성 인식 시작
+        startBtn.addEventListener('click', () => {
+            if (!isRecognizing) {
+                recognition.start();
+                isRecognizing = true;
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                status.textContent = '음성 인식 중... 말씀해주세요';
+                status.className = 'status listening';
+            }
+        });
+
+        // 음성 인식 중지
+        stopBtn.addEventListener('click', () => {
+            if (isRecognizing) {
+                recognition.stop();
+                isRecognizing = false;
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                status.textContent = '음성 인식이 중지되었습니다';
+                status.className = 'status stopped';
+            }
+        });
+
+        // 텍스트 지우기
+        clearBtn.addEventListener('click', () => {
+            textArea.value = '';
+            finalTranscript = '';
+            updateCounts();
+        });
+
+        // 파일 저장
+        saveBtn.addEventListener('click', saveToFile);
+
+        // 음성 인식 결과 처리
+        recognition.addEventListener('result', (event) => {
+            let interimTranscript = '';
+            
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript + ' ';
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+            
+            textArea.value = finalTranscript + interimTranscript;
+            updateCounts();
+            
+            // 자동으로 스크롤을 맨 아래로
+            textArea.scrollTop = textArea.scrollHeight;
+        });
+
+        // 음성 인식 시작 이벤트
+        recognition.addEventListener('start', () => {
+            status.textContent = '음성 인식 중... 말씀해주세요';
+            status.className = 'status listening';
+        });
+
+        // 음성 인식 종료 이벤트
+        recognition.addEventListener('end', () => {
+            if (isRecognizing) {
+                // 자동으로 재시작 (연속 인식을 위해)
+                setTimeout(() => {
+                    if (isRecognizing) {
+                        recognition.start();
+                    }
+                }, 100);
+            } else {
+                status.textContent = '음성 인식이 중지되었습니다';
+                status.className = 'status stopped';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        });
+
+        // 오류 처리
+        recognition.addEventListener('error', (event) => {
+            console.error('음성 인식 오류:', event.error);
+            
+            if (event.error === 'not-allowed') {
+                status.textContent = '마이크 접근이 거부되었습니다. 브라우저 설정에서 마이크 권한을 허용해주세요.';
+            } else if (event.error === 'no-speech') {
+                status.textContent = '음성이 감지되지 않았습니다. 다시 시도해주세요.';
+            } else {
+                status.textContent = `음성 인식 오류: ${event.error}`;
+            }
+            
+            status.className = 'status stopped';
+            isRecognizing = false;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        });
+
+        // 텍스트 영역 변경 시 글자 수 업데이트
+        textArea.addEventListener('input', updateCounts);
+
+        // 파일명 입력란에서 Enter 키 눌렀을 때 저장
+        filenameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                saveToFile();
+            }
+        });
+
+        // 초기 글자 수 설정
+        updateCounts();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>법인세법 문제 정리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .problems-grid {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .problem-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .problem-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-right: 15px;
+        }
+
+        .problem-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .problem-content {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .data-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .data-section h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f1f3f4;
+            border-radius: 8px;
+        }
+
+        .choice {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .choice:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .calculation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .calculation-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .calculation-list li:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .summary {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .summary h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .topic-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .topic-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .problem-card {
+                padding: 20px;
+            }
+            
+            .choices {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 법인세법 문제 정리</h1>
+            <p>제61번 ~ 제70번 문제 총정리</p>
+        </div>
+
+        <div class="problems-grid">
+            <!-- 문제 61 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">61번</div>
+                    <div class="problem-title">중간예납세액 계산</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>공시대상기업집단 소속 내국법인 (주)A의 제25기 중간예납세액 계산</strong></p>
+                    
+                    <div class="data-section">
+                        <h4>(1) 제24기 법인세 신고 및 납부내역</h4>
+                        <ul class="calculation-list">
+                            <li><span>과세표준</span><span>900,000,000원</span></li>
+                            <li><span>산출세액</span><span>151,000,000원</span></li>
+                            <li><span>원천징수세액</span><span>42,000,000원</span></li>
+                            <li><span>수시부과세액</span><span>19,000,000원</span></li>
+                            <li><span>중간예납세액</span><span>10,000,000원</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>(2) 제25기 중간예납기간(2025.1.1.∼6.30.) 자료</h4>
+                        <ul class="calculation-list">
+                            <li><span>당기순이익</span><span>400,000,000원</span></li>
+                            <li><span>익금산입 및 손금불산입</span><span>150,000,000원</span></li>
+                            <li><span>손금산입 및 익금불산입</span><span>50,000,000원</span></li>
+                            <li><span>원천징수세액</span><span>13,000,000원</span></li>
+                            <li><span>외국납부세액공제액</span><span>2,000,000원</span></li>
+                            <li><span>수시부과세액</span><span>10,000,000원</span></li>
+                        </ul>
+                    </div>
+
+                    <p><strong>법인세율:</strong> 과세표준 2억원 이하분 9%, 2억원 초과 200억원 이하분 19%</p>
+
+                    <div class="choices">
+                        <div class="choice">① 40,000,000원</div>
+                        <div class="choice">② 45,000,000원</div>
+                        <div class="choice">③ 46,000,000원</div>
+                        <div class="choice">④ 54,000,000원</div>
+                        <div class="choice">⑤ 60,000,000원</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 62 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">62번</div>
+                    <div class="problem-title">재고자산 평가</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>도소매업과 제조업 겸영 (주)A의 제25기 재고자산평가액</strong></p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>구분</th>
+                                    <th>장부상 평가액</th>
+                                    <th>선입선출법</th>
+                                    <th>총평균법</th>
+                                    <th>후입선출법</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>상품</td>
+                                    <td>55,000,000원</td>
+                                    <td>58,000,000원</td>
+                                    <td>57,000,000원</td>
+                                    <td>55,000,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>제품</td>
+                                    <td>89,000,000원</td>
+                                    <td>90,000,000원</td>
+                                    <td>89,000,000원</td>
+                                    <td>85,000,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>재공품</td>
+                                    <td>23,000,000원</td>
+                                    <td>27,000,000원</td>
+                                    <td>23,000,000원</td>
+                                    <td>21,000,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>원재료</td>
+                                    <td>16,000,000원</td>
+                                    <td>16,000,000원</td>
+                                    <td>15,500,000원</td>
+                                    <td>17,000,000원</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>평가방법 변경 이력</h4>
+                        <ul>
+                            <li>제24기 10월 11일: 상품 평가방법을 선입선출법 → 후입선출법으로 변경</li>
+                            <li>제25기 9월 13일: 제품 평가방법을 총평균법 → 후입선출법으로 변경</li>
+                            <li>재공품과 원재료: 후입선출법으로 신고</li>
+                        </ul>
+                    </div>
+
+                    <div class="choices">
+                        <div class="choice">① 186,000,000원</div>
+                        <div class="choice">② 188,000,000원</div>
+                        <div class="choice">③ 189,000,000원</div>
+                        <div class="choice">④ 190,000,000원</div>
+                        <div class="choice">⑤ 192,000,000원</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 63 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">63번</div>
+                    <div class="problem-title">의제배당</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>법인세법령상 의제배당에 관한 설명으로 옳지 않은 것은?</strong></p>
+                    
+                    <div class="data-section">
+                        <p>① 채무의 출자전환으로 주식등을 발행하는 경우로서 시가로 발행된 금액 중 액면금액을 초과한 금액을 자본에 전입하여 주주가 받은 주식가액은 의제배당에 해당한다.</p>
+                        <p>② 상법에 따른 주식의 상환에 관한 종류주식의 주식발행액면초과액 중 이익잉여금으로 상환된 금액을 자본에 전입하여 주주가 받은 금액은 의제배당에 해당한다.</p>
+                        <p>③ 자기주식 소각시점에 그 자기주식의 시가가 취득가액을 초과한 경우로서 소각일부터 2년이 지난 후 자본에 전입하여 주주가 받은 주식가액은 의제배당에 해당한다.</p>
+                        <p>④ 적격분할을 한 경우 분할등기일 현재 분할신설법인 등이 승계한 재산의 가액이 그 재산의 분할법인 재무상태표상 장부가액을 초과하는 경우 그 초과하는 금액이 분할차익 한도 내에 해당하여 그 금액을 자본에 전입하여 주주가 받은 주식가액은 의제배당에 해당한다.</p>
+                        <p>⑤ 적격합병을 한 경우에 피합병법인의 이익잉여금에 상당하는 금액이 합병차익 한도 내에 해당하여 그 금액을 자본에 전입하여 주주가 받은 주식가액은 의제배당에 해당한다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 64 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">64번</div>
+                    <div class="problem-title">간주임대료</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>부동산임대업 (주)A의 제25기 간주임대료 계산</strong></p>
+                    <p><em>차입금적수가 자기자본적수의 2배 초과하는 내국법인</em></p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>구분</th>
+                                    <th>건물임대면적</th>
+                                    <th>임대기간</th>
+                                    <th>보증금</th>
+                                    <th>보증금 수령일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>상가1</td>
+                                    <td>600m²</td>
+                                    <td>2024.10.1.∼2026.9.30.</td>
+                                    <td>500,000,000원</td>
+                                    <td>2024.9.10.</td>
+                                </tr>
+                                <tr>
+                                    <td>상가2</td>
+                                    <td>300m²</td>
+                                    <td>2025.8.8.∼2027.8.7.</td>
+                                    <td>300,000,000원</td>
+                                    <td>2025.8.10.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>임대부동산 내역</h4>
+                        <ul class="calculation-list">
+                            <li><span>취득일자</span><span>2023.7.1.</span></li>
+                            <li><span>건물 연면적</span><span>900m²</span></li>
+                            <li><span>토지 연면적</span><span>1,500m²</span></li>
+                            <li><span>취득가액</span><span>600,000,000원 (토지 200,000,000원 포함)</span></li>
+                            <li><span>감가상각누계액</span><span>30,000,000원</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>임대보증금 운용수익</h4>
+                        <ul class="calculation-list">
+                            <li><span>수입이자</span><span>2,500,000원</span></li>
+                            <li><span>배당금수입</span><span>500,000원</span></li>
+                            <li><span>유가증권처분손실</span><span>(1,500,000원)</span></li>
+                        </ul>
+                    </div>
+
+                    <p><strong>정기예금이자율:</strong> 연 3%</p>
+
+                    <div class="choices">
+                        <div class="choice">① 4,500,000원</div>
+                        <div class="choice">② 5,000,000원</div>
+                        <div class="choice">③ 5,500,000원</div>
+                        <div class="choice">④ 6,000,000원</div>
+                        <div class="choice">⑤ 6,500,000원</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 65 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">65번</div>
+                    <div class="problem-title">자산의 취득가액</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>법인세법령상 자산의 취득가액에 관한 설명으로 옳지 않은 것은?</strong></p>
+                    
+                    <div class="data-section">
+                        <p>① 합병·분할에 따라 취득한 자산이 적격합병·적격분할에 해당하는 경우에는 피합병법인·분할법인의 자산의 장부가액을 자산의 취득가액으로 한다.</p>
+                        <p>② 유형자산의 취득과 함께 공채를 매입하는 경우 기업회계기준에 따라 그 공채의 매입가액과 현재가치의 차액을 해당 유형자산의 취득가액으로 계상한 금액은 자산의 취득가액에 포함한다.</p>
+                        <p>③ 출자법인등이 현물출자로 인하여 피출자법인을 새로 설립하면서 그 대가로 주식만 취득하는 현물출자의 경우에는 현물출자한 순자산의 시가를 자산의 취득가액으로 한다.</p>
+                        <p>④ 온실가스 배출권의 할당 및 거래에 관한 법률에 따라 정부로부터 무상으로 할당받은 배출권의 취득가액은 0원으로 한다.</p>
+                        <p>⑤ 동종자산과 교환으로 취득하는 유형자산의 취득가액은 교환으로 제공한 자산의 장부가액을 자산의 취득가액으로 한다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 66 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">66번</div>
+                    <div class="problem-title">퇴직연금 세무조정</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>(주)A의 제25기 퇴직연금 관련 세무조정</strong></p>
+                    
+                    <div class="data-section">
+                        <h4>퇴직연금운용자산 변동내역</h4>
+                        <ul class="calculation-list">
+                            <li><span>전기이월</span><span>750,000,000원</span></li>
+                            <li><span>당기예치</span><span>430,000,000원</span></li>
+                            <li><span>당기지급</span><span>(250,000,000원)</span></li>
+                            <li><span>차기이월</span><span>930,000,000원</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>퇴직연금충당금 변동내역</h4>
+                        <ul class="calculation-list">
+                            <li><span>전기이월</span><span>750,000,000원</span></li>
+                            <li><span>당기설정</span><span>200,000,000원</span></li>
+                            <li><span>당기상계</span><span>(150,000,000원)</span></li>
+                            <li><span>차기이월</span><span>800,000,000원</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>기타 정보</h4>
+                        <ul>
+                            <li>보험수리적기준 퇴직급여추계액: 990,000,000원</li>
+                            <li>일시퇴직기준 퇴직급여추계액: 960,000,000원</li>
+                            <li>전기말 퇴직급여충당금 손금불산입 유보잔액: 20,000,000원</li>
+                            <li>전기말 퇴직연금충당금 손금불산입 유보잔액: 150,000,000원</li>
+                        </ul>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>선택지</th>
+                                    <th>익금산입 및 손금불산입</th>
+                                    <th>손금산입 및 익금불산입</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>①</td>
+                                    <td>퇴직연금충당금 100,000,000 유보</td>
+                                    <td>퇴직급여충당금 100,000,000 △유보<br>퇴직연금충당금 360,000,000 △유보</td>
+                                </tr>
+                                <tr>
+                                    <td>②</td>
+                                    <td>퇴직연금충당금 100,000,000 유보</td>
+                                    <td>퇴직급여충당금 100,000,000 △유보<br>퇴직연금충당금 260,000,000 △유보</td>
+                                </tr>
+                                <tr>
+                                    <td>③</td>
+                                    <td>퇴직연금충당금 50,000,000 유보</td>
+                                    <td>퇴직급여충당금 20,000,000 △유보</td>
+                                </tr>
+                                <tr>
+                                    <td>④</td>
+                                    <td>퇴직연금충당금 100,000,000 유보</td>
+                                    <td>퇴직급여충당금 80,000,000 △유보<br>퇴직연금충당금 360,000,000 △유보</td>
+                                </tr>
+                                <tr>
+                                    <td>⑤</td>
+                                    <td>퇴직연금충당금 100,000,000 유보</td>
+                                    <td>퇴직급여충당금 80,000,000 △유보<br>퇴직연금충당금 260,000,000 △유보</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 67 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">67번</div>
+                    <div class="problem-title">손비 인정 항목</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>법인세법령상 손비로 볼 수 있는 항목은 모두 몇 개인가?</strong></p>
+                    
+                    <div class="data-section">
+                        <h4>검토 항목들</h4>
+                        <ul>
+                            <li>특수관계인으로부터 감가상각대상자산을 양수하면서 기업회계기준에 따라 장부에 계상한 자산의 가액이 시가에 미달하는 경우에 실제취득가액과 장부에 계상한 가액과의 차이에 대한 감가상각비 상당액</li>
+                            <li>대손세액공제를 받은 회수할 수 없는 부가가치세 매출세액미수금</li>
+                            <li>영업자가 조직한 단체로서 주무관청에 등록된 협회에 지급한 경상경비 외에 충당할 목적으로 납부한 회비</li>
+                            <li>광업의 탐광을 위한 개발비</li>
+                            <li>우리사주조합에 출연하는 자사주의 장부가액</li>
+                            <li>이사회의 결의에 의하여 직원의 사망 이후 유족에게 지속적으로 지급하는 학자금 등의 금액</li>
+                            <li>보험업법에 따라 보험회사가 적립한 할인율의 변동에 따른 책임준비금 평가액의 증가분</li>
+                        </ul>
+                    </div>
+
+                    <div class="choices">
+                        <div class="choice">① 1개</div>
+                        <div class="choice">② 2개</div>
+                        <div class="choice">③ 3개</div>
+                        <div class="choice">④ 4개</div>
+                        <div class="choice">⑤ 5개</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 68 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">68번</div>
+                    <div class="problem-title">즉시상각의 의제</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>법인세법령상 즉시상각의 의제에 관한 설명으로 옳지 않은 것은?</strong></p>
+                    
+                    <div class="data-section">
+                        <p>① 사업장의 이전으로 임대차계약에 따라 임차한 사업장의 원상회복을 위하여 시설물을 철거하는 경우 해당 자산의 장부가액에서 1천원을 공제한 금액을 폐기일이 속하는 사업연도의 손금에 산입할 수 있다.</p>
+                        <p>② 재해 등으로 인하여 훼손되어 본래의 용도에 이용할 가치가 없는 건축물·기계·설비 등의 복구를 위하여 지출한 수선비를 손비로 계상한 경우에는 법인이 계상한 감가상각비에 합산되어 시부인계산의 대상이 됨과 동시에 상각범위액을 계산할 때 감가상각 기초가액에 합산한다.</p>
+                        <p>③ 개별자산별로 수선비로 지출한 금액이 직전 사업연도종료일 현재 재무상태표상의 취득가액의 100분의 5에 미달하는 경우로서 그 수선비를 해당 사업연도의 손비로 계상한 경우에는 손금에 산입한다.</p>
+                        <p>④ 개별자산별로 수선비로 지출한 금액이 600만원 미만인 경우로서 그 수선비를 해당 사업연도의 손비로 계상한 경우에는 손금에 산입한다.</p>
+                        <p>⑤ 휴대용 전화기 및 개인용 컴퓨터를 그 고유업무의 성질상 대량으로 취득하여 그 사업에 사용한 날이 속하는 사업연도의 손비로 계상한 것에 한정하여 손금에 산입한다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 69 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">69번</div>
+                    <div class="problem-title">도급공사 세무조정</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>건설업 (주)A의 제25기 도급공사 관련 세무조정</strong></p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>구분</th>
+                                    <th>공사기간</th>
+                                    <th>도급금액</th>
+                                    <th>총공사예정원가</th>
+                                    <th>제25기 결산서상 공사수익</th>
+                                    <th>제25기 결산서상 공사원가</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>甲공사</td>
+                                    <td>2024.5.1.∼2026.5.3.</td>
+                                    <td>75,000,000원</td>
+                                    <td>52,000,000원</td>
+                                    <td>41,000,000원</td>
+                                    <td>28,600,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>乙공사</td>
+                                    <td>2025.2.3.∼2026.9.9.</td>
+                                    <td>84,000,000원</td>
+                                    <td>57,800,000원</td>
+                                    <td>60,000,000원</td>
+                                    <td>43,350,000원</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>추가 정보</h4>
+                        <ul>
+                            <li>제24기 甲공사 세무조정: 익금산입 250,000원(유보) 발생</li>
+                            <li>甲공사 제26기 투입 예정공사원가: 5,200,000원</li>
+                            <li>乙공사 제26기 투입 예정공사원가: 14,450,000원</li>
+                            <li>제24기 공사 개시 시 추정한 총공사 예정원가는 변함없음</li>
+                        </ul>
+                    </div>
+
+                    <div class="choices">
+                        <div class="choice">① 3,000,000원</div>
+                        <div class="choice">② 3,250,000원</div>
+                        <div class="choice">③ 3,500,000원</div>
+                        <div class="choice">④ 3,750,000원</div>
+                        <div class="choice">⑤ 4,000,000원</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제 70 -->
+            <div class="problem-card">
+                <div class="problem-header">
+                    <div class="problem-number">70번</div>
+                    <div class="problem-title">과세표준의 결정 및 경정</div>
+                </div>
+                <div class="problem-content">
+                    <p><strong>법인세법령상 과세표준의 결정 및 경정에 관한 설명으로 옳지 않은 것은?</strong></p>
+                    
+                    <div class="data-section">
+                        <p>① 납세의무가 있는 내국법인이 각 사업연도의 소득에 대한 법인세의 과세표준과 세액을 신고하지 않은 경우, 국세청장이 조사기간을 따로 정하지 아니한 때에는 납세지관할세무서장은 해당 사업연도의 종료일이 속하는 달의 말일부터 1년 이내에 법인세의 과세표준과 세액에 대한 결정을 완료해야 한다.</p>
+                        <p>② 국세청장이 특히 중요하다고 인정하는 것에 대하여는 납세지관할지방국세청장이 이를 결정 또는 경정할 수 있으며, 이 경우 납세지관할세무서장은 해당 과세표준을 결정 또는 경정하기 위하여 필요한 서류를 납세지관할지방국세청장에게 지체 없이 보내야 한다.</p>
+                        <p>③ 과세표준 등의 신고를 한 내국법인이 지급명세서, 매출·매입처별 계산서합계표의 전부 또는 일부를 제출하지 아니한 경우 납세지관할세무서장은 그 법인의 각 사업연도의 소득에 대한 법인세의 과세표준과 세액을 경정한다.</p>
+                        <p>④ 납세지관할세무서장이 행하는 법인의 각 사업연도의 소득에 대한 법인세의 과세표준과 세액의 경정은 해당 내국법인이 신고할 때에 첨부한 신고서 및 그 첨부서류에 의하거나 비치기장된 장부 또는 그 밖의 증명서류에 의한 실지조사에 의함을 원칙으로 한다.</p>
+                        <p>⑤ 해당 내국법인의 과세표준 등의 신고 내용에 오류 또는 누락이 있는 경우에 납세지관할세무서장은 해당 내국법인의 법인세의 과세표준과 세액을 결정 또는 경정한 후 그 결정 또는 경정에 오류나 누락이 있는 것을 재차 발견한 때에는 즉시 이를 다시 경정한다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary">
+            <h2>🎯 다루어진 주요 주제</h2>
+            <div class="topic-tags">
+                <div class="topic-tag">중간예납세액 계산</div>
+                <div class="topic-tag">재고자산 평가</div>
+                <div class="topic-tag">의제배당</div>
+                <div class="topic-tag">간주임대료</div>
+                <div class="topic-tag">자산 취득가액</div>
+                <div class="topic-tag">퇴직연금 세무조정</div>
+                <div class="topic-tag">손비 인정 항목</div>
+                <div class="topic-tag">즉시상각 의제</div>
+                <div class="topic-tag">도급공사 진행률</div>
+                <div class="topic-tag">과세표준 결정·경정</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 카드 호버 효과 강화
+        document.querySelectorAll('.problem-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                this.style.boxShadow = '0 25px 50px rgba(0,0,0,0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // 선택지 클릭 효과
+        document.querySelectorAll('.choice').forEach(choice => {
+            choice.addEventListener('click', function() {
+                // 같은 문제 카드 내의 다른 선택지들의 선택 해제
+                const problemCard = this.closest('.problem-card');
+                problemCard.querySelectorAll('.choice').forEach(c => {
+                    c.style.background = 'white';
+                    c.style.color = '#333';
+                });
+                
+                // 현재 선택지 강조
+                this.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                this.style.color = 'white';
+            });
+        });
+
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 초기 상태 설정 및 관찰 시작
+        document.querySelectorAll('.problem-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

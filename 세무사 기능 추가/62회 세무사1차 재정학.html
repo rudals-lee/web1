@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재정학 문제집</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2C3E50, #34495E);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: shimmer 20s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+
+        .problem {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid;
+            border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .problem:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .problem-number {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .problem-number::before {
+            content: '📊';
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .question {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            line-height: 1.8;
+        }
+
+        .sub-question {
+            font-style: italic;
+            color: #555;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .options {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .options li {
+            margin: 8px 0;
+            padding: 12px 15px;
+            background: rgba(246, 247, 249, 0.8);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .options li:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .formula {
+            background: rgba(52, 73, 94, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            border-left: 4px solid #34495e;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .stats {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+        }
+
+        .stats h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+                max-height: 60vh;
+            }
+            
+            .problem {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>재정학 문제집</h1>
+            <p>총 40문항 | 조세론, 정부지출론, 공공경제학</p>
+        </div>
+        
+        <div class="content">
+            <div class="problem">
+                <div class="topic-tag">조세 원칙</div>
+                <div class="problem-number">문제 1</div>
+                <div class="question">바람직한 조세가 갖추어야 할 원칙에 관한 내용이다. 어느 원칙에 해당되는가?</div>
+                <div class="sub-question">조세의 납부방법, 시기, 금액 등이 정해진 법률과 규정에 따라 국민들이 이해할 수 있는 방식으로 제시되어야 한다.</div>
+                <ul class="options">
+                    <li>① 확실성의 원칙</li>
+                    <li>② 공평성의 원칙</li>
+                    <li>③ 경제성의 원칙</li>
+                    <li>④ 중립성의 원칙</li>
+                    <li>⑤ 신축성의 원칙</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공평과세</div>
+                <div class="problem-number">문제 2</div>
+                <div class="question">공평과세의 원칙에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 능력원칙에 의하면 아파트 가격이 올랐다면 재산세를 더 많이 부담해야 한다.</li>
+                    <li>② 능력원칙은 빅셀(K. Wicksell)이 제시한 동등희생의 원칙이라는 재정이론에 그 근거가 있다.</li>
+                    <li>③ 편익원칙에 따르면 상이한 경제적 능력을 가진 사람에게는 서로 다른 크기의 조세를 부과해야 한다.</li>
+                    <li>④ 능력원칙에 따른 과세의 예로 통행료, 사용료 및 수수료가 해당된다.</li>
+                    <li>⑤ 편익원칙은 밀(J. S. Mill)이 제공한 자발적 교환의 재정이론에서 이념적 기초를 찾을 수 있다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">조세 분류</div>
+                <div class="problem-number">문제 3</div>
+                <div class="question">우리나라 조세에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 목적세는 특정분야 사업재원의 안정적인 확보에 기여한다.</li>
+                    <li>② 지방세이면서 목적세로는 지방교육세가 있다.</li>
+                    <li>③ 국세이면서 목적세로는 농어촌특별세가 있다.</li>
+                    <li>④ 직접세로는 법인세가 있으며 간접세로는 부가가치세가 있다.</li>
+                    <li>⑤ 간접세가 직접세에 비해서 소득분배의 개선에 유리하다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">초과부담</div>
+                <div class="problem-number">문제 4</div>
+                <div class="question">초과부담에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 물품세 부과 시 초과부담은 한계대체율(MRS)과 한계생산변환율(MRT)이 달라 효율적인 자원배분의 조건이 충족되지 않아서 발생한다.</li>
+                    <li>② 물품세 부과로 인한 초과부담은 소비자 지불가격과 생산자 수취가격이 달라지기 때문에 발생한다.</li>
+                    <li>③ 조세부과로 인한 초과부담은 상대가격의 변화로 인한 소득효과와 대체효과가 서로 반대방향으로 작용하게 되면 발생하지 않는다.</li>
+                    <li>④ 램지규칙에 의하면 과세로 인한 초과부담을 최소화하기 위해서는 재화 간 조세수입의 한계초과부담이 일치하도록 세율을 정해야 한다.</li>
+                    <li>⑤ 초과부담은 과세로 인한 소비자와 생산자의 후생감소분에서 조세수입을 차감해서 구할 수 있다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">조세 효과</div>
+                <div class="problem-number">문제 5</div>
+                <div class="question">어떤 재화의 한계비용은 일정하고, 보상수요곡선이 주어졌다. 재화의 공급자에게 단위당 조세를 부과하였을 때, 다음 설명으로 옳지 않은 것은?</div>
+                <div class="sub-question">(단, P는 가격, Q는 수량이다.)</div>
+                <ul class="options">
+                    <li>① 조세수입은 600 이다.</li>
+                    <li>② 비효율성계수는 일정하다.</li>
+                    <li>③ 소비자잉여의 감소는 800 이다.</li>
+                    <li>④ 과세로 인한 공급자의 판매량 감소는 20 이다.</li>
+                    <li>⑤ 과세로 조세부담은 소비자에게 전가된다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">조세귀착</div>
+                <div class="problem-number">문제 6</div>
+                <div class="question">다음에서 설명하는 조세귀착은?</div>
+                <div class="sub-question">조세 그 자체만의 분배적 효과를 보는 가장 좋은 방법은 한 종류의 조세를 동일한 조세수입을 가져다주는 다른 종류의 조세로 대체했을 때 어떤 분배효과가 나오는가를 보는 것이다.</div>
+                <ul class="options">
+                    <li>① 전방전가 조세귀착</li>
+                    <li>② 후방전가 조세귀착</li>
+                    <li>③ 균형예산 조세귀착</li>
+                    <li>④ 차별적 조세귀착</li>
+                    <li>⑤ 절대적 조세귀착</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">부가가치세·법인세</div>
+                <div class="problem-number">문제 7</div>
+                <div class="question">우리나라의 부가가치세와 법인세에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 수출품에 대한 부가가치세 영세율은 매출액에 대한 부가가치세가 없다는 의미이므로 매입세액공제를 하지 않는다.</li>
+                    <li>② 부가가치세는 생산단계마다 추가된 부가가치에 대해서만 과세하므로 수직적 통합을 촉진하는 효과가 있다.</li>
+                    <li>③ 부가가치세 면세대상 상품의 경우에는 중간단계에서 납부한 매입세액을 공제하지 않는다.</li>
+                    <li>④ 경제적 이윤에 대한 법인세과세방식은 기업의 생산결정을 왜곡하게 된다.</li>
+                    <li>⑤ 타인자본에 대해서만 이자비용공제를 허용하는 법인세는 투자재원조달방식의 왜곡을 가져오지 않는다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">탈세모형</div>
+                <div class="problem-number">문제 8</div>
+                <div class="question">알링햄-샌드모(M. Allingham and A. Sandmo)의 탈세모형에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 절대위험기피도 체감의 특성을 가진 개인은 세율이 올라 순소득이 줄어들면 위험부담의 크기를 줄여서 탈루소득의 크기를 줄인다.</li>
+                    <li>② 세율인상에 따른 대체효과는 탈루소득의 한계편익이 줄어들기 때문에 탈루소득을 줄이는 방향으로 작용한다.</li>
+                    <li>③ 감사받을 확률과 벌금율의 증가는 탈루소득을 감소시킨다.</li>
+                    <li>④ 세율 상승에 따른 소득효과와 대체효과는 서로 반대 방향으로 작용하기 때문에 탈루소득의 변화 방향을 알 수 없다.</li>
+                    <li>⑤ 납세자가 절대위험기피도 체감의 특성을 가진다고 가정한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">소득세</div>
+                <div class="problem-number">문제 9</div>
+                <div class="question">소득세에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 헤이그-사이먼즈(Haig-Simons)의 포괄소득세제는 능력원칙에 기반한 과세방식이다.</li>
+                    <li>② 여가가 정상재일 때, 근로소득세의 부과에 따른 노동공급은 대체효과에 의해서 증가한다.</li>
+                    <li>③ 소득의 증가에 따라서 평균세율이 한계세율보다 클수록 누진성이 증가하게 된다.</li>
+                    <li>④ 소득공제는 세액공제보다 한계세율이 낮은 저소득층에 유리하다.</li>
+                    <li>⑤ 헤이그-사이먼즈의 포괄적 소득 정의에 의하면, 개인의 경제적 능력의 증가는 소득으로 실현된 경우에만 소득세의 과세 대상이 된다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">이자소득세</div>
+                <div class="problem-number">문제 10</div>
+                <div class="question">이자소득세 부과의 효과로 옳지 않은 것은?</div>
+                <div class="sub-question">(단, 현재소비와 미래소비는 모두 정상재이다.)</div>
+                <ul class="options">
+                    <li>① 국민저축은 그 변화를 알 수 없다.</li>
+                    <li>② 현재소비에 미치는 영향은 소득효과와 대체효과의 상대적인 크기에 의해 결정된다.</li>
+                    <li>③ 소득효과에 의해 현재소비가 감소한다.</li>
+                    <li>④ 이자소득세의 부과에 의한 소득효과는 저축의욕을 줄어들게 한다.</li>
+                    <li>⑤ 현재소비는 대체효과에 의해 증가하고 소득효과에 의해 감소한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">조세와 투자</div>
+                <div class="problem-number">문제 11</div>
+                <div class="question">조세와 기업의 투자에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 신고전파 투자이론에 의하면 자본의 사용자비용이 적을수록 투자가 증가한다.</li>
+                    <li>② 자본스톡의 사용자비용탄력성이 작을수록 조세정책이 기업의 투자에 미치는 영향이 작다.</li>
+                    <li>③ 신고전파 투자이론에서 자본재 구입비용은 즉시 비용처리하고, 지급이자에 대한 비용공제를 허용하지 않는 경우 법인세는 투자에 중립적이다.</li>
+                    <li>④ 한계실효세율이 음(-)이면 조세의 존재가 투자를 촉진하는 결과를 가져온다.</li>
+                    <li>⑤ 부채를 통한 투자의 경우 한계실효세율이 음(-)의 값을 갖는 것은 현행 조세제도가 부채의존도를 줄이는 효과를 갖는다는 뜻이다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">국채·구축효과</div>
+                <div class="problem-number">문제 12</div>
+                <div class="question">정부지출 증대를 위한 국채발행이 경제에 미치는 영향으로 옳은 것을 모두 고른 것은?</div>
+                <div class="sub-question">
+                    ㄱ. 국채가 전액 시중에서 소화될 경우, 이자율이 상승하고 민간투자가 억제되는 현상을 구축효과라고 한다.<br>
+                    ㄴ. 통화주의자는 호황기보다 경기 침체기에 구축효과가 더 크게 발생한다고 주장한다.<br>
+                    ㄷ. 중앙은행이 국채를 인수하면 통화량이 증가하여 인플레이션이 유발된다.<br>
+                    ㄹ. 중앙은행이 국채를 인수하면 시중에서 소화되는 경우보다 총수요 증대효과가 더 크다.
+                </div>
+                <ul class="options">
+                    <li>① ㄴ, ㄹ</li>
+                    <li>② ㄱ, ㄴ, ㄷ</li>
+                    <li>③ ㄱ, ㄷ, ㄹ</li>
+                    <li>④ ㄴ, ㄷ, ㄹ</li>
+                    <li>⑤ ㄱ, ㄴ, ㄷ, ㄹ</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">위험자산 투자</div>
+                <div class="problem-number">문제 13</div>
+                <div class="question">위험자산에 대한 투자에서 투자의 안전성이 정상재이고, 투자자의 위험부담행위의 소득탄력성이 0보다 작으면, 수익에 대한 비례소득세 부과가 투자자의 자산구성에 미치는 효과에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 완전손실보상제도가 있는 경우, 위험자산의 비중은 작아진다.</li>
+                    <li>② 완전손실보상제도 하에 정부의 위험부담 비용이 민간부문과 같다면, 조세의 부과는 사회후생을 증진시킨다.</li>
+                    <li>③ 손실보상제도를 전혀 허용하지 않는 경우, 소득효과가 대체효과보다 큰 경우에 위험자산의 비중은 증가한다.</li>
+                    <li>④ 손실보상제도를 전혀 허용하지 않는 경우, 대체효과는 위험자산의 비중을 늘린다.</li>
+                    <li>⑤ 완전손실보상제도가 있는 경우, 투자 수익과는 달리 손실에 대해 정부와 투자자가 공동 부담하도록 한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">지방분권</div>
+                <div class="problem-number">문제 14</div>
+                <div class="question">지방분권제도에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 정부부문의 총지출 중 중앙정부의 총지출이 차지하는 비율을 중앙집권화율이라 하며, 분권 수준을 파악하는 지표로 사용한다.</li>
+                    <li>② 오우츠(W. Oates)는 공공재 공급비용이 동일하다면, 지역공공재는 중앙정부보다 지방정부가 공급하는 것이 효율적일 수 있다고 주장하였다.</li>
+                    <li>③ 분권화로 지방정부는 각 지역의 특성에 부합하는 다양한 정책들을 시도할 수 있다.</li>
+                    <li>④ 분권화로 지역들이 차별성을 가지고, 여러 지역 중에서 투표자가 자신이 원하는 곳을 선택할 수 있다면 결과적으로 후생이 증가될 수 있다.</li>
+                    <li>⑤ 티부(C. Tiebout)는 여러 개의 지역사회가 존재하고 개인들이 '발에 의한 투표'를 하면 지역공공재의 배분이 효율적으로 이루어지는 모형을 제시했다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">국가부채</div>
+                <div class="problem-number">문제 15</div>
+                <div class="question">국가부채에 관한 설명으로 옳지 않은 것은?</d
+                <ul class="options">
+                    <li>① 리카도 대등정리가 성립하면, 국채상환에 대비한 저축이 증가하여 이자율이 오르지 않아 구축효과가 발생하지 않는다.</li>
+                    <li>② 국채발행이 증가하면 이자율이 상승하고, 환율(￦/＄)이 하락하여 경상수지가 악화된다.</li>
+                    <li>③ 러너(A. Lerner)의 국채에 관한 전통적인 견해에 따르면, 외부채무의 경우 미래세대로 부담이 전가된다.</li>
+                    <li>④ 이자율 하락은 국채의 시장가치를 하락시켜 정부부채를 감소시키는 효과가 있다.</li>
+                    <li>⑤ 중복세대모형에 따르면, 국가채무는 미래세대로 부담이 전가된다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">모딜리아니-밀러</div>
+                <div class="problem-number">문제 16</div>
+                <div class="question">모딜리아니-밀러(Modigliani-Miller)의 제1명제에 관한 설명으로 옳은 것을 모두 고른 것은?</div>
+                <div class="sub-question">
+                    ㄱ. 기업의 가치를 극대화하는 최적 자본구조의 존재를 입증한 것이다.<br>
+                    ㄴ. 기업의 수익에 조세를 부과하지 않는 것을 가정한다.<br>
+                    ㄷ. 경영자와 주주 간에 주인-대리인 문제가 있다고 가정한다.<br>
+                    ㄹ. 모든 투자자와 경영자가 같은 정보를 가지고 있음을 가정한다.<br>
+                    ㅁ. 기업의 파산과 관련한 비용은 발생하지 않는다.
+                </div>
+                <ul class="options">
+                    <li>① ㄱ, ㄴ, ㄷ</li>
+                    <li>② ㄴ, ㄹ, ㅁ</li>
+                    <li>③ ㄷ, ㄹ, ㅁ</li>
+                    <li>④ ㄱ, ㄴ, ㄷ, ㄹ</li>
+                    <li>⑤ ㄱ, ㄴ, ㄹ, ㅁ</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">교부금</div>
+                <div class="problem-number">문제 17</div>
+                <div class="question">중앙정부가 지방정부에 제공하는 교부금에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 보조금이 지급될 때, 지방세가 줄어들어 민간지출이 증가하는 현상을 끈끈이 효과라 한다.</li>
+                    <li>② 대응교부금은 공공재 선택에서 대체효과를 발생시키기 때문에 비효율적이다.</li>
+                    <li>③ 무조건부 교부금은 소득효과만을 발생시키기 때문에 비효율을 억제할 수 있다.</li>
+                    <li>④ 우리나라에서 국고보조금은 조건부 교부금의 성격을 가진다.</li>
+                    <li>⑤ 무조건부 교부금은 대응교부금에 비해 지방자치단체의 후생수준 증가 측면에서 우월하다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">근로소득세</div>
+                <div class="problem-number">문제 18</div>
+                <div class="question">근로소득세 부과가 노동시장에 미치는 효과에 관한 설명으로 옳은 것을 모두 고른 것은?</div>
+                <div class="sub-question">
+                    ㄱ. 여가가 정상재이고 소득효과가 대체효과보다 작으면 노동공급곡선은 후방굴절형이다.<br>
+                    ㄴ. 여가가 정상재이고 비례소득세 부과로 대체효과가 소득효과보다 크다면 노동공급은 늘어난다.<br>
+                    ㄷ. 여가가 열등재일 때 중립세로 부과하면 소득효과만 존재한다.
+                </div>
+                <ul class="options">
+                    <li>① ㄱ</li>
+                    <li>② ㄷ</li>
+                    <li>③ ㄱ, ㄴ</li>
+                    <li>④ ㄴ, ㄷ</li>
+                    <li>⑤ ㄱ, ㄴ, ㄷ</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공공요금</div>
+                <div class="problem-number">문제 19</div>
+                <div class="question">자연독점인 공기업의 공공요금 결정이론에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 한계비용 가격설정방법으로 요금을 결정하면, 공공서비스 공급량은 효율적이다.</li>
+                    <li>② 한계비용 가격설정방법으로 요금을 결정하면, 공공서비스를 생산하는 기관은 손실을 볼 수 있다.</li>
+                    <li>③ 평균비용 가격설정방법으로 요금을 결정하면, 공공서비스 공급량은 비효율적이다.</li>
+                    <li>④ 평균비용 가격설정방법으로 요금을 결정하면, 공공서비스를 생산하는 기관은 손실을 보지 않는다.</li>
+                    <li>⑤ 램지(F. Ramsey)의 원칙에 따르면 수요의 가격탄력성이 작을수록 가격을 한계비용에 가깝게 설정할 때 효율성이 제고된다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">감세정책</div>
+                <div class="problem-number">문제 20</div>
+                <div class="question">정부 감세정책의 경제적 효과로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 가처분 소득이 줄어들고 화폐 수요가 감소한다.</li>
+                    <li>② 소비 지출이 감소하여 총수요 곡선이 좌측으로 이동한다.</li>
+                    <li>③ 국내외 연구결과에 의하면 감세정책이 국민저축을 대폭 증대시키는 효과가 있었다.</li>
+                    <li>④ 구축효과가 없다는 가정 하에 세금 감면과 정부 지출 증가의 금액이 동일한 크기라면 두 정책의 총수요 효과는 동일하다.</li>
+                    <li>⑤ 구축효과가 없다는 가정 하에 정부 지출을 줄이는 만큼 세금을 감면하면 재정 적자의 변화 없이 총수요를 감소시킨다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공공재</div>
+                <div class="problem-number">문제 21</div>
+                <div class="question">공공재의 성격으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 비경합성이란 대가를 지불하지 않고도 소비에 참여할 수 있는 성질을 의미한다.</li>
+                    <li>② 순수공공재는 그 특성상 가격을 설정할 수 없기 때문에 시장실패의 원인이 될 수 있다.</li>
+                    <li>③ 지방정부가 공급하는 상수도는 공공재의 예이다.</li>
+                    <li>④ 모든 소비자는 등량의 공공재 소비로부터 항상 같은 수준의 효용을 얻는다.</li>
+                    <li>⑤ 소비자들은 공공재에 대한 수요를 정확하게 표출한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">자원배분 효율성</div>
+                <div class="problem-number">문제 22</div>
+                <div class="question">자원배분의 효율성에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 어떤 배분상태가 효율적이라면 그 상태로부터 다른 상태로 옮겨갈 때 파레토 개선이 불가능하다.</li>
+                    <li>② 후생경제학의 제1정리는 일반경쟁균형이 파레토 효율적임을 의미한다.</li>
+                    <li>③ 애로우(K. Arrow)는 완벽한 조건부거래시장이 존재하면 불확실성이 있더라도 시장실패가 일어나지 않음을 밝혔다.</li>
+                    <li>④ 외부효과로 인한 비효율성은 중립세 부과를 통해 해결할 수 있다.</li>
+                    <li>⑤ 도덕적 해이는 정보의 비대칭성 때문에 발생하는 현상으로 시장실패를 초래한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">시장실패</div>
+                <div class="problem-number">문제 23</div>
+                <div class="question">시장실패와 정부의 기능에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 시장실패는 정부개입의 필요조건이다.</li>
+                    <li>② 중립세는 민간부문의 의사결정을 교란시키지 않는다.</li>
+                    <li>③ 비용체감산업에 대한 평균비용 가격설정은 독점으로 인한 비효율성을 제거할 수 있다.</li>
+                    <li>④ 정부의 중고차 정비이력 의무화는 정보비대칭으로 인한 시장실패를 완화하는 방안이다.</li>
+                    <li>⑤ 국민연금의 강제 가입은 늦게 은퇴할 가능성이 높은 근로자들의 가입을 유도하여 역선택 문제를 해결할 수 있다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">사회후생함수</div>
+                <div class="problem-number">문제 24</div>
+                <div class="question">개인 A와 B로 구성된 경제에 재화가 단위 존재하며, 이 재화에 대한 효용함수는 각각의 경우이다. 이 사회의 사회후생함수를 min으로 가정한다. 다음 중 옳지 않은 것은?</div>
+                <div class="sub-question">(단, 개인의 재화 소비량이다.)</div>
+                <ul class="options">
+                    <li>① 재화가 사용재인 경우 사회후생의 극댓값은 30이다.</li>
+                    <li>② 롤즈적 사회후생함수를 상정하고 있다.</li>
+                    <li>③ 재화가 순수공공재인 경우 A와 B는 같은 양을 소비한다.</li>
+                    <li>④ 재화가 순수공공재인 경우 사회후생수준은 개인의 효용에 의해 결정된다.</li>
+                    <li>⑤ 재화가 사용재인 경우 사회후생의 극댓값은 순수공공재인 경우보다 작다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공공재 수요</div>
+                <div class="problem-number">문제 25</div>
+                <div class="question">도농복합도시 A시에는 도시와 농촌지역에 각각 5명의 주민이 거주하고, 시정부는 소방서비스를 제공하고 있다. 도시지역 주민의 개별 수요함수는 주어지고, 농촌지역 주민의 개별 수요함수도 주어진다. 공공재인 소방서비스의 한계비용이 일정할 때, 사회적으로 바람직한 서비스 수준은?</div>
+                <div class="sub-question">(단, P는 가격, Q는 서비스의 양이다.)</div>
+                <ul class="options">
+                    <li>① 2</li>
+                    <li>② 4</li>
+                    <li>③ 5</li>
+                    <li>④ 6</li>
+                    <li>⑤ 8</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">사회후생함수 유형</div>
+                <div class="problem-number">문제 26</div>
+                <div class="question">A와 B 두 명으로 구성된 사회에서 개인의 효용을 각각 UA와 UB, 사회후생을 W라고 할 때, 다음 중 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 평등주의적 사회후생함수는 많은 효용을 가진 사람에게는 낮은 가중치를, 적은 효용을 가진 사람에게는 높은 가중치를 준다.</li>
+                    <li>② 공리주의적 사회후생함수는 모든 구성원에게 동일한 가중치를 평등하게 부여한다.</li>
+                    <li>③ 롤즈적 사회후생함수는 min(UA, UB)로 나타낼 수 있다.</li>
+                    <li>④ 사회후생함수가 W=UA+2UB일 경우, B의 효용을 A의 효용보다 2배 더 중요시 한다.</li>
+                    <li>⑤ 공리주의적 사회후생함수에 의하면 소득의 한계효용이 감소할 때 사회후생의 극대화를 위해서는 각 개인소득의 한계효용이 서로 달라야 한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">중위투표자 정리</div>
+                <div class="problem-number">문제 27</div>
+                <div class="question">중위투표자 정리에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 중위투표자 정리의 정치적 균형은 파레토 효율성을 보장한다.</li>
+                    <li>② 일정한 조건 하에서 10억, 20억, 30억의 3개 예산안에 대한 콩도세승자는 20억이 될 것이라는 의미이다.</li>
+                    <li>③ 진보정당과 보수정당의 선거공약이 비슷해지는 현상을 설명할 수 있다.</li>
+                    <li>④ 투표자의 선호가 다봉형이 아닌 단봉형일 때 성립한다.</li>
+                    <li>⑤ 중위투표자의 지지를 얻은 정당이 선거에서 승리할 수 있음을 의미한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">피구세</div>
+                <div class="problem-number">문제 28</div>
+                <div class="question">다음은 재화 X의 소비에 대한 사적 한계편익, 생산의 사회적 한계비용, 생산에 따른 한계 외부피해이다. 사회적 최적 생산량을 위한 피구세의 크기는?</div>
+                <div class="formula">
+                    사적 한계편익 = 200 - 2Q<br>
+                    사회적 한계비용 = 20 + Q<br>
+                    한계 외부피해 = Q
+                </div>
+                <div class="sub-question">(단, Q는 생산량이다.)</div>
+                <ul class="options">
+                    <li>① 40</li>
+                    <li>② 60</li>
+                    <li>③ 80</li>
+                    <li>④ 100</li>
+                    <li>⑤ 120</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">관료제 모형</div>
+                <div class="problem-number">문제 29</div>
+                <div class="question">니스카넨(W. Niskanen)과 미그-빌레인저(Migue-Belanger)의 관료제 모형에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 니스카넨 모형에서 관료는 가격순응자이다.</li>
+                    <li>② 두 모형에서 관료는 공익의 극대화를 추구하는 존재이다.</li>
+                    <li>③ 두 모형에서 관료가 선호하는 생산량은 한계편익과 한계비용이 일치하는 수준보다 크다.</li>
+                    <li>④ 다른 조건이 모두 동일할 때, 니스카넨 모형의 공공재 생산량은 미그-빌레인저 모형의 생산량보다 적다.</li>
+                    <li>⑤ 니스카넨 모형에서 관료는 예산집행으로 인한 편익과 비용의 차이가 가장 큰 점에서 생산하려 한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">외부성</div>
+                <div class="problem-number">문제 30</div>
+                <div class="question">외부성에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 금전적 외부성은 자원배분 효율성에는 영향을 미치지 않는다.</li>
+                    <li>② 실질적 외부성은 자원의 비효율성을 유발한다.</li>
+                    <li>③ 외부성은 생산과정은 물론 소비과정에서도 발생한다.</li>
+                    <li>④ 외부성을 내부화하기 위한 환경세 부과는 시장을 활용하는 방식이다.</li>
+                    <li>⑤ 이로운 외부성이 존재하면 해당재화의 생산량은 사회적 최적 수준보다 과다 생산되는 경향이 있다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공공사업 평가</div>
+                <div class="problem-number">문제 31</div>
+                <div class="question">공공사업의 비용과 편익 평가기준에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 잠재가격은 시장이 안정적일 경우 자원의 사회적 기회비용을 계산하여 비용과 편익의 평가기준으로 사용하는 방법이다.</li>
+                    <li>② 독점자가 생산한 상품을 구입하여 그 상품의 생산량이 그만큼 증가하였다면 평균비용을 평가기준으로 한다.</li>
+                    <li>③ 독점자가 생산한 상품을 구입하였으나 그 상품의 생산량이 불변이면 시장가격을 평가기준으로 한다.</li>
+                    <li>④ 물품세가 부과된 상품이 공공사업에 투입되었으나 그 상품의 생산량이 불변이라면 생산자가격이 적절한 평가기준이다.</li>
+                    <li>⑤ 물품세가 부과된 상품이 공공사업에 투입되어 그 상품의 생산량이 투입된 양만큼 증가하였다면 한계비용을 평가기준으로 한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공공투자 평가</div>
+                <div class="problem-number">문제 32</div>
+                <div class="question">공공투자가 유발하는 편익과 비용에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 실질적 편익은 공공사업의 최종소비자가 얻는 편익으로, 사회후생 증가에 기여한다.</li>
+                    <li>② 무형적 편익과 비용은 시장에서 파악되지 않기 때문에 공공투자사업의 비용편익 분석에 고려하지 않는다.</li>
+                    <li>③ 확실대등액은 불확실성이 개재되어 있는 공공사업 평가에 활용된다.</li>
+                    <li>④ 시장이자율이 사회적 할인율보다 높을 때 시장이자율을 할인율로 사용하면 공공사업의 경제성은 낮아질 수 있다.</li>
+                    <li>⑤ 시장에서 거래되지 않는 재화나 서비스의 편익은 다른 상황에서 관찰된 소비자의 행위나 시장정보를 이용하여 간접적으로 추정한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">이전지출</div>
+                <div class="problem-number">문제 33</div>
+                <div class="question">이전지출에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 이전지출이란 기초연금처럼 정부가 일방적으로 소득을 이전해주는 성격의 지출을 말한다.</li>
+                    <li>② 소득보조, 가격보조, 현물보조로 나눌 수 있다.</li>
+                    <li>③ 소득보조는 상대가격 변화를 초래하지 않아 대체효과는 발생하지 않는다.</li>
+                    <li>④ 가격보조는 소득효과와 대체효과를 일으킨다.</li>
+                    <li>⑤ 소득보조는 가격보조에 비하여 해당상품의 소비를 촉진하는 효과가 더 크다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">국민연금</div>
+                <div class="problem-number">문제 34</div>
+                <div class="question">우리나라 국민연금제도의 성격으로 옳은 것을 모두 고른 것은?</div>
+                <div class="sub-question">
+                    ㄱ. 역선택으로 인한 시장실패 치유<br>
+                    ㄴ. 정부조세수입 확충<br>
+                    ㄷ. 온정적 간섭<br>
+                    ㄹ. 소득재분배 수단
+                </div>
+                <ul class="options">
+                    <li>① ㄱ, ㄴ</li>
+                    <li>② ㄱ, ㄴ, ㄷ</li>
+                    <li>③ ㄱ, ㄷ, ㄹ</li>
+                    <li>④ ㄴ, ㄷ, ㄹ</li>
+                    <li>⑤ ㄱ, ㄴ, ㄷ, ㄹ</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">재분배정책</div>
+                <div class="problem-number">문제 35</div>
+                <div class="question">우리나라 재분배정책에 관한 설명으로 옳은 것은?</div>
+                <ul class="options">
+                    <li>① 국민기초생활보장제도는 우리나라 대표적인 공공부조제도이다.</li>
+                    <li>② 공공부조는 기여한 국민만이 혜택을 받을 수 있다.</li>
+                    <li>③ 부가가치세는 조세를 이용한 대표적인 재분배정책이다.</li>
+                    <li>④ 사회보험은 기여 여부와 무관하게 모든 국민이 혜택을 받을 수 있다.</li>
+                    <li>⑤ 근로장려세제는 근로에 참여한 모든 근로자를 돕기 위한 제도이다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">외부성 해결방안</div>
+                <div class="problem-number">문제 36</div>
+                <div class="question">외부성에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 코즈정리는 소유권이 분명하다면 외부성의 문제가 정부의 직접적 개입 없이도 당사자들의 협상에 의해 해결될 수 있음을 보여준다.</li>
+                    <li>② 조세 부과를 통해 내부화함으로써 효율적인 자원배분을 가져오게 할 수 있다.</li>
+                    <li>③ 생산과정에서 발생하는 외부효과를 내부화하기 위해서는 사회적으로 바람직한 소비량 수준에서의 한계피해액 만큼의 크기를 조세로 부과하여야 한다.</li>
+                    <li>④ 조세 부과에 비하여 보조금 지급에 따른 생산량 감소의 크기는 단기적으로는 크지만 장기적으로는 동일하다.</li>
+                    <li>⑤ 배출권거래제도는 시장을 활용하여 외부성을 내부화하는 방법이다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">불평등 지수</div>
+                <div class="problem-number">문제 37</div>
+                <div class="question">사회의 분배 상태를 나타내는 불평등 지수에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 모두 동일한 소득을 가지고 있다면 5분위배율의 값은 1이다.</li>
+                    <li>② 가치판단이 달라도 동일한 소득분배 상태라면 앳킨슨지수의 값은 동일하다.</li>
+                    <li>③ 지니계수는 0에서부터 1까지 값을 가지며 0에 가까울수록 평등한 분배를 뜻한다.</li>
+                    <li>④ 앳킨슨지수는 0에서부터 1까지 값을 가지며 0에 가까울수록 평등한 분배를 뜻한다.</li>
+                    <li>⑤ 두 사회의 로렌츠곡선이 교차한다면 로렌츠곡선만으로는 두 사회의 소득 불평등도를 비교할 수 없다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">최적 분배</div>
+                <div class="problem-number">문제 38</div>
+                <div class="question">최적 분배에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 롤즈(J. Rawls)는 사회의 가장 가난한 사람의 후생을 극대화하도록 분배하는 것이 그 사회의 후생을 극대화하는 것이라 하였다.</li>
+                    <li>② 러너(A. Lerner)는 동등확률 하에서도 효용함수가 서로 다르면 사람들의 균등분배는 최적분배가 아니라고 하였다.</li>
+                    <li>③ 에지워스(F. Edgeworth)는 자신이 제시한 세 가지 가정이 충족된다면 모든 사람에게 완전히 균등하게 소득을 나누어주는 것이 가장 바람직한 분배라고 하였다.</li>
+                    <li>④ 공리주의적 견해에 의하면 그 사회의 총체적 후생을 극대화할 수 있다면 불균등한 분배상태도 정당화된다.</li>
+                    <li>⑤ 노직(R. Nozick)은 결과의 정의보다 절차상의 정의를 더욱 중시하였다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">공리주의</div>
+                <div class="problem-number">문제 39</div>
+                <div class="question">분배에 관한 공리주의적 주장으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 개인 간 효용 비교를 전제로 하고 있다.</li>
+                    <li>② 실천과정에서 개인의 권리가 침해될 수 있다.</li>
+                    <li>③ 효용함수는 소득의 한계효용이 불변이라는 가정이 필요하다.</li>
+                    <li>④ 사회전체 후생의 증감에 입각한 공리의 원칙이 유일한 도덕기준이다.</li>
+                    <li>⑤ 바람직한 분배란 그 사회의 총체적 후생을 극대화할 수 있는 분배이어야 한다.</li>
+                </ul>
+            </div>
+
+            <div class="problem">
+                <div class="topic-tag">연금제도</div>
+                <div class="problem-number">문제 40</div>
+                <div class="question">연금제도에 관한 설명으로 옳지 않은 것은?</div>
+                <ul class="options">
+                    <li>① 노후소득의 감소에 대비하기 위한 사회보험제도이다.</li>
+                    <li>② 완전적립방식은 세대 간 재분배, 부과방식은 세대 내 재분배가 발생한다.</li>
+                    <li>③ 상속효과로 민간저축이 증가한다.</li>
+                    <li>④ 재산대체효과로 민간저축이 감소한다.</li>
+                    <li>⑥ 사적 보험시장에서 발생 가능한 역선택 문제를 방지하기 위하여 사회보험으로 운용하고 있다.</li>
+                </ul>
+            </div>
+
+            <div class="stats">
+                <h3>📈 문제집 통계</h3>
+                <p><strong>총 문항 수:</strong> 40문항</p>
+                <p><strong>주요 영역:</strong> 조세론, 정부지출론, 공공경제학, 후생경제학</p>
+                <p><strong>난이도:</strong> 공무원 시험 수준</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 문제 번호에 따른 색상 변화 효과
+        document.addEventListener('DOMContentLoaded', function() {
+            const problems = document.querySelectorAll('.problem');
+            
+            problems.forEach((problem, index) => {
+                const hue = (index * 137.5) % 360; // 황금각을 이용한 색상 분산
+                const color = `hsl(${hue}, 70%, 50%)`;
+                
+                problem.style.setProperty('--accent-color', color);
+                
+                // 호버 효과 추가
+                problem.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                    this.style.boxShadow = `0 20px 40px rgba(${Math.sin(hue/57.3)*127+128}, ${Math.sin((hue+120)/57.3)*127+128}, ${Math.sin((hue+240)/57.3)*127+128}, 0.2)`;
+                });
+                
+                problem.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-5px) scale(1)';
+                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
+                });
+            });
+
+            // 선택지 클릭 효과
+            const options = document.querySelectorAll('.options li');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 같은 문제의 다른 선택지들에서 선택 효과 제거
+                    const siblings = this.parentNode.querySelectorAll('li');
+                    siblings.forEach(sibling => {
+                        sibling.style.background = 'rgba(246, 247, 249, 0.8)';
+                        sibling.style.color = '#333';
+                    });
+                    
+                    // 선택된 선택지에 효과 적용
+                    this.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    this.style.color = 'white';
+                    this.style.transform = 'translateX(10px)';
+                });
+            });
+
+            // 스크롤 진행률 표시
+            const content = document.querySelector('.content');
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 4px;
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                z-index: 1000;
+                transition: width 0.3s ease;
+            `;
+            document.body.appendChild(progressBar);
+
+            content.addEventListener('scroll', function() {
+                const scrollPercent = (this.scrollTop / (this.scrollHeight - this.clientHeight)) * 100;
+                progressBar.style.width = Math.min(scrollPercent, 100) + '%';
+            });
+        });
+    </script>
+</body>
+</html>
